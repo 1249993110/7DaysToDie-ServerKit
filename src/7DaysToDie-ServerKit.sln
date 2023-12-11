@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdtdServerKit", "SdtdServerKit\SdtdServerKit.csproj", "{AD559F29-80CA-455A-9324-EC5842E95FAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdtdServerKit.Shared", "SdtdServerKit.Shared\SdtdServerKit.Shared.csproj", "{BC41273E-E7EC-4110-BF04-418A52ACA0FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-Shared", "0-Shared", "{93D8B896-04EE-4290-9679-4F9AF5581AFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD559F29-80CA-455A-9324-EC5842E95FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD559F29-80CA-455A-9324-EC5842E95FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD559F29-80CA-455A-9324-EC5842E95FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD559F29-80CA-455A-9324-EC5842E95FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC41273E-E7EC-4110-BF04-418A52ACA0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC41273E-E7EC-4110-BF04-418A52ACA0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC41273E-E7EC-4110-BF04-418A52ACA0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC41273E-E7EC-4110-BF04-418A52ACA0FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BC41273E-E7EC-4110-BF04-418A52ACA0FF} = {93D8B896-04EE-4290-9679-4F9AF5581AFE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0BB31DB-F8AE-42F9-9BAD-EFC1DCEAC988}
+	EndGlobalSection
+EndGlobal

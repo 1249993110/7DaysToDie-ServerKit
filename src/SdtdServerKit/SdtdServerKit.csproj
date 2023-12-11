@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PlatformTarget>x64</PlatformTarget>
+		<Authors>IceCoffee</Authors>
+		<Company>LuoShuiTianYi</Company>
+		<Copyright>Copyright (c) 2023 IceCoffee</Copyright>
+		<Description>A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows.</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<LangVersion>10.0</LangVersion>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageProjectUrl>https://github.com/1249993110/7DaysToDie-ServerKit</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/1249993110/7DaysToDie-ServerKit</RepositoryUrl>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SdtdServerKit.Shared\SdtdServerKit.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Licenses\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="DeviceId" Version="6.6.0" />
+	  <PackageReference Include="IceCoffee.Common" Version="1.0.5.2" />
+	  <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.3.0" />
+	  <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.2.2" />
+	  <PackageReference Include="Microsoft.Owin.StaticFiles" Version="4.2.2" />
+	  <PackageReference Include="NSwag.AspNet.Owin" Version="13.20.0" />
+	  <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ModInfo.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="restart-linux.sh">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="restart-windows.bat">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Reference Include="Microsoft.CSharp">
+			<Private>true</Private>
+			<HintPath>$(SystemRoot)\Microsoft.NET\Framework64\v$(MSBuildRuntimeVersion)\Microsoft.CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Dynamic">
+			<Private>true</Private>
+			<HintPath>$(SystemRoot)\Microsoft.NET\Framework64\v$(MSBuildRuntimeVersion)\System.Dynamic.dll</HintPath>
+		</Reference>
+		<Reference Include="System.ComponentModel.DataAnnotations">
+			<Private>true</Private>
+			<HintPath>$(SystemRoot)\Microsoft.NET\Framework64\v$(MSBuildRuntimeVersion)\System.ComponentModel.DataAnnotations.dll</HintPath>
+		</Reference>
+		<Reference Include="websocket-sharp">
+			<Private>true</Private>
+			<HintPath>.\3rdparty-binaries\websocket-sharp.dll</HintPath>
+		</Reference>
+		<None Include="$(SystemRoot)\Microsoft.NET\Framework64\v$(MSBuildRuntimeVersion)\System.Runtime.InteropServices.RuntimeInformation.dll">
+			<Visible>false</Visible>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<Private>false</Private>
+			<HintPath>..\7dtd-binaries\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<Private>false</Private>
+			<HintPath>..\7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<Private>false</Private>
+			<HintPath>7dtd-binaries\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="LogLibrary">
+			<Private>false</Private>
+			<HintPath>..\7dtd-binaries\LogLibrary.dll</HintPath>
+		</Reference>
+		<Reference Include="0Harmony">
+			<Private>false</Private>
+			<HintPath>..\7dtd-binaries\0Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="Noemax.GZip">
+			<Private>false</Private>
+			<HintPath>..\7dtd-binaries\Noemax.GZip.dll</HintPath>
+		</Reference>
+		<Reference Include="MapRendering">
+			<Private>false</Private>
+			<HintPath>..\7dtd-binaries\MapRendering.dll</HintPath>
+		</Reference>
+		<Reference Include="WebServer">
+			<Private>false</Private>
+			<HintPath>..\7dtd-binaries\WebServer.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+</Project>
