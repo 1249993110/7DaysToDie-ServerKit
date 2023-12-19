@@ -3,8 +3,8 @@
     [JsonConverter(typeof(StringEnumConverter))]
     public enum EntityType
     {
-        All,
-        Player,
+        OfflinePlayer,
+        OnlinePlayer,
         Zombie,
         Animal,
         Bandit,

@@ -255,7 +255,8 @@ namespace SdtdServerKit.Hooks
         {
             if (ModApi.WebSocketSessionManager.Count == 0)
                 return;
-            Broadcast(ModEventType.SavePlayerData, clientInfo.ToOnlinePlayerDetails());
+            //Broadcast(ModEventType.SavePlayerData, clientInfo.ToOnlinePlayerDetails());
+            Broadcast(ModEventType.SavePlayerData, clientInfo.ToOnlinePlayer());
         }
 
         /// <summary>

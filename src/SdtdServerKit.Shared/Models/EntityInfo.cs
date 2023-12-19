@@ -25,4 +25,15 @@
         /// </summary>
         public Position Position { get; set; }
     }
+
+    /// <summary>
+    /// 实体信息
+    /// </summary>
+    public class EntityInfoEx : EntityInfo
+    {
+        /// <summary>
+        /// 玩家Id
+        /// </summary>
+        public string PlayerId { get; set; }
+    }
 }

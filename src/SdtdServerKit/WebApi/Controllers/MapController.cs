@@ -5,7 +5,7 @@ namespace SdtdServerKit.WebApi.Controllers
     /// <summary>
     /// 地图
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [RoutePrefix("api/Map")]
     public class MapController : ApiController
     {
@@ -51,7 +51,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// 渲染整个地图
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("Render")]
         public IHttpActionResult RenderFullMap()
         {

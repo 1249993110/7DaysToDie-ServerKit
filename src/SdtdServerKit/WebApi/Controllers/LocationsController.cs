@@ -1,4 +1,6 @@
-﻿namespace SdtdServerKit.WebApi.Controllers
+﻿using Webserver.WebAPI.APIs.WorldState;
+
+namespace SdtdServerKit.WebApi.Controllers
 {
     /// <summary>
     /// Locations
@@ -13,24 +15,44 @@
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public IEnumerable<EntityInfo> Get(Shared.Models.EntityType entityType = Shared.Models.EntityType.All)
+        public IEnumerable<EntityInfo> Get(Shared.Models.EntityType entityType)
         {
             var locations = new List<EntityInfo>();
 
-            if (entityType == Shared.Models.EntityType.Player || entityType == Shared.Models.EntityType.All)
+            if (entityType == Shared.Models.EntityType.OfflinePlayer)
             {
-                foreach (var players in GameManager.Instance.World.Players.list)
+                var online = GameManager.Instance.World.Players.list.Select(i => ConnectionManager.Instance.Clients.ForEntityId(i.entityId).InternalId).ToHashSet();
+                foreach (var item in GameManager.Instance.GetPersistentPlayerList().Players)
                 {
-                    locations.Add(new EntityInfo()
+                    if(online.Contains(item.Key) == false)
                     {
-                        EntityId = players.entityId,
-                        EntityName = players.EntityName,
-                        Position = players.GetPosition().ToPosition(),
-                        EntityType = Shared.Models.EntityType.Player,
+                        var player = item.Value;
+                        locations.Add(new EntityInfoEx()
+                        {
+                            EntityId = player.EntityId,
+                            EntityName = player.PlayerName,
+                            Position = player.Position.ToPosition(),
+                            EntityType = Shared.Models.EntityType.OfflinePlayer,
+                            PlayerId = player.UserIdentifier.CombinedString,
+                        });
+                    }
+                }
+            }
+            else if (entityType == Shared.Models.EntityType.OnlinePlayer)
+            {
+                foreach (var player in GameManager.Instance.World.Players.list)
+                {
+                    locations.Add(new EntityInfoEx()
+                    {
+                        EntityId = player.entityId,
+                        EntityName = player.EntityName,
+                        Position = player.GetPosition().ToPosition(),
+                        EntityType = Shared.Models.EntityType.OnlinePlayer,
+                        PlayerId = ConnectionManager.Instance.Clients.ForEntityId(player.entityId).InternalId.CombinedString,
                     });
                 }
             }
-            else if (entityType == Shared.Models.EntityType.Animal || entityType == Shared.Models.EntityType.All)
+            else if (entityType == Shared.Models.EntityType.Animal)
             {
                 foreach (var entity in GameManager.Instance.World.Entities.list)
                 {
@@ -46,7 +68,7 @@
                     }
                 }
             }
-            else if (entityType == Shared.Models.EntityType.Hostiles || entityType == Shared.Models.EntityType.All)
+            else if (entityType == Shared.Models.EntityType.Hostiles)
             {
                 foreach (var entity in GameManager.Instance.World.Entities.list)
                 {
@@ -114,7 +136,7 @@
                     EntityId = player.entityId,
                     EntityName = player.EntityName,
                     Position = player.GetPosition().ToPosition(),
-                    EntityType = Shared.Models.EntityType.Player,
+                    EntityType = Shared.Models.EntityType.OnlinePlayer,
                 });
             }
 
@@ -126,7 +148,7 @@
                     EntityId = entity.entityId,
                     EntityName = entityName,
                     Position = entity.GetPosition().ToPosition(),
-                    EntityType = Shared.Models.EntityType.Player,
+                    EntityType = (Shared.Models.EntityType)entity.entityType,
                 });
             }
 

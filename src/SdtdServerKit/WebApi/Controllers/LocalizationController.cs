@@ -5,6 +5,7 @@
     /// </summary>
     [Authorize]
     [RoutePrefix("api/Localization")]
+    [ResponseCache(Duration = 7200)]
     public class LocalizationController : ApiController
     {
         /// <summary>

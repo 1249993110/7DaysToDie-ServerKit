@@ -113,7 +113,7 @@ namespace SdtdServerKit.WebApi.Controllers
                 {
                     if (string.Equals(item.UserIdentifier.CombinedString, keyword, StringComparison.OrdinalIgnoreCase) 
                         || string.Equals(item.PlatformUserIdentifier.CombinedString, keyword, StringComparison.OrdinalIgnoreCase)
-                        || item.PlayerName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) > 0)
+                        || item.PlayerName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) != -1)
                     {
                         total += 1;
                         filterByKeyword.Add(item);

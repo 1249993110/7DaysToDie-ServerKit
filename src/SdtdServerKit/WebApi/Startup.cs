@@ -16,6 +16,8 @@ using System.Text;
 using System.Net.Http.Headers;
 using HarmonyLib;
 using NJsonSchema.Generation;
+using Microsoft.Owin.StaticFiles;
+using Microsoft.Owin.FileSystems;
 
 namespace SdtdServerKit.WebApi
 {
@@ -27,7 +29,7 @@ namespace SdtdServerKit.WebApi
         /// <summary>
         /// OAuth token endpoint path
         /// </summary>
-        public const string OAuthTokenEndpointPath = "/oauth/token";
+        public const string OAuthTokenEndpointPath = "/api/oauth/token";
 
         /// <summary>
         /// This code configures Web API.
@@ -64,6 +66,22 @@ namespace SdtdServerKit.WebApi
                 }
             });
 
+            app.UseDefaultFiles(new DefaultFilesOptions()
+            {
+                DefaultFileNames = new[] { "index.html" },
+                RequestPath = PathString.Empty
+            });
+
+            string webRootPath = Path.Combine(ModApi.ModInstance.Path, "wwwroot");
+            if (Directory.Exists(webRootPath))
+            {
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    FileSystem = new PhysicalFileSystem(webRootPath),
+                    RequestPath = PathString.Empty
+                });
+            }
+           
             app.UseSwaggerUi3(typeof(Startup).Assembly, settings =>
             {
                 // configure settings here

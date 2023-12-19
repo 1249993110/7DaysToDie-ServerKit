@@ -23,9 +23,19 @@ namespace SdtdServerKit.Shared.Models
         public int Animals { get; set; }
 
         /// <summary>
+        /// Max Spawned Animals
+        /// </summary>
+        public int MaxAnimals { get; set; }
+
+        /// <summary>
         /// 僵尸数
         /// </summary>
         public int Zombies { get; set; }
+
+        /// <summary>
+        /// Max Spawned Zombies
+        /// </summary>
+        public int MaxZombies { get; set; }
 
         /// <summary>
         /// 实体数
@@ -36,6 +46,11 @@ namespace SdtdServerKit.Shared.Models
         /// 在线玩家数
         /// </summary>
         public int OnlinePlayers { get; set; }
+
+        /// <summary>
+        /// 最大在线玩家数
+        /// </summary>
+        public int MaxOnlinePlayers { get; set; }
 
         /// <summary>
         /// 离线玩家数量
@@ -88,5 +103,40 @@ namespace SdtdServerKit.Shared.Models
         /// 常驻内存大小, 表示当前游戏所占用的物理内存大小
         /// </summary>
         public float ResidentSetSize { get; set; }
+
+        /// <summary>
+        /// Server Version
+        /// </summary>
+        public string ServerVersion { get; set; } = null!;
+
+        /// <summary>
+        /// Server IP
+        /// </summary>
+        public string ServerIp { get; set; } = null!;
+
+        /// <summary>
+        /// ServerPort
+        /// </summary>
+        public int ServerPort { get; set; }
+
+        /// <summary>
+        /// Game Mode
+        /// </summary>
+        public string GameMode { get; set; } = null!;
+
+        /// <summary>
+        /// Game World
+        /// </summary>
+        public string GameWorld { get; set; } = null!;
+
+        /// <summary>
+        /// Game Name
+        /// </summary>
+        public string GameName { get; set; } = null!;
+
+        /// <summary>
+        /// Game Difficulty
+        /// </summary>
+        public int GameDifficulty { get; set; }
     }
 }

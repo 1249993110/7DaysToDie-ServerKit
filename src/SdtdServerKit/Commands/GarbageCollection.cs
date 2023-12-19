@@ -25,6 +25,7 @@ namespace SdtdServerKit.Commands
 
         public override void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
+            MemoryPools.Cleanup();
             GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
             GC.Collect();
         }

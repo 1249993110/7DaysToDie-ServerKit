@@ -17,7 +17,7 @@ namespace SdtdServerKit.WebSockets
                 return;
             }
 
-            IEnumerable<string> executeResult = Enumerable.Empty<string>();
+            var executeResult = Enumerable.Empty<string>();
             ModApi.MainThreadSyncContext.Send((command) =>
             {
                 executeResult = SdtdConsole.Instance.ExecuteSync((string)command, ModApi.CmdExecuteDelegate);

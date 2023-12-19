@@ -41,7 +41,8 @@ namespace SdtdServerKit
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             MissingMemberHandling = MissingMemberHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.None
+            TypeNameHandling = TypeNameHandling.None,
+            DateFormatString = "yyyy-MM-dd HH:mm:ss"
         };
 
         /// <summary>
@@ -108,9 +109,9 @@ namespace SdtdServerKit
 
                 int webSocketPort = AppSettings.WebSocketPort;
                 _webSocketServer = new WebSocketServer(webSocketPort);
-                _webSocketServer.AddWebSocketService<WebSockets.Telnet>("/");                
+                _webSocketServer.AddWebSocketService<WebSockets.Telnet>("/ws");                
                 _webSocketServer.Start();
-                WebSocketSessionManager = _webSocketServer.WebSocketServices["/"].Sessions;
+                WebSocketSessionManager = _webSocketServer.WebSocketServices["/ws"].Sessions;
 
                 if (_webSocketServer.IsListening)
                 {

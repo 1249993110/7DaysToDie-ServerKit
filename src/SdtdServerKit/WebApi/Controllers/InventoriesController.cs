@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Http.ModelBinding;
-using Webserver.WebAPI.APIs;
 
 namespace SdtdServerKit.WebApi.Controllers
 {
@@ -83,7 +81,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpDelete]
         [Route("{playerId}/{itemName}")]
         [ResponseType(typeof(IEnumerable<string>))]
-        public IHttpActionResult DeletePlayerInventoryItems(string playerId, string itemName)
+        public IHttpActionResult RemovePlayerItems(string playerId, string itemName)
         {
             var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);
             if (userId == null)
@@ -104,7 +102,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpDelete]
         [Route("{playerId}")]
         [ResponseType(typeof(IEnumerable<string>))]
-        public IHttpActionResult DeletePlayerInventoryItems(string playerId, [FromUri, Required, MinLength(1)] string[] itemNames)
+        public IHttpActionResult RemoveItems(string playerId, [FromUri, Required, MinLength(1)] string[] itemNames)
         {
             var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);
             if (userId == null)

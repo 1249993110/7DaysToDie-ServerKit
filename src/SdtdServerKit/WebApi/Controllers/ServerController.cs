@@ -19,7 +19,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(nameof(ExecuteConsoleCommand))]
-        public IEnumerable<string> ExecuteConsoleCommand(string command, bool inMainThread = false)
+        public IEnumerable<string> ExecuteConsoleCommand([FromUri] string command, [FromUri] bool inMainThread = false)
         {
             if (inMainThread)
             {
@@ -129,9 +129,12 @@ namespace SdtdServerKit.WebApi.Controllers
                     Minutes = GameUtils.WorldTimeToMinutes(worldTime),
                 },
                 Animals = animals,
+                MaxAnimals = GamePrefs.GetInt(EnumGamePrefs.MaxSpawnedAnimals),
                 Zombies = zombies,
+                MaxZombies = GamePrefs.GetInt(EnumGamePrefs.MaxSpawnedZombies),
                 Entities = world.Entities.Count,
                 OnlinePlayers = onlinePlayers,
+                MaxOnlinePlayers = GamePrefs.GetInt(EnumGamePrefs.ServerMaxPlayerCount),
                 OfflinePlayers = offlinePlayers,
                 IsBloodMoon = world.aiDirector.BloodMoonComponent.BloodMoonActive,
                 FPS = gameManager.fps.Counter,
@@ -141,7 +144,37 @@ namespace SdtdServerKit.WebApi.Controllers
                 CGO = world.m_ChunkManager.GetDisplayedChunkGameObjectsCount(),
                 Items = EntityItem.ItemInstanceCount,
                 ChunkObservedEntities = world.m_ChunkManager.m_ObservedEntities.Count,
-                ResidentSetSize = (float)GetRSS.GetCurrentRSS() / 1024F / 1024F,
+                ResidentSetSize = (float)GetRSS.GetCurrentRSS() / 1048576F,
+                ServerVersion = Constants.cVersionInformation.LongString,
+                ServerIp = GamePrefs.GetString(EnumGamePrefs.ServerIP),
+                ServerPort = GamePrefs.GetInt(EnumGamePrefs.ServerPort),
+                GameMode = GamePrefs.GetString(EnumGamePrefs.GameMode),
+                GameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld),
+                GameName = GamePrefs.GetString(EnumGamePrefs.GameName),
+                GameDifficulty = GamePrefs.GetInt(EnumGamePrefs.GameDifficulty),
+            };
+        }
+
+        /// <summary>
+        ///系统信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(nameof(SystemInfo))]
+        public Shared.Models.SystemInfo SystemInfo()
+        {
+            return new Shared.Models.SystemInfo()
+            {
+                DeviceModel = UnityEngine.Device.SystemInfo.deviceModel,
+                DeviceName = UnityEngine.Device.SystemInfo.deviceName,
+                DeviceType = UnityEngine.Device.SystemInfo.deviceType.ToString(),
+                DeviceUniqueIdentifier = UnityEngine.Device.SystemInfo.deviceUniqueIdentifier,
+                OperatingSystem = UnityEngine.Device.SystemInfo.operatingSystem,
+                OperatingSystemFamily = UnityEngine.Device.SystemInfo.operatingSystemFamily.ToString(),
+                ProcessorCount = UnityEngine.Device.SystemInfo.processorCount,
+                ProcessorFrequency = UnityEngine.Device.SystemInfo.processorFrequency,
+                ProcessorType = UnityEngine.Device.SystemInfo.processorType,
+                SystemMemorySize = UnityEngine.Device.SystemInfo.systemMemorySize,
             };
         }
 
@@ -204,8 +237,8 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(GiveItem))]
         public IEnumerable<string> GiveItem([FromBody]GiveItem giveItemEntry)
         {
-            string cmd = string.Format("ty-gi {0} {1} {2} {3} {4}", 
-                FormatCommandArgs(giveItemEntry.TargetPlayerIdOrName),
+            string cmd = string.Format("ty-gi {0} {1} {2} {3} {4}",
+                Utils.FormatCommandArgs(giveItemEntry.TargetPlayerIdOrName),
                 giveItemEntry.ItemName,
                 giveItemEntry.Count,
                 giveItemEntry.Quality,
@@ -222,8 +255,8 @@ namespace SdtdServerKit.WebApi.Controllers
         public IEnumerable<string> SendGlobalMessage([FromBody] GlobalMessage globalMessage)
         {
             string cmd = string.Format("ty-say {0} {1}",
-                FormatCommandArgs(globalMessage.Message),
-                FormatCommandArgs(globalMessage.SenderName));
+                Utils.FormatCommandArgs(globalMessage.Message),
+                Utils.FormatCommandArgs(globalMessage.SenderName));
 
             return ExecuteConsoleCommand(cmd);
         }
@@ -236,9 +269,9 @@ namespace SdtdServerKit.WebApi.Controllers
         public IEnumerable<string> SendPrivateMessage([FromBody] PrivateMessage privateMessage)
         {
             string cmd = string.Format("ty-pm {0} {1} {2}",
-                FormatCommandArgs(privateMessage.TargetPlayerIdOrName),
-                FormatCommandArgs(privateMessage.Message),
-                FormatCommandArgs(privateMessage.SenderName));
+                Utils.FormatCommandArgs(privateMessage.TargetPlayerIdOrName),
+                Utils.FormatCommandArgs(privateMessage.Message),
+                Utils.FormatCommandArgs(privateMessage.SenderName));
 
             return ExecuteConsoleCommand(cmd);
         }
@@ -247,8 +280,8 @@ namespace SdtdServerKit.WebApi.Controllers
         /// Restart server.
         /// </summary>
         [HttpPost]
-        [Route(nameof(RestartServer))]
-        public IEnumerable<string> RestartServer([FromUri]bool force = false)
+        [Route(nameof(Restart))]
+        public IEnumerable<string> Restart([FromUri]bool force = false)
         {
             string cmd = "ty-rs";
             if (force)
@@ -259,29 +292,25 @@ namespace SdtdServerKit.WebApi.Controllers
             return ExecuteConsoleCommand(cmd);
         }
 
-        private static string FormatCommandArgs(string? args)
+        /// <summary>
+        /// Shutdown server.
+        /// </summary>
+        [HttpDelete]
+        [Route(nameof(Shutdown))]
+        public IEnumerable<string> Shutdown()
         {
-            if (args == null)
-            {
-                return string.Empty;
-            }
-
-            if (args[0] == '\"' && args[args.Length - 1] == '\"')
-            {
-                return args;
-            }
-
-            if (args.Contains('\"'))
-            {
-                throw new Exception("Parameters should not contain the character double quotes.");
-            }
-
-            if (args.Contains(' '))
-            {
-                return string.Concat("\"", args, "\"");
-            }
-
-            return args;
+            return ExecuteConsoleCommand("shutdown");
         }
+
+        /// <summary>
+        /// Reset Player.
+        /// </summary>
+        [HttpDelete]
+        [Route(nameof(ResetPlayer))]
+        public IEnumerable<string> ResetPlayer([FromUri] string playerId)
+        {
+            return ExecuteConsoleCommand("ty-rpp " + playerId);
+        }
+
     }
 }

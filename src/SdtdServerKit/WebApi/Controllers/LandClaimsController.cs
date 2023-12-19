@@ -52,7 +52,7 @@
             foreach (var item in GameManager.Instance.GetPersistentPlayerList().Players)
             {
                 var persistentPlayerData = item.Value;
-                if(persistentPlayerData != null)
+                if(persistentPlayerData != null && persistentPlayerData.LPBlocks != null)
                 {
                     claimOwners.Add(new ClaimOwner()
                     {

@@ -94,7 +94,7 @@ namespace SdtdServerKit.Commands
             for (int i = 0, len = items.Length; i < len; i++)
             {
                 var item = items[i];
-                if (item.itemValue?.ItemClass?.GetIconName() == itemName)
+                if (item.itemValue?.ItemClass?.GetItemName() == itemName)
                 {
                     item.itemValue = ItemValue.None;
                 }
