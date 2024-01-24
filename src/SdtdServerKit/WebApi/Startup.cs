@@ -18,6 +18,7 @@ using HarmonyLib;
 using NJsonSchema.Generation;
 using Microsoft.Owin.StaticFiles;
 using Microsoft.Owin.FileSystems;
+using NJsonSchema.NewtonsoftJson.Generation;
 
 namespace SdtdServerKit.WebApi
 {
@@ -66,23 +67,25 @@ namespace SdtdServerKit.WebApi
                 }
             });
 
-            app.UseDefaultFiles(new DefaultFilesOptions()
-            {
-                DefaultFileNames = new[] { "index.html" },
-                RequestPath = PathString.Empty
-            });
 
             string webRootPath = Path.Combine(ModApi.ModInstance.Path, "wwwroot");
             if (Directory.Exists(webRootPath))
             {
+                var fileSystem = new PhysicalFileSystem(webRootPath);
+                app.UseDefaultFiles(new DefaultFilesOptions()
+                {
+                    DefaultFileNames = new string[] { "index.html" },
+                    FileSystem = fileSystem,
+                    RequestPath = PathString.Empty
+                });
                 app.UseStaticFiles(new StaticFileOptions()
                 {
-                    FileSystem = new PhysicalFileSystem(webRootPath),
+                    FileSystem = fileSystem,
                     RequestPath = PathString.Empty
                 });
             }
            
-            app.UseSwaggerUi3(typeof(Startup).Assembly, settings =>
+            app.UseSwaggerUi(typeof(Startup).Assembly, settings =>
             {
                 // configure settings here
                 // settings.GeneratorSettings.*: Generator settings and extension points
@@ -97,7 +100,7 @@ namespace SdtdServerKit.WebApi
                         Description = "Copy 'Bearer ' + valid JWT token into field",
                         In = OpenApiSecurityApiKeyLocation.Header,
                     }));
-                settings.GeneratorSettings.SerializerSettings = ModApi.JsonSerializerSettings;
+                settings.GeneratorSettings.ApplySettings(new NewtonsoftJsonSchemaGeneratorSettings { SerializerSettings = ModApi.JsonSerializerSettings, SchemaType = SchemaType.OpenApi3 }, null);
                 settings.PostProcess = (document) =>
                 {
                     document.Info.Version = "v1";

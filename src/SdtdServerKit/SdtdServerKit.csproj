@@ -36,12 +36,12 @@
 
 	<ItemGroup>
 	  <PackageReference Include="DeviceId" Version="6.6.0" />
-	  <PackageReference Include="IceCoffee.Common" Version="1.0.5.2" />
+	  <PackageReference Include="IceCoffee.Common" Version="1.0.9" />
 	  <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.3.0" />
 	  <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.2.2" />
 	  <PackageReference Include="Microsoft.Owin.StaticFiles" Version="4.2.2" />
-	  <PackageReference Include="NSwag.AspNet.Owin" Version="13.20.0" />
-	  <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
+	  <PackageReference Include="NSwag.AspNet.Owin" Version="14.0.2" />
+	  <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
 	</ItemGroup>
 
 	<ItemGroup>

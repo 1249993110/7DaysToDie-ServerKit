@@ -82,7 +82,7 @@ namespace SdtdServerKit.Hooks
         private static byte[] Compresse(XmlDocument xmlDocument)
         {
             using var compressedMemoryStream = new MemoryStream();
-            using var deflateOutputStream = new DeflateOutputStream(compressedMemoryStream, 3);
+            using var deflateOutputStream = new DeflateOutputStream(compressedMemoryStream, 9);
             xmlDocument.Save(deflateOutputStream);
             return compressedMemoryStream.ToArray();
         }
