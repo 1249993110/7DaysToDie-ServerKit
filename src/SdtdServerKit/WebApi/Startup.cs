@@ -19,6 +19,7 @@ using NJsonSchema.Generation;
 using Microsoft.Owin.StaticFiles;
 using Microsoft.Owin.FileSystems;
 using NJsonSchema.NewtonsoftJson.Generation;
+using System.Web.Http.Dispatcher;
 
 namespace SdtdServerKit.WebApi
 {
@@ -152,6 +153,7 @@ namespace SdtdServerKit.WebApi
             });
             app.UseWebApi(config);
 
+            config.Services.Replace(typeof(IHttpControllerTypeResolver), new CustomHttpControllerTypeResolver());
             config.EnsureInitialized();
         }
 
