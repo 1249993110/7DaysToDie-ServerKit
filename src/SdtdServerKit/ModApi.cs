@@ -10,6 +10,16 @@ using System.Text;
 using WebSocketSharp.Server;
 using SdtdServerKit.Commands;
 using MapRendering;
+using Autofac.Core;
+using Autofac;
+using Dapper;
+using IceCoffee.SimpleCRUD.SqliteTypeHandlers;
+using IceCoffee.SimpleCRUD;
+using SdtdServerKit.Data;
+using System.Reflection;
+using Autofac.Integration.WebApi;
+using SdtdServerKit.Data.IRepositories;
+using Microsoft.Data.Sqlite;
 
 namespace SdtdServerKit
 {
@@ -61,6 +71,8 @@ namespace SdtdServerKit
                 };
 
                 LoadAppSettings();
+
+                InitDependencyResolver();
 
                 StartupOwinHost();
 
@@ -132,7 +144,7 @@ namespace SdtdServerKit
                 _harmony = new Harmony(ModInstance.Name);
                 _harmony.PatchAll(typeof(ModApi).Assembly);
 
-                CustomLogger.Info("Successfully patch all by harmony.");
+                CustomLogger.Info("Patch all by harmony success.");
             }
             catch (Exception ex)
             {
@@ -171,11 +183,87 @@ namespace SdtdServerKit
 
                 GlobalTimer.RegisterSubTimer(new SubTimer(SkyChangeTrigger.Callback, 1) { IsEnabled = true });
 
-                CustomLogger.Info("Successfully registered mod event handlers.");
+                CustomLogger.Info("Registered mod event handlers success.");
             }
             catch (Exception ex)
             {
                 throw new Exception("Register mod event handlers failed.", ex);
+            }
+        }
+
+        /// <summary>
+        /// DependencyResolver
+        /// </summary>
+        public static IContainer ServiceContainer { get; private set; } = null!;
+        private void InitDependencyResolver()
+        {
+            var builder = new ContainerBuilder();
+
+            #region 注册数据库仓储服务
+
+            SqlMapper.AddTypeHandler(new GuidHandler());
+
+            string databasePath = Path.Combine(ModInstance.Path, AppSettings.DatabasePath);
+            string connectionString = $"Data Source={databasePath};Cache=Shared";
+            DbConnectionFactory.Default.ConfigureOptions(new DbConnectionOptions()
+            {
+                ConnectionString = connectionString,
+                DbType = DbType.SQLite,
+            });
+
+            var assembly = Assembly.GetExecutingAssembly();
+            builder.AddRepositories(assembly);
+
+            #endregion
+
+            // Register your Web API controllers.
+            builder.RegisterApiControllers(assembly);
+
+            // Run other optional steps, like registering filters,
+            // per-controller-type services, etc., then set the dependency resolver
+            // to be Autofac.
+            var container = builder.Build();
+
+            ServiceContainer = container;
+
+            InitDatabase(container);
+        }
+
+        /// <summary>
+        /// 初始化数据库
+        /// </summary>
+        private void InitDatabase(IContainer container)
+        {
+            try
+            {
+                var dbConnection = DbConnectionFactory.Default.CreateConnection(DbAliases.Default);
+
+                string dataSource = ((SqliteConnection)dbConnection).DataSource;
+                var fileInfo = new FileInfo(dataSource);
+                if (fileInfo.Exists == false)
+                {
+                    if (fileInfo.DirectoryName != null)
+                    {
+                        Directory.CreateDirectory(fileInfo.DirectoryName);
+                    }
+                    File.Create(dataSource).Close();
+                }
+
+                string path = Path.Combine(ModInstance.Path, "sql");
+                var di = new DirectoryInfo(path);
+                var files = di.GetFiles("*.sql");
+
+                foreach (var file in files)
+                {
+                    string sql = File.ReadAllText(file.FullName, Encoding.UTF8);
+                    dbConnection.Execute(sql);
+                }
+
+                CustomLogger.Info("Initialize database success.");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Initialize database error.", ex);
             }
         }
     }

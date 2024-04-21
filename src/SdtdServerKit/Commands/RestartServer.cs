@@ -43,7 +43,11 @@ namespace SdtdServerKit.Commands
 
         private static volatile bool _isRestarting;
 
-        private void PrepareRestart(bool force = false)
+        /// <summary>
+        /// 准备重启服务器
+        /// </summary>
+        /// <param name="force"></param>
+        public static void PrepareRestart(bool force = false)
         {
             SdtdConsole.Instance.ExecuteSync("sa", ModApi.CmdExecuteDelegate);
 

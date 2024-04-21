@@ -20,6 +20,14 @@ using Microsoft.Owin.StaticFiles;
 using Microsoft.Owin.FileSystems;
 using NJsonSchema.NewtonsoftJson.Generation;
 using System.Web.Http.Dispatcher;
+using Dapper;
+using IceCoffee.SimpleCRUD.SqliteTypeHandlers;
+using SdtdServerKit.Data;
+using Autofac;
+using Autofac.Integration.WebApi;
+using System.Reflection;
+using static Twitch.PubSub.PubSubGoalMessage;
+using Autofac.Core.Lifetime;
 
 namespace SdtdServerKit.WebApi
 {
@@ -42,7 +50,8 @@ namespace SdtdServerKit.WebApi
             // Configure Web API for self-host.
             var config = new HttpConfiguration()
             {
-                IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always
+                IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always,
+                DependencyResolver = new AutofacWebApiDependencyResolver(ModApi.ServiceContainer)
             };
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
@@ -73,12 +82,14 @@ namespace SdtdServerKit.WebApi
             if (Directory.Exists(webRootPath))
             {
                 var fileSystem = new PhysicalFileSystem(webRootPath);
+                // Serve the default file, if present.
                 app.UseDefaultFiles(new DefaultFilesOptions()
                 {
                     DefaultFileNames = new string[] { "index.html" },
                     FileSystem = fileSystem,
                     RequestPath = PathString.Empty
                 });
+                // Serve static files.
                 app.UseStaticFiles(new StaticFileOptions()
                 {
                     FileSystem = fileSystem,
@@ -151,9 +162,15 @@ namespace SdtdServerKit.WebApi
                     await next();
                 }
             });
+
+            // Register the Autofac middleware FIRST, then the Autofac Web API middleware,
+            // and finally the standard Web API middleware.
+            app.UseAutofacMiddleware(ModApi.ServiceContainer);
+            app.UseAutofacWebApi(config);
             app.UseWebApi(config);
 
-            config.Services.Replace(typeof(IHttpControllerTypeResolver), new CustomHttpControllerTypeResolver());
+            //config.Services.Replace(typeof(IHttpControllerTypeResolver), new CustomHttpControllerTypeResolver());
+
             config.EnsureInitialized();
         }
 

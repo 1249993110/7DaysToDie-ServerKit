@@ -12,5 +12,7 @@
         public int WebSocketPort { get; set; }
         public string WebSocketUrl { get; set; } = null!;
         public int AccessTokenExpireTime { get; set; }
+
+        public string DatabasePath { get; set; } = null!;
     }
 }

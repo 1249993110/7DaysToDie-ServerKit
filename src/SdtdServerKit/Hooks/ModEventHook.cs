@@ -1,4 +1,8 @@
-﻿using SdtdServerKit.WebSockets;
+﻿using Autofac;
+using SdtdServerKit.Data.Entities;
+using SdtdServerKit.Data.IRepositories;
+using SdtdServerKit.Data.Repositories;
+using SdtdServerKit.WebSockets;
 using System.Text;
 using UnityEngine;
 
@@ -102,17 +106,37 @@ namespace SdtdServerKit.Hooks
         public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderId, string message,
             string mainName, bool localizeMain, List<int> recipientEntityIds)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0) 
-                return true;
+            var playerId = ConnectionManager.Instance.Clients.ForEntityId(senderId).InternalId.CombinedString;
             var chatMessage = new ChatMessage()
             {
                 ChatType = (ChatType)eChatType,
                 EntityId = senderId,
+                PlayerId = playerId,
                 Message = message,
                 SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),
             };
 
+            try
+            {
+                var chatRecordRepository = ModApi.ServiceContainer.Resolve<IChatRecordRepository>();
+                chatRecordRepository.Insert(new T_ChatRecord()
+                {
+                    CreatedAt = DateTime.Now,
+                    ChatType = chatMessage.ChatType,
+                    PlayerId = chatMessage.PlayerId,
+                    Message = chatMessage.Message,
+                    SenderName = chatMessage.SenderName,
+                });
+            }
+            catch (Exception ex)
+            {
+                CustomLogger.Error(ex, "Error in PersistentManager.OnChatMessage");
+            }
+
+            if (ModApi.WebSocketSessionManager.Count == 0)
+                return true;
             Broadcast(ModEventType.ChatMessage, chatMessage);
+
             return true;
         }
 

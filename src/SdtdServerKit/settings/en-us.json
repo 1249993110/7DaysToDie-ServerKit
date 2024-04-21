@@ -1,0 +1,80 @@
+{
+  "GlobalSettings": {
+    "ServerName": "[FF0000]Server[FFFFFF]",
+    "ChatCommandPrefix": "/",
+    "ChatCommandSeparator": " ",
+    "HandleChatMessageError": "[FF0000]System error, please contact the server administrator."
+  },
+  "GameNoticeSettings": {
+    "IsEnabled": false,
+    "WelcomeNotice": "Welcome, survivor.",
+    "RotatingNotices": [],
+    "RotatingInterval": 300,
+    "BloodMoonNotice1": "The next blood moon is in {BloodMoonDays} days.",
+    "BloodMoonNotice2": "The next blood moon is today. It will begin at {BloodMoonStartTime}",
+    "BloodMoonNotice3": "The blood moon is here, hold on until {BloodMoonEndTime}"
+  },
+  "PointsSystemSettings": {
+    "IsEnabled": false,
+    "SignInCmd": "si",
+    "DaysBetweenSignIn": 1,
+    "SignInRewardPoints": 10,
+    "SignInSuccessTip": "[00FF00]Sign in successful! Reward points: {SignInRewardPoints}, You currently have points: {PlayerTotalPoints}",
+    "SignInFailureTip": "[FFFF00]Failed to sign in! Please come back later.",
+    "QueryPointsCmd": "points",
+    "QueryPointsTip": "[00FF00]You currently have points: {PlayerTotalPoints}"
+  },
+  "GameStoreSettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "buy",
+    "BuyCmdPrefix": "buy",
+    "GoodsItemTip": "{SerialNumber}. [00FF00]{GoodsName}[FFFFFF], [00FF00]Price: [FF00FF]{Price}",
+    "BuySuccessTip": "[00FF00]Purchase successful!",
+    "PointsNotEnoughTip": "[00FF00]Not enough points, need points: {Price}",
+    "NoGoods": "[00FF00]No goods."
+  },
+  "TeleportCitySettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "city",
+    "TeleCmdPrefix": "city",
+    "TeleInterval": 60,
+    "LocationItemTip": "{SerialNumber}. [00FF00]{CityName}[FFFFFF], Points required: [FF00FF]{PointsRequired}",
+    "TeleSuccessTip": "[00FF00]Player: {PlayerName}, teleported to: {CityName}",
+    "PointsNotEnoughTip": "[00FF00]Not enough points, need points: {PointsRequired}",
+    "CoolingTip": "[00FF00]Teleport cooling... Remaining time: {CooldownSeconds} seconds.",
+    "NoLocation": "[00FF00]No location."
+  },
+  "TeleportFriendSettings": {
+    "IsEnabled": false,
+    "TeleCmdPrefix": "tele",
+    "TeleInterval": 60,
+    "PointsRequired": 2,
+    "TeleSuccessTip": "[00FF00] Player: {PlayerName}, Teleported to: {TargetName}",
+    "PointsNotEnoughTip": "[00FF00]Points Not enough, Points required: {PointsRequired}",
+    "CoolingTip": "[00FF00]Teleport cooling... Remaining time: {CooldownSeconds} seconds.",
+    "TargetNotFoundTip": "[FF00FF]Teleport target not found, enter: [00FF00]/tele friend name [FFFFFF]to teleport.",
+    "TargetNotFriendTip": "[00FF00]Target is not your friend."
+  },
+  "TeleportHomeSettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "home",
+    "TeleInterval": 60,
+    "SetHomeCmdPrefix": "setHome",
+    "SetCountLimit": 3,
+    "PointsRequiredForSet": 2,
+    "DeleteHomeCmdPrefix": "delHome",
+    "TeleHomeCmdPrefix": "home",
+    "PointsRequiredForTele": 2,
+    "NoHomeTip": "[00FF00]You haven't set a home yet, please use /setHome to set one.",
+    "LocationItemTip": "{SerialNumber}. [00FF00]<[FF0000]{HomeName}[00FF00]>",
+    "OverLimitTip": "[00FF00]Exceeded the maximum number of set homes. You can set up to 3 homes.",
+    "SetPointsNotEnoughTip": "[00FF00]Points Not enough, Points required: 2",
+    "SetSuccessTip": "[00FF00]Successfully set.",
+    "OverwriteSuccessTip": "[00FF00]Successfully overwritten the old coordinates.",
+    "DeleteSuccessTip": "[00FF00]Successfully deleted.",
+    "HomeNotFoundTip": "[00FF00]The specified home was not found.",
+    "CoolingTip": "[00FF00]Teleport cooling... Remaining time: {CooldownSeconds} seconds.",
+    "TelePointsNotEnoughTip": "[00FF00]Insufficient points! Points required: 2",
+    "TeleSuccessTip": "[00FF00]Player: {PlayerName} teleported to their home: {HomeName}"
+  }
+}

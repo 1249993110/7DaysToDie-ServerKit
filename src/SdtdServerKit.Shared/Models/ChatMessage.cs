@@ -16,6 +16,11 @@
         public int EntityId { get; set; }
 
         /// <summary>
+        /// 玩家Id
+        /// </summary>
+        public string PlayerId { get; set; }
+
+        /// <summary>
         /// 消息
         /// </summary>
         public string Message { get; set; }
