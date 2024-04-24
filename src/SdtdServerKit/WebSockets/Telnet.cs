@@ -23,7 +23,8 @@ namespace SdtdServerKit.WebSockets
                 executeResult = SdtdConsole.Instance.ExecuteSync((string)command, ModApi.CmdExecuteDelegate);
             }, e.Data);
 
-            string json = JsonConvert.SerializeObject(new WebSocketMessage<IEnumerable<string>>(ModEventType.CommandExecutionReply, executeResult), ModApi.JsonSerializerSettings);
+            var message = new WebSocketMessage<IEnumerable<string>>(ModEventType.CommandExecutionReply, executeResult);
+            string json = JsonConvert.SerializeObject(message, ModApi.JsonSerializerSettings);
             Send(json);
         }
 

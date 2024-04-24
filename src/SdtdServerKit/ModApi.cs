@@ -20,6 +20,8 @@ using System.Reflection;
 using Autofac.Integration.WebApi;
 using SdtdServerKit.Data.IRepositories;
 using Microsoft.Data.Sqlite;
+using SdtdServerKit.Managers;
+using SdtdServerKit.WebSockets;
 
 namespace SdtdServerKit
 {
@@ -76,6 +78,8 @@ namespace SdtdServerKit
 
                 StartupOwinHost();
 
+                StartupWebSocket();
+
                 PatchByHarmony();
 
                 RegisterModEventHandlers();
@@ -110,7 +114,6 @@ namespace SdtdServerKit
         }
 
         private static WebSocketServer? _webSocketServer;
-        internal static WebSocketSessionManager WebSocketSessionManager { get; private set; } = null!;
         private static void StartupOwinHost()
         {
             try
@@ -118,21 +121,31 @@ namespace SdtdServerKit
                 string webUrl = AppSettings.WebUrl;
                 WebApp.Start<Startup>(webUrl);
                 CustomLogger.Info("SdtdServerKit Web App Server running on " + webUrl);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Startup Owin Host Server failed.", ex);
+            }
+        }
 
+        private static void StartupWebSocket()
+        {
+            try
+            {
                 int webSocketPort = AppSettings.WebSocketPort;
                 _webSocketServer = new WebSocketServer(webSocketPort);
-                _webSocketServer.AddWebSocketService<WebSockets.Telnet>("/ws");                
+                _webSocketServer.AddWebSocketService<WebSockets.Telnet>("/ws");
                 _webSocketServer.Start();
-                WebSocketSessionManager = _webSocketServer.WebSocketServices["/ws"].Sessions;
-
                 if (_webSocketServer.IsListening)
                 {
+                    var webSocketSessionManager = _webSocketServer.WebSocketServices["/ws"].Sessions;
+                    Broadcaster.Init(webSocketSessionManager);
                     CustomLogger.Info("SdtdServerKit Web Socket Server listening on port " + webSocketPort);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Startup Owin Host Server failed.", ex);
+                throw new Exception("Startup Web Socket failed.", ex);
             }
         }
 
@@ -168,11 +181,7 @@ namespace SdtdServerKit
                     ModEventHook.OnGameStartDone();
                     IsGameStartDone = true;
                 });
-                ModEvents.GameShutdown.RegisterHandler(() =>
-                {
-                    ModEventHook.OnGameShutdown();
-                    RestartServer.OnGameShutdown();
-                });
+                ModEvents.GameShutdown.RegisterHandler(ModEventHook.OnGameShutdown);
                 ModEvents.PlayerLogin.RegisterHandler(ModEventHook.OnPlayerLogin);
                 ModEvents.PlayerSpawnedInWorld.RegisterHandler(ModEventHook.OnPlayerSpawnedInWorld);
                 ModEvents.EntityKilled.RegisterHandler(ModEventHook.OnEntityKilled);
@@ -195,6 +204,10 @@ namespace SdtdServerKit
         /// DependencyResolver
         /// </summary>
         public static IContainer ServiceContainer { get; private set; } = null!;
+        
+        /// <summary>
+        /// 只注册控制器、Function、数据库仓储相关类型
+        /// </summary>
         private void InitDependencyResolver()
         {
             var builder = new ContainerBuilder();
@@ -216,6 +229,12 @@ namespace SdtdServerKit
 
             #endregion
 
+            // Register Functions.
+            foreach (var type in FunctionManager.GetFunctionTypes())
+            {
+                builder.RegisterType(type).SingleInstance();
+            }
+
             // Register your Web API controllers.
             builder.RegisterApiControllers(assembly);
 
@@ -226,13 +245,14 @@ namespace SdtdServerKit
 
             ServiceContainer = container;
 
-            InitDatabase(container);
+            InitDatabase();
+            FunctionManager.LoadFunctions();
         }
 
         /// <summary>
         /// 初始化数据库
         /// </summary>
-        private void InitDatabase(IContainer container)
+        private void InitDatabase()
         {
             try
             {
@@ -249,7 +269,7 @@ namespace SdtdServerKit
                     File.Create(dataSource).Close();
                 }
 
-                string path = Path.Combine(ModInstance.Path, "sql");
+                string path = Path.Combine(ModInstance.Path, "Data/sql");
                 var di = new DirectoryInfo(path);
                 var files = di.GetFiles("*.sql");
 

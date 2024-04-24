@@ -3,7 +3,7 @@
     /// <summary>
     /// 在线玩家
     /// </summary>
-    public class OnlinePlayer
+    public class OnlinePlayer : IPlayer
     {
         /// <summary>
         /// 实体Id

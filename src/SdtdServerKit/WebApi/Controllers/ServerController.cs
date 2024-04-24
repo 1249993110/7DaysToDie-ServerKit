@@ -21,20 +21,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(ExecuteConsoleCommand))]
         public IEnumerable<string> ExecuteConsoleCommand([FromUri] string command, [FromUri] bool inMainThread = false)
         {
-            if (inMainThread)
-            {
-                IEnumerable<string> executeResult = Enumerable.Empty<string>();
-                ModApi.MainThreadSyncContext.Send((state) =>
-                {
-                    executeResult = SdtdConsole.Instance.ExecuteSync((string)state, ModApi.CmdExecuteDelegate);
-                }, command);
-
-                return executeResult;
-            }
-            else
-            {
-                return SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
-            }
+            return Utils.ExecuteConsoleCommand(command, inMainThread);
         }
 
         /// <summary>
@@ -254,11 +241,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(SendGlobalMessage))]
         public IEnumerable<string> SendGlobalMessage([FromBody] GlobalMessage globalMessage)
         {
-            string cmd = string.Format("ty-say {0} {1}",
-                Utils.FormatCommandArgs(globalMessage.Message),
-                Utils.FormatCommandArgs(globalMessage.SenderName));
-
-            return ExecuteConsoleCommand(cmd);
+            return Utils.SendGlobalMessage(globalMessage);
         }
 
         /// <summary>
@@ -268,12 +251,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(SendPrivateMessage))]
         public IEnumerable<string> SendPrivateMessage([FromBody] PrivateMessage privateMessage)
         {
-            string cmd = string.Format("ty-pm {0} {1} {2}",
-                Utils.FormatCommandArgs(privateMessage.TargetPlayerIdOrName),
-                Utils.FormatCommandArgs(privateMessage.Message),
-                Utils.FormatCommandArgs(privateMessage.SenderName));
-
-            return ExecuteConsoleCommand(cmd);
+            return Utils.SendPrivateMessage(privateMessage);
         }
 
         /// <summary>

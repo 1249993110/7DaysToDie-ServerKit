@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using SdtdServerKit.Hooks;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace SdtdServerKit.Commands
@@ -84,7 +85,13 @@ namespace SdtdServerKit.Commands
             Process.Start(path, string.Format("{0} \"{1}\"", Process.GetCurrentProcess().Id, serverPath));
         }
 
-        internal static void OnGameShutdown()
+        public RestartServer()
+        {
+            ModEventHook.GameShutdown -= OnGameShutdown;
+            ModEventHook.GameShutdown += OnGameShutdown;
+        }
+
+        private static void OnGameShutdown()
         {
             if (_isRestarting)
             {

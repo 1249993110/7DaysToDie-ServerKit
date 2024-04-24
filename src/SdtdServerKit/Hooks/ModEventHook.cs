@@ -1,52 +1,54 @@
-﻿using Autofac;
-using SdtdServerKit.Data.Entities;
-using SdtdServerKit.Data.IRepositories;
-using SdtdServerKit.Data.Repositories;
-using SdtdServerKit.WebSockets;
-using System.Text;
+﻿using System.Text;
 using UnityEngine;
 
 namespace SdtdServerKit.Hooks
 {
-    internal static class ModEventHook
+    public static class ModEventHook
     {
-        #region Broadcast
+        #region Events
+        public static event Action<LogEntry> LogCallback;
+        public static event Action GameAwake;
+        public static event Action GameStartDone;
+        public static event Action GameUpdate;
+        public static event Action GameShutdown;
+        //public static event Action CalcChunkColorsDone;
+        public static event Action<ChatMessage> ChatMessage;
+        public static event Action<KilledEntity> EntityKilled;
+        public static event Action EntitySpawned;
+        public static event Action<OnlinePlayer> PlayerDisconnected;
+        public static event Action<OnlinePlayer> PlayerLogin;
+        public static event Action<SpawnedPlayer> PlayerSpawnedInWorld;
+        public static event Action<OnlinePlayer> PlayerSpawning;
+        public static event Action<OnlinePlayer> SavePlayerData;
+        /// <summary>
+        /// 天空变化事件
+        /// </summary>
+        public static event Action<SkyChanged>? SkyChanged;
 
-        private static void Broadcast(ModEventType modEventType)
-        {
-            try
-            {                
-                string json = JsonConvert.SerializeObject(new WebSocketMessage(modEventType), ModApi.JsonSerializerSettings);
-                ModApi.WebSocketSessionManager.BroadcastAsync(json, null);
-            }
-            catch (Exception ex)
-            {
-                CustomLogger.Error(ex, "Error in ModEventHook.Broadcast");
-            }
-        }
-
-        private static void Broadcast<TData>(ModEventType modEventType, TData data)
-        {
-            try
-            {
-                string json = JsonConvert.SerializeObject(new WebSocketMessage<TData>(modEventType, data), ModApi.JsonSerializerSettings);
-                ModApi.WebSocketSessionManager.BroadcastAsync(json, null);
-            }
-            catch (Exception ex)
-            {
-                CustomLogger.Error(ex, "Error in ModEventHook.Broadcast");
-            }
-        }
         #endregion
+
+        /// <summary>
+        /// Runs when LogCallback has be called
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="trace"></param>
+        /// <param name="type"></param>
+        public static void OnLogCallback(string message, string trace, LogType type)
+        {
+            var logEntry = new LogEntry()
+            {
+                Message = message,
+                LogLevel = (LogLevel)type,
+            };
+            LogCallback?.Invoke(logEntry);
+        }
 
         /// <summary>
         /// Runs once when the server is ready for interaction and GameManager.Instance.World is set
         /// </summary>
         public static void OnGameAwake()
         {
-            if (ModApi.WebSocketSessionManager.Count == 0) 
-                return;
-            Broadcast(ModEventType.GameAwake);
+            GameAwake?.Invoke();
         }
 
         /// <summary>
@@ -54,9 +56,7 @@ namespace SdtdServerKit.Hooks
         /// </summary>
         public static void OnGameStartDone()
         {
-            if (ModApi.WebSocketSessionManager.Count == 0) 
-                return;
-            Broadcast(ModEventType.GameStartDone);
+            GameStartDone?.Invoke();
         }
 
         /// <summary>
@@ -65,9 +65,7 @@ namespace SdtdServerKit.Hooks
         /// </summary>
         public static void OnGameUpdate()
         {
-            if (ModApi.WebSocketSessionManager.Count == 0) 
-                return;
-            Broadcast(ModEventType.GameUpdate);
+            GameUpdate?.Invoke();
         }
 
         /// <summary>
@@ -75,21 +73,17 @@ namespace SdtdServerKit.Hooks
         /// </summary>
         public static void OnGameShutdown()
         {
-            if (ModApi.WebSocketSessionManager.Count == 0) 
-                return;
-            Broadcast(ModEventType.GameShutdown);
+            GameShutdown?.Invoke();
         }
 
-        /// <summary>
-        /// Runs each time a chunk has it's colors re-calculated. For example this is used to generate the images for allocs game map mod
-        /// </summary>
-        /// <param name="chunk"></param>
-        public static void OnCalcChunkColorsDone(Chunk chunk)
-        {
-            if (ModApi.WebSocketSessionManager.Count == 0) 
-                return;
-            Broadcast(ModEventType.CalcChunkColorsDone);
-        }
+        ///// <summary>
+        ///// Runs each time a chunk has it's colors re-calculated. For example this is used to generate the images for allocs game map mod
+        ///// </summary>
+        ///// <param name="chunk"></param>
+        //public static void OnCalcChunkColorsDone(Chunk chunk)
+        //{
+        //    CalcChunkColorsDone?.Invoke(chunk);
+        //}
 
         /// <summary>
         /// <para>Return true to pass the message on to the next mod, or if no other mods then it will output to chat. </para>
@@ -106,6 +100,11 @@ namespace SdtdServerKit.Hooks
         public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderId, string message,
             string mainName, bool localizeMain, List<int> recipientEntityIds)
         {
+            if(ChatMessage == null)
+            {
+                return true;
+            }
+
             var playerId = ConnectionManager.Instance.Clients.ForEntityId(senderId).InternalId.CombinedString;
             var chatMessage = new ChatMessage()
             {
@@ -116,26 +115,7 @@ namespace SdtdServerKit.Hooks
                 SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),
             };
 
-            try
-            {
-                var chatRecordRepository = ModApi.ServiceContainer.Resolve<IChatRecordRepository>();
-                chatRecordRepository.Insert(new T_ChatRecord()
-                {
-                    CreatedAt = DateTime.Now,
-                    ChatType = chatMessage.ChatType,
-                    PlayerId = chatMessage.PlayerId,
-                    Message = chatMessage.Message,
-                    SenderName = chatMessage.SenderName,
-                });
-            }
-            catch (Exception ex)
-            {
-                CustomLogger.Error(ex, "Error in PersistentManager.OnChatMessage");
-            }
-
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return true;
-            Broadcast(ModEventType.ChatMessage, chatMessage);
+            ChatMessage.Invoke(chatMessage);
 
             return true;
         }
@@ -147,17 +127,17 @@ namespace SdtdServerKit.Hooks
         /// <param name="entityThatKilledMe"></param>
         public static void OnEntityKilled(Entity killedEntity, Entity entityThatKilledMe)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0) 
+            if(EntityKilled == null)
+            {
                 return;
+            }
+
             if (killedEntity != null
                && entityThatKilledMe != null
                && entityThatKilledMe is EntityPlayer entityPlayer
                && entityThatKilledMe.IsClientControlled())
             {
-                int killerEntityId = ConnectionManager.Instance.Clients.ForEntityId(entityPlayer.entityId).entityId;
-
                 EntityInfo entity;
-
                 if (killedEntity is EntityPlayer diedPlayer && killedEntity.IsClientControlled())
                 {
                     entity = new EntityInfo()
@@ -183,7 +163,8 @@ namespace SdtdServerKit.Hooks
                     return;
                 }
 
-                Broadcast(ModEventType.EntityKilled, new KilledEntity() { DeadEntity = entity, KillerEntityId = killerEntityId });
+                int killerEntityId = ConnectionManager.Instance.Clients.ForEntityId(entityPlayer.entityId).entityId;
+                EntityKilled.Invoke(new KilledEntity() { DeadEntity = entity, KillerEntityId = killerEntityId });
             }
         }
 
@@ -193,27 +174,7 @@ namespace SdtdServerKit.Hooks
         /// <param name="entity"></param>
         public static void OnEntitySpawned(EntityInfo entity)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return;
-            Broadcast(ModEventType.EntitySpawned, entity);
-        }
-
-        /// <summary>
-        /// Runs when LogCallback has be called
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="trace"></param>
-        /// <param name="type"></param>
-        public static void OnLogCallback(string message, string trace, LogType type)
-        {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return;
-            var logEntry = new LogEntry()
-            {
-                Message = message,
-                LogLevel = (LogLevel)type,
-            };
-            Broadcast(ModEventType.LogCallback, logEntry);
+            EntitySpawned?.Invoke();
         }
 
         /// <summary>
@@ -223,9 +184,7 @@ namespace SdtdServerKit.Hooks
         /// <param name="shutdown"></param>
         public static void OnPlayerDisconnected(ClientInfo clientInfo, bool shutdown)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return;
-            Broadcast(ModEventType.PlayerDisconnected, clientInfo.ToOnlinePlayer());
+            PlayerDisconnected?.Invoke(clientInfo.ToOnlinePlayer());
         }
 
         /// <summary>
@@ -236,9 +195,7 @@ namespace SdtdServerKit.Hooks
         /// <param name="stringBuilder"></param>
         public static bool OnPlayerLogin(ClientInfo clientInfo, string compatibilityVersion, StringBuilder stringBuilder)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return true;
-            Broadcast(ModEventType.PlayerLogin, clientInfo.ToOnlinePlayer());
+            PlayerLogin?.Invoke(clientInfo.ToOnlinePlayer());
             return true;
         }
 
@@ -250,10 +207,7 @@ namespace SdtdServerKit.Hooks
         /// <param name="position"></param>
         public static void OnPlayerSpawnedInWorld(ClientInfo clientInfo, RespawnType respawnType, Vector3i position)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return;
-            var spawnedPlayer = clientInfo.ToSpawnedPlayer(respawnType, position);
-            Broadcast(ModEventType.PlayerSpawnedInWorld, spawnedPlayer);
+            PlayerSpawnedInWorld?.Invoke(clientInfo.ToSpawnedPlayer(respawnType, position));
         }
 
         /// <summary>
@@ -264,9 +218,7 @@ namespace SdtdServerKit.Hooks
         /// <param name="playerProfile"></param>
         public static void OnPlayerSpawning(ClientInfo clientInfo, int chunkViewDim, PlayerProfile playerProfile)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return;
-            Broadcast(ModEventType.PlayerSpawning, clientInfo.ToOnlinePlayer());
+            PlayerSpawning?.Invoke(clientInfo.ToOnlinePlayer());
         }
 
         /// <summary>
@@ -277,10 +229,7 @@ namespace SdtdServerKit.Hooks
         /// <param name="pdf"></param>
         public static void OnSavePlayerData(ClientInfo clientInfo, PlayerDataFile pdf)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return;
-            //Broadcast(ModEventType.SavePlayerData, clientInfo.ToOnlinePlayerDetails());
-            Broadcast(ModEventType.SavePlayerData, clientInfo.ToOnlinePlayer());
+            SavePlayerData?.Invoke(clientInfo.ToOnlinePlayer());
         }
 
         /// <summary>
@@ -289,9 +238,8 @@ namespace SdtdServerKit.Hooks
         /// <param name="skyChanged"></param>
         public static void OnSkyChanged(SkyChanged skyChanged)
         {
-            if (ModApi.WebSocketSessionManager.Count == 0)
-                return;
-            Broadcast(ModEventType.SkyChanged, skyChanged);
+            SkyChanged?.Invoke(skyChanged);
         }
+
     }
 }

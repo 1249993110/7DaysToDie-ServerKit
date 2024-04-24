@@ -151,8 +151,8 @@ namespace SdtdServerKit.WebApi
             {
                 if (ModApi.IsGameStartDone == false)
                 {
-                    string json = JsonConvert.SerializeObject(
-                        new InternalServerError() { Message = "The game is still initializing." }, ModApi.JsonSerializerSettings);
+                    var error = new InternalServerError() { Message = "The game is still initializing." };
+                    string json = JsonConvert.SerializeObject(error, ModApi.JsonSerializerSettings);
                     context.Response.ContentType = "application/json";
                     context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
                     await context.Response.WriteAsync(json);

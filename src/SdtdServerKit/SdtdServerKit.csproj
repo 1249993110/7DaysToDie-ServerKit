@@ -45,11 +45,18 @@
 	  <PackageReference Include="Microsoft.Owin.StaticFiles" Version="4.2.2" />
 	  <PackageReference Include="NSwag.AspNet.Owin" Version="14.0.7" />
 	  <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
+	  <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
 	  <PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="FunctionSettings\default\en-us.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="FunctionSettings\default\zh-cn.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="ModInfo.xml">
@@ -61,12 +68,10 @@
 	  <None Update="restart-windows.bat">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="sql\*">
+	  <None Update="Data\sql\*">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="settings\*">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+
   </ItemGroup>
 
   <ItemGroup>

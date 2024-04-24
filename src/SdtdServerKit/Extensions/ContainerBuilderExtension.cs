@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using IceCoffee.SimpleCRUD;
+using SdtdServerKit.Managers;
 using System.Reflection;
 
 namespace SdtdServerKit.Extensions
@@ -9,8 +10,8 @@ namespace SdtdServerKit.Extensions
         public static ContainerBuilder AddRepositories(this ContainerBuilder builder, Assembly assembly)
         {
             builder.RegisterInstance(DbConnectionFactory.Default).As<IDbConnectionFactory>();
-            builder.RegisterType<SdtdServerKit.Data.RepositoryFactory>().As<IRepositoryFactory>();
-            builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>();
+            builder.RegisterType<SdtdServerKit.Data.RepositoryFactory>().As<IRepositoryFactory>().SingleInstance();
+            builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>().SingleInstance();
 
             foreach (var implType in assembly.GetExportedTypes())
             {
