@@ -9,3 +9,4 @@ global using Newtonsoft.Json;
 global using Autofac;
 global using IceCoffee.Common.Templates;
 global using IceCoffee.Common.Timers;
+global using SdtdServerKit.FunctionSettings;

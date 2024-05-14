@@ -2,7 +2,7 @@
 
 namespace SdtdServerKit.Data.Dtos
 {
-    internal class DateTimeQueryDto : PaginationQueryDto
+    public class DateTimeQueryDto : PaginationQueryDto
     {
         /// <summary>
         /// 开始时间

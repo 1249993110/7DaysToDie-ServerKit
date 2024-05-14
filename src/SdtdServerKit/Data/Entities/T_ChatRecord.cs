@@ -7,6 +7,7 @@ namespace SdtdServerKit.Data.Entities
         [PrimaryKey, IgnoreUpdate, IgnoreInsert]
         public int Id { get; set; }
 
+        [IgnoreUpdate]
         public DateTime CreatedAt { get; set; }
 
         public string PlayerId { get; set; }

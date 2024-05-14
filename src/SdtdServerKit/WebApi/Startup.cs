@@ -96,13 +96,15 @@ namespace SdtdServerKit.WebApi
                     RequestPath = PathString.Empty
                 });
             }
-           
+
             app.UseSwaggerUi(typeof(Startup).Assembly, settings =>
             {
                 // configure settings here
                 // settings.GeneratorSettings.*: Generator settings and extension points
                 // settings.*: Routing and UI settings
-                
+
+                // 可以设置从注释文件加载, 但是加载的内容可被 OpenApiTagAttribute 特性覆盖
+                settings.GeneratorSettings.UseControllerSummaryAsTagDescription = true;
                 settings.GeneratorSettings.OperationProcessors.Add(new SdtdServerKit.WebApi.OperationSecurityScopeProcessor("JWT Token"));
                 settings.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT Token",
                     new OpenApiSecurityScheme()

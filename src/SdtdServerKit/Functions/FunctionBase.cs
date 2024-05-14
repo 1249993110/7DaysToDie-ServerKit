@@ -155,7 +155,7 @@ namespace SdtdServerKit.Functions
         {
             Utils.SendPrivateMessage(new PrivateMessage()
             {
-                TargetPlayerIdOrName = playerIdOrName.ToString(),
+                TargetPlayerIdOrName = playerIdOrName,
                 Message = message,
                 SenderName = ConfigManager.GlobalSettings.ServerName
             });

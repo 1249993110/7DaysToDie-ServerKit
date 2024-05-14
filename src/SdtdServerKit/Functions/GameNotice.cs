@@ -4,28 +4,31 @@ using SdtdServerKit.Variables;
 
 namespace SdtdServerKit.Functions
 {
+    /// <summary>
+    /// 游戏公告
+    /// </summary>
     public class GameNotice : FunctionBase<GameNoticeSettings>
     {
         private readonly SubTimer _timer;
         private int _lastRotatingIndex;
-
+        /// <inheritdoc/>
         public GameNotice()
         {
             _timer = new SubTimer(SendRotatingNotice);
         }
-
+        /// <inheritdoc/>
         protected override void OnDisableFunction()
         {
             ModEventHook.PlayerSpawnedInWorld -= OnPlayerSpawnedInWorld;
             ModEventHook.SkyChanged -= OnSkyChanged;
         }
-
+        /// <inheritdoc/>
         protected override void OnEnableFunction()
         {
             ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
             ModEventHook.SkyChanged += OnSkyChanged;
         }
-
+        /// <inheritdoc/>
         protected override void OnSettingsChanged()
         {
             _timer.Interval = Settings.RotatingInterval;

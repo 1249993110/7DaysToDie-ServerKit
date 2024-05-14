@@ -3,6 +3,7 @@ using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Data.IRepositories;
 using System.Text;
 using SdtdServerKit.Data.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace SdtdServerKit.Managers
 {
@@ -31,7 +32,7 @@ namespace SdtdServerKit.Managers
         /// </summary>
         /// <typeparam name="TSettings">配置类型</typeparam>
         /// <returns></returns>
-        public static TSettings Get<TSettings>(string culture = "zh-cn") where TSettings : ISettings
+        public static TSettings Get<TSettings>(string culture = Cultures.ZhCn) where TSettings : ISettings
         {
             TSettings? settings;
 
@@ -96,7 +97,7 @@ namespace SdtdServerKit.Managers
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="Exception"></exception>
-        public static TSettings LoadDefault<TSettings>(string culture) where TSettings : ISettings
+        public static TSettings LoadDefault<TSettings>(string culture = Cultures.ZhCn) where TSettings : ISettings
         {
             try
             {
@@ -111,7 +112,7 @@ namespace SdtdServerKit.Managers
                     throw new InvalidOperationException("Load settings faild, the json object is null.");
                 }
 
-                var settings = jsonObject.Value<TSettings>(typeof(TSettings).Name);
+                var settings = jsonObject[typeof(TSettings).Name]!.ToObject<TSettings>();
                 if (settings == null)
                 {
                     throw new InvalidOperationException("Load settings faild, the json can not deserialize.");
