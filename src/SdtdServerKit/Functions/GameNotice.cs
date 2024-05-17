@@ -19,12 +19,14 @@ namespace SdtdServerKit.Functions
         /// <inheritdoc/>
         protected override void OnDisableFunction()
         {
+            GlobalTimer.UnregisterSubTimer(_timer);
             ModEventHook.PlayerSpawnedInWorld -= OnPlayerSpawnedInWorld;
             ModEventHook.SkyChanged -= OnSkyChanged;
         }
         /// <inheritdoc/>
         protected override void OnEnableFunction()
         {
+            GlobalTimer.RegisterSubTimer(_timer);
             ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
             ModEventHook.SkyChanged += OnSkyChanged;
         }

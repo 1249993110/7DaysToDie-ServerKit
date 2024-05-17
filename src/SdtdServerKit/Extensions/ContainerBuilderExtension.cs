@@ -18,7 +18,7 @@ namespace SdtdServerKit.Extensions
                 if (implType.IsSubclassOf(typeof(RepositoryBase)) && implType.IsAbstract == false && implType.IsGenericType == false)
                 {
                     var serviceType = implType.GetInterfaces().First(p => typeof(IRepository).IsAssignableFrom(p) && p != typeof(IRepository) && p.IsGenericType == false);
-                    builder.RegisterType(implType).As(serviceType);
+                    builder.RegisterType(implType).As(serviceType).SingleInstance();
                 }
             }
 

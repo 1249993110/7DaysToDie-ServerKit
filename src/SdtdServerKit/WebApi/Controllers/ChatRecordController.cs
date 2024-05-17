@@ -15,6 +15,10 @@ namespace SdtdServerKit.WebApi.Controllers
     {
         private readonly IChatRecordRepository _repository;
 
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="chatRecordRepository"></param>
         public ChatRecordController(IChatRecordRepository chatRecordRepository) 
         {
             _repository = chatRecordRepository;
@@ -27,7 +31,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<PagedDto<T_ChatRecord>> Get(DateTimeQuery model)
+        public async Task<PagedDto<T_ChatRecord>> Get([FromUri] DateTimeQuery model)
         {
             var dto = new DateTimeQueryDto()
             {
@@ -64,6 +68,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
+        [Route("")]
         public async Task<IHttpActionResult> Delete([MinLength(1)] int[] ids)
         {
             int count = await _repository.DeleteByIdsAsync(ids, true);

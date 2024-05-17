@@ -19,11 +19,6 @@ namespace SdtdServerKit.Data.Entities
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// 实体Id
-        /// </summary>
-        public int EntityId { get; set; }
-
-        /// <summary>
         /// 玩家名称
         /// </summary>
         public string PlayerName { get; set; }

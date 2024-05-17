@@ -18,7 +18,7 @@
         /// <summary>
         /// 玩家Id
         /// </summary>
-        public string PlayerId { get; set; }
+        public string? PlayerId { get; set; }
 
         /// <summary>
         /// 消息

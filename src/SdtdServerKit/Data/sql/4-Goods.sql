@@ -1,6 +1,7 @@
 --商品
 CREATE TABLE IF NOT EXISTS T_Goods(
 	Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,	--Id
+	CreatedAt TEXT NOT NULL,						--创建日期
 	Name TEXT NOT NULL,								--商品名称
 	ExecuteCommands TEXT NOT NULL,					--执行指令
 	InMainThread INTEGER NOT NULL,					--在主线程执行指令

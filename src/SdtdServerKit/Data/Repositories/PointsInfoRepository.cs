@@ -25,7 +25,7 @@ namespace SdtdServerKit.Data.Repositories
 
             if (string.IsNullOrEmpty(dto.Keyword) == false)
             {
-                whereClauseSB.Append(" AND (EntityId=@Keyword OR PlayerId=@Keyword OR PlayerName LIKE '%'||@Keyword||'%')");
+                whereClauseSB.Append(" AND (PlayerId=@Keyword OR PlayerName LIKE '%'||@Keyword||'%')");
             }
 
             //string orderByClause;

@@ -35,7 +35,6 @@ namespace SdtdServerKit.Functions
                     pointsInfo = new T_PointsInfo()
                     {
                         Id = playerId,
-                        EntityId = player.EntityId,
                         CreatedAt = DateTime.Now,
                         PlayerName = player.PlayerName,
                         Points = Settings.SignInRewardPoints,

@@ -47,7 +47,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<PagedDto<T_HomeLocation>> Get(PaginationQuery model)
+        public async Task<PagedDto<T_HomeLocation>> Get([FromUri] PaginationQuery model)
         {
             var dto = new PaginationQueryDto()
             {
@@ -124,6 +124,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
+        [Route("")]
         public async Task<IHttpActionResult> Delete([MinLength(1)] int[] ids)
         {
             int count = await _repository.DeleteByIdsAsync(ids, true);

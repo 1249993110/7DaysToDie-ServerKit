@@ -10,7 +10,8 @@ namespace SdtdServerKit.Data.Entities
         [IgnoreUpdate]
         public DateTime CreatedAt { get; set; }
 
-        public string PlayerId { get; set; }
+        public int EntityId { get; set; }
+        public string? PlayerId { get; set; }
 
         public string SenderName { get; set; }
 

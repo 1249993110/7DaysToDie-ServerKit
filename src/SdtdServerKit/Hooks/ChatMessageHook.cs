@@ -15,7 +15,6 @@ namespace SdtdServerKit.Hooks
         static ChatMessageHook()
         {
             _chatCommandCache = new CmdCache();
-            ModEventHook.ChatMessage += OnChatMessage;
         }
 
         public static void AddHook(ChatHook chatHook)
@@ -59,6 +58,7 @@ namespace SdtdServerKit.Hooks
                     CreatedAt = DateTime.Now,
                     ChatType = chatMessage.ChatType,
                     PlayerId = chatMessage.PlayerId,
+                    EntityId = chatMessage.EntityId,
                     Message = chatMessage.Message,
                     SenderName = chatMessage.SenderName,
                 });
@@ -69,63 +69,60 @@ namespace SdtdServerKit.Hooks
             }
         }
 
-        private static void OnChatMessage(ChatMessage chatMessage)
+        internal static void OnChatMessage(ChatMessage chatMessage)
         {
             Task.Run(async () =>
             {
                 try
                 {
-                    string cmd = chatMessage.Message;
-
-                    if (chatMessage.ChatType != ChatType.Global || chatMessage.EntityId <= 0)
+                    if (chatMessage.ChatType == ChatType.Global && chatMessage.PlayerId != null)
                     {
-                        return;
-                    }
+                        string cmd = chatMessage.Message;
+                        string chatPrefix = ConfigManager.GlobalSettings.ChatCommandPrefix;
 
-                    string chatPrefix = ConfigManager.GlobalSettings.ChatCommandPrefix;
-
-                    if (string.IsNullOrEmpty(chatPrefix) == false)
-                    {
-                        if (cmd.StartsWith(chatPrefix) == false)
+                        if (string.IsNullOrEmpty(chatPrefix) == false)
                         {
-                            return;
-                        }
-                        else
-                        {
-                            cmd = cmd.Substring(chatPrefix.Length);
-                        }
-                    }
-
-                    var player = ConnectionManager.Instance.Clients.ForEntityId(chatMessage.EntityId).ToOnlinePlayer();
-
-                    var chatHook = _chatCommandCache.Get(cmd);
-                    if (chatHook != null && chatHook.Target is IFunction function && function.IsEnabled)
-                    {
-                        bool isHandled = await HandleChatCmd(chatHook, cmd, player);
-
-                        if (isHandled)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            _chatCommandCache.Remove(cmd);
-                        }
-                    }
-
-                    foreach (var hook in _chatHooks)
-                    {
-                        if (hook == chatHook)
-                        {
-                            continue;
+                            if (cmd.StartsWith(chatPrefix) == false)
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                cmd = cmd.Substring(chatPrefix.Length);
+                            }
                         }
 
-                        bool isHandled = await HandleChatCmd(hook, cmd, player);
-                        // 如果命令被其他功能处理
-                        if (isHandled && cmd.Length <= 8)
+                        var player = ConnectionManager.Instance.Clients.ForEntityId(chatMessage.EntityId).ToOnlinePlayer();
+
+                        var chatHook = _chatCommandCache.Get(cmd);
+                        if (chatHook != null && chatHook.Target is IFunction function && function.IsEnabled)
                         {
-                            _chatCommandCache.Set(cmd, hook);
-                            return;
+                            bool isHandled = await HandleChatCmd(chatHook, cmd, player);
+
+                            if (isHandled)
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                _chatCommandCache.Remove(cmd);
+                            }
+                        }
+
+                        foreach (var hook in _chatHooks)
+                        {
+                            if (hook == chatHook)
+                            {
+                                continue;
+                            }
+
+                            bool isHandled = await HandleChatCmd(hook, cmd, player);
+                            // 如果命令被其他功能处理
+                            if (isHandled && cmd.Length <= 8)
+                            {
+                                _chatCommandCache.Set(cmd, hook);
+                                return;
+                            }
                         }
                     }
                 }
@@ -137,10 +134,9 @@ namespace SdtdServerKit.Hooks
                     {
                         Message = ConfigManager.GlobalSettings.HandleChatMessageError,
                         SenderName = ConfigManager.GlobalSettings.ServerName,
-                        TargetPlayerIdOrName = chatMessage.PlayerId,
+                        TargetPlayerIdOrName = chatMessage.PlayerId!,
                     });
                 }
-
                 await Persistent(chatMessage);
             });
         }

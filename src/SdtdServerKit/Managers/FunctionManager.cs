@@ -22,8 +22,10 @@ namespace SdtdServerKit.Managers
                 {
                     var function = (IFunction)ModApi.ServiceContainer.Resolve(type);
                     function.LoadSettings();
-                    _functionDict.Add(type.Name, function);
+                    _functionDict.Add(function.Name, function);
                 }
+
+                CustomLogger.Info($"Loaded {_functionDict.Count} functions.");
             }
             catch (Exception ex)
             {

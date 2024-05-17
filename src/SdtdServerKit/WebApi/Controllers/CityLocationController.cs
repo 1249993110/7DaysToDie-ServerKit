@@ -115,6 +115,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
+        [Route("")]
         public async Task<IHttpActionResult> Delete([MinLength(1)] int[] ids)
         {
             int count = await _repository.DeleteByIdsAsync(ids, true);

@@ -47,7 +47,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<PagedDto<T_PointsInfo>> Get(PaginationQuery model)
+        public async Task<PagedDto<T_PointsInfo>> Get([FromUri] PaginationQuery model)
         {
             var dto = new PaginationQueryDto()
             {

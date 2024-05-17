@@ -40,7 +40,7 @@ namespace SdtdServerKit.Functions
         /// <summary>
         /// 功能名称
         /// </summary>
-        public string FunctionName => _functionName;
+        public string Name => _functionName;
 
         /// <summary>
         /// 是否启用

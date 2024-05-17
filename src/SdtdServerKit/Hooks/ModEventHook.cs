@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Epic.OnlineServices.Presence;
+using System.Text;
 using UnityEngine;
 
 namespace SdtdServerKit.Hooks
@@ -105,7 +106,12 @@ namespace SdtdServerKit.Hooks
                 return true;
             }
 
-            var playerId = ConnectionManager.Instance.Clients.ForEntityId(senderId).InternalId.CombinedString;
+            string? playerId = null;
+            if(GameManager.Instance.World.Players.dict.TryGetValue(senderId, out EntityPlayer player))
+            {
+                playerId = ConnectionManager.Instance.Clients.ForEntityId(senderId)?.InternalId.CombinedString;
+            }
+        
             var chatMessage = new ChatMessage()
             {
                 ChatType = (ChatType)eChatType,
@@ -115,6 +121,7 @@ namespace SdtdServerKit.Hooks
                 SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),
             };
 
+            ChatMessageHook.OnChatMessage(chatMessage);
             ChatMessage.Invoke(chatMessage);
 
             return true;

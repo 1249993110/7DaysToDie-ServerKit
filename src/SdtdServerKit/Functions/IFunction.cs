@@ -10,7 +10,7 @@
         /// <summary>
         /// 功能名称
         /// </summary>
-        public string FunctionName { get; }
+        public string Name { get; }
 
         /// <summary>
         /// 加载配置
