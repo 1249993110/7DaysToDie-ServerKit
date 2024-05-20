@@ -68,7 +68,7 @@ namespace SdtdServerKit.WebApi.Controllers
         {
             var entity = new T_PointsInfo()
             {
-                Id = model.PlayerId,
+                PlayerId = model.PlayerId,
                 CreatedAt = DateTime.Now,
                 LastSignInDays = model.LastSignInDays,
                 PlayerName = model.PlayerName,

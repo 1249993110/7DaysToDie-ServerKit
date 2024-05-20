@@ -11,7 +11,8 @@ namespace SdtdServerKit.Data.Entities
         /// Id
         /// </summary>
         [PrimaryKey]
-        public string Id { get; set; } = null!;
+        [Column("Id")]
+        public string PlayerId { get; set; } = null!;
 
         /// <summary>
         /// 创建日期

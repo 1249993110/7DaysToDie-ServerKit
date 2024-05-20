@@ -21,7 +21,7 @@ namespace SdtdServerKit.Functions
 
         protected override async Task<bool> OnChatCmd(string message, OnlinePlayer player)
         {
-            string playerId = player.PlatformId;
+            string playerId = player.CrossplatformId;
             // 签到命令
             if (string.Equals(message, Settings.SignInCmd, StringComparison.OrdinalIgnoreCase))
             {
@@ -34,7 +34,7 @@ namespace SdtdServerKit.Functions
                 {
                     pointsInfo = new T_PointsInfo()
                     {
-                        Id = playerId,
+                        PlayerId = playerId,
                         CreatedAt = DateTime.Now,
                         PlayerName = player.PlayerName,
                         Points = Settings.SignInRewardPoints,

@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Namotion.Reflection;
+using Newtonsoft.Json.Linq;
+using SdtdServerKit.ServerSettings;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 using SystemInformation;
 using UnityEngine;
 
@@ -290,5 +295,77 @@ namespace SdtdServerKit.WebApi.Controllers
             return ExecuteConsoleCommand("ty-rpp " + playerId);
         }
 
+        /// <summary>
+        /// Get server settings.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route(nameof(Settings))]
+        public List<NameDescValue> Settings([FromUri]string culture = Cultures.ZhCn)
+        {
+            string fileName = culture.ToLower() + ".json";
+            string path = Path.Combine(ModApi.ModInstance.Path, "ServerSettings", "default", fileName);
+            string json = File.ReadAllText(path, Encoding.UTF8);
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, DescValue>>(json);
+
+            if (dict == null)
+            {
+                throw new InvalidOperationException("Load settings faild, the json object is null.");
+            }
+
+
+            var result = new List<NameDescValue>();
+
+            path = Path.Combine(AppContext.BaseDirectory, "serverconfig.xml");
+            var xmlDocument = new XmlDocument();
+            xmlDocument.Load(path);
+            var xmlRoot = xmlDocument.DocumentElement;
+
+            string name;
+            string value;
+            foreach (XmlNode node in xmlRoot.ChildNodes)
+            {
+                if (node.Attributes != null)
+                {
+                    name = node.Attributes["name"].Value;
+                    value = node.Attributes["value"].Value;
+                    result.Add(new NameDescValue()
+                    {
+                        Name = name,
+                        Group = dict.ContainsKey(name) ? dict[name].Group : string.Empty,
+                        Desc = dict.ContainsKey(name) ? dict[name].Desc : string.Empty,
+                        Value = value
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Put server settings.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        [Route(nameof(Settings))]
+        public IHttpActionResult Settings([FromBody] Dictionary<string, string> model)
+        {
+            string path = Path.Combine(AppContext.BaseDirectory, "serverconfig.xml");
+            var xmlDocument = new XmlDocument();
+            xmlDocument.Load(path);
+            var rootNode = xmlDocument.SelectSingleNode("ServerSettings");
+
+            foreach (var item in model)
+            {
+                var node = rootNode.SelectSingleNode(string.Format("property[@name='{0}']", item.Key));
+                if (node != null && node.Attributes != null)
+                {
+                    node.Attributes["value"].Value = item.Value;
+                }
+            }
+
+            xmlDocument.Save(path);
+            return Ok();
+        }
     }
 }

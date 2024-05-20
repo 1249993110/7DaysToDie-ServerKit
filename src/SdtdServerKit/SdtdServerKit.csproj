@@ -69,6 +69,9 @@
 	  <None Update="restart-windows.bat">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="ServerSettings\default\zh-cn.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Data\sql\*">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
@@ -131,5 +134,9 @@
 			<Private>false</Private>
 			<HintPath>..\7dtd-binaries\WebServer.dll</HintPath>
 		</Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="ServerSettings\default\" />
 	</ItemGroup>
 </Project>
