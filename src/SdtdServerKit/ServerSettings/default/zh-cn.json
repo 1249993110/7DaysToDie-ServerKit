@@ -37,7 +37,7 @@
   },
   "ServerDisabledNetworkProtocols": {
     "Group": "网络",
-    "Desc": "不应该使用的网络协议。用逗号分隔, 可能的值LiteNetLib、SteamNetworking。如果用户和服务器之间没有 NAT 路由器, 或端口转发设置正确, 专用服务器应禁用 SteamNetworking"
+    "Desc": "服务器禁用的网络协议。用逗号分隔, 可能的值LiteNetLib、SteamNetworking。如果用户和服务器之间没有 NAT 路由器, 或端口转发设置正确, 专用服务器应禁用 SteamNetworking"
   },
   "ServerMaxWorldTransferSpeedKiBs": {
     "Group": "网络",

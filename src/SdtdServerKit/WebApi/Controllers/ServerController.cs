@@ -313,7 +313,6 @@ namespace SdtdServerKit.WebApi.Controllers
                 throw new InvalidOperationException("Load settings faild, the json object is null.");
             }
 
-
             var result = new List<NameDescValue>();
 
             path = Path.Combine(AppContext.BaseDirectory, "serverconfig.xml");
