@@ -29,7 +29,7 @@ namespace SdtdServerKit.Functions
         {
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.PlatformId;
+                string playerId = onlinePlayer.CrossplatformId;
                 var cityPositions = await _cityLocationRepository.GetAllAsync();
 
                 if (cityPositions.Any() == false)
@@ -58,7 +58,7 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    string playerId = onlinePlayer.PlatformId;
+                    string playerId = onlinePlayer.CrossplatformId;
 
                     var teleRecord = await _teleRecordRepository.GetNewestAsync(playerId, TeleTargetType.City);
                     if (teleRecord != null)

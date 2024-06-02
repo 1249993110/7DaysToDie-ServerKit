@@ -28,7 +28,7 @@ namespace SdtdServerKit.Functions
             if (message.StartsWith(Settings.TeleCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
             {
                 string targetName = message.Substring(Settings.TeleCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
-                string playerId = onlinePlayer.PlatformId;
+                string playerId = onlinePlayer.CrossplatformId;
 
                 var targetPlayer = ConnectionManager.Instance.Clients.GetForPlayerName(targetName);
                 if (targetPlayer == null)

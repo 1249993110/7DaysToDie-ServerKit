@@ -28,7 +28,7 @@ namespace SdtdServerKit.Functions
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
                 int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlatformId;
+                string playerId = onlinePlayer.CrossplatformId;
                 var positions = await _homeLocationRepository.GetByPlayerIdAsync(playerId);
 
                 if (positions.Any() == false)
@@ -51,7 +51,7 @@ namespace SdtdServerKit.Functions
             {
                 string homeName = message.Substring(Settings.SetHomeCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
                 int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlatformId;
+                string playerId = onlinePlayer.CrossplatformId;
 
                 int playerPoints = await _pointsRepository.GetPointsByIdAsync(playerId);
                 if (playerPoints < Settings.PointsRequiredForSet)
@@ -104,7 +104,7 @@ namespace SdtdServerKit.Functions
             {
                 string homeName = message.Substring(Settings.DeleteHomeCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
                 int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlatformId;
+                string playerId = onlinePlayer.CrossplatformId;
                 int count = await _homeLocationRepository.DeleteByPlayerIdAndHomeNameAsync(playerId, homeName);
                 if (count != 1)
                 {
@@ -121,7 +121,7 @@ namespace SdtdServerKit.Functions
             {
                 string homeName = message.Substring(Settings.TeleHomeCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
                 int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlatformId;
+                string playerId = onlinePlayer.CrossplatformId;
 
                 var entity = await _homeLocationRepository.GetByPlayerIdAndHomeNameAsync(playerId, homeName);
                 if (entity == null)

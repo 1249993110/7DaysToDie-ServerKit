@@ -24,7 +24,7 @@ namespace SdtdServerKit.Functions
         {
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.PlatformId;
+                string playerId = onlinePlayer.CrossplatformId;
                 var goodsList = await _goodsRepository.GetAllOrderByPriceAsync();
                 if (goodsList.Any() == false)
                 {
@@ -52,7 +52,7 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    string playerId = onlinePlayer.PlatformId;
+                    string playerId = onlinePlayer.CrossplatformId;
 
                     int points = await _pointsInfoRepository.GetPointsByIdAsync(playerId);
                     if (points < goods.Price)
