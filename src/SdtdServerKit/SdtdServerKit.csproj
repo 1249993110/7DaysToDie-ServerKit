@@ -46,8 +46,20 @@
 	  <PackageReference Include="NSwag.Annotations" Version="14.0.7" />
 	  <PackageReference Include="NSwag.AspNet.Owin" Version="14.0.7" />
 	  <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
+	  <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.8" GeneratePathProperty="true" />
 	  <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
 	  <PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
+	</ItemGroup>
+
+	<!--<ItemGroup>
+		<FilesToCopy Include="$(PkgSQLitePCLRaw_lib_e_sqlite3)\runtimes\linux-x64\native\*.*" />
+	</ItemGroup>
+	<Target Name="CopyFiles" AfterTargets="Build">
+		<Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(OutDir)\runtimes\linux-x64\native" SkipUnchangedFiles="true" />
+	</Target>-->
+	
+	<ItemGroup>
+		<None Include="$(PkgSQLitePCLRaw_lib_e_sqlite3)\runtimes\linux-x64\native\libe_sqlite3.so" Visible="false" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 	<ItemGroup>
