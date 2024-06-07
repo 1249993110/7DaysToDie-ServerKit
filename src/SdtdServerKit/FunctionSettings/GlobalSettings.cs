@@ -1,5 +1,11 @@
 ﻿namespace SdtdServerKit.FunctionSettings
 {
+    public class Trigger
+    {
+        public bool IsEnabled { get; set; }
+        public string[] ExecuteCommands { get; set; }
+    }
+
     public class GlobalSettings : ISettings
     {
         /// <summary>
@@ -22,6 +28,9 @@
         /// </summary>
         public string HandleChatMessageError { get; set; }
 
-        bool ISettings.IsEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        bool ISettings.IsEnabled { get ; set ; }
+
+        public Trigger KillZombieTrigger { get; set; }
+        public Trigger DeathTrigger { get; set; }
     }
 }

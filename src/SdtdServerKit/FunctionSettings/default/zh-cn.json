@@ -3,7 +3,15 @@
     "ServerName": "[FF0000]Server[FFFFFF]",
     "ChatCommandPrefix": "/",
     "ChatCommandSeparator": "-",
-    "HandleChatMessageError": "[FF0000]系统错误, 请联系服务器管理员"
+    "HandleChatMessageError": "[FF0000]系统错误, 请联系服务器管理员",
+    "KillZombieTrigger": {
+      "IsEnabled": false,
+      "ExecuteCommands": [ "ty-pm {EntityId} \"您击杀了一只僵尸, 获得了1积分\"", "ty-cpp {EntityId} 1" ]
+    },
+    "DeathTrigger": {
+      "IsEnabled": false,
+      "ExecuteCommands": [ "ty-pm {EntityId} \"您死亡了, 扣除了1积分\"", "ty-cpp {EntityId} -1" ]
+    }
   },
   "GameNoticeSettings": {
     "IsEnabled": false,

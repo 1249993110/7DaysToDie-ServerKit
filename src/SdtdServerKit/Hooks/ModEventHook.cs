@@ -170,8 +170,8 @@ namespace SdtdServerKit.Hooks
                     return;
                 }
 
-                int killerEntityId = ConnectionManager.Instance.Clients.ForEntityId(entityPlayer.entityId).entityId;
-                EntityKilled.Invoke(new KilledEntity() { DeadEntity = entity, KillerEntityId = killerEntityId });
+                //int killerEntityId = ConnectionManager.Instance.Clients.ForEntityId(entityPlayer.entityId).entityId;
+                EntityKilled.Invoke(new KilledEntity() { DeadEntity = entity, KillerEntityId = entityPlayer.entityId });
             }
         }
 

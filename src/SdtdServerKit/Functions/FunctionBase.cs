@@ -66,12 +66,12 @@ namespace SdtdServerKit.Functions
         /// <summary>
         /// 格式化命令
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="cmd"></param>
         /// <param name="player"></param>
         /// <returns></returns>
-        protected virtual string FormatCmd(string message, IPlayer player)
+        protected virtual string FormatCmd(string cmd, IPlayer player)
         {
-            return StringTemplate.Render(message, new VariablesBase()
+            return StringTemplate.Render(cmd, new VariablesBase()
             {
                 EntityId = player.EntityId,
                 PlatformId = player.PlatformId,
@@ -82,10 +82,10 @@ namespace SdtdServerKit.Functions
         /// <summary>
         /// 捕获玩家聊天消息时调用，返回true表示该消息由当前函数处理
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="cmd"></param>
         /// <param name="onlinePlayer"></param>
         /// <returns></returns>
-        protected virtual Task<bool> OnChatCmd(string message, OnlinePlayer onlinePlayer)
+        protected virtual Task<bool> OnChatCmd(string cmd, OnlinePlayer onlinePlayer)
         {
             return Task.FromResult(false);
         }
