@@ -4,7 +4,7 @@
     public enum EntityType
     {
         OfflinePlayer,
-        OnlinePlayer,
+        OnlinePlayer = 1,
         Zombie,
         Animal,
         Bandit,

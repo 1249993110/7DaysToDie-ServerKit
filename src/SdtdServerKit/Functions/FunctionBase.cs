@@ -106,13 +106,13 @@ namespace SdtdServerKit.Functions
             ChatMessageHook.AddHook(OnChatCmd);
         }
 
-        /// <summary>
-        /// Enabled function, 无论服务器上是否有玩家, 返回值将设置到 _isRunning
-        /// </summary>
-        protected virtual bool OnEnableFunctionNonePlayer()
-        {
-            return false;
-        }
+        ///// <summary>
+        ///// Enabled function, 无论服务器上是否有玩家, 返回值将设置到 _isRunning
+        ///// </summary>
+        //protected virtual bool OnEnableFunctionNonePlayer()
+        //{
+        //    return false;
+        //}
 
         private void OnSettingsChanged(ISettings settings)
         {
@@ -187,10 +187,10 @@ namespace SdtdServerKit.Functions
             {
                 if (_isRunning == false && _isEnabled)
                 {
-                    _isRunning = OnEnableFunctionNonePlayer();
+                    //_isRunning = OnEnableFunctionNonePlayer();
 
                     // Only there are players on the server.
-                    if (ConnectionManager.Instance.Clients.Count > 0)
+                    //if (ConnectionManager.Instance.Clients.Count > 0)
                     {
                         _isRunning = true;
                         OnEnableFunction();
