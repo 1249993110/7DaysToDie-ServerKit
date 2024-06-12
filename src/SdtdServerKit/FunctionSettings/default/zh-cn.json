@@ -4,13 +4,21 @@
     "ChatCommandPrefix": "/",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]系统错误, 请联系服务器管理员",
+    "TeleZombieCheck": true,
+    "TeleDisableTip": "[00FF00]当前禁止传送, 请确认周围环境是否安全",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"您击杀了一只僵尸, 获得了1积分\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]您击杀了一只僵尸, 获得了1积分\"", "ty-cpp {EntityId} 1" ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"您死亡了, 扣除了1积分\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]您死亡了, 扣除了1积分\"", "ty-cpp {EntityId} -1" ]
+    },
+    "AutoRestart": {
+      "IsEnabled": false,
+      "RestartHour": 4,
+      "RestartMinute": 0,
+      "Messages": [ "[00FF00]服务器将在 3 秒后重启...", "[00FF00]服务器将在 2 秒后重启...", "[00FF00]服务器将在 1 秒后重启...", "[FF0000]正在重启..." ]
     }
   },
   "GameNoticeSettings": {

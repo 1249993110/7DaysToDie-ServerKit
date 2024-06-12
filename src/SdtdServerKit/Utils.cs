@@ -6,6 +6,28 @@
     public static class Utils
     {
         /// <summary>
+        /// 检查玩家周围是否有僵尸
+        /// </summary>
+        /// <param name="_player"></param>
+        /// <returns></returns>
+        public static bool ZombieCheck(EntityPlayer _player)
+        {
+            var entities = GameManager.Instance.World.Entities.list;
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Entity entity = entities[i];
+                if (entity is EntityZombie && entity is EntityAlive entityAlive && entity.IsSpawned())
+                {
+                    if ((_player.serverPos.ToVector3() / 32f - entity.position).sqrMagnitude <= 80 * 80)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 判断两个玩家是否是好友
         /// </summary>
         /// <param name="entityId"></param>

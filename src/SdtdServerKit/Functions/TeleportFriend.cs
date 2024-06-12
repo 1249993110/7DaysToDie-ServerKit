@@ -61,6 +61,16 @@ namespace SdtdServerKit.Functions
                     return true;
                 }
 
+                if (ConfigManager.GlobalSettings.TeleZombieCheck &&
+                    GameManager.Instance.World.Players.dict.TryGetValue(onlinePlayer.EntityId, out EntityPlayer player))
+                {
+                    if (Utils.ZombieCheck(player))
+                    {
+                        SendMessageToPlayer(playerId, ConfigManager.GlobalSettings.TeleDisableTip);
+                        return true;
+                    }
+                }
+
                 await _pointsRepository.ChangePointsAsync(playerId, -Settings.PointsRequired);
 
                 Utils.TeleportPlayer(onlinePlayer.EntityId.ToString(), targetPlayer.entityId.ToString());

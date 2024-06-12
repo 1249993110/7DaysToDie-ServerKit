@@ -4,13 +4,21 @@
     "ChatCommandPrefix": "/",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]System error, please contact the server administrator.",
+    "TeleZombieCheck": true,
+    "TeleDisableTip": "[00FF00]Transmission is forbidden. Please check if your surroundings are safe.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"You killed a zombie, earned 1 point\" ", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]You killed a zombie, earned 1 point\" ", "ty-cpp {EntityId} 1" ]
     },
     "DeathTrigger": {
-      "IsEnabled": false, 
-      "ExecuteCommands": [ "ty-pm {EntityId} \"You died, deducted 1 point\"", "ty-cpp {EntityId} -1" ]
+      "IsEnabled": false,
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]You died, deducted 1 point\"", "ty-cpp {EntityId} -1" ]
+    },
+    "AutoRestart": {
+      "IsEnabled": false,
+      "RestartHour": 4,
+      "RestartMinute": 0,
+      "Messages": [ "[00FF00]The server will reboot in 3 seconds...", "[00FF00]The server will reboot in 2 seconds...", "[00FF00]The server will reboot in 1 second...", "[FF0000]Restarting..." ]
     }
   },
   "GameNoticeSettings": {

@@ -1,4 +1,6 @@
 ﻿using SdtdServerKit.Hooks;
+using SdtdServerKit.Managers;
+using System.Timers;
 using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit.Functions
@@ -8,10 +10,38 @@ namespace SdtdServerKit.Functions
     /// </summary>
     public class GlobalSettings : FunctionBase<FunctionSettings.GlobalSettings>
     {
+        private readonly SubTimer autoRestartTimer;
+        new private FunctionSettings.GlobalSettings Settings => ConfigManager.GlobalSettings;
         public GlobalSettings()
         {
             ModEventHook.EntityKilled += OnEntityKilled;
             ModEventHook.PlayerSpawnedInWorld += PlayerSpawnedInWorld;
+            autoRestartTimer = new SubTimer(AutoRestart, 5) { IsEnabled = true };
+            GlobalTimer.RegisterSubTimer(autoRestartTimer);
+        }
+
+        private async void AutoRestart()
+        {
+            DateTime now = DateTime.Now;
+            CustomLogger.Warn(JsonConvert.SerializeObject(Settings.AutoRestart));
+            if (Settings.AutoRestart.IsEnabled 
+                && now.Hour == Settings.AutoRestart.RestartHour 
+                && now.Minute == Settings.AutoRestart.RestartMinute
+                && ModApi.IsGameStartDone)
+            {
+                autoRestartTimer.IsEnabled = false;
+
+                if (Settings.AutoRestart.Messages != null)
+                {
+                    foreach (var item in Settings.AutoRestart.Messages)
+                    {
+                        Utils.ExecuteConsoleCommand("say \"" + item + "\"", true);
+                        await Task.Delay(1000);
+                    }
+                }
+
+                Utils.ExecuteConsoleCommand("ty-rs", true);
+            }
         }
 
         private void PlayerSpawnedInWorld(SpawnedPlayer player)

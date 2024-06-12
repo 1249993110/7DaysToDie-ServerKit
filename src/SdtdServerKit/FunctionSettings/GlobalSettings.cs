@@ -5,6 +5,13 @@
         public bool IsEnabled { get; set; }
         public string[] ExecuteCommands { get; set; }
     }
+    public class AutoRestart
+    {
+        public bool IsEnabled { get; set; }
+        public int RestartHour { get; set; }
+        public int RestartMinute { get; set; }
+        public string[] Messages { get; set; }
+    }
 
     public class GlobalSettings : ISettings
     {
@@ -30,7 +37,17 @@
 
         bool ISettings.IsEnabled { get ; set ; }
 
+        /// <summary>
+        /// 传送前是否检查玩家周围是否有僵尸
+        /// </summary>
+        public bool TeleZombieCheck { get; set; }
+        /// <summary>
+        /// 禁止传送提示
+        /// </summary>
+        public string TeleDisableTip { get; set; }
+
         public Trigger KillZombieTrigger { get; set; }
         public Trigger DeathTrigger { get; set; }
+        public AutoRestart AutoRestart { get; set; }
     }
 }

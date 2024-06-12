@@ -37,5 +37,9 @@
         /// 文件浏览器端口
         /// </summary>
         public int FileBrowserPort { get; set; }
+        /// <summary>
+        /// 文件浏览器地址
+        /// </summary>
+        public string FileBrowserUrl { get; set; } = null!;
     }
 }
