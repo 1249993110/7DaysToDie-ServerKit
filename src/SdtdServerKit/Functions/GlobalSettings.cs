@@ -23,7 +23,7 @@ namespace SdtdServerKit.Functions
         private async void AutoRestart()
         {
             DateTime now = DateTime.Now;
-            CustomLogger.Warn(JsonConvert.SerializeObject(Settings.AutoRestart));
+            
             if (Settings.AutoRestart.IsEnabled 
                 && now.Hour == Settings.AutoRestart.RestartHour 
                 && now.Minute == Settings.AutoRestart.RestartMinute
