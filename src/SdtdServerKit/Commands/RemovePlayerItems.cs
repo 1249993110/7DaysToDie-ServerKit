@@ -4,18 +4,18 @@ namespace SdtdServerKit.Commands
 {
     public class RemovePlayerItems : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Removes a player's items.";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Removes items with the specified name from a oplayer.\n" +
                 "Usage: ty-rpi <EntityId/PlayerId/PlayerName> <ItemName>\n";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new string[] { "ty-RemovePlayerItems", "ty-rpi" };
         }

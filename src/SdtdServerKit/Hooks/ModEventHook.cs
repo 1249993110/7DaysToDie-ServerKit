@@ -1,5 +1,4 @@
-﻿using Epic.OnlineServices.Presence;
-using System.Text;
+﻿using System.Text;
 using UnityEngine;
 
 namespace SdtdServerKit.Hooks
@@ -95,11 +94,10 @@ namespace SdtdServerKit.Hooks
         /// <param name="senderId"></param>
         /// <param name="message"></param>
         /// <param name="mainName"></param>
-        /// <param name="localizeMain"></param>
         /// <param name="recipientEntityIds"></param>
         /// <returns></returns>
         public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderId, string message,
-            string mainName, bool localizeMain, List<int> recipientEntityIds)
+            string mainName, List<int> recipientEntityIds)
         {
             if(ChatMessage == null)
             {
@@ -118,7 +116,8 @@ namespace SdtdServerKit.Hooks
                 EntityId = senderId,
                 PlayerId = playerId,
                 Message = message,
-                SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),
+                //SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),
+                SenderName = clientInfo?.playerName ?? Localization.Get(mainName),
             };
 
             ChatMessageHook.OnChatMessage(chatMessage);

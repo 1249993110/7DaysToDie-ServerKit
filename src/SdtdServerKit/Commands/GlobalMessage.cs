@@ -2,12 +2,12 @@
 {
     public class GlobalMessage : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Sends a message to all connected clients.";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Usage:\n" +
                "  1. ty-gm <Message>\n" +
@@ -16,7 +16,7 @@
                "2. Sends a message to all connected clients by sender name";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new string[]
             {
@@ -37,7 +37,7 @@
             string message = args[0];
             string senderName = (args.Count < 2 || string.IsNullOrEmpty(args[1])) ? Common.DefaultServerName : args[1];
 
-            GameManager.Instance.ChatMessageServer(ModApi.CmdExecuteDelegate, EChatType.Global, -1, message, senderName, false, null);
+            GameManager.Instance.ChatMessageServer(ModApi.CmdExecuteDelegate, EChatType.Global, -1, message, senderName, null);
         }
     }
 }

@@ -2,19 +2,19 @@
 {
     public class SaveXmlsToFolder : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Save all world static xml data to a folder.";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Usage:\n" +
                 "  1. ty-sxtf \"C:/Users/Administrator/Desktop/Temp\"" +
                 "1. Save all world static xml data to a specified folder.";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new string[]
             {

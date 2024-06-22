@@ -2,19 +2,19 @@
 {
     public class SayToPlayer : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Send a message to a single player.";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Usage:\n" +
                    "  1. ty-pm <EntityId/PlayerId/PlayerName> <Message>\n" +
                    "1. Send a PM to the player given by the entity id or player id or player name (as given by e.g. \"lpi\").";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new[] { "ty-SayToPlayer", "ty-pm" };
         }
@@ -38,7 +38,7 @@
                 senderName = sender.playerName;
             }
 
-            receiver.SendPackage(NetPackageManager.GetPackage<NetPackageChat>().Setup(EChatType.Whisper, -1, message, senderName, false, null));
+            receiver.SendPackage(NetPackageManager.GetPackage<NetPackageChat>().Setup(EChatType.Whisper, -1, message, senderName, null));
 
             CustomLogger.Info("Message \"{0}\" to player {1} sent with sender {2}.", message, receiver.PlatformId.CombinedString, senderId);
         }

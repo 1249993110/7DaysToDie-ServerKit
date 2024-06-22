@@ -1,5 +1,4 @@
-﻿using Epic.OnlineServices.Presence;
-using System.IO;
+﻿using System.IO;
 
 namespace SdtdServerKit.Extensions
 {
@@ -151,11 +150,12 @@ namespace SdtdServerKit.Extensions
             var world = GameManager.Instance.World;
             var stats = playerDataFile.ecd.stats;
             var progression = ReadProgressionData(playerDataFile.progressionData);
+
             return new T()
             {
-                PlatformId = persistentPlayerData.PlatformUserIdentifier.CombinedString,
-                CrossplatformId = persistentPlayerData.UserIdentifier.CombinedString,
-                PlayerName = persistentPlayerData.PlayerName,
+                PlatformId = persistentPlayerData.NativeId.CombinedString,
+                CrossplatformId = persistentPlayerData.PrimaryId.CombinedString,
+                PlayerName = persistentPlayerData.PlayerName.DisplayName,
                 Position = persistentPlayerData.Position.ToPosition(),
                 LastLogin = persistentPlayerData.LastLogin,
 

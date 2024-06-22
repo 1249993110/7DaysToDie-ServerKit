@@ -30,10 +30,10 @@ namespace SdtdServerKit.WebApi.Controllers
                         locations.Add(new EntityInfoEx()
                         {
                             EntityId = player.EntityId,
-                            EntityName = player.PlayerName,
+                            EntityName = player.PlayerName.DisplayName,
                             Position = player.Position.ToPosition(),
                             EntityType = Shared.Models.EntityType.OfflinePlayer,
-                            PlayerId = player.UserIdentifier.CombinedString,
+                            PlayerId = player.PrimaryId.CombinedString,
                         });
                     }
                 }

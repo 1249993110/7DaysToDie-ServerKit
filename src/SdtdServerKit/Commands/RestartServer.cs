@@ -6,12 +6,12 @@ namespace SdtdServerKit.Commands
 {
     public class RestartServer : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Restart server, optional parameter -f/force.";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Usage:\n" +
                 "  1. ty-rs" +
@@ -20,7 +20,7 @@ namespace SdtdServerKit.Commands
                 "2. Force restart server";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new[] { "ty-rs", "ty-RestartServer" };
         }

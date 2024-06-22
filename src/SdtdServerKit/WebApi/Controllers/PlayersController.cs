@@ -111,9 +111,9 @@ namespace SdtdServerKit.WebApi.Controllers
                 var filterByKeyword = new List<PersistentPlayerData>();
                 foreach (var item in persistentPlayersDict.Values)
                 {
-                    if (string.Equals(item.UserIdentifier.CombinedString, keyword, StringComparison.OrdinalIgnoreCase) 
-                        || string.Equals(item.PlatformUserIdentifier.CombinedString, keyword, StringComparison.OrdinalIgnoreCase)
-                        || item.PlayerName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) != -1)
+                    if (string.Equals(item.PrimaryId.CombinedString, keyword, StringComparison.OrdinalIgnoreCase) 
+                        || string.Equals(item.NativeId.CombinedString, keyword, StringComparison.OrdinalIgnoreCase)
+                        || item.PlayerName.DisplayName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) != -1)
                     {
                         total += 1;
                         filterByKeyword.Add(item);

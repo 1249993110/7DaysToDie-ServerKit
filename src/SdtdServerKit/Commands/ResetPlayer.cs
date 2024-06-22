@@ -5,17 +5,17 @@ namespace SdtdServerKit.Commands
 {
     public class ResetPlayer : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Reset a players profile. * WARNING * Can not be undone without a backup.";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Usage: ty-rpp <EOS/EntityId/PlayerName>";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new string[] { "ty-ResetPlayerProfile", "ty-rpp" };
         }
@@ -45,7 +45,7 @@ namespace SdtdServerKit.Commands
                     var persistentPlayersDict = GameManager.Instance.GetPersistentPlayerList().Players;
                     if (persistentPlayersDict.TryGetValue(userId, out var persistentPlayerData))
                     {
-                        ResetProfileExec(persistentPlayerData.UserIdentifier);
+                        ResetProfileExec(persistentPlayerData.PrimaryId);
                         return;
                     }
                 }

@@ -16,7 +16,7 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageProjectUrl>https://github.com/1249993110/7DaysToDie-ServerKit</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/1249993110/7DaysToDie-ServerKit</RepositoryUrl>
-		<Version>1.0.0</Version>
+		<Version>10.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

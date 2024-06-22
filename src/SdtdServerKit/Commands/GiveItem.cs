@@ -4,12 +4,12 @@ namespace SdtdServerKit.Commands
 {
     public class GiveItem : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Gives a item directly to a player's inventory. Drops to the ground if inventory is full.";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Usage:\n" +
                 "  1. ty-gi <EntityId/PlayerId/PlayerName> <ItemName> <Count> <Quality> <Durability>\n" +
@@ -30,7 +30,7 @@ namespace SdtdServerKit.Commands
                 "8. Gives all players the item with 1 count 1 quality and 100 percent durability\n";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new string[] { "ty-GiveItem", "ty-gi", "ty-give" };
         }

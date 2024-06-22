@@ -4,17 +4,17 @@ namespace SdtdServerKit.Commands
 {
     public class GarbageCollection : ConsoleCmdBase
     {
-        protected override string getDescription()
+        public override string getDescription()
         {
             return "Garbage collection";
         }
 
-        protected override string getHelp()
+        public override string getHelp()
         {
             return "Usage: ty-gc";
         }
 
-        protected override string[] getCommands()
+        public override string[] getCommands()
         {
             return new string[]
             {

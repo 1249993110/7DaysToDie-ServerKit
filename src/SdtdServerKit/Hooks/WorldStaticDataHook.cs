@@ -4,6 +4,7 @@ using System.Collections;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Xml;
+using static WorldStaticData;
 
 namespace SdtdServerKit.Hooks
 {
@@ -14,23 +15,18 @@ namespace SdtdServerKit.Hooks
 
         public static void ReplaceXmlsToImplRemovePlayerItems()
         {
-            if (typeof(WorldStaticData).GetField("xmlsToLoad", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) is IEnumerable xmlsToLoad)
+            var xmlsToLoad = WorldStaticData.xmlsToLoad;
+
+            //if (typeof(WorldStaticData).GetField("xmlsToLoad", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) is IEnumerable xmlsToLoad)
             {
                 var addedTags = new HashSet<string>();
 
-                Type? type = null;
-                FieldInfo? nameField = null;
-                FieldInfo? dataField = null;
+                Type? type = typeof(XmlLoadInfo);
+                FieldInfo? nameField = type.GetField("XmlName", BindingFlags.Instance | BindingFlags.Public);
+                FieldInfo? dataField = type.GetField("CompressedXmlData", BindingFlags.Instance | BindingFlags.Public);
                 foreach (var item in xmlsToLoad)
                 {
-                    if (type == null || dataField == null || nameField == null)
-                    {
-                        type = item.GetType();
-                        nameField = type.GetField("XmlName", BindingFlags.Instance | BindingFlags.Public);
-                        dataField = type.GetField("CompressedXmlData", BindingFlags.Instance | BindingFlags.Public);
-                    }
-
-                    var xmlName = (string)nameField.GetValue(item);
+                    string xmlName = (string)nameField.GetValue(item);
                     if (xmlName == "blocks")
                     {
                         if (dataField.GetValue(item) is byte[] compressedXmlData)
