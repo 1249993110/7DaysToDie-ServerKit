@@ -49,5 +49,10 @@
         public Trigger KillZombieTrigger { get; set; }
         public Trigger DeathTrigger { get; set; }
         public AutoRestart AutoRestart { get; set; }
+
+        /// <summary>
+        /// 禁止家庭共享账号加入服务器
+        /// </summary>
+        public bool BlockFamilySharingAccount { get; set; }
     }
 }

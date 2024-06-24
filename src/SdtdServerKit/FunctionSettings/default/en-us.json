@@ -19,7 +19,8 @@
       "RestartHour": 4,
       "RestartMinute": 0,
       "Messages": [ "[00FF00]The server will reboot in 3 seconds...", "[00FF00]The server will reboot in 2 seconds...", "[00FF00]The server will reboot in 1 second...", "[FF0000]Restarting..." ]
-    }
+    },
+    "BlockFamilySharingAccount": true
   },
   "GameNoticeSettings": {
     "IsEnabled": false,

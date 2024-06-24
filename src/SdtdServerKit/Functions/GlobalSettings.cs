@@ -1,4 +1,5 @@
-﻿using SdtdServerKit.Hooks;
+﻿using Platform.Steam;
+using SdtdServerKit.Hooks;
 using SdtdServerKit.Managers;
 using System.Timers;
 using Webserver.WebAPI.APIs.WorldState;
@@ -15,9 +16,24 @@ namespace SdtdServerKit.Functions
         public GlobalSettings()
         {
             ModEventHook.EntityKilled += OnEntityKilled;
-            ModEventHook.PlayerSpawnedInWorld += PlayerSpawnedInWorld;
+            ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
             autoRestartTimer = new SubTimer(AutoRestart, 5) { IsEnabled = true };
             GlobalTimer.RegisterSubTimer(autoRestartTimer);
+            ModEventHook.PlayerLogin += OnPlayerLogin;
+        }
+
+        private void OnPlayerLogin(ClientInfo clientInfo)
+        {
+            BlockFamilySharingAccount(clientInfo);
+        }
+        private void BlockFamilySharingAccount(ClientInfo clientInfo)
+        {
+            if (Settings.BlockFamilySharingAccount 
+                && clientInfo.PlatformId is UserIdentifierSteam userIdentifierSteam
+                && userIdentifierSteam.OwnerId.Equals(userIdentifierSteam) == false)
+            {
+                Utils.ExecuteConsoleCommand("kick " + clientInfo.entityId + " \"Family sharing account is not allowed to join the server!\"");
+            }
         }
 
         private async void AutoRestart()
@@ -44,7 +60,7 @@ namespace SdtdServerKit.Functions
             }
         }
 
-        private void PlayerSpawnedInWorld(SpawnedPlayer player)
+        private void OnPlayerSpawnedInWorld(SpawnedPlayer player)
         {
             if(Settings.DeathTrigger.IsEnabled)
             {

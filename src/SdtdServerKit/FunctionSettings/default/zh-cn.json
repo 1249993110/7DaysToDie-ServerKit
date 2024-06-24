@@ -19,7 +19,8 @@
       "RestartHour": 4,
       "RestartMinute": 0,
       "Messages": [ "[00FF00]服务器将在 3 秒后重启...", "[00FF00]服务器将在 2 秒后重启...", "[00FF00]服务器将在 1 秒后重启...", "[FF0000]正在重启..." ]
-    }
+    },
+    "BlockFamilySharingAccount": true
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
