@@ -105,15 +105,16 @@ namespace SdtdServerKit.Hooks
             }
 
             string? playerId = null;
-            if(GameManager.Instance.World.Players.dict.TryGetValue(senderId, out EntityPlayer player))
+            int entityId = clientInfo == null ? senderId : clientInfo.entityId;
+            if(GameManager.Instance.World.Players.dict.TryGetValue(entityId, out EntityPlayer player))
             {
-                playerId = ConnectionManager.Instance.Clients.ForEntityId(senderId)?.InternalId.CombinedString;
+                playerId = ConnectionManager.Instance.Clients.ForEntityId(entityId)?.InternalId.CombinedString;
             }
         
             var chatMessage = new ChatMessage()
             {
                 ChatType = (ChatType)eChatType,
-                EntityId = senderId,
+                EntityId = entityId,
                 PlayerId = playerId,
                 Message = message,
                 //SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),

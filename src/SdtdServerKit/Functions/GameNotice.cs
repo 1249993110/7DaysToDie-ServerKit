@@ -70,7 +70,12 @@ namespace SdtdServerKit.Functions
                         _lastRotatingIndex = 0;
                     }
 
-                    SendGlobalMessage(rotatingNotices[_lastRotatingIndex]);
+                    string message = rotatingNotices[_lastRotatingIndex];
+                    if(string.IsNullOrEmpty(message) == false)
+                    {
+                        SendGlobalMessage(message);
+                    }
+                    
                     _lastRotatingIndex++;
                 }
             }

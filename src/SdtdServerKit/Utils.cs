@@ -168,9 +168,9 @@
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static string FormatCommandArgs(string? args)
+        public static string FormatCommandArgs(string args)
         {
-            if (args == null)
+            if (string.IsNullOrEmpty(args))
             {
                 return string.Empty;
             }
