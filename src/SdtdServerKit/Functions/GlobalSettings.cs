@@ -19,17 +19,11 @@ namespace SdtdServerKit.Functions
             ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
             autoRestartTimer = new SubTimer(AutoRestart, 5) { IsEnabled = true };
             GlobalTimer.RegisterSubTimer(autoRestartTimer);
-            ModEventHook.PlayerLogin += OnPlayerLogin;
         }
 
-        private void OnPlayerLogin(ClientInfo clientInfo)
-        {
-            BlockFamilySharingAccount(clientInfo);
-        }
         private void BlockFamilySharingAccount(ClientInfo clientInfo)
         {
-            if (Settings.BlockFamilySharingAccount 
-                && clientInfo.PlatformId is UserIdentifierSteam userIdentifierSteam
+            if (clientInfo.PlatformId is UserIdentifierSteam userIdentifierSteam
                 && userIdentifierSteam.OwnerId.Equals(userIdentifierSteam) == false)
             {
                 Utils.ExecuteConsoleCommand("kick " + clientInfo.entityId + " \"Family sharing account is not allowed to join the server!\"");
@@ -62,7 +56,17 @@ namespace SdtdServerKit.Functions
 
         private void OnPlayerSpawnedInWorld(SpawnedPlayer player)
         {
-            if(Settings.DeathTrigger.IsEnabled)
+            if (Settings.BlockFamilySharingAccount)
+            {
+                if(player.RespawnType == Shared.Models.RespawnType.EnterMultiplayer 
+                    || player.RespawnType == Shared.Models.RespawnType.JoinMultiplayer)
+                {
+                    var clientInfo = ConnectionManager.Instance.Clients.ForEntityId(player.EntityId);
+                    BlockFamilySharingAccount(clientInfo);
+                }
+            }
+
+            if (Settings.DeathTrigger.IsEnabled)
             {
                 if (player.RespawnType == Shared.Models.RespawnType.Died) 
                 {

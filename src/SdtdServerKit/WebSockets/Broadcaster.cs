@@ -60,7 +60,7 @@ namespace SdtdServerKit.WebSockets
             ModEventHook.EntityKilled += (killedEntity) => Broadcast(ModEventType.EntityKilled, killedEntity);
             ModEventHook.EntitySpawned += () => Broadcast(ModEventType.EntitySpawned);
             ModEventHook.PlayerDisconnected += (onlinePlayer) => Broadcast(ModEventType.PlayerDisconnected, onlinePlayer);
-            ModEventHook.PlayerLogin += (clientInfo) => Broadcast(ModEventType.PlayerLogin, clientInfo.ToOnlinePlayer());
+            ModEventHook.PlayerLogin += (onlinePlayer) => Broadcast(ModEventType.PlayerLogin, onlinePlayer);
             ModEventHook.PlayerSpawnedInWorld += (spawnedPlayer) => Broadcast(ModEventType.PlayerSpawnedInWorld, spawnedPlayer);
             ModEventHook.PlayerSpawning += (onlinePlayer) => Broadcast(ModEventType.PlayerSpawning, onlinePlayer);
             ModEventHook.SavePlayerData += (onlinePlayer) => Broadcast(ModEventType.SavePlayerData, onlinePlayer);

@@ -16,7 +16,7 @@ namespace SdtdServerKit.Hooks
         public static event Action<KilledEntity> EntityKilled;
         public static event Action EntitySpawned;
         public static event Action<OnlinePlayer> PlayerDisconnected;
-        public static event Action<ClientInfo> PlayerLogin;
+        public static event Action<OnlinePlayer> PlayerLogin;
         public static event Action<SpawnedPlayer> PlayerSpawnedInWorld;
         public static event Action<OnlinePlayer> PlayerSpawning;
         public static event Action<OnlinePlayer> SavePlayerData;
@@ -202,7 +202,7 @@ namespace SdtdServerKit.Hooks
         /// <param name="stringBuilder"></param>
         public static bool OnPlayerLogin(ClientInfo clientInfo, string compatibilityVersion, StringBuilder stringBuilder)
         {
-            PlayerLogin?.Invoke(clientInfo);
+            PlayerLogin?.Invoke(clientInfo.ToOnlinePlayer());
             return true;
         }
 
