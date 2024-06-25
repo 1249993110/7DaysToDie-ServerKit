@@ -78,7 +78,7 @@ namespace SdtdServerKit.Commands
             {
                 scriptName = "restart-linux.sh";
                 serverPath = AppDomain.CurrentDomain.BaseDirectory;
-                Process.Start("chmod", " +x " + Path.Combine(ModApi.ModInstance.Path, scriptName));
+                Process.Start("chmod", " +x " + Path.Combine(ModApi.ModInstance.Path, scriptName)).WaitForExit();
             }
 
             string path = Path.Combine(ModApi.ModInstance.Path, scriptName);

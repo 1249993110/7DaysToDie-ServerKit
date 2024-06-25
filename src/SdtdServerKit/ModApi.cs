@@ -114,7 +114,7 @@ namespace SdtdServerKit
                 CustomLogger.Error(ex, "Load file browser failed.");
             }
         }
-        private static Process SilentStartProcess(string fileName, string argument = "")
+        private static Process SilentStartProcess(string fileName, string argument)
         {
             string directory = Path.GetDirectoryName(fileName);
 
@@ -140,6 +140,10 @@ namespace SdtdServerKit
             if (isWindows)
             {
                 binPath += ".exe";
+            }
+            else
+            {
+                Process.Start("chmod", " +x \"" + binPath + "\"").WaitForExit();
             }
 
             if (File.Exists(binPath) == false)
@@ -168,7 +172,7 @@ namespace SdtdServerKit
                 }
             }
 
-            process = SilentStartProcess(binPath);
+            process = SilentStartProcess(binPath, string.Empty);
             AppDomain.CurrentDomain.ProcessExit += (s, e) =>
             {
                 if (process.HasExited == false)
@@ -317,6 +321,15 @@ namespace SdtdServerKit
             var builder = new ContainerBuilder();
 
             #region 注册数据库仓储服务
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                string destPath = Path.Combine(AppContext.BaseDirectory, "7DaysToDieServer_Data/MonoBleedingEdge/x86_64", "libdl.so");
+                if (File.Exists(destPath) == false)
+                {
+                    string srcPath = Path.Combine(ModInstance.Path, "libe_sqlite3.so");
+                    File.Copy(srcPath, destPath, true);
+                }
+            }
 
             SqlMapper.AddTypeHandler(new GuidHandler());
 

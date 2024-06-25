@@ -16,7 +16,7 @@
             for (int i = 0; i < entities.Count; i++)
             {
                 Entity entity = entities[i];
-                if (entity is EntityZombie && entity is EntityAlive entityAlive && entity.IsSpawned())
+                if (entity is EntityZombie zombie && zombie.IsSpawned() && zombie.IsAlive())
                 {
                     if ((_player.serverPos.ToVector3() / 32f - entity.position).sqrMagnitude <= 80 * 80)
                     {
