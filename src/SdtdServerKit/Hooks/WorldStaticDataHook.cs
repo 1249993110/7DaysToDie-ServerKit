@@ -16,46 +16,32 @@ namespace SdtdServerKit.Hooks
         public static void ReplaceXmlsToImplRemovePlayerItems()
         {
             var xmlsToLoad = WorldStaticData.xmlsToLoad;
+            var addedTags = new HashSet<string>();
 
-            //if (typeof(WorldStaticData).GetField("xmlsToLoad", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) is IEnumerable xmlsToLoad)
+            Type type = typeof(XmlLoadInfo);
+            FieldInfo dataField = type.GetField("CompressedXmlData", BindingFlags.Instance | BindingFlags.Public);
+            foreach (var item in xmlsToLoad)
             {
-                var addedTags = new HashSet<string>();
-
-                Type? type = typeof(XmlLoadInfo);
-                FieldInfo? nameField = type.GetField("XmlName", BindingFlags.Instance | BindingFlags.Public);
-                FieldInfo? dataField = type.GetField("CompressedXmlData", BindingFlags.Instance | BindingFlags.Public);
-                foreach (var item in xmlsToLoad)
+                string xmlName = item.XmlName;
+                byte[] compressedXmlData = item.CompressedXmlData;
+                if (xmlName == "blocks")
                 {
-                    string xmlName = (string)nameField.GetValue(item);
-                    if (xmlName == "blocks")
-                    {
-                        if (dataField.GetValue(item) is byte[] compressedXmlData)
-                        {
-                            var modified = AttachTags(xmlName, compressedXmlData, addedTags);
-                            dataField.SetValue(item, modified);
-                            CustomLogger.Info("Successfully attach blocks tags, length: " + modified.Length);
-                        }
-                    }
-                    else if (xmlName == "items")
-                    {
-                        if (dataField.GetValue(item) is byte[] compressedXmlData)
-                        {
-                            var modified = AttachTags(xmlName, compressedXmlData, addedTags);
-                            dataField.SetValue(item, modified);
-                            CustomLogger.Info("Successfully attach items tags, length: " + modified.Length);
-                        }
-                    }
-                    else if (xmlName == "gameevents")
-                    {
-                        if (dataField.GetValue(item) is byte[] compressedXmlData)
-                        {
-                            var modified = GenerateGameevents(xmlName, compressedXmlData, addedTags);
-                            dataField.SetValue(item, modified);
-                            CustomLogger.Info("Successfully generate gameevents, length: " + modified.Length);
-                        }
-
-                        break;
-                    }
+                    var modified = AttachTags(xmlName, compressedXmlData, addedTags);
+                    dataField.SetValue(item, modified);
+                    CustomLogger.Info("Successfully attach blocks tags, length: " + modified.Length);
+                }
+                else if (xmlName == "items")
+                {
+                    var modified = AttachTags(xmlName, compressedXmlData, addedTags);
+                    dataField.SetValue(item, modified);
+                    CustomLogger.Info("Successfully attach items tags, length: " + modified.Length);
+                }
+                else if (xmlName == "gameevents")
+                {
+                    var modified = GenerateGameevents(xmlName, compressedXmlData, addedTags);
+                    dataField.SetValue(item, modified);
+                    CustomLogger.Info("Successfully generate gameevents, length: " + modified.Length);
+                    break;
                 }
             }
         }

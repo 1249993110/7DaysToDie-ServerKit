@@ -7,8 +7,8 @@
             return new OnlinePlayer()
             {
                 EntityId = clientInfo.entityId,
-                PlatformId = clientInfo.PlatformId.CombinedString,
-                CrossplatformId = clientInfo.CrossplatformId.CombinedString,
+                PlatformId = clientInfo.PlatformId?.CombinedString ?? string.Empty,
+                CrossplatformId = clientInfo.CrossplatformId?.CombinedString ?? string.Empty,
                 PlayerName = clientInfo.playerName,
                 Ip = clientInfo.ip,
                 Ping = clientInfo.ping,
@@ -30,8 +30,8 @@
             return new SpawnedPlayer()
             {
                 EntityId = clientInfo.entityId,
-                PlatformId = clientInfo.PlatformId.CombinedString,
-                CrossplatformId = clientInfo.CrossplatformId.CombinedString,
+                PlatformId = clientInfo.PlatformId?.CombinedString ?? string.Empty,
+                CrossplatformId = clientInfo.CrossplatformId?.CombinedString ?? string.Empty,
                 PlayerName = clientInfo.playerName,
                 Ip = clientInfo.ip,
                 Ping = clientInfo.ping,
