@@ -6,7 +6,7 @@
   "ServerDescription": {
     "Group": "服务器",
     "Desc": "服务器描述。 随便填写你喜欢的服务器描述"
-  },  
+  },
   "ServerWebsiteURL": {
     "Group": "服务器",
     "Desc": "服务器网站地址。将以可点击链接的形式显示在服务器浏览器中"
@@ -20,15 +20,15 @@
     "Desc": "服务器登录确认文本。如果设置了该选项, 用户将在加入服务器时看到该信息, 并必须确认后才能继续。要对该窗口进行更复杂的更改, 可在 XUi 中更改 serverjoinrulesdialog 窗口"
   },
   "Region": {
-	"Group": "服务器",
+    "Group": "服务器",
     "Desc": "服务器所在的地区。可选值有: Asia, NorthAmericaEast, NorthAmericaWest, CentralAmerica, SouthAmerica, Europe, Russia, MiddleEast, Africa, Oceania"
   },
   "Language": {
-	"Group": "服务器",
+    "Group": "服务器",
     "Desc": "服务器上玩家的主要语言。使用玩家希望搜索的任何语言英文名称。可选值有: english, german, spanish, french, italian, japanese, koreana, polish, brazilian, russian, turkish, schinese, tchinese"
   },
   "ServerPort": {
-	"Group": "网络",
+    "Group": "网络",
     "Desc": "服务器程序监听的端口。如果希望同一局域网内的电脑将其视为局域网服务器, 请将其保持在 26900 至 26905 或 27015 至 27020 的范围内"
   },
   "ServerVisibility": {
@@ -119,6 +119,10 @@
     "Group": "其他技术设置",
     "Desc": "EAC反作弊是否启动。是否开启反作弊功能(破解和汉化的服务器需要关闭)"
   },
+  "IgnoreEOSSanctions": {
+    "Group": "其他技术设置",
+    "Desc": "忽略 EOS 制裁。在允许玩家加入时忽略 EOS 制裁"
+  },
   "HideCommandExecutionLog": {
     "Group": "其他技术设置",
     "Desc": "隐藏命令执行记录。0 = 显示所有内容, 1 = 仅从 Telnet/控制面板隐藏, 2 = 也从远程游戏客户端隐藏, 3 = 隐藏所有内容"
@@ -130,7 +134,15 @@
   "PersistentPlayerProfiles": {
     "Group": "其他技术设置",
     "Desc": "玩家档案是否可以变更。如果禁用, 玩家可以使用任何选定的配置文件加入。如果为 true, 他们将使用上次加入时的配置文件加入"
-  },  
+  },
+  "MaxChunkAge": {
+    "Group": "其他技术设置",
+    "Desc": "在游戏中, 如果没有重新访问或保护（例如, 在附近有领地石或睡袋）, 则在访问某个小块后, 该小块会重置为原始状态的天数"
+  },
+  "SaveDataLimit": {
+    "Group": "其他技术设置",
+    "Desc": "保存数据限制。每个已保存游戏的最大磁盘空间允许值, 单位为 MB。当达到此限制时, 保存的游戏块可能会被强制重置为原始状态, 以释放空间。负值表示禁用限制"
+  },
   "GameWorld": {
     "Group": "游戏世界",
     "Desc": "游戏世界地图。Navezgane[固定地图], RWG[随机地图]（请参阅下文的 '世界种子' 和 '世界大小' 选项）或 'Worlds' 文件夹中任何已存在的世界名称（例如 'Navezgane'、'PREGEN01'......）"
@@ -190,23 +202,23 @@
   "DayLightLength": {
     "Group": "游戏难度",
     "Desc": "游戏里日照时长。代表一天当中的多少小时是白天(默认18小时)"
-  },  
+  },
   "DeathPenalty": {
     "Group": "游戏难度",
     "Desc": "死亡后的惩罚。0 = 无。1 = 默认：经典 XP 惩罚。2 = 受伤：你将保留大部分debuff。重生时食物和水的比例设定为 50%。3 = 永久死亡：您的角色将完全重置。您将在保存的游戏中从新重生)"
-  },   
+  },
   "DropOnDeath": {
     "Group": "游戏难度",
     "Desc": "死亡掉落。0 = 无, 1 = 所有, 2 = 仅工具带, 3 = 仅背包, 4 = 全部删除"
-  },  
+  },
   "DropOnQuit": {
     "Group": "游戏难度",
     "Desc": "登出掉落。0 = 无, 1 = 所有, 2 = 仅工具带, 3 = 仅背包"
-  },  
+  },
   "BedrollDeadZoneSize": {
     "Group": "游戏难度",
     "Desc": "睡袋禁区的大小（即每边长度为给定值的两倍的方框“半径”）, 在这个区域内不会生成僵尸, 任何已清理的睡眠者区域若与睡袋禁区相接触, 则在清理后不会再生成"
-  },  
+  },
   "BedrollExpiryTime": {
     "Group": "游戏难度",
     "Desc": "睡袋到期时间。睡袋在所有者最后一次在线后保持有效的真实世界天数数量"
@@ -222,15 +234,15 @@
   "ServerMaxAllowedViewDistance": {
     "Group": "性能相关",
     "Desc": "客户端允许的最大视距（6 - 12）。对内存使用和性能影响较大"
-  },  
+  },
   "MaxQueuedMeshLayers": {
     "Group": "性能相关",
     "Desc": "网格生成过程中可排队的 Chunk 网格层的最大数量。减少该值会提高内存使用率, 但可能会增加 Chunk 生成时间"
-  },   
+  },
   "EnemySpawnMode": {
     "Group": "僵尸设置",
     "Desc": "启用/禁用敌人生成。"
-  }, 
+  },
   "EnemyDifficulty": {
     "Group": "僵尸设置",
     "Desc": "僵尸强度。0 = 正常, 1 = 狂暴"
@@ -254,7 +266,7 @@
   "ZombieBMMove": {
     "Group": "僵尸设置",
     "Desc": "僵尸BM移动。0-4（步行、慢跑、跑步、冲刺、噩梦）"
-  },  
+  },
   "BloodMoonFrequency": {
     "Group": "僵尸设置",
     "Desc": "血月频率。血月出现的频率（天数）, 设置为 0 表示没有血月"
@@ -298,11 +310,11 @@
   "LandClaimCount": {
     "Group": "领地石选项",
     "Desc": "领地石数量。每位玩家允许的领地石上限"
-  },  
+  },
   "LandClaimSize": {
     "Group": "领地石选项",
     "Desc": "领地石保护范围。单位为方块"
-  }, 
+  },
   "LandClaimDeadZone": {
     "Group": "领地石选项",
     "Desc": "领地石的相隔范围。领地石必须超过这个距离才能设置（除非您与对方是好友）"
@@ -326,37 +338,29 @@
   "LandClaimOfflineDelay": {
     "Group": "领地石选项",
     "Desc": "玩家退出游戏后, 领地石硬度从联机状态转为离线状态的分钟数。默认为 0"
-  },  
+  },
   "DynamicMeshEnabled": {
     "Group": "其他",
     "Desc": "是否启用动态网格系统"
-  },   
+  },
   "DynamicMeshLandClaimOnly": {
     "Group": "其他",
     "Desc": "动态网格系统是否只在玩家 LCB 区域有效"
-  }, 
+  },
   "DynamicMeshLandClaimBuffer": {
     "Group": "其他",
     "Desc": "动态网格 LCB 块半径"
-  }, 
+  },
   "DynamicMeshMaxItemCache": {
     "Group": "其他",
     "Desc": "动态网格最大项目缓存。可同时处理多少个项目, 数值越大, 使用的 RAM 越多"
-  }, 
+  },
   "TwitchServerPermission": {
     "Group": "其他",
     "Desc": "在服务器上使用 twitch 集成所需的权限级别"
-  }, 
+  },
   "TwitchBloodMoonAllowed": {
     "Group": "其他",
     "Desc": "是否允许 Twitch 血月。如果服务器允许在血月期间进行Twitch操作, 可能会在血月期间产生额外的僵尸, 从而导致服务器滞后"
-  }, 
-  "MaxChunkAge": {
-    "Group": "其他",
-    "Desc": "在游戏中, 如果没有重新访问或保护（例如, 在附近有领地石或睡袋）, 则在访问某个小块后, 该小块会重置为原始状态的天数"
-  }, 
-  "SaveDataLimit": {
-    "Group": "其他",
-    "Desc": "保存数据限制。每个已保存游戏的最大磁盘空间允许值, 单位为 MB。当达到此限制时, 保存的游戏块可能会被强制重置为原始状态, 以释放空间。负值表示禁用限制"
   }
 }
