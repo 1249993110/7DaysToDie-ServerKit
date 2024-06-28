@@ -41,5 +41,9 @@
         /// 文件浏览器地址
         /// </summary>
         public string FileBrowserUrl { get; set; } = null!;
+        /// <summary>
+        /// 服务器配置文件名
+        /// </summary>
+        public string ServerSettingsFileName { get; set; } = null!;
     }
 }

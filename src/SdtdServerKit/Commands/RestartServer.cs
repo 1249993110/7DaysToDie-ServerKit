@@ -73,16 +73,17 @@ namespace SdtdServerKit.Commands
             {
                 scriptName = "restart-windows.bat";
                 serverPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "startdedicated.bat");
+                string path = Path.Combine(ModApi.ModInstance.Path, scriptName);
+                Process.Start(path, string.Format("{0} \"{1}\"", Process.GetCurrentProcess().Id, serverPath));
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 scriptName = "restart-linux.sh";
                 serverPath = AppDomain.CurrentDomain.BaseDirectory;
                 Process.Start("chmod", " +x " + Path.Combine(ModApi.ModInstance.Path, scriptName)).WaitForExit();
+                string path = Path.Combine(ModApi.ModInstance.Path, scriptName);
+                Process.Start(path, string.Format("{0} {1}", Process.GetCurrentProcess().Id, ModApi.AppSettings.ServerSettingsFileName));
             }
-
-            string path = Path.Combine(ModApi.ModInstance.Path, scriptName);
-            Process.Start(path, string.Format("{0} \"{1}\"", Process.GetCurrentProcess().Id, serverPath));
         }
 
         public RestartServer()

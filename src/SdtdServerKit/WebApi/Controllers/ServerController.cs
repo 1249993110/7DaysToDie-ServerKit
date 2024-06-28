@@ -303,8 +303,8 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(Settings))]
         public List<NameDescValue> Settings([FromUri]string culture = Cultures.ZhCn)
         {
-            string fileName = culture.ToLower() + ".json";
-            string path = Path.Combine(ModApi.ModInstance.Path, "ServerSettings", "default", fileName);
+            string fileName = "serversettings" + culture.ToLower() + ".json";
+            string path = ModApi.GetDefaultConfigPath(fileName);
             string json = File.ReadAllText(path, Encoding.UTF8);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, DescValue>>(json);
 
@@ -315,7 +315,7 @@ namespace SdtdServerKit.WebApi.Controllers
 
             var result = new List<NameDescValue>();
 
-            path = Path.Combine(AppContext.BaseDirectory, "serverconfig.xml");
+            path = Path.Combine(AppContext.BaseDirectory, ModApi.AppSettings.ServerSettingsFileName);
             var xmlDocument = new XmlDocument();
             xmlDocument.Load(path);
             var xmlRoot = xmlDocument.DocumentElement;
@@ -349,7 +349,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(Settings))]
         public IHttpActionResult Settings([FromBody] Dictionary<string, string> model)
         {
-            string path = Path.Combine(AppContext.BaseDirectory, "serverconfig.xml");
+            string path = Path.Combine(AppContext.BaseDirectory, ModApi.AppSettings.ServerSettingsFileName);
             var xmlDocument = new XmlDocument();
             xmlDocument.Load(path);
             var rootNode = xmlDocument.SelectSingleNode("ServerSettings");

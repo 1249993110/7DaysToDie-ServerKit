@@ -101,8 +101,8 @@ namespace SdtdServerKit.Managers
         {
             try
             {
-                string fileName = culture.ToLower() + ".json";
-                string path = Path.Combine(ModApi.ModInstance.Path, "FunctionSettings", "default", fileName);
+                string fileName = "functionsettings." + culture.ToLower() + ".json";
+                string path = ModApi.GetDefaultConfigPath(fileName);
                 string json = File.ReadAllText(path, Encoding.UTF8);
 
                 var jsonObject = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(json);

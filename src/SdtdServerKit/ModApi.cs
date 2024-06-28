@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using IceCoffee.Common.Timers;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json.Serialization;
 using Platform.Local;
@@ -8,24 +7,19 @@ using SdtdServerKit.Triggers;
 using SdtdServerKit.WebApi;
 using System.Text;
 using WebSocketSharp.Server;
-using SdtdServerKit.Commands;
 using MapRendering;
-using Autofac.Core;
-using Autofac;
 using Dapper;
 using IceCoffee.SimpleCRUD.SqliteTypeHandlers;
 using IceCoffee.SimpleCRUD;
 using SdtdServerKit.Data;
 using System.Reflection;
 using Autofac.Integration.WebApi;
-using SdtdServerKit.Data.IRepositories;
 using Microsoft.Data.Sqlite;
 using SdtdServerKit.Managers;
 using SdtdServerKit.WebSockets;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System;
+using Microsoft.Extensions.Configuration;
 
 namespace SdtdServerKit
 {
@@ -198,14 +192,39 @@ namespace SdtdServerKit
         }
         #endregion
 
+        /// <summary>
+        /// 获取默认配置文件路径
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        internal static string GetDefaultConfigPath(string fileName)
+        {
+            return Path.Combine(ModInstance.Path, "Config", fileName);
+        }
+
         private static void LoadAppSettings()
         {
             try
             {
-                string path = Path.Combine(ModInstance.Path, "appsettings.json");
-                string json = File.ReadAllText(path, Encoding.UTF8);
+                const string LSTY_Data = "LSTY_Data";
+                string baseSettingsPath = Path.Combine(AppContext.BaseDirectory, LSTY_Data);
+                Directory.CreateDirectory(baseSettingsPath);
 
-                var appSettings = JsonConvert.DeserializeObject<AppSettings>(json);
+                string defaultAppConfigPath = GetDefaultConfigPath("appsettings.json");
+                string productionAppConfigPath = Path.Combine(baseSettingsPath, "appsettings.json");
+
+                if(File.Exists(productionAppConfigPath) == false)
+                {
+                    File.Copy(defaultAppConfigPath, productionAppConfigPath);
+                }
+
+                var builder = new ConfigurationBuilder()
+                    //.SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile(defaultAppConfigPath, optional: false, reloadOnChange: false)
+                    .AddJsonFile(productionAppConfigPath, optional: true, reloadOnChange: false);
+
+                var configuration = builder.Build();
+                var appSettings = configuration.Get<AppSettings>();
                 if (appSettings == null)
                 {
                     throw new Exception("The app settings can not be null.");
@@ -333,7 +352,19 @@ namespace SdtdServerKit
 
             SqlMapper.AddTypeHandler(new GuidHandler());
 
-            string databasePath = Path.Combine(ModInstance.Path, AppSettings.DatabasePath);
+            string databasePath = Path.Combine(AppContext.BaseDirectory, AppSettings.DatabasePath);
+
+            // 复制旧数据库文件
+            if (File.Exists(databasePath) == false)
+            {
+                string oldDatabasePath = Path.Combine(ModInstance.Path, "Data/database.db");
+                if (File.Exists(oldDatabasePath))
+                {
+                    File.Copy(oldDatabasePath, databasePath);
+                    CustomLogger.Info("Copy old database file success.");
+                }
+            }
+
             string connectionString = $"Data Source={databasePath};Cache=Shared";
             DbConnectionFactory.Default.ConfigureOptions(new DbConnectionOptions()
             {
@@ -386,7 +417,7 @@ namespace SdtdServerKit
                     File.Create(dataSource).Close();
                 }
 
-                string path = Path.Combine(ModInstance.Path, "Data/sql");
+                string path = Path.Combine(ModInstance.Path, "Config/sql");
                 var di = new DirectoryInfo(path);
                 var files = di.GetFiles("*.sql");
 
