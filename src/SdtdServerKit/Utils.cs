@@ -18,7 +18,7 @@
                 Entity entity = entities[i];
                 if (entity is EntityZombie zombie && zombie.IsSpawned() && zombie.IsAlive())
                 {
-                    if ((_player.serverPos.ToVector3() / 32F - entity.position).sqrMagnitude <= 40 * 40)
+                    if ((_player.serverPos.ToVector3() / 32F - entity.position).sqrMagnitude <= 20 * 20)
                     {
                         return true;
                     }

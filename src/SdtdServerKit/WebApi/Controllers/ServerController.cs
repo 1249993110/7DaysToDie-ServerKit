@@ -303,7 +303,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(Settings))]
         public List<NameDescValue> Settings([FromUri]string culture = Cultures.ZhCn)
         {
-            string fileName = "serversettings" + culture.ToLower() + ".json";
+            string fileName = "serversettings." + culture.ToLower() + ".json";
             string path = ModApi.GetDefaultConfigPath(fileName);
             string json = File.ReadAllText(path, Encoding.UTF8);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, DescValue>>(json);

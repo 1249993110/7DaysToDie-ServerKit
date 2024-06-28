@@ -100,7 +100,7 @@ namespace SdtdServerKit
             try
             {
                 string binPath = Path.Combine(ModInstance.Path, "3rdparty-binaries", "filebrowser", "filebrowser");
-                LoadFileBrowser(binPath, AppSettings.FileBrowserPort, AppDomain.CurrentDomain.BaseDirectory, AppSettings.UserName, AppSettings.Password);
+                LoadFileBrowser(binPath, AppSettings.FileBrowserPort, AppContext.BaseDirectory, AppSettings.UserName, AppSettings.Password);
                 CustomLogger.Info("Load file browser success.");
             }
             catch (Exception ex)
