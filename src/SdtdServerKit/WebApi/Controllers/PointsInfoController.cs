@@ -128,5 +128,16 @@ namespace SdtdServerKit.WebApi.Controllers
             int count = await _repository.DeleteByIdsAsync(ids, true);
             return Ok(count);
         }
+
+        /// <summary>
+        /// 重置所有玩家签到天数为0
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IHttpActionResult> Put()
+        {
+            int count = await _repository.ResetLastSignInDaysAsync();
+            return Ok(count);
+        }
     }
 }

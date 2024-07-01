@@ -55,7 +55,7 @@ namespace SdtdServerKit.Hooks
                 var chatRecordRepository = ModApi.ServiceContainer.Resolve<IChatRecordRepository>();
                 await chatRecordRepository.InsertAsync(new T_ChatRecord()
                 {
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = chatMessage.CreatedAt,
                     ChatType = chatMessage.ChatType,
                     PlayerId = chatMessage.PlayerId,
                     EntityId = chatMessage.EntityId,

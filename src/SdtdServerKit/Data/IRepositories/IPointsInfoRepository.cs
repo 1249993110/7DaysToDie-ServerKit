@@ -14,5 +14,11 @@ namespace SdtdServerKit.Data.IRepositories
         Task ChangePointsAsync(string playerId, int points);
 
         Task<PagedDto<T_PointsInfo>> GetPagedListAsync(PaginationQueryDto dto);
+
+        /// <summary>
+        /// 重置签到天数
+        /// </summary>
+        /// <returns></returns>
+        Task<int> ResetLastSignInDaysAsync();
     }
 }

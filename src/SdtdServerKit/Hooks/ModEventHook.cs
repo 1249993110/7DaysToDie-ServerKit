@@ -119,6 +119,7 @@ namespace SdtdServerKit.Hooks
                 Message = message,
                 //SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),
                 SenderName = clientInfo?.playerName ?? Localization.Get(mainName),
+                CreatedAt = DateTime.Now,
             };
 
             ChatMessageHook.OnChatMessage(chatMessage);

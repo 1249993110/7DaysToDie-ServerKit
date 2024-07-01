@@ -183,7 +183,7 @@ namespace SdtdServerKit.WebApi
                 OperationId = "OAuth_Token",
                 Consumes = new List<string>() { "application/x-www-form-urlencoded" },
                 Produces = new List<string>() { "application/json" },
-                Tags = new List<string>() { "OAuth" },
+                Tags = new List<string>() { "Auth" },
                 Description = "Get the access token used for webapp."
             };
 
