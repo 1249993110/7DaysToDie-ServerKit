@@ -135,11 +135,4 @@
 			<HintPath>..\7dtd-binaries\WebServer.dll</HintPath>
 		</Reference>
 	</ItemGroup>
-
-	<ItemGroup>
-		<None Update=".\3rdparty-binaries\filebrowser\*">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
 </Project>
