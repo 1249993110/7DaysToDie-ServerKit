@@ -45,7 +45,7 @@
     "IsEnabled": false,
     "QueryListCmd": "buy",
     "BuyCmdPrefix": "buy",
-    "GoodsItemTip": "{SerialNumber}. <[00FF00]{GoodsName}[FFFFFF]>, 售价: [FF00FF]{Price}",
+    "GoodsItemTip": "[FFFFFF]输入: [00FF00]buy-{GoodsId} [FFFFFF]购买 [00FF00]{GoodsName}[FFFFFF], 售价: [FF00FF]{Price}",
     "BuySuccessTip": "[00FF00]购买成功",
     "PointsNotEnoughTip": "[00FF00]积分不足, 需要积分: {Price}",
     "NoGoods": "[00FF00]暂无商品"

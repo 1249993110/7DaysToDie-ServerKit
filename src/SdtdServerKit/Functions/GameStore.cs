@@ -1,6 +1,5 @@
 ﻿using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
-using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
 using SdtdServerKit.Variables;
 
@@ -25,18 +24,16 @@ namespace SdtdServerKit.Functions
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
                 string playerId = onlinePlayer.CrossplatformId;
-                var goodsList = await _goodsRepository.GetAllOrderByPriceAsync();
+                var goodsList = await _goodsRepository.GetAllOrderByIdAsync();
                 if (goodsList.Any() == false)
                 {
                     SendMessageToPlayer(playerId, Settings.NoGoods);
                 }
                 else
                 {
-                    int index = 0;
                     foreach (var item in goodsList)
                     {
-                        index++;
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.GoodsItemTip, onlinePlayer, item, index));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.GoodsItemTip, onlinePlayer, item));
                     }
                 }
 
@@ -63,10 +60,24 @@ namespace SdtdServerKit.Functions
                     {
                         await _pointsInfoRepository.ChangePointsAsync(playerId, -goods.Price);
 
-                        string[] cmds = goods.ExecuteCommands.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                        for (int i = 0; i < cmds.Length; i++)
+                        if(goods.ContentType == GoodsContentType.Item)
                         {
-                            Utils.ExecuteConsoleCommand(FormatCmd(cmds[i], onlinePlayer, goods, i + 1), goods.InMainThread);
+                            var item = JsonConvert.DeserializeObject<SdtdServerKit.Shared.Models.ItemStack>(goods.Content, ModApi.JsonSerializerSettings);
+                            if (item != null)
+                            {
+                                Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
+                            }
+                        }
+                        else if(goods.ContentType == GoodsContentType.Command)
+                        {
+                            string[]? cmds = JsonConvert.DeserializeObject<string[]>(goods.Content, ModApi.JsonSerializerSettings);
+                            if(cmds != null)
+                            {
+                                foreach (var cmd in cmds)
+                                {
+                                    Utils.ExecuteConsoleCommand(FormatCmd(cmd, onlinePlayer, goods), goods.InMainThread);
+                                }
+                            }
                         }
 
                         SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, onlinePlayer, goods));
@@ -81,16 +92,16 @@ namespace SdtdServerKit.Functions
             return false;
         }
 
-        private static string FormatCmd(string message, OnlinePlayer player, T_Goods goods, int serialNumber = 0)
+        private static string FormatCmd(string message, OnlinePlayer player, T_Goods goods)
         {
             string result = StringTemplate.Render(message, new GameStoreVariables()
             {
                 EntityId = player.EntityId,
                 PlatformId = player.PlatformId,
                 PlayerName = player.PlayerName,
+                GoodsId = goods.Id,
                 GoodsName = goods.Name,
                 Price = goods.Price,
-                SerialNumber = serialNumber,
             });
             return result;
         }

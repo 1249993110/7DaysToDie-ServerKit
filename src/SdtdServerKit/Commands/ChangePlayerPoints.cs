@@ -46,7 +46,15 @@ namespace SdtdServerKit.Commands
                 int count = int.Parse(args[1]);
 
                 var repository = ModApi.ServiceContainer.Resolve<IPointsInfoRepository>();
-                await repository.ChangePointsAsync(playerId, count);
+                bool result = (await repository.ChangePointsAsync(playerId, count)) == 1;
+                if (result)
+                {
+                    Log("Player '{0}' points change {1}.", playerId, count);
+                }
+                else
+                {
+                    Log("Failed to change player '{0}' points.", playerId);
+                }
             }
             catch (Exception ex)
             {

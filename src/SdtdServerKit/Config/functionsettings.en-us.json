@@ -45,7 +45,7 @@
     "IsEnabled": false,
     "QueryListCmd": "buy",
     "BuyCmdPrefix": "buy",
-    "GoodsItemTip": "{SerialNumber}. [00FF00]{GoodsName}[FFFFFF], [00FF00]Price: [FF00FF]{Price}",
+    "GoodsItemTip": "[FFFFFF]Input: [00FF00]buy-{GoodsId} [FFFFFF]buy [00FF00]{GoodsName}[FFFFFF], [00FF00]Price: [FF00FF]{Price}",
     "BuySuccessTip": "[00FF00]Purchase successful!",
     "PointsNotEnoughTip": "[00FF00]Not enough points, need points: {Price}",
     "NoGoods": "[00FF00]No goods."

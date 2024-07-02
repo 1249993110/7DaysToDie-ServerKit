@@ -9,13 +9,13 @@ namespace SdtdServerKit.Data.Repositories
     {
         public Task<int> GetPointsByIdAsync(string playerId)
         {
-            string sql = "SELECT Points FROM T_PointsInfo WHERE Id=@PlayerId";
+            string sql = $"SELECT Points FROM {SqlGenerator.TableName} WHERE Id=@PlayerId";
             return base.ExecuteScalarAsync<int>(sql, new { PlayerId = playerId });
         }
 
-        public Task ChangePointsAsync(string playerId, int points)
+        public Task<int> ChangePointsAsync(string playerId, int points)
         {
-            string sql = "UPDATE T_PointsInfo SET Points=Points+@Points WHERE Id=@PlayerId";
+            string sql = $"UPDATE {SqlGenerator.TableName} SET Points=Points+@Points WHERE Id=@PlayerId";
             return base.ExecuteAsync(sql, new { PlayerId = playerId, Points = points });
         }
 

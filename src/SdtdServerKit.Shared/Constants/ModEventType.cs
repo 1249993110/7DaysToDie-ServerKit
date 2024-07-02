@@ -1,4 +1,4 @@
-﻿namespace SdtdServerKit.Shared.Enums
+﻿namespace SdtdServerKit.Shared.Constants
 {
     /// <summary>
     /// ModEventType
@@ -80,7 +80,7 @@
         /// 玩家生成
         /// </summary>
         PlayerSpawning,
-        
+
         /// <summary>
         /// 保存玩家数据
         /// </summary>

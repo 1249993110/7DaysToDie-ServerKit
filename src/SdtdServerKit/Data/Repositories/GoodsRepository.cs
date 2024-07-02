@@ -14,9 +14,9 @@ namespace SdtdServerKit.Data.Repositories
             return base.GetFirstOrDefaultAsync("Name=@Name", param: new { Name = name });
         }
         /// <inheritdoc/>
-        public Task<IEnumerable<T_Goods>> GetAllOrderByPriceAsync(bool isDesc = true)
+        public Task<IEnumerable<T_Goods>> GetAllOrderByIdAsync()
         {
-            return base.GetListAsync(orderByClause: "Price " + (isDesc ? "DESC" : "ASC"));
+            return base.GetListAsync(orderByClause: "Id ASC");
         }
     }
 }

@@ -16,10 +16,9 @@ namespace SdtdServerKit.Data.IRepositories
         Task<T_Goods?> GetByNameAsync(string name);
 
         /// <summary>
-        /// 获取所有商品按价格排序
+        /// 获取所有商品按Id升序排序
         /// </summary>
-        /// <param name="isDesc">是否降序</param>
         /// <returns></returns>
-        Task<IEnumerable<T_Goods>> GetAllOrderByPriceAsync(bool isDesc = true);
+        Task<IEnumerable<T_Goods>> GetAllOrderByIdAsync();
     }
 }

@@ -1,16 +1,18 @@
 ﻿using IceCoffee.SimpleCRUD.OptionalAttributes;
+using SdtdServerKit.Data.Dtos;
 
 namespace SdtdServerKit.Data.Entities
 {
     /// <summary>
     /// 商品
     /// </summary>
+    [Table("T_Goods_v1")]
     public class T_Goods
     {
         /// <summary>
         /// 唯一Id
         /// </summary>
-        [PrimaryKey, IgnoreUpdate, IgnoreInsert]
+        [PrimaryKey]
         public int Id { get; set; }
 
         /// <summary>
@@ -25,9 +27,14 @@ namespace SdtdServerKit.Data.Entities
         public string Name { get; set; } = null!;
         
         /// <summary>
-        /// 执行命令
+        /// 内容
         /// </summary>
-        public string ExecuteCommands { get; set; } = null!;
+        public string Content { get; set; } = null!;
+
+        /// <summary>
+        /// 内容类型
+        /// </summary>
+        public GoodsContentType ContentType { get; set; }
 
         /// <summary>
         /// 是否在主线程执行

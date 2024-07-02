@@ -71,11 +71,18 @@ namespace SdtdServerKit.Commands
 
                         if (playerDataFile.bLoaded)
                         {
-                            RemoveItemValue(playerDataFile.bag, itemName);
-                            RemoveItemValue(playerDataFile.inventory, itemName);
-                            playerDataFile.Save(playerDataDir, userId.CombinedString);
+                            bool removedFromBag = RemoveItemValue(playerDataFile.bag, itemName);
+                            bool removedFromInventory = RemoveItemValue(playerDataFile.inventory, itemName);
 
-                            Log("Removed item: {0} from inventory of offline player id '{1}'", itemName, userId.CombinedString);
+                            if(removedFromBag || removedFromInventory)
+                            {
+                                playerDataFile.Save(playerDataDir, userId.CombinedString);
+
+                                Log("Removed item: {0} from inventory of offline player id '{1}'", itemName, userId.CombinedString);
+                                return;
+                            }
+
+                            Log("Item: {0} not found in inventory of offline player id '{1}'", itemName, userId.CombinedString);
                             return;
                         }
                     }
@@ -89,16 +96,20 @@ namespace SdtdServerKit.Commands
             }
         }
 
-        private static void RemoveItemValue(ItemStack[] items, string itemName)
+        private static bool RemoveItemValue(ItemStack[] items, string itemName)
         {
+            bool removed = false;
             for (int i = 0, len = items.Length; i < len; i++)
             {
                 var item = items[i];
                 if (item.itemValue?.ItemClass?.GetItemName() == itemName)
                 {
                     item.itemValue = ItemValue.None;
+                    removed = true;
                 }
             }
+
+            return removed;
         }
     }
 }

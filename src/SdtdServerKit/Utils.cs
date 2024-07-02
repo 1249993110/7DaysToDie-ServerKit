@@ -6,6 +6,19 @@
     public static class Utils
     {
         /// <summary>
+        /// 给予玩家物品
+        /// </summary>
+        /// <param name="playerIdOrName"></param>
+        /// <param name="itemName"></param>
+        /// <param name="count"></param>
+        /// <param name="quality"></param>
+        /// <param name="durability"></param>
+        public static void GiveItem(string playerIdOrName, string itemName, int count, int quality = 0, int durability = 0)
+        {
+            ExecuteConsoleCommand($"ty-gi {FormatCommandArgs(playerIdOrName)} {itemName} {count} {quality} {durability}");
+        }
+
+        /// <summary>
         /// 检查玩家周围是否有僵尸
         /// </summary>
         /// <param name="_player"></param>

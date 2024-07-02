@@ -1,4 +1,6 @@
-﻿namespace SdtdServerKit.Shared.Models
+﻿using SdtdServerKit.Shared.Constants;
+
+namespace SdtdServerKit.Shared.Models
 {
     /// <summary>
     /// 商品
@@ -6,14 +8,24 @@
     public class Goods
     {
         /// <summary>
+        /// 商品Id
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// 商品名称
         /// </summary>
         public string Name { get; set; } = null!;
 
         /// <summary>
-        /// 执行命令
+        /// 内容
         /// </summary>
-        public string ExecuteCommands { get; set; } = null!;
+        public string Content { get; set; } = null!;
+
+        /// <summary>
+        /// 内容类型
+        /// </summary>
+        public GoodsContentType ContentType { get; set; }
 
         /// <summary>
         /// 在主线程执行

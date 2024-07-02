@@ -11,7 +11,7 @@ namespace SdtdServerKit.Data.IRepositories
     {
         Task<int> GetPointsByIdAsync(string playerId);
 
-        Task ChangePointsAsync(string playerId, int points);
+        Task<int> ChangePointsAsync(string playerId, int points);
 
         Task<PagedDto<T_PointsInfo>> GetPagedListAsync(PaginationQueryDto dto);
     }

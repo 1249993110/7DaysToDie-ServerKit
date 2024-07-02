@@ -48,7 +48,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route("")]
         public async Task<IEnumerable<T_Goods>> Get()
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllOrderByIdAsync();
         }
 
         /// <summary>
@@ -61,9 +61,11 @@ namespace SdtdServerKit.WebApi.Controllers
         {
             var entity = new T_Goods()
             {
+                Id = model.Id,
                 Name = model.Name,
                 CreatedAt = DateTime.Now,
-                ExecuteCommands = model.ExecuteCommands,
+                Content = model.Content,
+                ContentType = model.ContentType,
                 InMainThread = model.InMainThread,
                 Price = model.Price
             };
@@ -87,7 +89,8 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             entity.Name = model.Name;
-            entity.ExecuteCommands = model.ExecuteCommands;
+            entity.Content = model.Content;
+            entity.ContentType = model.ContentType;
             entity.InMainThread = model.InMainThread;
             entity.Price = model.Price;
            
