@@ -13,9 +13,9 @@
         public string SignInCmd { get; set; }
 
         /// <summary>
-        /// 签到间隔天数
+        /// 签到间隔秒数
         /// </summary>
-        public int DaysBetweenSignIn { get; set; }
+        public int SignInInterval { get; set; }
 
         /// <summary>
         /// 签到奖励积分

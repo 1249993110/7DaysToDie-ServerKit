@@ -34,7 +34,7 @@
   "PointsSystemSettings": {
     "IsEnabled": false,
     "SignInCmd": "qd",
-    "DaysBetweenSignIn": 1,
+    "SignInInterval": 3600,
     "SignInRewardPoints": 10,
     "SignInSuccessTip": "[00FF00]签到成功! 奖励积分: {SignInRewardPoints}, 您目前有积分: {PlayerTotalPoints}",
     "SignInFailureTip": "[FFFF00]签到失败! 请稍后再来吧",

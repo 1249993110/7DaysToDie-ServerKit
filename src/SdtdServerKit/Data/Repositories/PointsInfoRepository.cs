@@ -2,7 +2,6 @@
 using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
 using System.Text;
-using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit.Data.Repositories
 {
@@ -26,7 +25,7 @@ namespace SdtdServerKit.Data.Repositories
 
             if (string.IsNullOrEmpty(dto.Keyword) == false)
             {
-                whereClauseSB.Append(" AND (PlayerId=@Keyword OR PlayerName LIKE '%'||@Keyword||'%')");
+                whereClauseSB.Append(" AND (Id=@Keyword OR PlayerName LIKE '%'||@Keyword||'%')");
             }
 
             //string orderByClause;
@@ -41,13 +40,6 @@ namespace SdtdServerKit.Data.Repositories
 
             var param = new { Keyword = dto.Keyword };
             return GetPagedListAsync(dto.PageNumber, dto.PageSize, whereClauseSB.ToString(), orderByClause: "PlayerName ASC", param);
-        }
-
-        ///<inheritdoc/>
-        public Task<int> ResetLastSignInDaysAsync()
-        {
-            string sql = "UPDATE T_PointsInfo SET LastSignInDays=0";
-            return base.ExecuteAsync(sql);
         }
     }
 }

@@ -68,9 +68,9 @@ namespace SdtdServerKit.WebApi.Controllers
         {
             var entity = new T_PointsInfo()
             {
-                PlayerId = model.PlayerId,
+                Id = model.Id,
                 CreatedAt = DateTime.Now,
-                LastSignInDays = model.LastSignInDays,
+                LastSignInAt = model.LastSignInAt,
                 PlayerName = model.PlayerName,
                 Points = model.Points,
             };
@@ -93,7 +93,7 @@ namespace SdtdServerKit.WebApi.Controllers
                 return NotFound();
             }
 
-            entity.LastSignInDays = model.LastSignInDays;
+            entity.LastSignInAt = model.LastSignInAt;
             entity.PlayerName = model.PlayerName;
             entity.Points = model.Points;
             await _repository.UpdateAsync(entity);
@@ -123,20 +123,10 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
+        [Route("")]
         public async Task<IHttpActionResult> Delete([MinLength(1)] string[] ids)
         {
             int count = await _repository.DeleteByIdsAsync(ids, true);
-            return Ok(count);
-        }
-
-        /// <summary>
-        /// 重置所有玩家签到天数为0
-        /// </summary>
-        /// <returns></returns>
-        [HttpPut]
-        public async Task<IHttpActionResult> Put()
-        {
-            int count = await _repository.ResetLastSignInDaysAsync();
             return Ok(count);
         }
     }

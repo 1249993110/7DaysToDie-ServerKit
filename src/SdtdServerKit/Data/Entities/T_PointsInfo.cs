@@ -5,14 +5,14 @@ namespace SdtdServerKit.Data.Entities
     /// <summary>
     /// 积分信息
     /// </summary>
+    [Table("T_PointsInfo_v1")]
     public class T_PointsInfo
     {
         /// <summary>
         /// Id
         /// </summary>
         [PrimaryKey]
-        [Column("Id")]
-        public string PlayerId { get; set; } = null!;
+        public string Id { get; set; } = null!;
 
         /// <summary>
         /// 创建日期
@@ -30,8 +30,8 @@ namespace SdtdServerKit.Data.Entities
         public int Points { get; set; }
 
         /// <summary>
-        /// 上次签到天数
+        /// 上次签到日期
         /// </summary>
-        public int LastSignInDays { get; set; }
+        public DateTime? LastSignInAt { get; set; }
     }
 }

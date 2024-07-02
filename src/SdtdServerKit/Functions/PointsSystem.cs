@@ -25,8 +25,7 @@ namespace SdtdServerKit.Functions
             // 签到命令
             if (string.Equals(message, Settings.SignInCmd, StringComparison.OrdinalIgnoreCase))
             {
-                int currentDay = GameUtils.WorldTimeToDays(GameManager.Instance.World.GetWorldTime());
-                int lastSignDay = 0;
+                DateTime now = DateTime.Now;
                 var pointsInfo = await _pointsInfoRepository.GetByIdAsync(playerId);
 
                 // 无签到记录
@@ -34,38 +33,35 @@ namespace SdtdServerKit.Functions
                 {
                     pointsInfo = new T_PointsInfo()
                     {
-                        PlayerId = playerId,
-                        CreatedAt = DateTime.Now,
+                        Id = playerId,
+                        CreatedAt = now,
                         PlayerName = player.PlayerName,
                         Points = Settings.SignInRewardPoints,
-                        LastSignInDays = currentDay
+                        LastSignInAt = now,
                     };
 
                     await _pointsInfoRepository.InsertAsync(pointsInfo);
                 }
                 else
                 {
-                    // 今天已经签到
-                    if (pointsInfo.LastSignInDays != 0 && currentDay - pointsInfo.LastSignInDays < Settings.DaysBetweenSignIn)
+                    if(pointsInfo.LastSignInAt.HasValue == false || (now - pointsInfo.LastSignInAt.Value).Seconds > Settings.SignInInterval)
                     {
-                        SendMessageToPlayer(playerId, this.FormatCmd(Settings.SignInFailureTip, player, pointsInfo.Points));
-                        return true;
+                        pointsInfo.LastSignInAt = now;
+                        pointsInfo.Points += Settings.SignInRewardPoints;
+                        pointsInfo.PlayerName = player.PlayerName;
+                        await _pointsInfoRepository.UpdateAsync(pointsInfo);
                     }
                     else
                     {
-                        lastSignDay = pointsInfo.LastSignInDays;
-
-                        pointsInfo.Points += Settings.SignInRewardPoints;
-                        pointsInfo.PlayerName = player.PlayerName;
-                        pointsInfo.LastSignInDays = currentDay;
-
-                        await _pointsInfoRepository.UpdateAsync(pointsInfo);
+                        // 已经签到
+                        SendMessageToPlayer(playerId, this.FormatCmd(Settings.SignInFailureTip, player, pointsInfo.Points));
+                        return true;
                     }
                 }
 
                 SendMessageToPlayer(playerId, this.FormatCmd(Settings.SignInSuccessTip, player, pointsInfo.Points));
 
-                CustomLogger.Info("Player sign in, playerId: {0}, playerName: {1}, current day: {2}, last sign in day: {3}.", playerId, player.PlayerName, currentDay, lastSignDay);
+                CustomLogger.Info("Player sign in, playerId: {0}, playerName: {1}", playerId, player.PlayerName);
                 return true;
             }
             // 查询积分命令

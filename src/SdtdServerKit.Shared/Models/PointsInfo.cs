@@ -5,7 +5,7 @@
         /// <summary>
         /// 玩家Id
         /// </summary>
-        public string PlayerId { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 玩家名称
@@ -18,8 +18,8 @@
         public int Points { get; set; }
 
         /// <summary>
-        /// 上次签到天数
+        /// 上次签到日期
         /// </summary>
-        public int LastSignInDays { get; set; }
+        public DateTime LastSignInAt { get; set; }
     }
 }

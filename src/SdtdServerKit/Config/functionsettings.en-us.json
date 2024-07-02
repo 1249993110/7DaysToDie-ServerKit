@@ -34,7 +34,7 @@
   "PointsSystemSettings": {
     "IsEnabled": false,
     "SignInCmd": "si",
-    "DaysBetweenSignIn": 1,
+    "SignInInterval": 3600,
     "SignInRewardPoints": 10,
     "SignInSuccessTip": "[00FF00]Sign in successful! Reward points: {SignInRewardPoints}, You currently have points: {PlayerTotalPoints}",
     "SignInFailureTip": "[FFFF00]Failed to sign in! Please come back later.",
