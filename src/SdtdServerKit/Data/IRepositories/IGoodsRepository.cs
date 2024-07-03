@@ -9,13 +9,6 @@ namespace SdtdServerKit.Data.IRepositories
     public interface IGoodsRepository : IRepository<T_Goods>
     {
         /// <summary>
-        /// 根据名称获取商品
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        Task<T_Goods?> GetByNameAsync(string name);
-
-        /// <summary>
         /// 获取所有商品按Id升序排序
         /// </summary>
         /// <returns></returns>

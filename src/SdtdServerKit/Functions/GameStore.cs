@@ -39,10 +39,10 @@ namespace SdtdServerKit.Functions
 
                 return true;
             }
-            else if(message.StartsWith(Settings.BuyCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
+            else if (message.StartsWith(Settings.BuyCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
             {
-                string goodsName = message.Substring(Settings.BuyCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
-                var goods = await _goodsRepository.GetByNameAsync(goodsName);
+                int goodsId = message.Substring(Settings.BuyCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length).ToInt(-1);
+                var goods = await _goodsRepository.GetByIdAsync(goodsId);
                 if (goods == null)
                 {
                     return false;
