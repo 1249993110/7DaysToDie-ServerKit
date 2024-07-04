@@ -75,7 +75,10 @@ namespace SdtdServerKit.Functions
                             {
                                 foreach (var cmd in cmds)
                                 {
-                                    Utils.ExecuteConsoleCommand(FormatCmd(cmd, onlinePlayer, goods), goods.InMainThread);
+                                    if(string.IsNullOrEmpty(cmd) == false)
+                                    {
+                                        Utils.ExecuteConsoleCommand(FormatCmd(cmd, onlinePlayer, goods), goods.InMainThread);
+                                    }
                                 }
                             }
                         }

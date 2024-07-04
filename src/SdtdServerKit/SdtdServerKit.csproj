@@ -93,7 +93,7 @@
 		</Reference>
 		<Reference Include="websocket-sharp">
 			<Private>true</Private>
-			<HintPath>.\3rdparty-binaries\websocket-sharp.dll</HintPath>
+			<HintPath>3rdparty-binaries\websocket-sharp.dll</HintPath>
 		</Reference>
 		<None Include="$(SystemRoot)\Microsoft.NET\Framework64\v$(MSBuildRuntimeVersion)\System.Runtime.InteropServices.RuntimeInformation.dll">
 			<Visible>false</Visible>
@@ -104,11 +104,11 @@
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
 			<Private>false</Private>
-			<HintPath>..\7dtd-binaries\Assembly-CSharp.dll</HintPath>
+			<HintPath>7dtd-binaries\Assembly-CSharp.dll</HintPath>
 		</Reference>
 		<Reference Include="Assembly-CSharp-firstpass">
 			<Private>false</Private>
-			<HintPath>..\7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
+			<HintPath>7dtd-binaries\Assembly-CSharp-firstpass.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.CoreModule">
 			<Private>false</Private>
@@ -116,23 +116,23 @@
 		</Reference>
 		<Reference Include="LogLibrary">
 			<Private>false</Private>
-			<HintPath>..\7dtd-binaries\LogLibrary.dll</HintPath>
+			<HintPath>7dtd-binaries\LogLibrary.dll</HintPath>
 		</Reference>
 		<Reference Include="0Harmony">
 			<Private>false</Private>
-			<HintPath>..\7dtd-binaries\0Harmony.dll</HintPath>
+			<HintPath>7dtd-binaries\0Harmony.dll</HintPath>
 		</Reference>
 		<Reference Include="Noemax.GZip">
 			<Private>false</Private>
-			<HintPath>..\7dtd-binaries\Noemax.GZip.dll</HintPath>
+			<HintPath>7dtd-binaries\Noemax.GZip.dll</HintPath>
 		</Reference>
 		<Reference Include="MapRendering">
 			<Private>false</Private>
-			<HintPath>..\7dtd-binaries\MapRendering.dll</HintPath>
+			<HintPath>7dtd-binaries\MapRendering.dll</HintPath>
 		</Reference>
 		<Reference Include="WebServer">
 			<Private>false</Private>
-			<HintPath>..\7dtd-binaries\WebServer.dll</HintPath>
+			<HintPath>7dtd-binaries\WebServer.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 </Project>
