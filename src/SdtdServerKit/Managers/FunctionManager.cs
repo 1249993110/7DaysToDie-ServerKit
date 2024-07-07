@@ -66,5 +66,24 @@ namespace SdtdServerKit.Managers
         {
             return _functionDict.TryGetValue(functionName, out function);
         }
+
+        /// <summary>
+        /// 尝试获取功能
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        public static bool TryGetFunction<TFunction>(out TFunction? function) where TFunction : IFunction
+        {
+            if(_functionDict.TryGetValue(typeof(TFunction).Name, out var _function))
+            {
+                function = (TFunction)_function;
+               return true;
+            }
+            else
+            {
+                function = default;
+                return false;
+            }
+        }
     }
 }

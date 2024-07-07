@@ -4,12 +4,12 @@ using SdtdServerKit.Managers;
 namespace SdtdServerKit.WebApi.Controllers.Settings
 {
     /// <summary>
-    /// 游戏商店配置
+    /// 公共回城配置
     /// </summary>
     [Authorize]
-    [RoutePrefix("api/Settings/GameStore")]
+    [RoutePrefix("api/Settings/TeleportCity")]
     [OpenApiTag("Settings", Description = "配置")]
-    public class GameStoreController : ApiController
+    public class TeleportCitySettingsController : ApiController
     {
         /// <summary>
         /// 获取配置
@@ -17,9 +17,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public GameStoreSettings GetSettings()
+        public TeleportCitySettings GetSettings()
         {
-            var data = ConfigManager.Get<GameStoreSettings>();
+            var data = ConfigManager.Get<TeleportCitySettings>();
             return data;
         }
 
@@ -29,7 +29,7 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpPut]
         [Route("")]
-        public IHttpActionResult UpdateSettings([FromBody] GameStoreSettings model)
+        public IHttpActionResult UpdateSettings([FromBody] TeleportCitySettings model)
         {
             ConfigManager.Update(model);
             return Ok();
@@ -41,9 +41,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public GameStoreSettings ResetSettings()
+        public TeleportCitySettings ResetSettings()
         {
-            var data = ConfigManager.LoadDefault<GameStoreSettings>();
+            var data = ConfigManager.LoadDefault<TeleportCitySettings>();
             return data;
         }
     }

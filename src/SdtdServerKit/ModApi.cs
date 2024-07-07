@@ -20,6 +20,7 @@ using SdtdServerKit.WebSockets;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using System.IO.Compression;
 
 namespace SdtdServerKit
 {

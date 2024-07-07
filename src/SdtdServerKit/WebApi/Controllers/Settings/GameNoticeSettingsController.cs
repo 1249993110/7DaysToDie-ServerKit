@@ -4,12 +4,12 @@ using SdtdServerKit.Managers;
 namespace SdtdServerKit.WebApi.Controllers.Settings
 {
     /// <summary>
-    /// 积分系统配置
+    /// 游戏公告配置
     /// </summary>
     [Authorize]
-    [RoutePrefix("api/Settings/PointsSystem")]
+    [RoutePrefix("api/Settings/GameNotice")]
     [OpenApiTag("Settings", Description = "配置")]
-    public class PointsSystemController : ApiController
+    public class GameNoticeSettingsController : ApiController
     {
         /// <summary>
         /// 获取配置
@@ -17,9 +17,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public PointsSystemSettings GetSettings()
+        public GameNoticeSettings GetSettings()
         {
-            var data = ConfigManager.Get<PointsSystemSettings>();
+            var data = ConfigManager.Get<GameNoticeSettings>();
             return data;
         }
 
@@ -29,7 +29,7 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpPut]
         [Route("")]
-        public IHttpActionResult UpdateSettings([FromBody] PointsSystemSettings model)
+        public IHttpActionResult UpdateSettings([FromBody] GameNoticeSettings model)
         {
             ConfigManager.Update(model);
             return Ok();
@@ -41,9 +41,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public PointsSystemSettings ResetSettings()
+        public GameNoticeSettings ResetSettings()
         {
-            var data = ConfigManager.LoadDefault<PointsSystemSettings>();
+            var data = ConfigManager.LoadDefault<GameNoticeSettings>();
             return data;
         }
     }

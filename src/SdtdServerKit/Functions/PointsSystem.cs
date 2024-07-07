@@ -44,7 +44,7 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    if(pointsInfo.LastSignInAt.HasValue == false || (now - pointsInfo.LastSignInAt.Value).Seconds > Settings.SignInInterval)
+                    if(pointsInfo.LastSignInAt.HasValue == false || (now - pointsInfo.LastSignInAt.Value).TotalSeconds > Settings.SignInInterval)
                     {
                         pointsInfo.LastSignInAt = now;
                         pointsInfo.Points += Settings.SignInRewardPoints;

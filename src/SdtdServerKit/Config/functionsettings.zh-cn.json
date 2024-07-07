@@ -93,5 +93,13 @@
     "CoolingTip": "[00FF00]传送冷却... 剩余时间: {CooldownSeconds} 秒",
     "TelePointsNotEnoughTip": "[00FF00]积分不够! 需要积分: 2",
     "TeleSuccessTip": "[00FF00]玩家: {PlayerName}, 传送到了自己的家: {HomeName}"
+  },
+  "AutoBackupSettings": {
+    "IsEnabled": false,
+    "Interval": 7200,
+    "RetainedFileCountLimit": 12,
+    "ResetIntervalAfterManualBackup": true,
+    "SkipIfThereAreNoPlayers": true,
+    "ArchiveFolder": "LSTY_Data/Backup"
   }
 }

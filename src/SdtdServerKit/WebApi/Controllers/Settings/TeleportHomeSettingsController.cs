@@ -9,7 +9,7 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
     [Authorize]
     [RoutePrefix("api/Settings/TeleportHome")]
     [OpenApiTag("Settings", Description = "配置")]
-    public class TeleportHomeController : ApiController
+    public class TeleportHomeSettingsController : ApiController
     {
         /// <summary>
         /// 获取配置

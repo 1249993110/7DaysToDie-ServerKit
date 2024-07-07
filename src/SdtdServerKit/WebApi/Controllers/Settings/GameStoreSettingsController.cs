@@ -4,12 +4,12 @@ using SdtdServerKit.Managers;
 namespace SdtdServerKit.WebApi.Controllers.Settings
 {
     /// <summary>
-    /// 好友传送配置
+    /// 游戏商店配置
     /// </summary>
     [Authorize]
-    [RoutePrefix("api/Settings/TeleportFriend")]
+    [RoutePrefix("api/Settings/GameStore")]
     [OpenApiTag("Settings", Description = "配置")]
-    public class TeleportFriendController : ApiController
+    public class GameStoreSettingsController : ApiController
     {
         /// <summary>
         /// 获取配置
@@ -17,9 +17,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public TeleportFriendSettings GetSettings()
+        public GameStoreSettings GetSettings()
         {
-            var data = ConfigManager.Get<TeleportFriendSettings>();
+            var data = ConfigManager.Get<GameStoreSettings>();
             return data;
         }
 
@@ -29,7 +29,7 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpPut]
         [Route("")]
-        public IHttpActionResult UpdateSettings([FromBody] TeleportFriendSettings model)
+        public IHttpActionResult UpdateSettings([FromBody] GameStoreSettings model)
         {
             ConfigManager.Update(model);
             return Ok();
@@ -41,9 +41,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public TeleportFriendSettings ResetSettings()
+        public GameStoreSettings ResetSettings()
         {
-            var data = ConfigManager.LoadDefault<TeleportFriendSettings>();
+            var data = ConfigManager.LoadDefault<GameStoreSettings>();
             return data;
         }
     }

@@ -6,6 +6,7 @@ namespace SdtdServerKit.WebApi.Controllers
     /// App Settings
     /// </summary>
     [Authorize]
+    [RoutePrefix("api/AppSettings")]
     public class AppSettingsController : ApiController
     {
         /// <summary>
@@ -13,6 +14,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("")]
         public AppSettings Get()
         {
             return ModApi.AppSettings;
@@ -23,6 +25,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
+        [Route("")]
         public IHttpActionResult Put([FromBody] AppSettings appSettings)
         {
             string json = JsonConvert.SerializeObject(appSettings);

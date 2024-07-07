@@ -1,7 +1,4 @@
-﻿using System.Security.Cryptography;
-using Webserver.WebAPI.APIs.WorldState;
-
-namespace SdtdServerKit.Commands
+﻿namespace SdtdServerKit.Commands
 {
     public class ResetPlayer : ConsoleCmdBase
     {
@@ -35,6 +32,8 @@ namespace SdtdServerKit.Commands
                 {
                     SdtdConsole.Instance.ExecuteSync(string.Format("kick {0}", cInfo.CrossplatformId.CombinedString), ModApi.CmdExecuteDelegate);
                     GameManager.Instance.World.aiDirector.RemoveEntity(entityPlayer);
+                    GC.Collect();
+                    MemoryPools.Cleanup();
                     ResetProfileExec(cInfo.CrossplatformId);
                     return;
                 }
@@ -45,6 +44,8 @@ namespace SdtdServerKit.Commands
                     var persistentPlayersDict = GameManager.Instance.GetPersistentPlayerList().Players;
                     if (persistentPlayersDict.TryGetValue(userId, out var persistentPlayerData))
                     {
+                        GC.Collect();
+                        MemoryPools.Cleanup();
                         ResetProfileExec(persistentPlayerData.PrimaryId);
                         return;
                     }
@@ -130,4 +131,3 @@ namespace SdtdServerKit.Commands
 
     }
 }
-
