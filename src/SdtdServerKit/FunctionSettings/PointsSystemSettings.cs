@@ -42,5 +42,29 @@
         /// </summary>
         public string QueryPointsTip { get; set; }
 
+        /// <summary>
+        /// 是否启用游戏内货币兑换积分
+        /// </summary>
+        public bool IsCurrencyExchangeEnabled { get; set; }
+
+        /// <summary>
+        /// 游戏内货币与积分兑换比例
+        /// </summary>
+        public double CurrencyToPointsExchangeRate { get; set; }
+
+        /// <summary>
+        /// 兑换命令
+        /// </summary>
+        public string CurrencyExchangeCmd { get; set; }
+
+        /// <summary>
+        /// 兑换成功提示
+        /// </summary>
+        public string ExchangeSuccessTip { get; set; }
+
+        /// <summary>
+        /// 兑换失败提示
+        /// </summary>
+        public string ExchangeFailureTip { get; set; }
     }
 }

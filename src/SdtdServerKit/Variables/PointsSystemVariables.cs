@@ -11,5 +11,10 @@
         /// 玩家总积分
         /// </summary>
         public int PlayerTotalPoints { get; set; }
+
+        /// <summary>
+        /// 游戏币数量
+        /// </summary>
+        public int CurrencyAmount { get; set; }
     }
 }

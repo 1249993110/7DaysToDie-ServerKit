@@ -39,7 +39,12 @@
     "SignInSuccessTip": "[00FF00]签到成功! 奖励积分: {SignInRewardPoints}, 您目前有积分: {PlayerTotalPoints}",
     "SignInFailureTip": "[FFFF00]签到失败! 请稍后再来吧",
     "QueryPointsCmd": "jf",
-    "QueryPointsTip": "[00FF00]您目前有积分: {PlayerTotalPoints}"
+    "QueryPointsTip": "[00FF00]您目前有积分: {PlayerTotalPoints}",
+    "IsCurrencyExchangeEnabled": false,
+    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyExchangeCmd": "dh",
+    "ExchangeSuccessTip": "[00FF00]兑换成功! 消耗游戏币: {CurrencyAmount}, 您目前有积分: {PlayerTotalPoints}",
+    "ExchangeFailureTip": "[FFFF00]兑换失败! 请准备好公爵赌场币或签到后再来吧"
   },
   "GameStoreSettings": {
     "IsEnabled": false,

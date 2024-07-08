@@ -80,13 +80,39 @@ namespace SdtdServerKit.Functions
 
                 return true;
             }
+            // 游戏内货币兑换积分命令
+            else if (Settings.IsCurrencyExchangeEnabled && string.Equals(message, Settings.CurrencyExchangeCmd, StringComparison.OrdinalIgnoreCase))
+            {
+                var pointsInfo = await _pointsInfoRepository.GetByIdAsync(playerId);
+                // 未签到
+                if (pointsInfo == null)
+                {
+                    SendMessageToPlayer(playerId, base.FormatCmd(Settings.ExchangeFailureTip, player));
+                    return true;
+                }
+                const string currencyName = "casinoCoin";
+                int currencyAmount = Utils.GetPlayerInventoryStackCount(playerId, currencyName);
+                if (currencyAmount <= 0)
+                {
+                    SendMessageToPlayer(playerId, base.FormatCmd(Settings.ExchangeFailureTip, player));
+                    return true;
+                }
+
+                Utils.ExecuteConsoleCommand($"ty-rpi {playerId} {currencyName}");
+                int increasePoints = (int)Math.Round(currencyAmount * Settings.CurrencyToPointsExchangeRate);
+                await _pointsInfoRepository.ChangePointsAsync(playerId, increasePoints);
+
+                SendMessageToPlayer(playerId, this.FormatCmd(Settings.ExchangeSuccessTip, player, pointsInfo.Points + increasePoints, currencyAmount));
+
+                return true;
+            }
             else
             {
                 return false;
             }
         }
 
-        private string FormatCmd(string message, IPlayer player, int playerTotalPoints)
+        private string FormatCmd(string message, IPlayer player, int playerTotalPoints, int currencyAmount = 0)
         {
             return StringTemplate.Render(message, new PointsSystemVariables()
             {
@@ -95,6 +121,7 @@ namespace SdtdServerKit.Functions
                 PlatformId = player.PlatformId,
                 PlayerName = player.PlayerName,
                 SignInRewardPoints = Settings.SignInRewardPoints,
+                CurrencyAmount = currencyAmount,
             });
         }
     }

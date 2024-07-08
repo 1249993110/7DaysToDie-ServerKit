@@ -4,6 +4,32 @@ namespace SdtdServerKit.Extensions
 {
     internal static class PlayerDataFileExtension
     {
+
+        public static int GetInventoryStackCount(this PlayerDataFile pdf, string itemName)
+        {
+            int count = 0;
+            var bag = ProcessInv(pdf.bag, pdf.id);
+            var belt = ProcessInv(pdf.inventory, pdf.id);
+
+            foreach (var item in bag)
+            {
+                if(item.ItemName == itemName)
+                {
+                    count += item.Count;
+                }
+            }
+
+            foreach (var item in belt)
+            {
+                if (item.ItemName == itemName)
+                {
+                    count += item.Count;
+                }
+            }
+
+            return count;
+        }
+
         #region Get Inventory
 
         public static Shared.Models.Inventory GetInventory(this PlayerDataFile pdf)

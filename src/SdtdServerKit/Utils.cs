@@ -6,6 +6,30 @@
     public static class Utils
     {
         /// <summary>
+        /// 获取玩家背包物品数量
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <param name="itemName"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static int GetPlayerInventoryStackCount(string playerId, string itemName)
+        {
+            var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);
+            if(userId == null)
+            {
+                throw new Exception("Invalid player id.");
+            }
+
+            var clientInfo = ConnectionManager.Instance.Clients.ForUserId(userId);
+            if (clientInfo == null)
+            {
+                throw new Exception("Player not found.");
+            }
+
+            return clientInfo.latestPlayerData.GetInventoryStackCount(itemName);
+        }
+
+        /// <summary>
         /// 给予玩家物品
         /// </summary>
         /// <param name="playerIdOrName"></param>
