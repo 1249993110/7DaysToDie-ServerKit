@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using System.IO.Compression;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 namespace SdtdServerKit
 {
@@ -73,6 +74,8 @@ namespace SdtdServerKit
 
                 LoadAppSettings();
 
+                LoadPlugins();
+
                 InitDependencyResolver();
 
                 StartupOwinHost();
@@ -87,6 +90,47 @@ namespace SdtdServerKit
             catch (Exception ex)
             {
                 CustomLogger.Error(ex, "Initialize mod: " + modInstance.Name + " failed.");
+            }
+        }
+
+        /// <summary>
+        /// LoadedPlugins
+        /// </summary>
+        public static IReadOnlyList<Assembly> LoadedPlugins => _loadedPlugins;
+        private static List<Assembly> _loadedPlugins = new List<Assembly>() { Assembly.GetExecutingAssembly() };
+        private static void LoadPlugins()
+        {
+            string[] assemblyFiles = Directory.GetFiles(Path.Combine(ModInstance.Path, "Plugins"), "*.dll");
+            foreach (var assemblyFile in assemblyFiles)
+            {
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(assemblyFile);
+                    _loadedPlugins.Add(assembly);
+
+                    foreach (Type type in assembly.GetExportedTypes())
+                    {
+                        if (typeof(IModApi).IsAssignableFrom(type))
+                        {
+                            string assemblyName = Path.GetFileName(assembly.Location);
+                            CustomLogger.Info("Found ModAPI in " + assemblyName + ", creating instance.");
+                            var modApi = (IModApi)Activator.CreateInstance(type);
+                            try
+                            {
+                                modApi.InitMod(ModInstance);
+                                CustomLogger.Info("Initialized ModAPI instance on mod '" + ModInstance.Name + "' from DLL '" + assemblyName + "'");
+                            }
+                            catch (Exception ex)
+                            {
+                                CustomLogger.Error(ex, "Failed initializing ModAPI instance on mod '" + ModInstance.Name + "' from DLL '" + assemblyName + "'");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CustomLogger.Error(ex, "Load plugin: " + assemblyFile + " failed.");
+                }
             }
         }
 
@@ -270,8 +314,10 @@ namespace SdtdServerKit
                 DbType = DbType.SQLite,
             });
 
-            var assembly = Assembly.GetExecutingAssembly();
-            builder.AddRepositories(assembly);
+            foreach (var item in _loadedPlugins)
+            {
+                builder.AddRepositories(item);
+            }
 
             #endregion
 
@@ -282,7 +328,7 @@ namespace SdtdServerKit
             }
 
             // Register your Web API controllers.
-            builder.RegisterApiControllers(assembly);
+            builder.RegisterApiControllers(_loadedPlugins.ToArray());
 
             // Run other optional steps, like registering filters,
             // per-controller-type services, etc., then set the dependency resolver

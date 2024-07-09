@@ -36,14 +36,18 @@ namespace SdtdServerKit.Managers
         internal static List<Type> GetFunctionTypes()
         {
             var types = new List<Type>();
-            foreach (var type in Assembly.GetExecutingAssembly().GetExportedTypes())
+
+            foreach (var assembly in ModApi.LoadedPlugins)
             {
-                if (typeof(IFunction).IsAssignableFrom(type) && type.IsAbstract == false)
+                foreach (var type in assembly.GetExportedTypes())
                 {
-                    types.Add(type);
+                    if (typeof(IFunction).IsAssignableFrom(type) && type.IsAbstract == false)
+                    {
+                        types.Add(type);
+                    }
                 }
             }
-
+            
             return types;
         }
 

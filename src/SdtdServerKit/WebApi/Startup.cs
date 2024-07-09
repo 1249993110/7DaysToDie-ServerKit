@@ -97,7 +97,7 @@ namespace SdtdServerKit.WebApi
                 });
             }
 
-            app.UseSwaggerUi(typeof(Startup).Assembly, settings =>
+            app.UseSwaggerUi(ModApi.LoadedPlugins, settings =>
             {
                 // configure settings here
                 // settings.GeneratorSettings.*: Generator settings and extension points
