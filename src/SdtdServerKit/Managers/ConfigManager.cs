@@ -70,10 +70,8 @@ namespace SdtdServerKit.Managers
                 {
                     _globalSettings = globalSettings;
                 }
-                else
-                {
-                    SettingsChanged?.Invoke(settings);
-                }
+
+                SettingsChanged?.Invoke(settings);
 
                 string json = JsonConvert.SerializeObject(settings, ModApi.JsonSerializerSettings);
                 var settingsRepository = ModApi.ServiceContainer.Resolve<ISettingsRepository>();

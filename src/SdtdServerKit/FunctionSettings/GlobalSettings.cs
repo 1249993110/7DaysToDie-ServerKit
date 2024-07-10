@@ -54,5 +54,10 @@
         /// 禁止家庭共享账号加入服务器
         /// </summary>
         public bool BlockFamilySharingAccount { get; set; }
+
+        /// <summary>
+        /// 是否移除POI中的睡袋
+        /// </summary>
+        public bool RemoveSleepingBagFromPOI { get; set; }
     }
 }

@@ -32,8 +32,8 @@ namespace SdtdServerKit.Functions
         void IFunction.LoadSettings()
         {
             _settings = ConfigManager.Get<TSettings>();
-            OnSettingsChanged();
             IsEnabled = Settings.IsEnabled;
+            OnSettingsChanged();
             ConfigManager.SettingsChanged += OnSettingsChanged;
         }
 

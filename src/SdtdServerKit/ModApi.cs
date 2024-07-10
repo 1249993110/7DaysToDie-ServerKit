@@ -76,13 +76,13 @@ namespace SdtdServerKit
 
                 LoadPlugins();
 
+                PatchByHarmony();
+
                 InitDependencyResolver();
 
                 StartupOwinHost();
 
                 StartupWebSocket();
-
-                PatchByHarmony();
 
                 RegisterModEventHandlers();
 
@@ -219,6 +219,7 @@ namespace SdtdServerKit
         }
 
         private static Harmony _harmony = null!;
+        public static Harmony Harmony => _harmony;
         private static void PatchByHarmony()
         {
             try

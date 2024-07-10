@@ -1,4 +1,5 @@
 ﻿using Platform.Steam;
+using SdtdServerKit.HarmonyPatchers;
 using SdtdServerKit.Hooks;
 using SdtdServerKit.Managers;
 using System.Timers;
@@ -12,7 +13,6 @@ namespace SdtdServerKit.Functions
     public class GlobalSettings : FunctionBase<FunctionSettings.GlobalSettings>
     {
         private readonly SubTimer autoRestartTimer;
-        new private FunctionSettings.GlobalSettings Settings => ConfigManager.GlobalSettings;
         public GlobalSettings()
         {
             ModEventHook.EntityKilled += OnEntityKilled;
@@ -21,6 +21,18 @@ namespace SdtdServerKit.Functions
             GlobalTimer.RegisterSubTimer(autoRestartTimer);
         }
 
+        protected override void OnSettingsChanged()
+        {
+            if (Settings.RemoveSleepingBagFromPOI)
+            {
+                RemoveSleepingBagFromPOI.Patch();
+            }
+            else
+            {
+                RemoveSleepingBagFromPOI.UnPatch();
+            }
+        }
+        
         private void BlockFamilySharingAccount(ClientInfo clientInfo)
         {
             if (clientInfo.PlatformId is UserIdentifierSteam userIdentifierSteam
