@@ -91,39 +91,58 @@ namespace SdtdServerKit.Hooks
         /// </summary>
         /// <param name="clientInfo"></param>
         /// <param name="eChatType"></param>
-        /// <param name="senderId"></param>
+        /// <param name="entityId"></param>
         /// <param name="message"></param>
         /// <param name="mainName"></param>
         /// <param name="recipientEntityIds"></param>
         /// <returns></returns>
-        public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderId, string message,
+        public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int entityId, string message,
             string mainName, List<int> recipientEntityIds)
         {
-            if(ChatMessage == null)
+            try
             {
-                return true;
-            }
+                if (ChatMessage == null)
+                {
+                    return true;
+                }
 
-            string? playerId = null;
-            int entityId = clientInfo == null ? senderId : clientInfo.entityId;
-            if(GameManager.Instance.World.Players.dict.TryGetValue(entityId, out EntityPlayer player))
-            {
-                playerId = ConnectionManager.Instance.Clients.ForEntityId(entityId)?.InternalId.CombinedString;
-            }
-        
-            var chatMessage = new ChatMessage()
-            {
-                ChatType = (ChatType)eChatType,
-                EntityId = entityId,
-                PlayerId = playerId,
-                Message = message,
-                //SenderName = clientInfo?.playerName ?? (localizeMain ? Localization.Get(mainName) : mainName),
-                SenderName = clientInfo?.playerName ?? Localization.Get(mainName),
-                CreatedAt = DateTime.Now,
-            };
+                string? playerId = null;
+                string? senderName = null;
+                if (entityId == -1)
+                {
+                    senderName = Localization.Get("xuiChatServer", false);
+                }
+                else
+                {
+                    senderName = mainName;
 
-            ChatMessageHook.OnChatMessage(chatMessage);
-            ChatMessage.Invoke(chatMessage);
+                    if (clientInfo != null && clientInfo.CrossplatformId != null)
+                    {
+                        playerId = clientInfo.CrossplatformId.CombinedString;
+                    }
+                    else if (GameManager.Instance.World.Players.dict.TryGetValue(entityId, out EntityPlayer player))
+                    {
+                        playerId = ConnectionManager.Instance.Clients.ForEntityId(entityId)?.CrossplatformId.CombinedString;
+                    }
+                }
+
+                var chatMessage = new ChatMessage()
+                {
+                    ChatType = (ChatType)eChatType,
+                    EntityId = entityId,
+                    PlayerId = playerId,
+                    Message = message,
+                    SenderName = senderName,
+                    CreatedAt = DateTime.Now,
+                };
+
+                ChatMessageHook.OnChatMessage(chatMessage);
+                ChatMessage.Invoke(chatMessage);
+            }
+            catch (Exception ex)
+            {
+                CustomLogger.Error("Error in ModEventHook.OnChatMessage: {0}", ex);
+            }
 
             return true;
         }

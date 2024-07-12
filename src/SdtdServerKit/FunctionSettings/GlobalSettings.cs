@@ -18,7 +18,7 @@
         /// <summary>
         /// 服务器名称
         /// </summary>
-        public string ServerName { get; set; }
+        //public string ServerName { get; set; }
 
         /// <summary>
         /// 聊天命令前缀

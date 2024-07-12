@@ -100,7 +100,14 @@ namespace SdtdServerKit
         private static List<Assembly> _loadedPlugins = new List<Assembly>() { Assembly.GetExecutingAssembly() };
         private static void LoadPlugins()
         {
-            string[] assemblyFiles = Directory.GetFiles(Path.Combine(ModInstance.Path, "Plugins"), "*.dll");
+            string dir = Path.Combine(ModInstance.Path, "Plugins");
+
+            if(Directory.Exists(dir) == false)
+            {
+                return;
+            }
+
+            string[] assemblyFiles = Directory.GetFiles(dir, "*.dll");
             foreach (var assemblyFile in assemblyFiles)
             {
                 try
@@ -246,7 +253,7 @@ namespace SdtdServerKit
                 ModEvents.GameAwake.RegisterHandler(ModEventHook.OnGameAwake);
                 ModEvents.GameStartDone.RegisterHandler(() =>
                 {
-                    WorldStaticDataHook.ReplaceXmlsToImplRemovePlayerItems();
+                    WorldStaticDataHook.ReplaceXmls();
                     _mapTileCache = (MapTileCache)MapRenderer.GetTileCache();
                     ModEventHook.OnGameStartDone();
                     IsGameStartDone = true;

@@ -75,9 +75,9 @@
             }
 
             var result = new List<Shared.Models.ItemBlock>();
-            for (int i = startId; i < endId; i++)
+            for (int id = startId; id < endId; id++)
             {
-                ItemClass item = ItemClass.GetForId(i);
+                ItemClass item = ItemClass.GetForId(id);
                 if (item != null)
                 {
                     EnumCreativeMode creativeMode = item.CreativeMode;
@@ -100,13 +100,14 @@
                         }
                         else
                         {
-                            localizationName = dict[itemName][languageIndex];
+                            localizationName = dict[itemName][languageIndex] ?? itemName;
                         }
 
                         if (string.IsNullOrEmpty(keyword) == false)
                         {
                             if (itemName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1
-                                && localizationName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1)
+                                && localizationName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1
+                                && id.ToString().IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1)
                             {
                                 continue;
                             }
@@ -114,7 +115,7 @@
 
                         var itemBlock = new Shared.Models.ItemBlock()
                         {
-                            Id = i,
+                            Id = id,
                             ItemName = itemName,
                             IconColor = item.GetIconTint().ToHex(),
                             MaxStackAllowed = item.Stacknumber.Value,

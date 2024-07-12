@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System.Reflection;
+using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit.HarmonyPatchers
 {
@@ -145,7 +146,7 @@ namespace SdtdServerKit.HarmonyPatchers
         public static void Patch()
         {
             PrivatePatch(
-                GetOriginal(typeof(GameManager), "ChangeBlocks"), 
+                GetOriginal(typeof(GameManager), nameof(GameManager.ChangeBlocks)), 
                 typeof(RemoveSleepingBagFromPOI),
                 _prefixName: nameof(GameManager_ChangeBlocks_Prefix));
 
@@ -154,11 +155,63 @@ namespace SdtdServerKit.HarmonyPatchers
         public static void UnPatch()
         {
             PrivateUnpatch(
-                GetOriginal(typeof(GameManager), "ChangeBlocks"), 
+                GetOriginal(typeof(GameManager), nameof(GameManager.ChangeBlocks)), 
                 typeof(RemoveSleepingBagFromPOI),
                 _prefixName: nameof(GameManager_ChangeBlocks_Prefix));
 
             CustomLogger.Info("UnPatch lpblock delete.");
+        }
+
+        private static void GameManager_ChangeBlocks_Postfix(
+            GameManager __instance,
+            PlatformUserIdentifierAbs persistentPlayerId,
+            List<BlockChangeInfo> _blocksToChange)
+        {
+            World world = __instance.World;
+            foreach (var info in _blocksToChange)
+            {
+                var blockToChange = info.blockValue.Block;
+                if (blockToChange is BlockLandClaim || blockToChange is BlockSleepingBag)
+                {
+                    var blockPosition = info.pos;
+                    int num = GameStats.GetInt(EnumGameStats.ScoreZombieKillMultiplier) / 2;
+                    int num2 = blockPosition.x - num;
+                    int num3 = blockPosition.x + num;
+                    int num4 = blockPosition.z - num;
+                    int num5 = blockPosition.z + num;
+                    var poiBulidings = new List<PrefabInstance>();
+                    GameManager.Instance.World.GetPOIsAtXZ(num2, num3, num4, num5, poiBulidings);
+                    if (poiBulidings.Count > 0)
+                    {
+                        //var persistentPlayerDataFromId = GameManager.Instance.GetPersistentPlayerList().GetPlayerData(persistentPlayerId);
+                        //persistentPlayerDataFromId.BedrollPos = new Vector3i(0, int.MaxValue, 0);
+                        //BlockValue oldBlockValue = world.GetBlock(blockPosition);
+                        //info.blockValue = oldBlockValue;
+                        CustomLogger.Info(string.Format("Land claim detected on: {0}, {1}", blockPosition.x, blockPosition.z));
+
+                        //string actionName = "remove_landclaims";
+                        //GameEventManager.Current.HandleAction(actionName, null, player, false, "");
+
+                        //var persistentPlayerData = GameManager.Instance.GetPersistentPlayerList().GetPlayerData(persistentPlayerId);
+                        //int entityId = persistentPlayerData.EntityId;
+
+
+                        //ConnectionManager.Instance.SendPackage(
+                        //    NetPackageManager.GetPackage<NetPackageGameEventResponse>()
+                        //    .Setup(actionName, entityId, null, null, NetPackageGameEventResponse.ResponseTypes.ClientSequenceAction, -1, this.ActionIndex, false), 
+                        //    false, entityId);
+
+                        //cInfo.SendPackage(NetPackageManager.GetPackage<NetPackageGameEventResponse>()
+                        //    .Setup(actionName, cInfo.entityId, string.Empty, string.Empty, NetPackageGameEventResponse.ResponseTypes.Approved));
+                    }
+
+                    //NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, _blocksToChange, -1);
+                    //foreach (var client in ConnectionManager.Instance.Clients.List)
+                    //{
+                    //    client.SendPackage(package);
+                    //}
+                }
+            }
         }
 
         private static bool GameManager_ChangeBlocks_Prefix(
@@ -169,39 +222,30 @@ namespace SdtdServerKit.HarmonyPatchers
             World world = __instance.World;
             foreach (var info in _blocksToChange)
             {
-                if (info == null)
-                {
-                    continue;
-                }
-
-                if (info.blockValue.Block.IndexName == "lpblock")
+                var blockToChange = info.blockValue.Block;
+                if (blockToChange is BlockLandClaim || blockToChange is BlockSleepingBag)
                 {
                     var blockPosition = info.pos;
-                    BlockValue oldBlockValue;
-                    var vector = blockPosition.ToVector3();
-                    float num = (float)GameStats.GetInt(EnumGameStats.ScoreZombieKillMultiplier) / 2F;
-                    int num2 = (int)(vector.x - num);
-                    int num3 = (int)(vector.x + num);
-                    int num4 = (int)(vector.z - num);
-                    int num5 = (int)(vector.z + num);
-                    List<PrefabInstance> list2 = new List<PrefabInstance>();
-                    GameManager.Instance.World.GetPOIsAtXZ(num2, num3, num4, num5, list2);
-                    if (list2.Count > 0)
+                    int num = GameStats.GetInt(EnumGameStats.ScoreZombieKillMultiplier) >> 2;
+                    int num2 = blockPosition.x - num;
+                    int num3 = blockPosition.x + num;
+                    int num4 = blockPosition.z - num;
+                    int num5 = blockPosition.z + num;
+                    var poiBulidings = new List<PrefabInstance>();
+                    GameManager.Instance.World.GetPOIsAtXZ(num2, num3, num4, num5, poiBulidings);
+                    if (poiBulidings.Count > 0)
                     {
-                        var persistentPlayerDataFromId = GameManager.Instance.GetPersistentPlayerList().GetPlayerData(persistentPlayerId);
-                        persistentPlayerDataFromId.BedrollPos = new Vector3i(0, int.MaxValue, 0);
-                        oldBlockValue = world.GetBlock(blockPosition);
+                        BlockValue oldBlockValue = world.GetBlock(blockPosition);
                         info.blockValue = oldBlockValue;
-                        CustomLogger.Info(string.Format("Sleeping Bag detected on: {0}, {1}", blockPosition.x, blockPosition.z));
+
+                        NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, new List<BlockChangeInfo>() { info }, -1);
+                        ConnectionManager.Instance.Clients.ForUserId(persistentPlayerId).SendPackage(package);
+
+                        CustomLogger.Info("Land claim detected on: {0}, {1}", blockPosition.x, blockPosition.z);
                     }
-                    NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, _blocksToChange, -1);
-                    foreach (var client in ConnectionManager.Instance.Clients.List)
-                    {
-                        client.SendPackage(package);
-                    }
-                    return true;
                 }
             }
+
             return true;
         }
     }

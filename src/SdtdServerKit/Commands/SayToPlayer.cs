@@ -38,12 +38,13 @@
                 senderName = sender.playerName;
             }
 
-            receiver.SendPackage(NetPackageManager.GetPackage<NetPackageChat>().Setup(EChatType.Whisper, -1, message, senderName, null));
+            //receiver.SendPackage(NetPackageManager.GetPackage<NetPackageChat>().Setup(EChatType.Whisper, -1, message, null, EMessageSender.Server));
 
             CustomLogger.Info("Message \"{0}\" to player {1} sent with sender {2}.", message, receiver.PlatformId.CombinedString, senderId);
+            
         }
 
-        private void InternalExecute(ClientInfo? sender, List<string> args)
+        private void InternalExecute(int senderEntityId, List<string> args)
         {
             if (args.Count < 2)
             {
@@ -60,8 +61,13 @@
             }
             else
             {
-                string senderName = (args.Count < 3 || string.IsNullOrEmpty(args[2])) ? Common.DefaultServerName : args[2];
-                SendMessage(receiver, sender, message, senderName);
+                GameManager.Instance.ChatMessageServer(
+                    ModApi.CmdExecuteDelegate,
+                    EChatType.Whisper, 
+                    senderEntityId,
+                    message, 
+                    new List<int>() { receiver.entityId }, 
+                    EMessageSender.Server);
             }
         }
 
@@ -70,12 +76,12 @@
             // From game client.
             if (senderInfo.RemoteClientInfo != null)
             {
-                InternalExecute(senderInfo.RemoteClientInfo, args);
+                InternalExecute(senderInfo.RemoteClientInfo.entityId, args);
             }
             // From console.
             else
             {
-                InternalExecute(null, args);
+                InternalExecute(-1, args);
             }
         }
     }

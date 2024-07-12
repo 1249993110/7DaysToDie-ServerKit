@@ -362,5 +362,9 @@
   "TwitchBloodMoonAllowed": {
     "Group": "其他",
     "Desc": "是否允许 Twitch 血月。如果服务器允许在血月期间进行Twitch操作, 可能会在血月期间产生额外的僵尸, 从而导致服务器滞后"
+  },
+  "QuestProgressionDailyLimit": {
+    "Group": "其他",
+    "Desc": "每日任务进度限制。限制玩家每天可完成的有助于任务等级提升的任务数量。超过限制的任务仍可完成以获得奖励"
   }
 }

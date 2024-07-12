@@ -40,7 +40,7 @@ namespace SdtdServerKit.Hooks
                 Utils.SendPrivateMessage(new PrivateMessage()
                 {
                     Message = ConfigManager.GlobalSettings.HandleChatMessageError,
-                    SenderName = ConfigManager.GlobalSettings.ServerName,
+                    //SenderName = ConfigManager.GlobalSettings.ServerName,
                     TargetPlayerIdOrName = onlinePlayer.CrossplatformId,
                 });
 
@@ -133,7 +133,7 @@ namespace SdtdServerKit.Hooks
                     Utils.SendPrivateMessage(new PrivateMessage()
                     {
                         Message = ConfigManager.GlobalSettings.HandleChatMessageError,
-                        SenderName = ConfigManager.GlobalSettings.ServerName,
+                        //SenderName = ConfigManager.GlobalSettings.ServerName,
                         TargetPlayerIdOrName = chatMessage.PlayerId!,
                     });
                 }

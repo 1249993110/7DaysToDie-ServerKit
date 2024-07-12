@@ -79,7 +79,7 @@ namespace SdtdServerKit.Commands
                         if (itemValue.HasQuality)
                         {
                             itemValue.Quality = 1;
-                            if (args.Count > 3 && int.TryParse(args[3], out int itemQuality))
+                            if (args.Count > 3 && ushort.TryParse(args[3], out var itemQuality))
                             {
                                 if (itemQuality > 0)
                                 {

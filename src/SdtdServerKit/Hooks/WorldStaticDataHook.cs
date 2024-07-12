@@ -13,7 +13,10 @@ namespace SdtdServerKit.Hooks
         public const string TagPrefix = "ty_";
         public const string ActionPrefix = "action_";
 
-        public static void ReplaceXmlsToImplRemovePlayerItems()
+        /// <summary>
+        /// ToImplRemovePlayerItems
+        /// </summary>
+        public static void ReplaceXmls()
         {
             var xmlsToLoad = WorldStaticData.xmlsToLoad;
             var addedTags = new HashSet<string>();

@@ -11,9 +11,7 @@
         {
             return "Usage:\n" +
                "  1. ty-gm <Message>\n" +
-               "  2. ty-gm <Message> <SenderName>\n" +
-               "1. Sends a message to all connected clients by default server name: " + Common.DefaultServerName + "\n" +
-               "2. Sends a message to all connected clients by sender name";
+               "1. Sends a message to all connected clients by sender name.";
         }
 
         public override string[] getCommands()
@@ -35,9 +33,7 @@
             }
 
             string message = args[0];
-            string senderName = (args.Count < 2 || string.IsNullOrEmpty(args[1])) ? Common.DefaultServerName : args[1];
-
-            GameManager.Instance.ChatMessageServer(ModApi.CmdExecuteDelegate, EChatType.Global, -1, message, senderName, null);
+            GameManager.Instance.ChatMessageServer(ModApi.CmdExecuteDelegate, EChatType.Global, -1, message, null, EMessageSender.Server);
         }
     }
 }
