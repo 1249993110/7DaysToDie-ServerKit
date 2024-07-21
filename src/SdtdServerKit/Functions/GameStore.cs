@@ -12,11 +12,16 @@ namespace SdtdServerKit.Functions
     {
         private readonly IGoodsRepository _goodsRepository;
         private readonly IPointsInfoRepository _pointsInfoRepository;
+        private readonly IItemListRepository _itemListRepository;
+        private readonly ICommandListRepository _commandListRepository;
+
         /// <inheritdoc/>
-        public GameStore(IPointsInfoRepository pointsInfoRepository, IGoodsRepository goodsRepository)
+        public GameStore(IPointsInfoRepository pointsInfoRepository, IGoodsRepository goodsRepository, IItemListRepository itemListRepository, ICommandListRepository commandListRepository)
         {
             _pointsInfoRepository = pointsInfoRepository;
             _goodsRepository = goodsRepository;
+            _itemListRepository = itemListRepository;
+            _commandListRepository = commandListRepository;
         }
         /// <inheritdoc/>
         protected override async Task<bool> OnChatCmd(string message, OnlinePlayer onlinePlayer)
@@ -60,27 +65,16 @@ namespace SdtdServerKit.Functions
                     {
                         await _pointsInfoRepository.ChangePointsAsync(playerId, -goods.Price);
 
-                        if(goods.ContentType == GoodsContentType.Item)
+                        var itemList = await _itemListRepository.GetListByGoodsIdAsync(goods.Id);
+                        foreach (var item in itemList)
                         {
-                            var item = JsonConvert.DeserializeObject<SdtdServerKit.Shared.Models.ItemStack>(goods.Content, ModApi.JsonSerializerSettings);
-                            if (item != null)
-                            {
-                                Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
-                            }
+                            Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
                         }
-                        else if(goods.ContentType == GoodsContentType.Command)
+
+                        var commandList = await _commandListRepository.GetListByGoodsIdAsync(goods.Id);
+                        foreach (var item in commandList)
                         {
-                            string[]? cmds = JsonConvert.DeserializeObject<string[]>(goods.Content, ModApi.JsonSerializerSettings);
-                            if(cmds != null)
-                            {
-                                foreach (var cmd in cmds)
-                                {
-                                    if(string.IsNullOrEmpty(cmd) == false)
-                                    {
-                                        Utils.ExecuteConsoleCommand(FormatCmd(cmd, onlinePlayer, goods), goods.InMainThread);
-                                    }
-                                }
-                            }
+                            Utils.ExecuteConsoleCommand(FormatCmd(item.Command, onlinePlayer, goods), item.InMainThread);
                         }
 
                         SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, onlinePlayer, goods));

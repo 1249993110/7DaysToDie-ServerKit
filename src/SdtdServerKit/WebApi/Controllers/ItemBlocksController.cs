@@ -119,7 +119,7 @@
                             ItemName = itemName,
                             IconColor = item.GetIconTint().ToHex(),
                             MaxStackAllowed = item.Stacknumber.Value,
-                            ItemIcon = item.GetIconName(),
+                            IconName = item.GetIconName(),
                             IsBlock = item.IsBlock(),
                             LocalizationName = localizationName
                         };

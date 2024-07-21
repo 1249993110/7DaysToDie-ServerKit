@@ -23,7 +23,7 @@
         /// <summary>
         /// 图标
         /// </summary>
-        public string Icon { get; set; }
+        public string IconName { get; set; }
 
         /// <summary>
         /// 图标颜色

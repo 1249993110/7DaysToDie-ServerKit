@@ -219,6 +219,18 @@ namespace SdtdServerKit.HarmonyPatchers
             PlatformUserIdentifierAbs persistentPlayerId,
             List<BlockChangeInfo> _blocksToChange)
         {
+            if(persistentPlayerId == null)
+            {
+                return true;
+            }
+
+            var clientInfo = ConnectionManager.Instance.Clients.ForUserId(persistentPlayerId);
+
+            if(clientInfo == null)
+            {
+                return true;
+            }
+
             World world = __instance.World;
             foreach (var info in _blocksToChange)
             {
@@ -239,7 +251,7 @@ namespace SdtdServerKit.HarmonyPatchers
                         info.blockValue = oldBlockValue;
 
                         NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, new List<BlockChangeInfo>() { info }, -1);
-                        ConnectionManager.Instance.Clients.ForUserId(persistentPlayerId).SendPackage(package);
+                        clientInfo.SendPackage(package);
 
                         CustomLogger.Info("Land claim detected on: {0}, {1}", blockPosition.x, blockPosition.z);
                     }

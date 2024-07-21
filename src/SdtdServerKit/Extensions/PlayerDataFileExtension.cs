@@ -153,7 +153,7 @@ namespace SdtdServerKit.Extensions
                     ItemName = name,
                     Count = count,
                     Quality = quality,
-                    Icon = itemClass.GetIconName(),
+                    IconName = itemClass.GetIconName(),
                     IconColor = itemClass.GetIconTint().ToHex(),
                     QualityColor = qualityColor,
                     MaxUseTimes = itemValue.MaxUseTimes,

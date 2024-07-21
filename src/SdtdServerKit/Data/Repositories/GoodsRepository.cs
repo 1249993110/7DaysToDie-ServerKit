@@ -9,11 +9,6 @@ namespace SdtdServerKit.Data.Repositories
     public class GoodsRepository : DefaultRepository<T_Goods>, IGoodsRepository
     {
         /// <inheritdoc/>
-        public Task<T_Goods?> GetByNameAsync(string name)
-        {
-            return base.GetFirstOrDefaultAsync("Name=@Name", param: new { Name = name });
-        }
-        /// <inheritdoc/>
         public Task<IEnumerable<T_Goods>> GetAllOrderByIdAsync()
         {
             return base.GetListAsync(orderByClause: "Id ASC");
