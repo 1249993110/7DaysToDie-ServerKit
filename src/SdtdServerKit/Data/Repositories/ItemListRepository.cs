@@ -18,6 +18,13 @@ namespace SdtdServerKit.Data.Repositories
         }
 
         /// <inheritdoc/>
+        public Task<IEnumerable<T_ItemList>> GetListByVipGiftIdAsync(string vipGiftId)
+        {
+            string whereClause = "Id IN (SELECT ItemId FROM T_VipGiftItem WHERE VipGiftId=@VipGiftId)";
+            return base.GetListAsync(whereClause, param: new { VipGiftId = vipGiftId });
+        }
+
+        /// <inheritdoc/>
         public Task<PagedDto<T_ItemList>> GetPagedListAsync(PaginationQueryDto dto)
         {
             var whereClauseSB = new StringBuilder("1=1");

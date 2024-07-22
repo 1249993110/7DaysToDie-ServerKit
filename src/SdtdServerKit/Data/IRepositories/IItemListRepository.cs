@@ -17,6 +17,13 @@ namespace SdtdServerKit.Data.IRepositories
         Task<IEnumerable<T_ItemList>> GetListByGoodsIdAsync(int goodsId);
 
         /// <summary>
+        /// 根据VIP礼包Id获取物品清单
+        /// </summary>
+        /// <param name="vipGiftId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<T_ItemList>> GetListByVipGiftIdAsync(string vipGiftId);
+
+        /// <summary>
         /// 分页获取物品清单
         /// </summary>
         /// <param name="dto"></param>

@@ -107,5 +107,12 @@
     "ResetIntervalAfterManualBackup": true,
     "SkipIfThereAreNoPlayers": true,
     "ArchiveFolder": "LSTY_Data/Backup"
+  },
+  "VipGiftSettings": {
+    "IsEnabled": false,
+    "ClaimCmd": "VIP",
+    "HasClaimedTip": "[00FF00]您已经领取过礼包了~",
+    "NonVipTip": "[00FF00]您还不是VIP哦~",
+    "ClaimSuccessTip": "[00FF00]恭喜您成功领取了礼包: {GiftName}"
   }
 }
