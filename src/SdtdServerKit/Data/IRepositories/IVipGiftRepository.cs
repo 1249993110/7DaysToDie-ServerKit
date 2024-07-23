@@ -8,6 +8,10 @@ namespace SdtdServerKit.Data.IRepositories
     /// </summary>
     public interface IVipGiftRepository : IRepository<T_VipGift>
     {
-
+        /// <summary>
+        /// 重置领取状态
+        /// </summary>
+        /// <returns></returns>
+        Task<int> ResetClaimStateAsync();
     }
 }

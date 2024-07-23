@@ -125,10 +125,11 @@ namespace SdtdServerKit.WebApi.Controllers
         /// </summary>
         /// <param name="ids"></param>
         /// <param name="deleteAll"></param>
+        /// <param name="resetAll"></param>
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public async Task<IHttpActionResult> Delete([FromUri] string[]? ids, [FromUri] bool deleteAll = false)
+        public async Task<IHttpActionResult> Delete([FromUri] string[]? ids, [FromUri] bool deleteAll = false, [FromUri] bool resetAll = false)
         {
             int count = 0;
 
@@ -136,7 +137,11 @@ namespace SdtdServerKit.WebApi.Controllers
             {
                count = await _vipGiftRepository.DeleteAllAsync(true);
             }
-            else if(ids != null && ids.Length > 0)
+            else if (resetAll)
+            {
+                count = await _vipGiftRepository.ResetClaimStateAsync();
+            }
+            else if (ids != null && ids.Length > 0)
             {
                 count = await _vipGiftRepository.DeleteByIdsAsync(ids, true);
             }

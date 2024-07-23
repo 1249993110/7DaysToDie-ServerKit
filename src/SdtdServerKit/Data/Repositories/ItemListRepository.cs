@@ -1,4 +1,5 @@
 ﻿using IceCoffee.SimpleCRUD.Dtos;
+using IceCoffee.SimpleCRUD.SqlGenerators;
 using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
 using System.Text;
@@ -20,7 +21,8 @@ namespace SdtdServerKit.Data.Repositories
         /// <inheritdoc/>
         public Task<IEnumerable<T_ItemList>> GetListByVipGiftIdAsync(string vipGiftId)
         {
-            string whereClause = "Id IN (SELECT ItemId FROM T_VipGiftItem WHERE VipGiftId=@VipGiftId)";
+            string tableName = GetSqlGenerator<T_VipGiftItem>().TableName;
+            string whereClause = $"Id IN (SELECT ItemId FROM {tableName} WHERE VipGiftId=@VipGiftId)";
             return base.GetListAsync(whereClause, param: new { VipGiftId = vipGiftId });
         }
 

@@ -54,6 +54,7 @@ namespace SdtdServerKit.Functions
 
                     vipGift.ClaimState = true;
                     vipGift.TotalClaimCount++;
+                    vipGift.LastClaimAt = DateTime.Now;
                     await _vipGiftRepository.UpdateAsync(vipGift);
 
                     SendMessageToPlayer(playerId, FormatCmd(Settings.ClaimSuccessTip, onlinePlayer, vipGift));

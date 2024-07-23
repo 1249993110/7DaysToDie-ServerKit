@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SdtdServerKit.Data.Entities
 {
+    [Table("T_VipGiftCommand_v1")]
     public class T_VipGiftCommand
     {
         [PrimaryKey]

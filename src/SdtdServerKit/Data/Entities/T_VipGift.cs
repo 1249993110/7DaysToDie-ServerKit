@@ -5,7 +5,7 @@ namespace SdtdServerKit.Data.Entities
     /// <summary>
     /// 商品
     /// </summary>
-    [Table("T_VipGift")]
+    [Table("T_VipGift_v1")]
     public class T_VipGift
     {
         /// <summary>
@@ -34,6 +34,11 @@ namespace SdtdServerKit.Data.Entities
         /// 总领取次数
         /// </summary>
         public int TotalClaimCount { get; set; }
+
+        /// <summary>
+        /// 最后领取日期
+        /// </summary>
+        public DateTime? LastClaimAt { get; set; }
 
         /// <summary>
         /// 说明
