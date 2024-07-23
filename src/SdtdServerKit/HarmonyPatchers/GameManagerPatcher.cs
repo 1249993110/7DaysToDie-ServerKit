@@ -3,12 +3,12 @@ using Noemax.GZip;
 
 namespace SdtdServerKit.HarmonyPatchers
 {
-    [HarmonyPatch(typeof(DynamicMeshClientConnection))]
-    internal class DynamicMeshClientConnectionPatcher
+    [HarmonyPatch(typeof(GameManager))]
+    internal class GameManagerPatcher
     {
         [HarmonyPrefix]
-        [HarmonyPatch(nameof(DynamicMeshClientConnection.UpdateItemsToSend), new Type[] { typeof(DynamicMeshClientConnection), typeof(NetPackageDynamicClientArrive) })]
-        public static bool UpdateItemsToSend(DynamicMeshClientConnection data, NetPackageDynamicClientArrive package)
+        [HarmonyPatch(nameof(GameManager.RequestToSpawnPlayer))]
+        public static bool RequestToSpawnPlayer(ClientInfo _cInfo, int _chunkViewDim, PlayerProfile _playerProfile)
         {
             var xmlsToLoad = WorldStaticData.xmlsToLoad;
 
@@ -23,7 +23,7 @@ namespace SdtdServerKit.HarmonyPatchers
                         deflateOutputStream.WriteByte(0);
                     }
 
-                    package.Sender.SendPackage(NetPackageManager.GetPackage<NetPackageConfigFile>().Setup(xmlName, compressedMemoryStream.ToArray()));
+                    _cInfo.SendPackage(NetPackageManager.GetPackage<NetPackageConfigFile>().Setup(xmlName, compressedMemoryStream.ToArray()));
                 }
             }
 

@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS T_VipGift(
 	Name TEXT NOT NULL,								--礼包名称
 	ClaimState INTEGER NOT NULL,					--领取状态
 	TotalClaimCount INTEGER NOT NULL,				--总领取次数
-	Description TEXT NULL							--说明
+	--LastClaimAt TEXT,								--上次领取日期
+	Description TEXT								--说明
 );
 
 --启用外键

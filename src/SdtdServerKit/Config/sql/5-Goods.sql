@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS T_Goods_v2(
 	CreatedAt TEXT NOT NULL,						--创建日期
 	Name TEXT NOT NULL,								--商品名称
 	Price INTEGER NOT NULL,							--售价
-	Description TEXT NULL							--说明
+	Description TEXT								--说明
 );
 
 --启用外键
