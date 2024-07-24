@@ -16,15 +16,14 @@ CREATE INDEX IF NOT EXISTS Index_TeleRecord_1 ON T_TeleRecord(PlayerName);
 CREATE INDEX IF NOT EXISTS Index_TeleRecord_2 ON T_TeleRecord(TargetType);
 
 --公共回城点
-CREATE TABLE IF NOT EXISTS T_CityLocation(
-	Id INTEGER PRIMARY KEY AUTOINCREMENT,	--唯一Id
+CREATE TABLE IF NOT EXISTS T_CityLocation_v1(
+	Id INTEGER PRIMARY KEY,					--唯一Id
 	CreatedAt TEXT NOT NULL,				--创建日期
 	CityName TEXT NOT NULL,					--城镇名称
 	PointsRequired INTEGER NOT NULL,		--传送需要积分
-	Position TEXT NOT NULL					--三维坐标
+	Position TEXT NOT NULL,					--三维坐标
+	ViewDirection TEXT						--视角方向
 );
---创建索引
-CREATE UNIQUE INDEX IF NOT EXISTS Index_CityLocation_0 ON T_CityLocation(CityName);
 
 --私人回城点
 CREATE TABLE IF NOT EXISTS T_HomeLocation(

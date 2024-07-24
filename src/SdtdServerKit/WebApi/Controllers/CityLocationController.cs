@@ -61,10 +61,12 @@ namespace SdtdServerKit.WebApi.Controllers
         {
             var entity = new T_CityLocation()
             {
+                Id = model.Id,
                 CityName = model.CityName,
                 CreatedAt = DateTime.Now,
                 PointsRequired = model.PointsRequired,
-                Position = model.Position
+                Position = model.Position,
+                ViewDirection = model.ViewDirection
             };
             await _repository.InsertAsync(entity);
             return Ok();
@@ -88,6 +90,7 @@ namespace SdtdServerKit.WebApi.Controllers
             entity.CityName = model.CityName;
             entity.PointsRequired = model.PointsRequired;
             entity.Position = model.Position;
+            entity.ViewDirection = model.ViewDirection;
             await _repository.UpdateAsync(entity);
             return Ok();
         }

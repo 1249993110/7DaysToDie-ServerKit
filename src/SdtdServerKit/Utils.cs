@@ -115,8 +115,9 @@
         /// </summary>
         /// <param name="originPlayerIdOrName"></param>
         /// <param name="targetPlayerIdOrNameOrPosition"></param>
+        /// <param name="viewDirection"></param>
         /// <returns></returns>
-        public static IEnumerable<string> TeleportPlayer(string originPlayerIdOrName, string targetPlayerIdOrNameOrPosition)
+        public static IEnumerable<string> TeleportPlayer(string originPlayerIdOrName, string targetPlayerIdOrNameOrPosition, string? viewDirection = null)
         {
             string target = targetPlayerIdOrNameOrPosition;
             if (target.Split(' ').Length != 3)
@@ -124,7 +125,14 @@
                 target = FormatCommandArgs(target);
             }
 
-            return ExecuteConsoleCommand($"tele {FormatCommandArgs(originPlayerIdOrName)} {target}");
+            if (viewDirection == null)
+            {
+                return ExecuteConsoleCommand($"tele {FormatCommandArgs(originPlayerIdOrName)} {target}");
+            }
+            else
+            {
+                return ExecuteConsoleCommand($"tele {FormatCommandArgs(originPlayerIdOrName)} {target} {viewDirection}");
+            }
         }
 
         /// <summary>

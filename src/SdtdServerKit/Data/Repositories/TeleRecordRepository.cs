@@ -15,7 +15,7 @@ namespace SdtdServerKit.Data.Repositories
             return base.GetFirstOrDefaultAsync(
                 "PlayerId=@PlayerId AND TargetType=@TargetType", 
                 "CreatedAt DESC LIMIT 1", 
-                param: new { PlayerId = playerId, TargetType = teleTargetType });
+                param: new { PlayerId = playerId, TargetType = teleTargetType.ToString() });
         }
     }
 }

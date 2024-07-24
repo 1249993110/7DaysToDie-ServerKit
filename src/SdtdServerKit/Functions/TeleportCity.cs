@@ -38,11 +38,9 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    int index = 0;
                     foreach (var item in cityPositions)
                     {
-                        index++;
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, onlinePlayer, item, serialNumber: index));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, onlinePlayer, item));
                     }
                 }
 
@@ -50,8 +48,8 @@ namespace SdtdServerKit.Functions
             }
             else if (message.StartsWith(Settings.TeleCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
             {
-                string cityName = message.Substring(Settings.TeleCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
-                var cityPosition = await _cityLocationRepository.GetByNameAsync(cityName);
+                int cityId = message.Substring(Settings.TeleCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length).ToInt(-1);
+                var cityPosition = await _cityLocationRepository.GetByIdAsync(cityId);
                 if (cityPosition == null)
                 {
                     return false;
@@ -90,7 +88,7 @@ namespace SdtdServerKit.Functions
                         }
 
                         await _pointsInfoRepository.ChangePointsAsync(playerId, -cityPosition.PointsRequired);
-                        Utils.TeleportPlayer(onlinePlayer.EntityId.ToString(), cityPosition.Position);
+                        Utils.TeleportPlayer(onlinePlayer.EntityId.ToString(), cityPosition.Position, cityPosition.ViewDirection);
                         SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, onlinePlayer, cityPosition));
                         
                         await _teleRecordRepository.InsertAsync(new T_TeleRecord()
@@ -114,18 +112,18 @@ namespace SdtdServerKit.Functions
             return false;
         }
 
-        private string FormatCmd(string message, OnlinePlayer player, T_CityLocation position, int cooldownSeconds = 0, int serialNumber = 0)
+        private string FormatCmd(string message, OnlinePlayer player, T_CityLocation position, int cooldownSeconds = 0)
         {
             return StringTemplate.Render(message, new TeleportCityVariables()
             {
                 EntityId = player.EntityId,
                 PlatformId = player.PlatformId,
                 PlayerName = player.PlayerName,
-                PointsRequired = position.PointsRequired,
+                CityId = position.Id,
                 CityName = position.CityName,
                 TeleInterval = Settings.TeleInterval,
+                PointsRequired = position.PointsRequired,
                 CooldownSeconds = cooldownSeconds,
-                SerialNumber = serialNumber
             });
         }
     }
