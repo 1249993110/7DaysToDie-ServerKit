@@ -3,9 +3,14 @@ A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and
 
 开源的 7 Days to Die 专用服务器的MOD。提供 RESTful API 和强大的网页管理面板，帮助各服主和管理员管理七日杀专用服务器。同时支持 Linux 和 Windows。
 
+使用教程：https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
+
+接口文档：https://docs.7dtd.top
+
+前端仓库：https://github.com/1249993110/7DaysToDie-ServerKit-webui
+
 欢迎加入服主交流QQ群：470804744
 
-[前端仓库](https://github.com/1249993110/7DaysToDie-ServerKit-webui)
 
 # Screenshots
 ![天依10 0](https://github.com/user-attachments/assets/9cc02734-1c7b-4cc6-ab32-fd08d31a3f80)
