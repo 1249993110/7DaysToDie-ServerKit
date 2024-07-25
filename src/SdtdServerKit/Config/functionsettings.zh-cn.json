@@ -89,7 +89,7 @@
     "TeleHomeCmdPrefix": "home",
     "PointsRequiredForTele": 2,
     "NoHomeTip": "[00FF00]您尚未设置过家, 请输入 /setHome 设置",
-    "LocationItemTip": "{SerialNumber}. [00FF00]<[FF0000]{HomeName}[00FF00]>",
+    "LocationItemTip": "[FFFFFF]输入: [00FF00]home-{HomeName} [FFFFFF]传送到[FF0000]{HomeName}[00FF00]",
     "OverLimitTip": "[00FF00]超过最大设置数, 您最多可设置3个家",
     "SetPointsNotEnoughTip": "[00FF00]积分不够! 需要积分: 2",
     "SetSuccessTip": "[00FF00]设置成功",

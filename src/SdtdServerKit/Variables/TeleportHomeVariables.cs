@@ -17,9 +17,5 @@
         /// </summary>
         public int CooldownSeconds { get; set; }
 
-        /// <summary>
-        /// 序号
-        /// </summary>
-        public int SerialNumber { get; set; }
     }
 }

@@ -37,11 +37,9 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    int index = 0;
                     foreach (var item in positions)
                     {
-                        index++;
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, onlinePlayer, item, serialNumber: index));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, onlinePlayer, item));
                     }
                 }
 
@@ -183,7 +181,7 @@ namespace SdtdServerKit.Functions
             return false;
         }
 
-        private string FormatCmd(string message, OnlinePlayer player, T_HomeLocation position, int cooldownSeconds = 0, int serialNumber = 0)
+        private string FormatCmd(string message, OnlinePlayer player, T_HomeLocation position, int cooldownSeconds = 0)
         {
             return StringTemplate.Render(message, new TeleportHomeVariables()
             {
@@ -193,7 +191,6 @@ namespace SdtdServerKit.Functions
                 CooldownSeconds = cooldownSeconds,
                 HomeName = position.HomeName,
                 TeleInterval = Settings.TeleInterval,
-                SerialNumber = serialNumber
             });
         }
     }
