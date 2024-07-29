@@ -76,8 +76,9 @@ namespace SdtdServerKit.WebApi.Controllers
                 Quality = model.Quality,
                 Description = model.Description,
             };
-            await _repository.InsertAsync(entity);
-            return Ok();
+
+            int id = await _repository.InsertAsync<int>(entity);
+            return Ok(id);
         }
 
         /// <summary>

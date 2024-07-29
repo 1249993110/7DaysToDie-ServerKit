@@ -59,5 +59,15 @@
         /// 是否移除POI中的睡袋
         /// </summary>
         public bool RemoveSleepingBagFromPOI { get; set; }
+
+        /// <summary>
+        /// 是否启用玩家初始出生点
+        /// </summary>
+        public bool IsEnablePlayerInitialSpawnPoint { get; set; }
+
+        /// <summary>
+        /// 玩家初始坐标
+        /// </summary>
+        public string PlayerInitialPosition { get; set; }
     }
 }

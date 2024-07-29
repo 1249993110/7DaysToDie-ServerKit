@@ -31,6 +31,11 @@
         public bool SkipIfThereAreNoPlayers { get; set; }
 
         /// <summary>
+        /// 是否在服务器启动时自动备份
+        /// </summary>
+        public bool AutoBackupOnServerStartup { get; set; }
+
+        /// <summary>
         /// 备份文件夹
         /// </summary>
         public string ArchiveFolder { get; set; } = null!;

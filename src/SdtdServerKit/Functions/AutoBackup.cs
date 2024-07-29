@@ -1,11 +1,5 @@
-﻿using SdtdServerKit.FunctionSettings;
-using SdtdServerKit.Hooks;
-using SdtdServerKit.Variables;
-using System.CodeDom.Compiler;
+﻿using SdtdServerKit.Hooks;
 using System.IO.Compression;
-using System.IO;
-using Microsoft.Owin.FileSystems;
-using UnityEngine;
 
 namespace SdtdServerKit.Functions
 {
@@ -29,13 +23,24 @@ namespace SdtdServerKit.Functions
             GlobalTimer.UnregisterSubTimer(_timer);
             ModEventHook.PlayerSpawnedInWorld -= OnPlayerSpawnedInWorld;
             ModEventHook.PlayerDisconnected -= OnPlayerDisconnected;
+            ModEventHook.GameStartDone -= OnGameStartDone;
         }
+
+        private void OnGameStartDone()
+        {
+            if (Settings.IsEnabled && Settings.AutoBackupOnServerStartup)
+            {
+                ExecuteInternal();
+            }
+        }
+
         /// <inheritdoc/>
         protected override void OnEnableFunction()
         {
             GlobalTimer.RegisterSubTimer(_timer);
             ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
             ModEventHook.PlayerDisconnected += OnPlayerDisconnected;
+            ModEventHook.GameStartDone += OnGameStartDone;
         }
 
         /// <inheritdoc/>
@@ -96,47 +101,54 @@ namespace SdtdServerKit.Functions
 
         private void ExecuteInternal()
         {
-            string backupSrcPath = GameIO.GetSaveGameDir();
-            string backupDestPath = Path.Combine(AppContext.BaseDirectory, Settings.ArchiveFolder);
-            Directory.CreateDirectory(backupDestPath);
-
-            // 服务端版本、游戏世界、游戏名称、游戏时间
-            string serverVersion = Constants.cVersionInformation.LongString;
-            string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld);
-            string gameName = GamePrefs.GetString(EnumGamePrefs.GameName);
-
-            var worldTime = GameManager.Instance.World.GetWorldTime();
-            int days = GameUtils.WorldTimeToDays(worldTime);
-            int hours = GameUtils.WorldTimeToHours(worldTime);
-            int minutes = GameUtils.WorldTimeToMinutes(worldTime);
-
-            string title = $"{serverVersion}_{gameWorld}_{gameName}_Day{days}_Hour{hours}";
-            string archiveFileName = Path.Combine(backupDestPath, $"{title}.zip");
-
-            if (File.Exists(archiveFileName))
+            try
             {
-                CustomLogger.Info("AutoBackup: Backup already exists: {0}", archiveFileName);
-                return;
-            }
+                string backupSrcPath = GameIO.GetSaveGameDir();
+                string backupDestPath = Path.Combine(AppContext.BaseDirectory, Settings.ArchiveFolder);
+                Directory.CreateDirectory(backupDestPath);
 
-            ZipFile.CreateFromDirectory(backupSrcPath, archiveFileName, System.IO.Compression.CompressionLevel.Optimal, true);
-            CustomLogger.Info("AutoBackup: Backup created: {0}", archiveFileName);
+                // 服务端版本、游戏世界、游戏名称、游戏时间
+                string serverVersion = Constants.cVersionInformation.LongString;
+                string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld);
+                string gameName = GamePrefs.GetString(EnumGamePrefs.GameName);
 
-            if (Settings.RetainedFileCountLimit > 0)
-            {
-                string[] files = Directory.GetFiles(backupDestPath, "*.zip");
-                int count = files.Length - Settings.RetainedFileCountLimit;
-                if (count > 0)
+                var worldTime = GameManager.Instance.World.GetWorldTime();
+                int days = GameUtils.WorldTimeToDays(worldTime);
+                int hours = GameUtils.WorldTimeToHours(worldTime);
+                int minutes = GameUtils.WorldTimeToMinutes(worldTime);
+
+                string title = $"{serverVersion}_{gameWorld}_{gameName}_Day{days}_Hour{hours}";
+                string archiveFileName = Path.Combine(backupDestPath, $"{title}.zip");
+
+                if (File.Exists(archiveFileName))
                 {
-                    // 根据文件的创建日期对文件进行排序
-                    var oldestFiles = files.Select(i => new FileInfo(i)).OrderBy(f => f.CreationTime).Take(count);
-                    foreach (var oldestFile in oldestFiles)
+                    CustomLogger.Info("AutoBackup: Backup already exists: {0}", archiveFileName);
+                    return;
+                }
+
+                ZipFile.CreateFromDirectory(backupSrcPath, archiveFileName, System.IO.Compression.CompressionLevel.Optimal, true);
+                CustomLogger.Info("AutoBackup: Backup created: {0}", archiveFileName);
+
+                if (Settings.RetainedFileCountLimit > 0)
+                {
+                    string[] files = Directory.GetFiles(backupDestPath, "*.zip");
+                    int count = files.Length - Settings.RetainedFileCountLimit;
+                    if (count > 0)
                     {
-                        CustomLogger.Info("AutoBackup: Deleting file: {0}, CreatedAt: {1}", oldestFile.Name, oldestFile.CreationTime);
-                        // 删除最旧的文件
-                        oldestFile.Delete();
+                        // 根据文件的创建日期对文件进行排序
+                        var oldestFiles = files.Select(i => new FileInfo(i)).OrderBy(f => f.CreationTime).Take(count);
+                        foreach (var oldestFile in oldestFiles)
+                        {
+                            CustomLogger.Info("AutoBackup: Deleting file: {0}, CreatedAt: {1}", oldestFile.Name, oldestFile.CreationTime);
+                            // 删除最旧的文件
+                            oldestFile.Delete();
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                CustomLogger.Warn(ex, "Error in AutoBackup.ExecuteInternal");
             }
         }
 

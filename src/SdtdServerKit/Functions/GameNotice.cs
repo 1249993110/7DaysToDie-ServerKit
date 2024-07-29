@@ -101,11 +101,17 @@ namespace SdtdServerKit.Functions
                 {
                     if (changed.BloodMoonDaysRemaining == 0)
                     {
-                        SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice2, gameNoticeVariables));
+                        if(string.IsNullOrEmpty(Settings.BloodMoonNotice2) == false)
+                        {
+                            SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice2, gameNoticeVariables));
+                        }
                     }
                     else
                     {
-                        SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables));
+                        if(string.IsNullOrEmpty(Settings.BloodMoonNotice1) == false)
+                        {
+                            SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables));
+                        }
                     }
                 }
                 // 黄昏
@@ -113,11 +119,17 @@ namespace SdtdServerKit.Functions
                 {
                     if (changed.BloodMoonDaysRemaining == 0)
                     {
-                        SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice3, gameNoticeVariables));
+                        if (string.IsNullOrEmpty(Settings.BloodMoonNotice3) == false)
+                        {
+                            SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice3, gameNoticeVariables));
+                        }
                     }
                     else
                     {
-                        SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables));
+                        if (string.IsNullOrEmpty(Settings.BloodMoonNotice1) == false)
+                        {
+                            SendGlobalMessage(StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables));
+                        }
                     }
                 }
             }

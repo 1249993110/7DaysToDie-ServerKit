@@ -21,7 +21,9 @@
       "Messages": [ "[00FF00]服务器将在 3 秒后重启...", "[00FF00]服务器将在 2 秒后重启...", "[00FF00]服务器将在 1 秒后重启...", "[FF0000]正在重启..." ]
     },
     "BlockFamilySharingAccount": true,
-    "RemoveSleepingBagFromPOI": false
+    "RemoveSleepingBagFromPOI": false,
+    "IsEnablePlayerInitialSpawnPoint": false,
+    "PlayerInitialPosition": null
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
@@ -106,6 +108,7 @@
     "RetainedFileCountLimit": 12,
     "ResetIntervalAfterManualBackup": true,
     "SkipIfThereAreNoPlayers": true,
+    "AutoBackupOnServerStartup": true,
     "ArchiveFolder": "LSTY_Data/Backup"
   },
   "VipGiftSettings": {
