@@ -41,5 +41,17 @@ namespace SdtdServerKit.Data.Repositories
             var param = new { Keyword = dto.Keyword };
             return GetPagedListAsync(dto.PageNumber, dto.PageSize, whereClauseSB.ToString(), orderByClause: "PlayerName ASC", param);
         }
+
+        public Task<int> ResetPointsAsync()
+        {
+            string sql = $"UPDATE {SqlGenerator.TableName} SET Points=0";
+            return base.ExecuteAsync(sql, useTransaction: true);
+        }
+
+        public Task<int> ResetSignInAsync()
+        {
+            string sql = $"UPDATE {SqlGenerator.TableName} SET LastSignInAt=NULL";
+            return base.ExecuteAsync(sql, useTransaction: true);
+        }
     }
 }

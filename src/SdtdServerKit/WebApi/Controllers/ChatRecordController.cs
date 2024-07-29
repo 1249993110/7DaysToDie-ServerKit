@@ -66,12 +66,23 @@ namespace SdtdServerKit.WebApi.Controllers
         /// 批量删除记录
         /// </summary>
         /// <param name="ids"></param>
+        /// <param name="deleteAll"></param>
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public async Task<IHttpActionResult> Delete([MinLength(1)] int[] ids)
+        public async Task<IHttpActionResult> Delete([FromUri] string[]? ids, [FromUri] bool deleteAll = false)
         {
-            int count = await _repository.DeleteByIdsAsync(ids, true);
+            int count = 0;
+
+            if (deleteAll)
+            {
+                count = await _repository.DeleteAllAsync(true);
+            }
+            else if (ids != null && ids.Length > 0)
+            {
+                count = await _repository.DeleteByIdsAsync(ids, true);
+            }
+
             return Ok(count);
         }
     }

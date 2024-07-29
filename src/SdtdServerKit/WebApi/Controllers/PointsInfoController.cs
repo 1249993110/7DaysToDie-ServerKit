@@ -1,6 +1,7 @@
 ﻿using IceCoffee.SimpleCRUD.Dtos;
 using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
+using SdtdServerKit.Data.Repositories;
 using System.ComponentModel.DataAnnotations;
 
 namespace SdtdServerKit.WebApi.Controllers
@@ -121,12 +122,29 @@ namespace SdtdServerKit.WebApi.Controllers
         /// 批量删除记录
         /// </summary>
         /// <param name="ids"></param>
+        /// <param name="resetSignIn"></param>
+        /// <param name="resetPoints"></param>
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public async Task<IHttpActionResult> Delete([MinLength(1)] string[] ids)
+        public async Task<IHttpActionResult> Delete([FromUri] string[]? ids, [FromUri] bool resetSignIn = false, [FromUri] bool resetPoints = false)
         {
-            int count = await _repository.DeleteByIdsAsync(ids, true);
+            int count = 0;
+
+            if (resetSignIn)
+            {
+                count = await _repository.ResetSignInAsync();
+            }
+            else if (resetPoints)
+            {
+                count = await _repository.ResetPointsAsync();
+            }
+            else if (ids != null && ids.Length > 0)
+            {
+                count = await _repository.DeleteByIdsAsync(ids, true);
+            }
+
+
             return Ok(count);
         }
     }
