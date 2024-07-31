@@ -1,5 +1,5 @@
 # 7DaysToDie-ServerKit
-A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows.
+A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows.(Ubuntu 22.04 and Windows Server 2012+ test passed)
 
 Welcome join the Discord server: https://discord.gg/TsbjR4KU
 
