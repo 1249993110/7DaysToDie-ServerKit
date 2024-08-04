@@ -105,6 +105,11 @@ namespace SdtdServerKit.Shared.Models
         public float ResidentSetSize { get; set; }
 
         /// <summary>
+        /// Server Name
+        /// </summary>
+        public string ServerName { get; set; } = null!;
+
+        /// <summary>
         /// Server Version
         /// </summary>
         public string ServerVersion { get; set; } = null!;
