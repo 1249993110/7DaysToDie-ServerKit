@@ -8,7 +8,7 @@
     "TeleDisableTip": "[00FF00]Transmission is forbidden. Please check if your surroundings are safe.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]You killed a zombie, earned 1 point\" ", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]You killed a zombie, earned 1 point\"", "ty-cpp {EntityId} 1" ]
     },
     "DeathTrigger": {
       "IsEnabled": false,

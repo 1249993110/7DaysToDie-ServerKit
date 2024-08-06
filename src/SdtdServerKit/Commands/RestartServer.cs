@@ -1,5 +1,4 @@
-﻿using SdtdServerKit.Hooks;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace SdtdServerKit.Commands
@@ -88,8 +87,8 @@ namespace SdtdServerKit.Commands
 
         public RestartServer()
         {
-            ModEventHook.GameShutdown -= OnGameShutdown;
-            ModEventHook.GameShutdown += OnGameShutdown;
+            ModEventHub.GameShutdown -= OnGameShutdown;
+            ModEventHub.GameShutdown += OnGameShutdown;
         }
 
         private static void OnGameShutdown()

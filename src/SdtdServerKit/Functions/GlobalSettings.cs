@@ -1,9 +1,6 @@
 ﻿using Platform.Steam;
 using SdtdServerKit.HarmonyPatchers;
-using SdtdServerKit.Hooks;
 using SdtdServerKit.Managers;
-using System.Timers;
-using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit.Functions
 {
@@ -13,14 +10,21 @@ namespace SdtdServerKit.Functions
     public class GlobalSettings : FunctionBase<FunctionSettings.GlobalSettings>
     {
         private readonly SubTimer autoRestartTimer;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public GlobalSettings()
         {
-            ModEventHook.EntityKilled += OnEntityKilled;
-            ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
+            ModEventHub.EntityKilled += OnEntityKilled;
+            ModEventHub.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
             autoRestartTimer = new SubTimer(AutoRestart, 5) { IsEnabled = true };
             GlobalTimer.RegisterSubTimer(autoRestartTimer);
         }
 
+        /// <summary>
+        /// 当设置发生变化时调用
+        /// </summary>
         protected override void OnSettingsChanged()
         {
             if (Settings.RemoveSleepingBagFromPOI)
@@ -32,7 +36,7 @@ namespace SdtdServerKit.Functions
                 RemoveSleepingBagFromPOI.UnPatch();
             }
         }
-        
+
         private void BlockFamilySharingAccount(ClientInfo clientInfo)
         {
             if (clientInfo.PlatformId is UserIdentifierSteam userIdentifierSteam
@@ -45,9 +49,9 @@ namespace SdtdServerKit.Functions
         private async void AutoRestart()
         {
             DateTime now = DateTime.Now;
-            
-            if (Settings.AutoRestart.IsEnabled 
-                && now.Hour == Settings.AutoRestart.RestartHour 
+
+            if (Settings.AutoRestart.IsEnabled
+                && now.Hour == Settings.AutoRestart.RestartHour
                 && now.Minute == Settings.AutoRestart.RestartMinute
                 && ModApi.IsGameStartDone)
             {
@@ -70,8 +74,8 @@ namespace SdtdServerKit.Functions
         {
             if (Settings.BlockFamilySharingAccount)
             {
-                if(player.RespawnType == Shared.Models.RespawnType.EnterMultiplayer 
-                    || player.RespawnType == Shared.Models.RespawnType.JoinMultiplayer)
+                if (player.RespawnType == Models.RespawnType.EnterMultiplayer
+                    || player.RespawnType == Models.RespawnType.JoinMultiplayer)
                 {
                     var clientInfo = ConnectionManager.Instance.Clients.ForEntityId(player.EntityId);
                     BlockFamilySharingAccount(clientInfo);
@@ -80,7 +84,7 @@ namespace SdtdServerKit.Functions
 
             if (Settings.DeathTrigger.IsEnabled)
             {
-                if (player.RespawnType == Shared.Models.RespawnType.Died) 
+                if (player.RespawnType == Models.RespawnType.Died)
                 {
                     foreach (var command in Settings.DeathTrigger.ExecuteCommands)
                     {
@@ -95,14 +99,14 @@ namespace SdtdServerKit.Functions
 
         private void OnEntityKilled(KilledEntity entity)
         {
-            if(Settings.KillZombieTrigger.IsEnabled)
+            if (Settings.KillZombieTrigger.IsEnabled)
             {
-                if(entity.DeadEntity.EntityType == Shared.Models.EntityType.Zombie)
+                if (entity.DeadEntity.EntityType == Models.EntityType.Zombie)
                 {
-                    var player = ConnectionManager.Instance.Clients.ForEntityId(entity.KillerEntityId).ToOnlinePlayer(); // Convert entity.KillerEntityId to OnlinePlayer
+                    var player = OnlinePlayerManager.GetByEntityId(entity.KillerEntityId);
                     foreach (var command in Settings.KillZombieTrigger.ExecuteCommands)
                     {
-                        if(string.IsNullOrEmpty(command) == false)
+                        if (string.IsNullOrEmpty(command) == false)
                         {
                             Utils.ExecuteConsoleCommand(FormatCmd(command, player), true);
                         }

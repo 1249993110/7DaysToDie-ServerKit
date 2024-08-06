@@ -1,33 +1,18 @@
 ﻿using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin;
 using Owin;
-using System.Web.Http;
 using NSwag.AspNet.Owin;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 using SdtdServerKit.WebApi.Providers;
 using NJsonSchema;
 using Microsoft.Owin.Security.DataProtection;
-using SdtdServerKit.DataProtection;
-using Newtonsoft.Json;
 using System.Net.Http.Formatting;
-using Newtonsoft.Json.Serialization;
-using System.Text;
-using System.Net.Http.Headers;
-using HarmonyLib;
-using NJsonSchema.Generation;
 using Microsoft.Owin.StaticFiles;
 using Microsoft.Owin.FileSystems;
 using NJsonSchema.NewtonsoftJson.Generation;
-using System.Web.Http.Dispatcher;
-using Dapper;
-using IceCoffee.SimpleCRUD.SqliteTypeHandlers;
-using SdtdServerKit.Data;
-using Autofac;
 using Autofac.Integration.WebApi;
-using System.Reflection;
-using static Twitch.PubSub.PubSubGoalMessage;
-using Autofac.Core.Lifetime;
+using SdtdServerKit.WebApi.DataProtection;
 
 namespace SdtdServerKit.WebApi
 {

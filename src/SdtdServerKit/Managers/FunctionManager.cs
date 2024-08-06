@@ -14,7 +14,7 @@ namespace SdtdServerKit.Managers
         /// <summary>
         /// 加载所有功能
         /// </summary>
-        public static void LoadFunctions()
+        public static void Init()
         {
             try
             {

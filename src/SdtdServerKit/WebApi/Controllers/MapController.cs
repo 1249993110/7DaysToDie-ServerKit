@@ -43,7 +43,12 @@ namespace SdtdServerKit.WebApi.Controllers
                 return new FileStreamResult(File.OpenRead(fileName), "image/png");
             }
 
-            byte[] data = ModApi.GetMapTileCache().GetFileContent(fileName);
+            if(ModApi.MapTileCache == null)
+            {
+                return NotFound();
+            }
+
+            byte[] data = ModApi.MapTileCache.GetFileContent(fileName);
             return new FileContentResult(data, "image/png");
         }
 

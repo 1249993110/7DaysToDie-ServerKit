@@ -109,8 +109,8 @@ namespace SdtdServerKit.WebApi.Controllers
                 }
             }
 
-            int onlinePlayers = world.Players.Count;
-            int offlinePlayers = gameManager.GetPersistentPlayerList().Players.Count - onlinePlayers;
+            int onlinePlayerCount = world.Players.Count;
+            int offlinePlayerCount = gameManager.GetPersistentPlayerList().Players.Count - onlinePlayerCount;
             return new Stats()
             {
                 Uptime = Time.timeSinceLevelLoad,
@@ -125,9 +125,9 @@ namespace SdtdServerKit.WebApi.Controllers
                 Zombies = zombies,
                 MaxZombies = GamePrefs.GetInt(EnumGamePrefs.MaxSpawnedZombies),
                 Entities = world.Entities.Count,
-                OnlinePlayers = onlinePlayers,
+                OnlinePlayers = onlinePlayerCount,
                 MaxOnlinePlayers = GamePrefs.GetInt(EnumGamePrefs.ServerMaxPlayerCount),
-                OfflinePlayers = offlinePlayers,
+                OfflinePlayers = offlinePlayerCount,
                 IsBloodMoon = world.aiDirector.BloodMoonComponent.BloodMoonActive,
                 FPS = gameManager.fps.Counter,
                 Heap = (float)GC.GetTotalMemory(false) / 1048576F,
@@ -138,7 +138,7 @@ namespace SdtdServerKit.WebApi.Controllers
                 ChunkObservedEntities = world.m_ChunkManager.m_ObservedEntities.Count,
                 ResidentSetSize = (float)GetRSS.GetCurrentRSS() / 1048576F,
                 ServerName = GamePrefs.GetString(EnumGamePrefs.ServerName),
-                ServerVersion = Constants.cVersionInformation.LongString,
+                ServerVersion = global::Constants.cVersionInformation.LongString,
                 ServerIp = GamePrefs.GetString(EnumGamePrefs.ServerIP),
                 ServerPort = GamePrefs.GetInt(EnumGamePrefs.ServerPort),
                 GameMode = GamePrefs.GetString(EnumGamePrefs.GameMode),
@@ -154,9 +154,9 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route(nameof(SystemInfo))]
-        public Shared.Models.SystemInfo SystemInfo()
+        public Models.SystemInfo SystemInfo()
         {
-            return new Shared.Models.SystemInfo()
+            return new Models.SystemInfo()
             {
                 DeviceModel = UnityEngine.Device.SystemInfo.deviceModel,
                 DeviceName = UnityEngine.Device.SystemInfo.deviceName,

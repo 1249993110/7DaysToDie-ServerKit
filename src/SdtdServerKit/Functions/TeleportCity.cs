@@ -29,7 +29,7 @@ namespace SdtdServerKit.Functions
         {
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.CrossplatformId;
+                string playerId = onlinePlayer.PlayerId;
                 var cityPositions = await _cityLocationRepository.GetAllAsync();
 
                 if (cityPositions.Any() == false)
@@ -56,7 +56,7 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    string playerId = onlinePlayer.CrossplatformId;
+                    string playerId = onlinePlayer.PlayerId;
 
                     var teleRecord = await _teleRecordRepository.GetNewestAsync(playerId, TeleTargetType.City);
                     if (teleRecord != null)
@@ -117,7 +117,7 @@ namespace SdtdServerKit.Functions
             return StringTemplate.Render(message, new TeleportCityVariables()
             {
                 EntityId = player.EntityId,
-                PlatformId = player.PlatformId,
+                PlayerId = player.PlayerId,
                 PlayerName = player.PlayerName,
                 CityId = position.Id,
                 CityName = position.CityName,

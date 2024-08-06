@@ -1,5 +1,4 @@
 ﻿using SdtdServerKit.FunctionSettings;
-using SdtdServerKit.Hooks;
 using SdtdServerKit.Variables;
 
 namespace SdtdServerKit.Functions
@@ -20,15 +19,15 @@ namespace SdtdServerKit.Functions
         protected override void OnDisableFunction()
         {
             GlobalTimer.UnregisterSubTimer(_timer);
-            ModEventHook.PlayerSpawnedInWorld -= OnPlayerSpawnedInWorld;
-            ModEventHook.SkyChanged -= OnSkyChanged;
+            ModEventHub.PlayerSpawnedInWorld -= OnPlayerSpawnedInWorld;
+            ModEventHub.SkyChanged -= OnSkyChanged;
         }
         /// <inheritdoc/>
         protected override void OnEnableFunction()
         {
             GlobalTimer.RegisterSubTimer(_timer);
-            ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
-            ModEventHook.SkyChanged += OnSkyChanged;
+            ModEventHub.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
+            ModEventHub.SkyChanged += OnSkyChanged;
         }
         /// <inheritdoc/>
         protected override void OnSettingsChanged()
@@ -45,10 +44,10 @@ namespace SdtdServerKit.Functions
                 switch (spawnedPlayer.RespawnType)
                 {
                     // New player spawning
-                    case Shared.Models.RespawnType.EnterMultiplayer:
+                    case Models.RespawnType.EnterMultiplayer:
                     // Old player spawning
-                    case Shared.Models.RespawnType.JoinMultiplayer:
-                        SendMessageToPlayer(spawnedPlayer.CrossplatformId, FormatCmd(Settings.WelcomeNotice, spawnedPlayer));
+                    case Models.RespawnType.JoinMultiplayer:
+                        SendMessageToPlayer(spawnedPlayer.PlayerId, FormatCmd(Settings.WelcomeNotice, spawnedPlayer));
                         break;
                 }
             }

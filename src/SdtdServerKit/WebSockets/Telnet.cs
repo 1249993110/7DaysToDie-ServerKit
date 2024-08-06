@@ -1,6 +1,6 @@
 ﻿using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security.DataHandler;
-using SdtdServerKit.DataProtection;
+using SdtdServerKit.WebApi.DataProtection;
 using System.Text;
 using WebSocketSharp;
 using WebSocketSharp.Server;
@@ -55,7 +55,7 @@ namespace SdtdServerKit.WebSockets
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("*** Connected with 7DTD server.");
-            stringBuilder.AppendLine("*** Server version: " + Constants.cVersionInformation.LongString + " Compatibility Version: " + Constants.cVersionInformation.LongStringNoBuild);
+            stringBuilder.AppendLine("*** Server version: " + global::Constants.cVersionInformation.LongString + " Compatibility Version: " + global::Constants.cVersionInformation.LongStringNoBuild);
             stringBuilder.AppendLine("*** Dedicated server only build");
             stringBuilder.AppendLine(string.Empty);
             stringBuilder.AppendLine("Server IP:   " + (string.IsNullOrEmpty(GamePrefs.GetString(EnumGamePrefs.ServerIP)) ? "Any" : GamePrefs.GetString(EnumGamePrefs.ServerIP)));

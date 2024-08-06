@@ -1,5 +1,4 @@
-﻿using SdtdServerKit.Hooks;
-using WebSocketSharp.Server;
+﻿using WebSocketSharp.Server;
 
 namespace SdtdServerKit.WebSockets
 {
@@ -51,20 +50,20 @@ namespace SdtdServerKit.WebSockets
 
         static Broadcaster()
         {
-            ModEventHook.LogCallback += (entry) => Broadcast(ModEventType.LogCallback, entry);
-            ModEventHook.GameAwake += () => Broadcast(ModEventType.GameAwake);
-            ModEventHook.GameStartDone += () => Broadcast(ModEventType.GameStartDone);
-            ModEventHook.GameUpdate += () => Broadcast(ModEventType.GameUpdate);
-            ModEventHook.GameShutdown += () => Broadcast(ModEventType.GameShutdown);
-            ModEventHook.ChatMessage += (message) => Broadcast(ModEventType.ChatMessage, message);
-            ModEventHook.EntityKilled += (killedEntity) => Broadcast(ModEventType.EntityKilled, killedEntity);
-            ModEventHook.EntitySpawned += () => Broadcast(ModEventType.EntitySpawned);
-            ModEventHook.PlayerDisconnected += (onlinePlayer) => Broadcast(ModEventType.PlayerDisconnected, onlinePlayer);
-            ModEventHook.PlayerLogin += (onlinePlayer) => Broadcast(ModEventType.PlayerLogin, onlinePlayer);
-            ModEventHook.PlayerSpawnedInWorld += (spawnedPlayer) => Broadcast(ModEventType.PlayerSpawnedInWorld, spawnedPlayer);
-            ModEventHook.PlayerSpawning += (onlinePlayer) => Broadcast(ModEventType.PlayerSpawning, onlinePlayer);
-            ModEventHook.SavePlayerData += (onlinePlayer) => Broadcast(ModEventType.SavePlayerData, onlinePlayer);
-            ModEventHook.SkyChanged += (skyChanged) => Broadcast(ModEventType.SkyChanged, skyChanged);
+            ModEventHub.LogCallback += (entry) => Broadcast(ModEventType.LogCallback, entry);
+            ModEventHub.GameAwake += () => Broadcast(ModEventType.GameAwake);
+            ModEventHub.GameStartDone += () => Broadcast(ModEventType.GameStartDone);
+            ModEventHub.GameUpdate += () => Broadcast(ModEventType.GameUpdate);
+            ModEventHub.GameShutdown += () => Broadcast(ModEventType.GameShutdown);
+            ModEventHub.ChatMessage += (message) => Broadcast(ModEventType.ChatMessage, message);
+            ModEventHub.EntityKilled += (killedEntity) => Broadcast(ModEventType.EntityKilled, killedEntity);
+            ModEventHub.EntitySpawned += () => Broadcast(ModEventType.EntitySpawned);
+            ModEventHub.PlayerDisconnected += (onlinePlayer) => Broadcast(ModEventType.PlayerDisconnected, onlinePlayer);
+            ModEventHub.PlayerLogin += (onlinePlayer) => Broadcast(ModEventType.PlayerLogin, onlinePlayer);
+            ModEventHub.PlayerSpawnedInWorld += (spawnedPlayer) => Broadcast(ModEventType.PlayerSpawnedInWorld, spawnedPlayer);
+            ModEventHub.PlayerSpawning += (onlinePlayer) => Broadcast(ModEventType.PlayerSpawning, onlinePlayer);
+            ModEventHub.SavePlayerData += (onlinePlayer) => Broadcast(ModEventType.SavePlayerData, onlinePlayer);
+            ModEventHub.SkyChanged += (skyChanged) => Broadcast(ModEventType.SkyChanged, skyChanged);
         }
     }
 }

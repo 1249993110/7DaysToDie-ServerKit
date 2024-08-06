@@ -15,11 +15,11 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public IEnumerable<EntityInfo> Get(Shared.Models.EntityType entityType)
+        public IEnumerable<EntityInfo> Get(Models.EntityType entityType)
         {
             var locations = new List<EntityInfo>();
 
-            if (entityType == Shared.Models.EntityType.OfflinePlayer)
+            if (entityType == Models.EntityType.OfflinePlayer)
             {
                 var online = GameManager.Instance.World.Players.list.Select(i => ConnectionManager.Instance.Clients.ForEntityId(i.entityId).InternalId).ToHashSet();
                 foreach (var item in GameManager.Instance.GetPersistentPlayerList().Players)
@@ -32,13 +32,13 @@ namespace SdtdServerKit.WebApi.Controllers
                             EntityId = player.EntityId,
                             EntityName = player.PlayerName.DisplayName,
                             Position = player.Position.ToPosition(),
-                            EntityType = Shared.Models.EntityType.OfflinePlayer,
+                            EntityType = Models.EntityType.OfflinePlayer,
                             PlayerId = player.PrimaryId.CombinedString,
                         });
                     }
                 }
             }
-            else if (entityType == Shared.Models.EntityType.OnlinePlayer)
+            else if (entityType == Models.EntityType.OnlinePlayer)
             {
                 foreach (var player in GameManager.Instance.World.Players.list)
                 {
@@ -47,12 +47,12 @@ namespace SdtdServerKit.WebApi.Controllers
                         EntityId = player.entityId,
                         EntityName = player.EntityName,
                         Position = player.GetPosition().ToPosition(),
-                        EntityType = Shared.Models.EntityType.OnlinePlayer,
+                        EntityType = Models.EntityType.OnlinePlayer,
                         PlayerId = ConnectionManager.Instance.Clients.ForEntityId(player.entityId).InternalId.CombinedString,
                     });
                 }
             }
-            else if (entityType == Shared.Models.EntityType.Animal)
+            else if (entityType == Models.EntityType.Animal)
             {
                 foreach (var entity in GameManager.Instance.World.Entities.list)
                 {
@@ -63,12 +63,12 @@ namespace SdtdServerKit.WebApi.Controllers
                             EntityId = entityAnimal.entityId,
                             EntityName = entityAnimal.EntityName ?? ("animal class #" + entityAnimal.entityClass),
                             Position = entityAnimal.GetPosition().ToPosition(),
-                            EntityType = Shared.Models.EntityType.Animal,
+                            EntityType = Models.EntityType.Animal,
                         });
                     }
                 }
             }
-            else if (entityType == Shared.Models.EntityType.Hostiles)
+            else if (entityType == Models.EntityType.Hostiles)
             {
                 foreach (var entity in GameManager.Instance.World.Entities.list)
                 {
@@ -79,12 +79,12 @@ namespace SdtdServerKit.WebApi.Controllers
                             EntityId = entityEnemy.entityId,
                             EntityName = entityEnemy.EntityName ?? ("enemy class #" + entityEnemy.entityClass),
                             Position = entityEnemy.GetPosition().ToPosition(),
-                            EntityType = (Shared.Models.EntityType)entityEnemy.entityType
+                            EntityType = (Models.EntityType)entityEnemy.entityType
                         });
                     }
                 }
             }
-            else if (entityType == Shared.Models.EntityType.Zombie)
+            else if (entityType == Models.EntityType.Zombie)
             {
                 foreach (var entity in GameManager.Instance.World.Entities.list)
                 {
@@ -95,12 +95,12 @@ namespace SdtdServerKit.WebApi.Controllers
                             EntityId = entityZombie.entityId,
                             EntityName = entityZombie.EntityName ?? ("zombie class #" + entityZombie.entityClass),
                             Position = entityZombie.GetPosition().ToPosition(),
-                            EntityType = (Shared.Models.EntityType)entityZombie.entityType
+                            EntityType = (Models.EntityType)entityZombie.entityType
                         });
                     }
                 }
             }
-            else if (entityType == Shared.Models.EntityType.Bandit)
+            else if (entityType == Models.EntityType.Bandit)
             {
                 foreach (var entity in GameManager.Instance.World.Entities.list)
                 {
@@ -111,7 +111,7 @@ namespace SdtdServerKit.WebApi.Controllers
                             EntityId = entityBandit.entityId,
                             EntityName = entityBandit.EntityName ?? ("bandit class #" + entityBandit.entityClass),
                             Position = entityBandit.GetPosition().ToPosition(),
-                            EntityType = (Shared.Models.EntityType)entityBandit.entityType
+                            EntityType = (Models.EntityType)entityBandit.entityType
                         });
                     }
                 }
@@ -136,7 +136,7 @@ namespace SdtdServerKit.WebApi.Controllers
                     EntityId = player.entityId,
                     EntityName = player.EntityName,
                     Position = player.GetPosition().ToPosition(),
-                    EntityType = Shared.Models.EntityType.OnlinePlayer,
+                    EntityType = Models.EntityType.OnlinePlayer,
                 });
             }
 
@@ -148,7 +148,7 @@ namespace SdtdServerKit.WebApi.Controllers
                     EntityId = entity.entityId,
                     EntityName = entityName,
                     Position = entity.GetPosition().ToPosition(),
-                    EntityType = (Shared.Models.EntityType)entity.entityType,
+                    EntityType = (Models.EntityType)entity.entityType,
                 });
             }
 

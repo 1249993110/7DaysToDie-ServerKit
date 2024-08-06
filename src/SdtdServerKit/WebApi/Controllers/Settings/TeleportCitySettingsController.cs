@@ -1,4 +1,5 @@
 ﻿using NSwag.Annotations;
+using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
 
 namespace SdtdServerKit.WebApi.Controllers.Settings

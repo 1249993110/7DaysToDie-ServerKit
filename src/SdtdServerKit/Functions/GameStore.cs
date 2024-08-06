@@ -1,5 +1,6 @@
 ﻿using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
+using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
 using SdtdServerKit.Variables;
 
@@ -28,7 +29,7 @@ namespace SdtdServerKit.Functions
         {
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.CrossplatformId;
+                string playerId = onlinePlayer.PlayerId;
                 var goodsList = await _goodsRepository.GetAllOrderByIdAsync();
                 if (goodsList.Any() == false)
                 {
@@ -54,7 +55,7 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    string playerId = onlinePlayer.CrossplatformId;
+                    string playerId = onlinePlayer.PlayerId;
 
                     int points = await _pointsInfoRepository.GetPointsByIdAsync(playerId);
                     if (points < goods.Price)
@@ -94,7 +95,7 @@ namespace SdtdServerKit.Functions
             string result = StringTemplate.Render(message, new GameStoreVariables()
             {
                 EntityId = player.EntityId,
-                PlatformId = player.PlatformId,
+                PlayerId = player.PlayerId,
                 PlayerName = player.PlayerName,
                 GoodsId = goods.Id,
                 GoodsName = goods.Name,

@@ -1,6 +1,4 @@
-﻿using SdtdServerKit.Hooks;
-
-namespace SdtdServerKit.Triggers
+﻿namespace SdtdServerKit.Triggers
 {
     /// <summary>
     /// SkyChangeTrigger
@@ -47,7 +45,7 @@ namespace SdtdServerKit.Triggers
                 {
                     if(hours == world.DuskHour)
                     {
-                        ModEventHook.OnSkyChanged(new SkyChanged()
+                        ModEventHub.OnSkyChanged(new SkyChanged()
                         {
                             BloodMoonDaysRemaining = Utils.DaysRemaining(days),
                             DawnHour = world.DawnHour,
@@ -60,7 +58,7 @@ namespace SdtdServerKit.Triggers
                 {
                     if(hours == world.DawnHour)
                     {
-                        ModEventHook.OnSkyChanged(new SkyChanged()
+                        ModEventHub.OnSkyChanged(new SkyChanged()
                         {
                             BloodMoonDaysRemaining = Utils.DaysRemaining(days),
                             DawnHour = world.DawnHour,

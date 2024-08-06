@@ -69,13 +69,13 @@ namespace SdtdServerKit.Functions
         /// <param name="cmd"></param>
         /// <param name="player"></param>
         /// <returns></returns>
-        protected virtual string FormatCmd(string cmd, IPlayer player)
+        protected virtual string FormatCmd(string cmd, IPlayerBase player)
         {
             return StringTemplate.Render(cmd, new VariablesBase()
             {
-                EntityId = player.EntityId,
-                PlatformId = player.PlatformId,
-                PlayerName = player.PlayerName
+                PlayerId = player.PlayerId,
+                PlayerName = player.PlayerName,
+                EntityId = player.EntityId
             });
         }
 

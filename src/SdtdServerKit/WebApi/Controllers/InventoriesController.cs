@@ -15,7 +15,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{playerId}")]
-        [ResponseType(typeof(Shared.Models.Inventory))]
+        [ResponseType(typeof(Models.Inventory))]
         public IHttpActionResult GetPlayerInventory(string playerId)
         {
             var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);
@@ -46,9 +46,9 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public Dictionary<string, Shared.Models.Inventory> GetPlayersInventory([FromUri, Required, MinLength(1)] string[] playerIds)
+        public Dictionary<string, Models.Inventory> GetPlayersInventory([FromUri, Required, MinLength(1)] string[] playerIds)
         {
-            var result = new Dictionary<string, Shared.Models.Inventory>(playerIds.Length);
+            var result = new Dictionary<string, Models.Inventory>(playerIds.Length);
             foreach (var playerId in playerIds)
             {
                 var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);

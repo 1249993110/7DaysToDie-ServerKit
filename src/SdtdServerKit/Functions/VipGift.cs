@@ -1,5 +1,6 @@
 ﻿using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
+using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
 using SdtdServerKit.Variables;
 
@@ -26,7 +27,7 @@ namespace SdtdServerKit.Functions
         {
             if (string.Equals(message, Settings.ClaimCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.CrossplatformId;
+                string playerId = onlinePlayer.PlayerId;
                 var vipGift = await _vipGiftRepository.GetByIdAsync(playerId);
                 if (vipGift == null)
                 {
@@ -72,7 +73,7 @@ namespace SdtdServerKit.Functions
             string result = StringTemplate.Render(message, new VipGiftVariables()
             {
                 EntityId = player.EntityId,
-                PlatformId = player.PlatformId,
+                PlayerId = player.PlayerId,
                 PlayerName = player.PlayerName,
                 GiftName = vipGift.Name,
                 TotalClaimCount = vipGift.TotalClaimCount,

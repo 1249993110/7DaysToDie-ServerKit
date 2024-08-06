@@ -43,22 +43,22 @@
             return result;
         }
 
-        private static List<Shared.Models.ItemBlock> GetAllBlocks(string language, string? keyword, bool showUserHidden)
+        private static List<Models.ItemBlock> GetAllBlocks(string language, string? keyword, bool showUserHidden)
         {
             return GetItemsAndBlocks(0, Block.ItemsStartHere, item => item.IsBlock() == true, language, keyword, showUserHidden);
         }
 
-        private static List<Shared.Models.ItemBlock> GetAllItems(string language, string? keyword, bool showUserHidden)
+        private static List<Models.ItemBlock> GetAllItems(string language, string? keyword, bool showUserHidden)
         {
             return GetItemsAndBlocks(Block.ItemsStartHere, ItemClass.list.Length, item => item.IsBlock() == false, language, keyword, showUserHidden);
         }
 
-        private static List<Shared.Models.ItemBlock> GetAllItemsAndBlocks(string language, string? keyword, bool showUserHidden)
+        private static List<Models.ItemBlock> GetAllItemsAndBlocks(string language, string? keyword, bool showUserHidden)
         {
             return GetItemsAndBlocks(0, ItemClass.list.Length, null, language, keyword, showUserHidden);
         }
 
-        private static List<Shared.Models.ItemBlock> GetItemsAndBlocks(
+        private static List<Models.ItemBlock> GetItemsAndBlocks(
             int startId,
             int endId,
             Func<ItemClass, bool>? filter,
@@ -74,7 +74,7 @@
                 throw new Exception($"The specified language: {language} does not exist");
             }
 
-            var result = new List<Shared.Models.ItemBlock>();
+            var result = new List<Models.ItemBlock>();
             for (int id = startId; id < endId; id++)
             {
                 ItemClass item = ItemClass.GetForId(id);
@@ -113,7 +113,7 @@
                             }
                         }
 
-                        var itemBlock = new Shared.Models.ItemBlock()
+                        var itemBlock = new Models.ItemBlock()
                         {
                             Id = id,
                             ItemName = itemName,

@@ -1,10 +1,16 @@
-﻿using System.IO;
-
-namespace SdtdServerKit.Extensions
+﻿namespace SdtdServerKit.Extensions
 {
+    /// <summary>
+    /// Extension methods for PlayerDataFile.
+    /// </summary>
     internal static class PlayerDataFileExtension
     {
-
+        /// <summary>
+        /// Gets the total stack count of a specific item in the player's inventory.
+        /// </summary>
+        /// <param name="pdf">The PlayerDataFile instance.</param>
+        /// <param name="itemName">The name of the item.</param>
+        /// <returns>The total stack count of the item.</returns>
         public static int GetInventoryStackCount(this PlayerDataFile pdf, string itemName)
         {
             int count = 0;
@@ -13,7 +19,7 @@ namespace SdtdServerKit.Extensions
 
             foreach (var item in bag)
             {
-                if(item.ItemName == itemName)
+                if (item.ItemName == itemName)
                 {
                     count += item.Count;
                 }
@@ -32,11 +38,16 @@ namespace SdtdServerKit.Extensions
 
         #region Get Inventory
 
-        public static Shared.Models.Inventory GetInventory(this PlayerDataFile pdf)
+        /// <summary>
+        /// Gets the player's inventory.
+        /// </summary>
+        /// <param name="pdf">The PlayerDataFile instance.</param>
+        /// <returns>The player's inventory.</returns>
+        public static Models.Inventory GetInventory(this PlayerDataFile pdf)
         {
             try
             {
-                return new Shared.Models.Inventory()
+                return new Models.Inventory()
                 {
                     Bag = ProcessInv(pdf.bag, pdf.id),
                     Belt = ProcessInv(pdf.inventory, pdf.id),
@@ -170,71 +181,5 @@ namespace SdtdServerKit.Extensions
         }
 
         #endregion Get Inventory
-
-        public static T ToPlayerDetails<T>(this PlayerDataFile playerDataFile, PersistentPlayerData persistentPlayerData) where T : IPlayerDetails, new()
-        {
-            var world = GameManager.Instance.World;
-            var stats = playerDataFile.ecd.stats;
-            var progression = ReadProgressionData(playerDataFile.progressionData);
-
-            return new T()
-            {
-                PlatformId = persistentPlayerData.NativeId.CombinedString,
-                CrossplatformId = persistentPlayerData.PrimaryId.CombinedString,
-                PlayerName = persistentPlayerData.PlayerName.DisplayName,
-                Position = persistentPlayerData.Position.ToPosition(),
-                LastLogin = persistentPlayerData.LastLogin,
-
-                EntityId = playerDataFile.id,
-                PlayerKills = playerDataFile.playerKills,
-                ZombieKills = playerDataFile.zombieKills,
-                Deaths = playerDataFile.deaths,
-                Score = playerDataFile.score,
-                Health = stats.Health.Value,
-                Stamina = stats.Stamina.Value,
-                CoreTemp = stats.CoreTemp.Value,
-                Food = stats.Food.Value,
-                Water = stats.Water.Value,
-                Level = progression == null ? 0 : progression.Level,
-                ExpToNextLevel = progression == null ? 0 : progression.ExpToNextLevel,
-                SkillPoints = progression == null ? 0 : progression.SkillPoints,
-                LandProtectionActive = world.IsLandProtectionValidForPlayer(persistentPlayerData),
-                LandProtectionMultiplier = world.GetLandProtectionHardnessModifierForPlayer(persistentPlayerData),
-                SpawnPoints = playerDataFile.spawnPoints.ToPositions(),
-                AlreadyCraftedList = playerDataFile.alreadyCraftedList,
-                LastSpawnPosition = playerDataFile.lastSpawnPosition.ToModel(),
-                UnlockedRecipeList = playerDataFile.unlockedRecipeList,
-                FavoriteRecipeList = playerDataFile.favoriteRecipeList,
-                OwnedEntities = playerDataFile.ownedEntities.ToModels(),
-                DistanceWalked = playerDataFile.distanceWalked,
-                TotalItemsCrafted = playerDataFile.totalItemsCrafted,
-                LongestLife = playerDataFile.longestLife,
-                CurrentLife = playerDataFile.currentLife,
-                TotalTimePlayed = playerDataFile.totalTimePlayed,
-                GameStageBornAtWorldTime = playerDataFile.gameStageBornAtWorldTime,
-                RentedVMPosition = playerDataFile.rentedVMPosition.ToPosition(),
-                RentalEndTime = playerDataFile.rentalEndTime,
-                RentalEndDay = playerDataFile.rentalEndDay,
-            };
-        }
-
-        private static Progression? ReadProgressionData(MemoryStream stream)
-        {
-            if (stream.Length > 0L)
-            {
-                using var binaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
-                stream.Position = 0L;
-                binaryReader.SetBaseStream(stream);
-
-                var progression = new Progression();
-                byte b = binaryReader.ReadByte();
-                progression.Level = (int)binaryReader.ReadUInt16();
-                progression.ExpToNextLevel = binaryReader.ReadInt32();
-                progression.SkillPoints = (int)binaryReader.ReadUInt16();
-                return progression;
-            }
-
-            return null;
-        }
     }
 }

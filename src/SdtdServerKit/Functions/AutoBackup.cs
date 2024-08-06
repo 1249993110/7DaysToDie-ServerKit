@@ -1,4 +1,4 @@
-﻿using SdtdServerKit.Hooks;
+﻿using SdtdServerKit.FunctionSettings;
 using System.IO.Compression;
 
 namespace SdtdServerKit.Functions
@@ -21,9 +21,9 @@ namespace SdtdServerKit.Functions
         protected override void OnDisableFunction()
         {
             GlobalTimer.UnregisterSubTimer(_timer);
-            ModEventHook.PlayerSpawnedInWorld -= OnPlayerSpawnedInWorld;
-            ModEventHook.PlayerDisconnected -= OnPlayerDisconnected;
-            ModEventHook.GameStartDone -= OnGameStartDone;
+            ModEventHub.PlayerSpawnedInWorld -= OnPlayerSpawnedInWorld;
+            ModEventHub.PlayerDisconnected -= OnPlayerDisconnected;
+            ModEventHub.GameStartDone -= OnGameStartDone;
         }
 
         private void OnGameStartDone()
@@ -38,9 +38,9 @@ namespace SdtdServerKit.Functions
         protected override void OnEnableFunction()
         {
             GlobalTimer.RegisterSubTimer(_timer);
-            ModEventHook.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
-            ModEventHook.PlayerDisconnected += OnPlayerDisconnected;
-            ModEventHook.GameStartDone += OnGameStartDone;
+            ModEventHub.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
+            ModEventHub.PlayerDisconnected += OnPlayerDisconnected;
+            ModEventHub.GameStartDone += OnGameStartDone;
         }
 
         /// <inheritdoc/>
@@ -61,9 +61,9 @@ namespace SdtdServerKit.Functions
                 switch (spawnedPlayer.RespawnType)
                 {
                     // New player spawning
-                    case Shared.Models.RespawnType.EnterMultiplayer:
+                    case Models.RespawnType.EnterMultiplayer:
                     // Old player spawning
-                    case Shared.Models.RespawnType.JoinMultiplayer:
+                    case Models.RespawnType.JoinMultiplayer:
                         _lastServerStateChange = DateTime.Now;
                         break;
                 }
@@ -108,7 +108,7 @@ namespace SdtdServerKit.Functions
                 Directory.CreateDirectory(backupDestPath);
 
                 // 服务端版本、游戏世界、游戏名称、游戏时间
-                string serverVersion = Constants.cVersionInformation.LongString;
+                string serverVersion = global::Constants.cVersionInformation.LongString;
                 string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld);
                 string gameName = GamePrefs.GetString(EnumGamePrefs.GameName);
 

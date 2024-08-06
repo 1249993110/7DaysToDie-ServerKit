@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using SdtdServerKit.Hooks;
 using System.Reflection;
 
 namespace SdtdServerKit.HarmonyPatchers
@@ -13,12 +12,12 @@ namespace SdtdServerKit.HarmonyPatchers
         {
             if (_entity is EntityAlive entityAlive)
             {
-                ModEventHook.OnEntitySpawned(new EntityInfo()
+                ModEventHub.OnEntitySpawned(new EntityInfo()
                 {
                     EntityId = entityAlive.entityId,
                     EntityName = entityAlive.EntityName,
                     Position = entityAlive.position.ToPosition(),
-                    EntityType = (SdtdServerKit.Shared.Models.EntityType)entityAlive.entityType
+                    EntityType = (SdtdServerKit.Models.EntityType)entityAlive.entityType
                 });
             }
         }

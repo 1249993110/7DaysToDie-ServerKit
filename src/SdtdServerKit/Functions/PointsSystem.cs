@@ -21,7 +21,7 @@ namespace SdtdServerKit.Functions
 
         protected override async Task<bool> OnChatCmd(string message, OnlinePlayer player)
         {
-            string playerId = player.CrossplatformId;
+            string playerId = player.PlayerId;
             // 签到命令
             if (string.Equals(message, Settings.SignInCmd, StringComparison.OrdinalIgnoreCase))
             {
@@ -112,13 +112,13 @@ namespace SdtdServerKit.Functions
             }
         }
 
-        private string FormatCmd(string message, IPlayer player, int playerTotalPoints, int currencyAmount = 0)
+        private string FormatCmd(string message, IManagedPlayer player, int playerTotalPoints, int currencyAmount = 0)
         {
             return StringTemplate.Render(message, new PointsSystemVariables()
             {
                 EntityId = player.EntityId,
                 PlayerTotalPoints = playerTotalPoints,
-                PlatformId = player.PlatformId,
+                PlayerId = player.PlatformId,
                 PlayerName = player.PlayerName,
                 SignInRewardPoints = Settings.SignInRewardPoints,
                 CurrencyAmount = currencyAmount,

@@ -18,34 +18,16 @@
         {
             return new[] { "ty-SayToPlayer", "ty-pm" };
         }
-  
-        private void SendMessage(ClientInfo receiver, ClientInfo? sender, string message, string senderName)
+
+        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
-            if (string.IsNullOrEmpty(message))
+            int senderEntityId = -1; // From console.
+            // From game client.
+            if (senderInfo.RemoteClientInfo != null)
             {
-                return;
+                senderEntityId = senderInfo.RemoteClientInfo.entityId;
             }
 
-            string senderId;
-
-            if (sender == null || sender.PlatformId == null)
-            {
-                senderId = Common.NonPlayer;
-            }
-            else
-            {
-                senderId = sender.PlatformId.CombinedString;
-                senderName = sender.playerName;
-            }
-
-            //receiver.SendPackage(NetPackageManager.GetPackage<NetPackageChat>().Setup(EChatType.Whisper, -1, message, null, EMessageSender.Server));
-
-            CustomLogger.Info("Message \"{0}\" to player {1} sent with sender {2}.", message, receiver.PlatformId.CombinedString, senderId);
-            
-        }
-
-        private void InternalExecute(int senderEntityId, List<string> args)
-        {
             if (args.Count < 2)
             {
                 Log(getHelp());
@@ -63,25 +45,11 @@
             {
                 GameManager.Instance.ChatMessageServer(
                     ModApi.CmdExecuteDelegate,
-                    EChatType.Whisper, 
+                    EChatType.Whisper,
                     senderEntityId,
-                    message, 
-                    new List<int>() { receiver.entityId }, 
+                    message,
+                    new List<int>() { receiver.entityId },
                     EMessageSender.Server);
-            }
-        }
-
-        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
-        {
-            // From game client.
-            if (senderInfo.RemoteClientInfo != null)
-            {
-                InternalExecute(senderInfo.RemoteClientInfo.entityId, args);
-            }
-            // From console.
-            else
-            {
-                InternalExecute(-1, args);
             }
         }
     }

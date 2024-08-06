@@ -18,10 +18,8 @@ using Microsoft.Data.Sqlite;
 using SdtdServerKit.Managers;
 using SdtdServerKit.WebSockets;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using System.IO.Compression;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
+using IceCoffee.Common.Timers;
 
 namespace SdtdServerKit
 {
@@ -33,23 +31,32 @@ namespace SdtdServerKit
         /// <summary>
         /// ModInstance
         /// </summary>
-        internal static Mod ModInstance { get; private set; } = null!;
+        public static Mod ModInstance { get; private set; } = null!;
 
         /// <summary>
         /// AppSettings
         /// </summary>
-        internal static AppSettings AppSettings { get; private set; } = null!;
+        public static AppSettings AppSettings { get; private set; } = null!;
 
         /// <summary>
         /// Main thread(the ui thread) synchronization context
         /// </summary>
-        internal static SynchronizationContext MainThreadSyncContext { get; private set; } = null!;
+        public static SynchronizationContext MainThreadSyncContext { get; private set; } = null!;
 
+        /// <summary>
+        /// Delegate used for executing commands.
+        /// </summary>
         internal static ClientInfo CmdExecuteDelegate { get; private set; } = null!;
 
-        internal static bool IsGameStartDone { get; private set; }
+        /// <summary>
+        /// Gets a value indicating whether the game has started.
+        /// </summary>
+        public static bool IsGameStartDone { get; private set; }
 
-        internal static JsonSerializerSettings JsonSerializerSettings { get; private set; } = new JsonSerializerSettings()
+        /// <summary>
+        /// Gets the JSON serializer settings.
+        /// </summary>
+        public static JsonSerializerSettings JsonSerializerSettings { get; private set; } = new JsonSerializerSettings()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             MissingMemberHandling = MissingMemberHandling.Ignore,
@@ -203,7 +210,6 @@ namespace SdtdServerKit
                 throw new Exception("Startup Owin Host Server failed.", ex);
             }
         }
-
         private static void StartupWebSocket()
         {
             try
@@ -225,14 +231,19 @@ namespace SdtdServerKit
             }
         }
 
-        private static Harmony _harmony = null!;
-        public static Harmony Harmony => _harmony;
+        /// <summary>
+        /// Gets the Harmony instance used for patching the mod.
+        /// </summary>
+        public static Harmony Harmony { get; private set; } = null!;
+        /// <summary>
+        /// Patch the mod using Harmony.
+        /// </summary>
         private static void PatchByHarmony()
         {
             try
             {
-                _harmony = new Harmony(ModInstance.Name);
-                _harmony.PatchAll(typeof(ModApi).Assembly);
+                Harmony = new Harmony(ModInstance.Name);
+                Harmony.PatchAll(typeof(ModApi).Assembly);
 
                 CustomLogger.Info("Patch all by harmony success.");
             }
@@ -242,32 +253,30 @@ namespace SdtdServerKit
             }
         }
 
-
-        private static MapTileCache _mapTileCache = null!;
-        internal static MapTileCache GetMapTileCache() => _mapTileCache;
+        /// <summary>
+        /// Get the map tile cache.
+        /// </summary>
+        /// <returns>The map tile cache.</returns>
+        internal static MapTileCache? MapTileCache { get; private set; }
         private static void RegisterModEventHandlers()
         {
             try
             {
-                Log.LogCallbacks += ModEventHook.OnLogCallback;
-                ModEvents.GameAwake.RegisterHandler(ModEventHook.OnGameAwake);
-                ModEvents.GameStartDone.RegisterHandler(() =>
-                {
-                    WorldStaticDataHook.ReplaceXmls();
-                    _mapTileCache = (MapTileCache)MapRenderer.GetTileCache();
-                    ModEventHook.OnGameStartDone();
-                    IsGameStartDone = true;
-                });
-                ModEvents.GameShutdown.RegisterHandler(ModEventHook.OnGameShutdown);
-                ModEvents.PlayerLogin.RegisterHandler(ModEventHook.OnPlayerLogin);
-                ModEvents.PlayerSpawnedInWorld.RegisterHandler(ModEventHook.OnPlayerSpawnedInWorld);
-                ModEvents.EntityKilled.RegisterHandler(ModEventHook.OnEntityKilled);
-                ModEvents.PlayerDisconnected.RegisterHandler(ModEventHook.OnPlayerDisconnected);
-                ModEvents.SavePlayerData.RegisterHandler(ModEventHook.OnSavePlayerData);
-                ModEvents.ChatMessage.RegisterHandler(ModEventHook.OnChatMessage);
-                ModEvents.PlayerSpawning.RegisterHandler(ModEventHook.OnPlayerSpawning);
+                Log.LogCallbacks += ModEventHub.OnLogCallback;
+                ModEvents.GameAwake.RegisterHandler(ModEventHub.OnGameAwake);
+                ModEvents.GameStartDone.RegisterHandler(ModEventHub.OnGameStartDone);
+                ModEvents.GameShutdown.RegisterHandler(ModEventHub.OnGameShutdown);
+                ModEvents.PlayerLogin.RegisterHandler(ModEventHub.OnPlayerLogin);
+                ModEvents.PlayerSpawnedInWorld.RegisterHandler(ModEventHub.OnPlayerSpawnedInWorld);
+                ModEvents.EntityKilled.RegisterHandler(ModEventHub.OnEntityKilled);
+                ModEvents.PlayerDisconnected.RegisterHandler(ModEventHub.OnPlayerDisconnected);
+                ModEvents.SavePlayerData.RegisterHandler(ModEventHub.OnSavePlayerData);
+                ModEvents.ChatMessage.RegisterHandler(ModEventHub.OnChatMessage);
+                ModEvents.PlayerSpawning.RegisterHandler(ModEventHub.OnPlayerSpawning);
 
                 GlobalTimer.RegisterSubTimer(new SubTimer(SkyChangeTrigger.Callback, 1) { IsEnabled = true });
+
+                ModEventHub.GameStartDone += OnGameStartDone;
 
                 CustomLogger.Info("Registered mod event handlers success.");
             }
@@ -275,6 +284,21 @@ namespace SdtdServerKit
             {
                 throw new Exception("Register mod event handlers failed.", ex);
             }
+        }
+
+        private static void OnGameStartDone()
+        {
+            WorldStaticDataHook.ReplaceXmls();
+            try
+            {
+                MapTileCache = (MapTileCache)MapRenderer.GetTileCache();
+            }
+            catch (Exception ex)
+            {
+                CustomLogger.Error(ex, "Load map tile cache failed, Please do not delete the default mod, You can verify the integrity of the game to solve this problem.");
+            }
+
+            IsGameStartDone = true;
         }
 
         /// <summary>
@@ -346,7 +370,7 @@ namespace SdtdServerKit
             ServiceContainer = container;
 
             InitDatabase();
-            FunctionManager.LoadFunctions();
+            FunctionManager.Init();
         }
 
         /// <summary>

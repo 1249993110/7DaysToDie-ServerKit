@@ -28,7 +28,7 @@ namespace SdtdServerKit.Functions
             if (message.StartsWith(Settings.TeleCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
             {
                 string targetName = message.Substring(Settings.TeleCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
-                string playerId = onlinePlayer.CrossplatformId;
+                string playerId = onlinePlayer.PlayerId;
 
                 var targetPlayer = ConnectionManager.Instance.Clients.GetForPlayerName(targetName);
                 if (targetPlayer == null)
@@ -99,7 +99,7 @@ namespace SdtdServerKit.Functions
             return StringTemplate.Render(message, new TeleportFriendVariables()
             {
                 EntityId = player.EntityId,
-                PlatformId = player.PlatformId,
+                PlayerId = player.PlayerId,
                 PlayerName = player.PlayerName,
                 PointsRequired = Settings.PointsRequired,
                 TargetName = targetName,

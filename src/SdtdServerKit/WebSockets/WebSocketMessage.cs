@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
-
-namespace SdtdServerKit.WebSockets
+﻿namespace SdtdServerKit.WebSockets
 {
     internal class WebSocketMessage
     {
