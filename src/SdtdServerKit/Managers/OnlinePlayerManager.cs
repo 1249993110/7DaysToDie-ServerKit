@@ -83,9 +83,14 @@
         /// Gets all online players.
         /// </summary>
         /// <returns>An enumerable collection of online players.</returns>
-        public static IEnumerable<OnlinePlayer> GetAll ()
+        public static IEnumerable<OnlinePlayer> GetAll()
         {
             return _entityIdMap.GetValues();
         }
+
+        /// <summary>
+        /// Gets the number of online players.
+        /// </summary>
+        public static int Count => _entityIdMap.Count;
     }
 }

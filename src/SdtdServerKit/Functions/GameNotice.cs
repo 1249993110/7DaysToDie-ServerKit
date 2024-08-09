@@ -1,4 +1,5 @@
 ﻿using SdtdServerKit.FunctionSettings;
+using SdtdServerKit.Managers;
 using SdtdServerKit.Variables;
 
 namespace SdtdServerKit.Functions
@@ -61,6 +62,11 @@ namespace SdtdServerKit.Functions
         {
             try
             {
+                if(OnlinePlayerManager.Count == 0)
+                {
+                    return;
+                }
+
                 var rotatingNotices = Settings.RotatingNotices;
                 if (rotatingNotices != null && rotatingNotices.Length > 0)
                 {

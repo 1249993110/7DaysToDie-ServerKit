@@ -110,6 +110,16 @@ namespace SdtdServerKit.Models
         public string ServerName { get; set; } = null!;
 
         /// <summary>
+        /// 地区
+        /// </summary>
+        public string Region { get; set; } = null!;
+
+        /// <summary>
+        /// 语言
+        /// </summary>
+        public string Language { get; set; } = null!;
+
+        /// <summary>
         /// Server Version
         /// </summary>
         public string ServerVersion { get; set; } = null!;

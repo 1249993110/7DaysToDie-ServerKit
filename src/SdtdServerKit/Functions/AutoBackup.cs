@@ -1,4 +1,5 @@
 ﻿using SdtdServerKit.FunctionSettings;
+using SdtdServerKit.Managers;
 using System.IO.Compression;
 
 namespace SdtdServerKit.Functions
@@ -84,8 +85,7 @@ namespace SdtdServerKit.Functions
                 }
 
                 DateTime now = DateTime.Now;
-                if(Settings.SkipIfThereAreNoPlayers 
-                    && (now - _lastServerStateChange).TotalSeconds > Settings.Interval)
+                if(Settings.SkipIfThereAreNoPlayers && OnlinePlayerManager.Count == 0 && (now - _lastServerStateChange).TotalSeconds > Settings.Interval)
                 {
                     CustomLogger.Info("AutoBackup: Skipped because there are no players.");
                     return;

@@ -138,6 +138,8 @@ namespace SdtdServerKit.WebApi.Controllers
                 ChunkObservedEntities = world.m_ChunkManager.m_ObservedEntities.Count,
                 ResidentSetSize = (float)GetRSS.GetCurrentRSS() / 1048576F,
                 ServerName = GamePrefs.GetString(EnumGamePrefs.ServerName),
+                Region = GamePrefs.GetString(EnumGamePrefs.Region),
+                Language = GamePrefs.GetString(EnumGamePrefs.Language),
                 ServerVersion = global::Constants.cVersionInformation.LongString,
                 ServerIp = GamePrefs.GetString(EnumGamePrefs.ServerIP),
                 ServerPort = GamePrefs.GetInt(EnumGamePrefs.ServerPort),

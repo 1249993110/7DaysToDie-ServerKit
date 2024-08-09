@@ -126,11 +126,6 @@
         public float TotalTimePlayed => _player.PlayerDataFile.totalTimePlayed;
 
         /// <summary>
-        /// Gets the game stage born at world time of the player.
-        /// </summary>
-        public ulong GameStageBornAtWorldTime => _player.PlayerDataFile.gameStageBornAtWorldTime;
-
-        /// <summary>
         /// Gets the rented VM position of the player.
         /// </summary>
         public Position RentedVMPosition => _player.PlayerDataFile.rentedVMPosition.ToPosition();
@@ -152,21 +147,53 @@
         {
             get
             {
-                var progression = new PlayerProgression();
-                var stream = _player.PlayerDataFile.progressionData;
-                if (stream.Length > 0L)
+                var entityPlayer = _player.EntityPlayer;
+                if (entityPlayer != null)
                 {
-                    using var binaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
-                    stream.Position = 0L;
-                    binaryReader.SetBaseStream(stream);
-
-                    byte b = binaryReader.ReadByte();
-                    progression.Level = binaryReader.ReadUInt16();
-                    progression.ExpToNextLevel = binaryReader.ReadInt32();
-                    progression.SkillPoints = binaryReader.ReadUInt16();
+                    return new PlayerProgression()
+                    {
+                        Level = entityPlayer.Progression.Level,
+                        ExpToNextLevel = entityPlayer.Progression.ExpToNextLevel,
+                        SkillPoints = entityPlayer.Progression.SkillPoints
+                    };
                 }
+                else
+                {
+                    var progression = new PlayerProgression();
+                    var stream = _player.PlayerDataFile.progressionData;
+                    if (stream.Length > 0L)
+                    {
+                        using var binaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
+                        stream.Position = 0L;
+                        binaryReader.SetBaseStream(stream);
 
-                return progression;
+                        byte b = binaryReader.ReadByte();
+                        progression.Level = binaryReader.ReadUInt16();
+                        progression.ExpToNextLevel = binaryReader.ReadInt32();
+                        progression.SkillPoints = binaryReader.ReadUInt16();
+                    }
+
+                    return progression;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the player's admin status.
+        /// </summary>
+        public bool IsAdmin
+        {
+            get
+            {
+                var users = GameManager.Instance.adminTools.Users;
+                if (_player.ClientInfo != null)
+                {
+                    return users.GetUserPermissionLevel(this._player.ClientInfo) == 0;
+                }
+                else
+                {
+                    return users.GetUserPermissionLevel(this._player.PersistentPlayerData.PrimaryId) == 0;
+                }
             }
         }
     }

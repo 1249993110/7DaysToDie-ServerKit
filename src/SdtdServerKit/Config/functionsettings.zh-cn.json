@@ -63,7 +63,7 @@
     "QueryListCmd": "hc",
     "TeleCmdPrefix": "hc",
     "TeleInterval": 60,
-    "LocationItemTip": "[FFFFFF]输入: [00FF00]tele-{CityId} [FFFFFF]传送到 [00FF00]{CityName}[FFFFFF], 需要积分: [FF00FF]{PointsRequired}",
+    "LocationItemTip": "[FFFFFF]输入: [00FF00]hc-{CityId} [FFFFFF]传送到 [00FF00]{CityName}[FFFFFF], 需要积分: [FF00FF]{PointsRequired}",
     "TeleSuccessTip": "[00FF00]玩家: {PlayerName}, 传送到了: {CityName}",
     "PointsNotEnoughTip": "[00FF00]积分不足, 需要积分: {PointsRequired}",
     "CoolingTip": "[00FF00]传送冷却... 剩余时间: {CooldownSeconds} 秒",

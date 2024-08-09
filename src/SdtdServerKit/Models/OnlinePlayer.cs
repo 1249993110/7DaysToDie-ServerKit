@@ -7,6 +7,7 @@
     {
         private readonly ClientInfo _clientInfo;
         private readonly PersistentPlayerData _persistentPlayerData;
+        private readonly EntityPlayer _entityPlayer;
         private readonly PlayerDetails _playerDetails;
 
         /// <summary>
@@ -17,6 +18,7 @@
         {
             _clientInfo = clientInfo;
             _persistentPlayerData = GameManager.Instance.persistentPlayers.GetPlayerDataFromEntityID(clientInfo.entityId);
+            _entityPlayer = GameManager.Instance.World.Players.dict[clientInfo.entityId];
             _playerDetails = new PlayerDetails(this);
         }
 
@@ -33,23 +35,12 @@
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public ClientInfo? ClientInfo => _clientInfo;
+        public ClientInfo ClientInfo => _clientInfo;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public EntityPlayer? EntityPlayer
-        {
-            get
-            {
-                if (GameManager.Instance.World.Players.dict.TryGetValue(EntityId, out EntityPlayer entityPlayer))
-                {
-                    return entityPlayer;
-                }
-
-                return null;
-            }
-        }
+        public EntityPlayer EntityPlayer => _entityPlayer;
 
         /// <summary>
         /// <inheritdoc/>
@@ -85,6 +76,11 @@
         /// Gets the ping value.
         /// </summary>
         public int Ping => _clientInfo.ping;
+
+        /// <summary>
+        /// Gets the game stage of the player.
+        /// </summary>
+        public int GameStage => _entityPlayer.gameStage;
 
     }
 }
