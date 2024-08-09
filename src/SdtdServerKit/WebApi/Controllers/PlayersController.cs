@@ -24,11 +24,13 @@ namespace SdtdServerKit.WebApi.Controllers
             var onlinePlayers = OnlinePlayerManager.GetAll();
 
             var pointsInfoRepository = ModApi.ServiceContainer.Resolve<IPointsInfoRepository>();
-            var pointsArray = (await pointsInfoRepository.GetPointsByIdsAsync(onlinePlayers.Select(i => i.PlayerId))).ToArray();
-            int i = 0;
+            var pointsMap = await pointsInfoRepository.GetPointsByIdsAsync(onlinePlayers.Select(i => i.PlayerId));
             foreach (var item in onlinePlayers)
             {
-                item.PlayerDetails.PointsCount = pointsArray[i++];
+                if (pointsMap.TryGetValue(item.PlayerId, out int count))
+                {
+                    item.PlayerDetails.PointsCount = count;
+                }
             }
             return onlinePlayers;
         }
@@ -156,11 +158,13 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             var pointsInfoRepository = ModApi.ServiceContainer.Resolve<IPointsInfoRepository>();
-            var pointsArray = (await pointsInfoRepository.GetPointsByIdsAsync(historyPlayers.Select(i => i.PlayerId))).ToArray();
-            int i = 0;
+            var pointsMap = await pointsInfoRepository.GetPointsByIdsAsync(historyPlayers.Select(i => i.PlayerId));
             foreach (var item in historyPlayers)
             {
-                item.PlayerDetails.PointsCount = pointsArray[i++];
+                if(pointsMap.TryGetValue(item.PlayerId, out int count))
+                {
+                    item.PlayerDetails.PointsCount = count;
+                }
             }
 
             return new Paged<HistoryPlayer>(historyPlayers, total);
