@@ -17,9 +17,33 @@
         }
 
         /// <summary>
+        /// Gets the player's admin status.
+        /// </summary>
+        public bool IsAdmin
+        {
+            get
+            {
+                var users = GameManager.Instance.adminTools.Users;
+                if (_player.ClientInfo != null)
+                {
+                    return users.GetUserPermissionLevel(this._player.ClientInfo) == 0;
+                }
+                else
+                {
+                    return users.GetUserPermissionLevel(this._player.PersistentPlayerData.PrimaryId) == 0;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the position of the player.
         /// </summary>
         public Position Position => _player.PlayerDataFile.ecd.pos.ToPosition();
+
+        /// <summary>
+        /// Gets the last spawn position of the player.
+        /// </summary>
+        public SpawnPosition LastSpawnPosition => _player.PlayerDataFile.lastSpawnPosition.ToModel();
 
         /// <summary>
         /// Gets the last login time of the player.
@@ -66,39 +90,47 @@
         }
 
         /// <summary>
+        /// Gets the player progression.
+        /// </summary>
+        public PlayerProgression Progression
+        {
+            get
+            {
+                var entityPlayer = _player.EntityPlayer;
+                if (entityPlayer != null)
+                {
+                    return new PlayerProgression()
+                    {
+                        Level = entityPlayer.Progression.Level,
+                        ExpToNextLevel = entityPlayer.Progression.ExpToNextLevel,
+                        SkillPoints = entityPlayer.Progression.SkillPoints
+                    };
+                }
+                else
+                {
+                    var progression = new PlayerProgression();
+                    var stream = _player.PlayerDataFile.progressionData;
+                    if (stream.Length > 0L)
+                    {
+                        using var binaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
+                        stream.Position = 0L;
+                        binaryReader.SetBaseStream(stream);
+
+                        byte b = binaryReader.ReadByte();
+                        progression.Level = binaryReader.ReadUInt16();
+                        progression.ExpToNextLevel = binaryReader.ReadInt32();
+                        progression.SkillPoints = binaryReader.ReadUInt16();
+                    }
+
+                    return progression;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether land protection is active for the player.
         /// </summary>
         public bool LandProtectionActive => GameManager.Instance.World.IsLandProtectionValidForPlayer(_player.PersistentPlayerData);
-
-        /// <summary>
-        /// Gets the spawn points of the player.
-        /// </summary>
-        public IEnumerable<Position> SpawnPoints => _player.PlayerDataFile.spawnPoints.ToPositions();
-
-        /// <summary>
-        /// Gets the list of already crafted items by the player.
-        /// </summary>
-        public IEnumerable<string> AlreadyCraftedList => _player.PlayerDataFile.alreadyCraftedList;
-
-        /// <summary>
-        /// Gets the last spawn position of the player.
-        /// </summary>
-        public SpawnPosition LastSpawnPosition => _player.PlayerDataFile.lastSpawnPosition.ToModel();
-
-        /// <summary>
-        /// Gets the list of unlocked recipes by the player.
-        /// </summary>
-        public IEnumerable<string> UnlockedRecipeList => _player.PlayerDataFile.unlockedRecipeList;
-
-        /// <summary>
-        /// Gets the list of favorite recipes by the player.
-        /// </summary>
-        public IEnumerable<string> FavoriteRecipeList => _player.PlayerDataFile.favoriteRecipeList;
-
-        /// <summary>
-        /// Gets the list of owned entities by the player.
-        /// </summary>
-        public IEnumerable<OwnedEntity> OwnedEntities => _player.PlayerDataFile.ownedEntities.ToModels();
 
         /// <summary>
         /// Gets the distance walked by the player.
@@ -141,60 +173,29 @@
         public int RentalEndDay => _player.PlayerDataFile.rentalEndDay;
 
         /// <summary>
-        /// Gets the player progression.
+        /// Gets the spawn points of the player.
         /// </summary>
-        public PlayerProgression Progression
-        {
-            get
-            {
-                var entityPlayer = _player.EntityPlayer;
-                if (entityPlayer != null)
-                {
-                    return new PlayerProgression()
-                    {
-                        Level = entityPlayer.Progression.Level,
-                        ExpToNextLevel = entityPlayer.Progression.ExpToNextLevel,
-                        SkillPoints = entityPlayer.Progression.SkillPoints
-                    };
-                }
-                else
-                {
-                    var progression = new PlayerProgression();
-                    var stream = _player.PlayerDataFile.progressionData;
-                    if (stream.Length > 0L)
-                    {
-                        using var binaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
-                        stream.Position = 0L;
-                        binaryReader.SetBaseStream(stream);
-
-                        byte b = binaryReader.ReadByte();
-                        progression.Level = binaryReader.ReadUInt16();
-                        progression.ExpToNextLevel = binaryReader.ReadInt32();
-                        progression.SkillPoints = binaryReader.ReadUInt16();
-                    }
-
-                    return progression;
-                }
-            }
-        }
+        public IEnumerable<Position> SpawnPoints => _player.PlayerDataFile.spawnPoints.ToPositions();
 
         /// <summary>
-        /// Gets the player's admin status.
+        /// Gets the list of already crafted items by the player.
         /// </summary>
-        public bool IsAdmin
-        {
-            get
-            {
-                var users = GameManager.Instance.adminTools.Users;
-                if (_player.ClientInfo != null)
-                {
-                    return users.GetUserPermissionLevel(this._player.ClientInfo) == 0;
-                }
-                else
-                {
-                    return users.GetUserPermissionLevel(this._player.PersistentPlayerData.PrimaryId) == 0;
-                }
-            }
-        }
+        public IEnumerable<string> AlreadyCraftedList => _player.PlayerDataFile.alreadyCraftedList;
+
+        /// <summary>
+        /// Gets the list of unlocked recipes by the player.
+        /// </summary>
+        public IEnumerable<string> UnlockedRecipeList => _player.PlayerDataFile.unlockedRecipeList;
+
+        /// <summary>
+        /// Gets the list of favorite recipes by the player.
+        /// </summary>
+        public IEnumerable<string> FavoriteRecipeList => _player.PlayerDataFile.favoriteRecipeList;
+
+        /// <summary>
+        /// Gets the list of owned entities by the player.
+        /// </summary>
+        public IEnumerable<OwnedEntity> OwnedEntities => _player.PlayerDataFile.ownedEntities.ToModels();
+
     }
 }

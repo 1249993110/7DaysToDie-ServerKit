@@ -89,25 +89,55 @@ namespace SdtdServerKit.WebApi.Controllers
                 persistentPlayers = filterByKeyword;
             }
 
-            if (model.Order == HistoryPlayerQueryOrder.LastLogin)
+            IEnumerable<HistoryPlayer> historyPlayers = new List<HistoryPlayer>();
+            foreach (var item in persistentPlayers)
             {
-                persistentPlayers = model.Desc ? persistentPlayers.OrderByDescending(k => k.LastLogin) : persistentPlayers.OrderBy(k => k.LastLogin);
+                ((List<HistoryPlayer>)historyPlayers).Add(new HistoryPlayer(item));
             }
-            else if(model.Order == HistoryPlayerQueryOrder.PlayerName)
+
+            switch (model.Order)
             {
-                persistentPlayers = model.Desc ? persistentPlayers.OrderByDescending(k => k.PlayerName) : persistentPlayers.OrderBy(k => k.PlayerName);
+                case HistoryPlayerQueryOrder.PlayerName:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerName) : historyPlayers.OrderBy(k => k.PlayerName);
+                    break;
+                case HistoryPlayerQueryOrder.Level:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.Progression.Level) : historyPlayers.OrderBy(k => k.PlayerDetails.Progression.Level);
+                    break;
+                case HistoryPlayerQueryOrder.IsOffline:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.IsOffline) : historyPlayers.OrderBy(k => k.IsOffline);
+                    break;
+                case HistoryPlayerQueryOrder.ZombieKills:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.ZombieKills) : historyPlayers.OrderBy(k => k.PlayerDetails.ZombieKills);
+                    break;
+                case HistoryPlayerQueryOrder.PlayerKills:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.PlayerKills) : historyPlayers.OrderBy(k => k.PlayerDetails.PlayerKills);
+                    break;
+                case HistoryPlayerQueryOrder.Deaths:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.Deaths) : historyPlayers.OrderBy(k => k.PlayerDetails.Deaths);
+                    break;
+                case HistoryPlayerQueryOrder.SkillPoints:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.Progression.SkillPoints) : historyPlayers.OrderBy(k => k.PlayerDetails.Progression.SkillPoints);
+                    break;
+                case HistoryPlayerQueryOrder.LastLogin:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.LastLogin) : historyPlayers.OrderBy(k => k.PlayerDetails.LastLogin);
+                    break;
+                case HistoryPlayerQueryOrder.TotalTimePlayed:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.TotalTimePlayed) : historyPlayers.OrderBy(k => k.PlayerDetails.TotalTimePlayed);
+                    break;
+                case HistoryPlayerQueryOrder.LongestLife:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.LongestLife) : historyPlayers.OrderBy(k => k.PlayerDetails.LongestLife);
+                    break;
+                case HistoryPlayerQueryOrder.EntityId:
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.EntityId) : historyPlayers.OrderBy(k => k.EntityId);
+                    break;
+                default:
+                    break;
             }
             
             int pageSize = model.PageSize;
             if(pageSize > 0)
             {
-                persistentPlayers = persistentPlayers.Skip((model.PageNumber - 1) * pageSize).Take(pageSize);
-            }
-
-            var historyPlayers = new List<HistoryPlayer>();
-            foreach (var item in persistentPlayers)
-            {
-                historyPlayers.Add(new HistoryPlayer(item));
+                historyPlayers = historyPlayers.Skip((model.PageNumber - 1) * pageSize).Take(pageSize);
             }
 
             return new Paged<HistoryPlayer>(historyPlayers, total);

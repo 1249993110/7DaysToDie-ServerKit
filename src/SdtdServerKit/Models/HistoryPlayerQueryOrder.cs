@@ -6,12 +6,25 @@
     public enum HistoryPlayerQueryOrder
     {
         /// <summary>
+        /// Player Name
+        /// </summary>
+        PlayerName,
+
+        Level,
+
+        IsOffline,
+        ZombieKills,
+        PlayerKills,
+        Deaths,
+        SkillPoints,
+
+        /// <summary>
         /// Last Login
         /// </summary>
         LastLogin,
-        /// <summary>
-        /// Player Name
-        /// </summary>
-        PlayerName
+
+        TotalTimePlayed,
+        LongestLife,
+        EntityId,
     }
 }

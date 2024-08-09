@@ -68,7 +68,7 @@ namespace SdtdServerKit.Models
         {
             get
             {
-                if (IsOnline && GameManager.Instance.World.Players.dict.TryGetValue(EntityId, out EntityPlayer entityPlayer))
+                if (IsOffline == false && GameManager.Instance.World.Players.dict.TryGetValue(EntityId, out EntityPlayer entityPlayer))
                 {
                     return entityPlayer;
                 }
@@ -103,8 +103,8 @@ namespace SdtdServerKit.Models
         public PlayerDetails PlayerDetails => _playerDetails;
 
         /// <summary>
-        /// Gets a value indicating whether the player is online.
+        /// Gets a value indicating whether the player is offline.
         /// </summary>
-        public bool IsOnline => ClientInfo != null;
+        public bool IsOffline => ClientInfo == null;
     }
 }
