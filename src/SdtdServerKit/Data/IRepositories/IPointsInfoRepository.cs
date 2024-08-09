@@ -10,6 +10,7 @@ namespace SdtdServerKit.Data.IRepositories
     public interface IPointsInfoRepository : IRepository<T_PointsInfo>
     {
         Task<int> GetPointsByIdAsync(string playerId);
+        Task<IEnumerable<int>> GetPointsByIdsAsync(IEnumerable<string> playerIds);
 
         Task<int> ChangePointsAsync(string playerId, int points);
 

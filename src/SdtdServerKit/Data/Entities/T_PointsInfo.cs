@@ -22,7 +22,7 @@ namespace SdtdServerKit.Data.Entities
         /// <summary>
         /// 玩家名称
         /// </summary>
-        public string PlayerName { get; set; }
+        public string? PlayerName { get; set; }
 
         /// <summary>
         /// 拥有积分

@@ -2,6 +2,7 @@
 using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
 using System.Text;
+using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit.Data.Repositories
 {
@@ -15,8 +16,24 @@ namespace SdtdServerKit.Data.Repositories
 
         public Task<int> ChangePointsAsync(string playerId, int points)
         {
-            string sql = $"UPDATE {SqlGenerator.TableName} SET Points=Points+@Points WHERE Id=@PlayerId";
-            return base.ExecuteAsync(sql, new { PlayerId = playerId, Points = points });
+            var entity = base.GetById(playerId);
+            if(entity == null)
+            {
+                entity = new T_PointsInfo()
+                {
+                    CreatedAt = DateTime.Now,
+                    Id = playerId,
+                    LastSignInAt = null,
+                    PlayerName = string.Empty,
+                    Points = points
+                };
+                return base.InsertAsync(entity);
+            }
+            else
+            {
+                string sql = $"UPDATE {SqlGenerator.TableName} SET Points=Points+@Points WHERE Id=@PlayerId";
+                return base.ExecuteAsync(sql, new { PlayerId = playerId, Points = points });
+            }
         }
 
         public Task<PagedDto<T_PointsInfo>> GetPagedListAsync(PaginationQueryDto dto)
@@ -52,6 +69,12 @@ namespace SdtdServerKit.Data.Repositories
         {
             string sql = $"UPDATE {SqlGenerator.TableName} SET LastSignInAt=NULL";
             return base.ExecuteAsync(sql, useTransaction: true);
+        }
+
+        public Task<IEnumerable<int>> GetPointsByIdsAsync(IEnumerable<string> playerIds)
+        {
+            string sql = $"SELECT Points FROM {SqlGenerator.TableName} WHERE Id IN @PlayerIds";
+            return base.ExecuteQueryAsync<int>(sql, new { PlayerIds = playerIds });
         }
     }
 }

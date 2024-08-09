@@ -1,4 +1,7 @@
-﻿using SdtdServerKit.Managers;
+﻿using SdtdServerKit.Data.IRepositories;
+using SdtdServerKit.Managers;
+using SdtdServerKit.Models;
+using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit.WebApi.Controllers
 {
@@ -16,9 +19,18 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("OnlinePlayers")]
-        public IEnumerable<OnlinePlayer> GetOnlinePlayers()
+        public async Task<IEnumerable<OnlinePlayer>> GetOnlinePlayers()
         {
-            return OnlinePlayerManager.GetAll();
+            var onlinePlayers = OnlinePlayerManager.GetAll();
+
+            var pointsInfoRepository = ModApi.ServiceContainer.Resolve<IPointsInfoRepository>();
+            var pointsArray = (await pointsInfoRepository.GetPointsByIdsAsync(onlinePlayers.Select(i => i.PlayerId))).ToArray();
+            int i = 0;
+            foreach (var item in onlinePlayers)
+            {
+                item.PlayerDetails.PointsCount = pointsArray[i++];
+            }
+            return onlinePlayers;
         }
 
         /// <summary>
@@ -28,11 +40,12 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpGet]
         [Route("OnlinePlayers/{entityId:int}")]
         [ResponseType(typeof(OnlinePlayer))]
-        public IHttpActionResult GetOnlinePlayer(int entityId)
+        public async Task<IHttpActionResult> GetOnlinePlayer(int entityId)
         {
             if (OnlinePlayerManager.TryGetByEntityId(entityId, out var onlinePlayer))
             {
-                return Ok(onlinePlayer); 
+                onlinePlayer!.PlayerDetails.PointsCount = await ModApi.ServiceContainer.Resolve<IPointsInfoRepository>().GetPointsByIdAsync(onlinePlayer.PlayerId);
+                return Ok(onlinePlayer);
             }
 
             return NotFound();
@@ -45,10 +58,11 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpGet]
         [Route("OnlinePlayers/{playerId}")]
         [ResponseType(typeof(OnlinePlayer))]
-        public IHttpActionResult GetOnlinePlayer(string playerId)
+        public async Task<IHttpActionResult> GetOnlinePlayer(string playerId)
         {
             if (OnlinePlayerManager.TryGetByPlayerId(playerId, out var onlinePlayer))
             {
+                onlinePlayer!.PlayerDetails.PointsCount = await ModApi.ServiceContainer.Resolve<IPointsInfoRepository>().GetPointsByIdAsync(playerId);
                 return Ok(onlinePlayer);
             }
 
@@ -64,7 +78,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("HistoryPlayers")]
-        public Paged<HistoryPlayer> GetHistoryPlayers([FromUri]PaginationQuery<HistoryPlayerQueryOrder> model)
+        public async Task<Paged<HistoryPlayer>> GetHistoryPlayers([FromUri]PaginationQuery<HistoryPlayerQueryOrder> model)
         {
             var persistentPlayerMap = GameManager.Instance.persistentPlayers.Players;
             int total = persistentPlayerMap.Count;
@@ -92,7 +106,8 @@ namespace SdtdServerKit.WebApi.Controllers
             IEnumerable<HistoryPlayer> historyPlayers = new List<HistoryPlayer>();
             foreach (var item in persistentPlayers)
             {
-                ((List<HistoryPlayer>)historyPlayers).Add(new HistoryPlayer(item));
+                var historyPlayer = new HistoryPlayer(item);
+                ((List<HistoryPlayer>)historyPlayers).Add(historyPlayer);
             }
 
             switch (model.Order)
@@ -140,6 +155,14 @@ namespace SdtdServerKit.WebApi.Controllers
                 historyPlayers = historyPlayers.Skip((model.PageNumber - 1) * pageSize).Take(pageSize);
             }
 
+            var pointsInfoRepository = ModApi.ServiceContainer.Resolve<IPointsInfoRepository>();
+            var pointsArray = (await pointsInfoRepository.GetPointsByIdsAsync(historyPlayers.Select(i => i.PlayerId))).ToArray();
+            int i = 0;
+            foreach (var item in historyPlayers)
+            {
+                item.PlayerDetails.PointsCount = pointsArray[i++];
+            }
+
             return new Paged<HistoryPlayer>(historyPlayers, total);
         }
 
@@ -150,7 +173,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpGet]
         [Route("HistoryPlayers/{playerId}")]
         [ResponseType(typeof(HistoryPlayer))]
-        public IHttpActionResult GetHistoryPlayer(string playerId)
+        public async Task<IHttpActionResult> GetHistoryPlayer(string playerId)
         {
             var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);
             if (userId == null)
@@ -165,6 +188,7 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             var historyPlayer = new HistoryPlayer(persistentPlayerData);
+            historyPlayer.PlayerDetails.PointsCount = await ModApi.ServiceContainer.Resolve<IPointsInfoRepository>().GetPointsByIdAsync(playerId);
             return Ok(historyPlayer);
         }
 

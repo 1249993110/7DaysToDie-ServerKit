@@ -197,5 +197,10 @@
         /// </summary>
         public IEnumerable<OwnedEntity> OwnedEntities => _player.PlayerDataFile.ownedEntities.ToModels();
 
+        /// <summary>
+        /// Gets or sets the count of points.
+        /// </summary>
+        public int PointsCount { get; set; }
+
     }
 }

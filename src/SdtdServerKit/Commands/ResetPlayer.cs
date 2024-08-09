@@ -78,7 +78,7 @@
             if (list.Players.ContainsKey(uId))
             {
                 list.Players.Remove(uId);
-                list.Write(GameIO.GetSaveGameDir(null, null) + "/players.xml");
+                list.Write(GameIO.GetSaveGameDir() + "/players.xml");
             }
         }
 
