@@ -33,6 +33,7 @@ namespace SdtdServerKit.WebApi.Controllers
                 {
                     onlinePlayer.PlayerDetails.PointsCount = count;
                 }
+                result.Add(onlinePlayer);
             }
 
             return result;

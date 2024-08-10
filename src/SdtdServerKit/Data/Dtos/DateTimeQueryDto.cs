@@ -2,7 +2,7 @@
 
 namespace SdtdServerKit.Data.Dtos
 {
-    public class DateTimeQueryDto : PaginationQueryDto
+    public class DateTimeQueryDto : PaginationQueryDto<ChatRecordQueryOrder>
     {
         /// <summary>
         /// 开始时间

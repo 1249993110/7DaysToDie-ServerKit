@@ -27,18 +27,10 @@ namespace SdtdServerKit.Data.Repositories
                 whereClauseSB.Append(" AND (EntityId=@Keyword OR PlayerId=@Keyword OR SenderName LIKE '%'||@Keyword||'%' OR Message LIKE '%'||@Keyword||'%')");
             }
 
-            //string orderByClause;
-            //if (string.IsNullOrEmpty(dto.Order) == false && typeof(T_ChatRecord).GetProperty(dto.Order) != null)
-            //{
-            //    orderByClause = dto.Order + (dto.Desc ? "DESC" : "ASC");
-            //}
-            //else
-            //{
-            //    orderByClause = "CreatedAt " + (dto.Desc ? "DESC" : "ASC");
-            //}
+            string orderByClause = dto.Order + (dto.Desc ? " DESC" : " ASC");
 
             var param = new { Keyword = dto.Keyword };
-            return base.GetPagedListAsync(dto.PageNumber, dto.PageSize, whereClauseSB.ToString(), orderByClause: "CreatedAt DESC", param);
+            return base.GetPagedListAsync(dto.PageNumber, dto.PageSize, whereClauseSB.ToString(), orderByClause, param);
         }
     }
 }

@@ -142,9 +142,8 @@
         /// <returns></returns>
         public static IEnumerable<string> SendGlobalMessage(GlobalMessage globalMessage)
         {
-            string cmd = string.Format("ty-say {0} {1}", 
-                FormatCommandArgs(globalMessage.Message), 
-                FormatCommandArgs(globalMessage.SenderName));
+            string cmd = string.Format("ty-say {0}", 
+                FormatCommandArgs(globalMessage.Message));
             return ExecuteConsoleCommand(cmd);
         }
 
@@ -155,10 +154,9 @@
         /// <returns></returns>
         public static IEnumerable<string> SendPrivateMessage(PrivateMessage privateMessage)
         {
-            string cmd = string.Format("ty-pm {0} {1} {2}",
+            string cmd = string.Format("ty-pm {0} {1}",
                 FormatCommandArgs(privateMessage.TargetPlayerIdOrName),
-                FormatCommandArgs(privateMessage.Message),
-                FormatCommandArgs(privateMessage.SenderName));
+                FormatCommandArgs(privateMessage.Message));
 
             return ExecuteConsoleCommand(cmd);
         }

@@ -39,7 +39,9 @@ namespace SdtdServerKit.WebApi.Controllers
                 PageSize = model.PageSize,
                 StartDateTime = model.StartDateTime,
                 EndDateTime = model.EndDateTime,
-                Keyword = model.Keyword
+                Keyword = model.Keyword,
+                Order = model.Order,
+                Desc = model.Desc
             };
             var data = await _repository.GetPagedListAsync(dto);
             return data;
