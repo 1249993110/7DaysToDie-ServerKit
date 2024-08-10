@@ -58,11 +58,11 @@ namespace SdtdServerKit.WebSockets
             ModEventHub.ChatMessage += (message) => Broadcast(ModEventType.ChatMessage, message);
             ModEventHub.EntityKilled += (killedEntity) => Broadcast(ModEventType.EntityKilled, killedEntity);
             ModEventHub.EntitySpawned += () => Broadcast(ModEventType.EntitySpawned);
-            ModEventHub.PlayerDisconnected += (onlinePlayer) => Broadcast(ModEventType.PlayerDisconnected, onlinePlayer);
-            ModEventHub.PlayerLogin += (onlinePlayer) => Broadcast(ModEventType.PlayerLogin, onlinePlayer);
+            ModEventHub.PlayerDisconnected += (managedPlayer) => Broadcast(ModEventType.PlayerDisconnected, managedPlayer);
+            ModEventHub.PlayerLogin += (playerBase) => Broadcast(ModEventType.PlayerLogin, playerBase);
             ModEventHub.PlayerSpawnedInWorld += (spawnedPlayer) => Broadcast(ModEventType.PlayerSpawnedInWorld, spawnedPlayer);
-            ModEventHub.PlayerSpawning += (onlinePlayer) => Broadcast(ModEventType.PlayerSpawning, onlinePlayer);
-            ModEventHub.SavePlayerData += (onlinePlayer) => Broadcast(ModEventType.SavePlayerData, onlinePlayer);
+            ModEventHub.PlayerSpawning += (managedPlayer) => Broadcast(ModEventType.PlayerSpawning, managedPlayer);
+            ModEventHub.SavePlayerData += (managedPlayer) => Broadcast(ModEventType.SavePlayerData, managedPlayer);
             ModEventHub.SkyChanged += (skyChanged) => Broadcast(ModEventType.SkyChanged, skyChanged);
         }
     }

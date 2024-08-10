@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace SdtdServerKit.Hooks
 {
-    internal delegate Task<bool> ChatHook(string cmd, OnlinePlayer onlinePlayer);
+    internal delegate Task<bool> ChatHook(string cmd, ManagedPlayer managedPlayer);
     /// <summary>
     /// 表示聊天消息钩子的静态类。
     /// </summary>
@@ -43,13 +43,13 @@ namespace SdtdServerKit.Hooks
         /// </summary>
         /// <param name="chatHook">要处理的聊天钩子。</param>
         /// <param name="cmd">聊天命令。</param>
-        /// <param name="onlinePlayer">在线玩家。</param>
+        /// <param name="managedPlayer">在线玩家。</param>
         /// <returns>表示聊天命令是否被处理的任务。</returns>
-        private static async Task<bool> HandleChatCmd(ChatHook chatHook, string cmd, OnlinePlayer onlinePlayer)
+        private static async Task<bool> HandleChatCmd(ChatHook chatHook, string cmd, ManagedPlayer managedPlayer)
         {
             try
             {
-                return await chatHook.Invoke(cmd, onlinePlayer);
+                return await chatHook.Invoke(cmd, managedPlayer);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace SdtdServerKit.Hooks
                 {
                     Message = ConfigManager.GlobalSettings.HandleChatMessageError,
                     //SenderName = ConfigManager.GlobalSettings.ServerName,
-                    TargetPlayerIdOrName = onlinePlayer.PlayerId,
+                    TargetPlayerIdOrName = managedPlayer.PlayerId,
                 });
 
                 return false;
@@ -75,7 +75,9 @@ namespace SdtdServerKit.Hooks
             try
             {
                 string? playerId = chatMessage.PlayerId;
-                if (playerId != null && chatMessage.ChatType == ChatType.Global)
+                if (playerId != null 
+                    && LivePlayerManager.TryGetByPlayerId(playerId, out var player) 
+                    && chatMessage.ChatType == ChatType.Global)
                 {
                     string cmd = chatMessage.Message;
                     string chatPrefix = ConfigManager.GlobalSettings.ChatCommandPrefix;
@@ -91,8 +93,6 @@ namespace SdtdServerKit.Hooks
                             cmd = cmd.Substring(chatPrefix.Length);
                         }
                     }
-
-                    var player = OnlinePlayerManager.GetByPlayerId(playerId);
 
                     var chatHook = _cache.Get(cmd);
                     if (chatHook != null && chatHook.Target is IFunction function && function.IsEnabled)

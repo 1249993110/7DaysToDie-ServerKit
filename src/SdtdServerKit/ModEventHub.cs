@@ -2,6 +2,7 @@
 using SdtdServerKit.Managers;
 using System.Text;
 using UnityEngine;
+using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit
 {
@@ -56,12 +57,12 @@ namespace SdtdServerKit
         /// <summary>
         /// Event that is triggered when a player disconnects.
         /// </summary>
-        public static event Action<OnlinePlayer>? PlayerDisconnected;
+        public static event Action<ManagedPlayer>? PlayerDisconnected;
 
         /// <summary>
         /// Event that is triggered when a player logs in.
         /// </summary>
-        public static event Action<ClientInfo>? PlayerLogin;
+        public static event Action<PlayerBase>? PlayerLogin;
 
         /// <summary>
         /// Event that is triggered when a player is spawned in the world.
@@ -71,12 +72,12 @@ namespace SdtdServerKit
         /// <summary>
         /// Event that is triggered when a player is about to spawn in the world.
         /// </summary>
-        public static event Action<OnlinePlayer>? PlayerSpawning;
+        public static event Action<ManagedPlayer>? PlayerSpawning;
 
         /// <summary>
         /// Event that is triggered when player data is saved.
         /// </summary>
-        public static event Action<OnlinePlayer>? SavePlayerData;
+        public static event Action<ManagedPlayer>? SavePlayerData;
 
         /// <summary>
         /// Event that is triggered when the sky changes.
@@ -246,9 +247,16 @@ namespace SdtdServerKit
         /// <param name="shutdown">Indicates if the server is shutting down.</param>
         public static void OnPlayerDisconnected(ClientInfo clientInfo, bool shutdown)
         {
-            var onlinePlayer = OnlinePlayerManager.GetByEntityId(clientInfo.entityId);
-            OnlinePlayerManager.Remove(clientInfo);
-            PlayerDisconnected?.Invoke(onlinePlayer);
+            if (LivePlayerManager.TryGetByEntityId(clientInfo.entityId, out var managedPlayer))
+            {
+                LivePlayerManager.Remove(clientInfo);
+                PlayerDisconnected?.Invoke(managedPlayer!);
+                return;
+            }
+            else
+            {
+                CustomLogger.Warn($"Player disconnected but could not find online player: {clientInfo.playerName} ({clientInfo.InternalId.CombinedString})");
+            }
         }
 
         /// <summary>
@@ -260,7 +268,12 @@ namespace SdtdServerKit
         /// <returns>True to allow the player to log in, false otherwise.</returns>
         public static bool OnPlayerLogin(ClientInfo clientInfo, string compatibilityVersion, StringBuilder stringBuilder)
         {
-            PlayerLogin?.Invoke(clientInfo);
+            var playerBase = new PlayerBase(
+                clientInfo.InternalId.CombinedString,
+                clientInfo.playerName,
+                clientInfo.entityId,
+                clientInfo.PlatformId.CombinedString);
+            PlayerLogin?.Invoke(playerBase);
             return true;
         }
 
@@ -292,8 +305,8 @@ namespace SdtdServerKit
         /// <param name="playerProfile">The player profile.</param>
         public static void OnPlayerSpawning(ClientInfo clientInfo, int chunkViewDim, PlayerProfile playerProfile)
         {
-            var onlinePlayer = OnlinePlayerManager.Add(clientInfo);
-            PlayerSpawning?.Invoke(onlinePlayer);
+            var managedPlayer = LivePlayerManager.Add(clientInfo);
+            PlayerSpawning?.Invoke(managedPlayer);
         }
 
         /// <summary>
@@ -304,8 +317,8 @@ namespace SdtdServerKit
         /// <param name="pdf">The player data file.</param>
         public static void OnSavePlayerData(ClientInfo clientInfo, PlayerDataFile pdf)
         {
-            var onlinePlayer = OnlinePlayerManager.GetByEntityId(clientInfo.entityId);
-            SavePlayerData?.Invoke(onlinePlayer);
+            var managedPlayer = LivePlayerManager.GetByEntityId(clientInfo.entityId);
+            SavePlayerData?.Invoke(managedPlayer);
         }
 
         /// <summary>

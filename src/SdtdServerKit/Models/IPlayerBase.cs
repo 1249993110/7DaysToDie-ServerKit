@@ -23,6 +23,6 @@
         /// <summary>
         /// Gets the platform ID.
         /// </summary>
-        public string PlatformId { get; }
+        string PlatformId { get; }
     }
 }

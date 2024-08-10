@@ -23,12 +23,12 @@ namespace SdtdServerKit.Functions
             _homeLocationRepository = homeLocationRepository;
         }
         /// <inheritdoc/>
-        protected override async Task<bool> OnChatCmd(string message, OnlinePlayer onlinePlayer)
+        protected override async Task<bool> OnChatCmd(string message, ManagedPlayer managedPlayer)
         {
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
-                int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlayerId;
+                int entityId = managedPlayer.EntityId;
+                string playerId = managedPlayer.PlayerId;
                 var positions = await _homeLocationRepository.GetByPlayerIdAsync(playerId);
 
                 if (positions.Any() == false)
@@ -39,7 +39,7 @@ namespace SdtdServerKit.Functions
                 {
                     foreach (var item in positions)
                     {
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, onlinePlayer, item));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, managedPlayer, item));
                     }
                 }
 
@@ -48,25 +48,25 @@ namespace SdtdServerKit.Functions
             else if (message.StartsWith(Settings.SetHomeCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
             {
                 string homeName = message.Substring(Settings.SetHomeCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
-                int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlayerId;
+                int entityId = managedPlayer.EntityId;
+                string playerId = managedPlayer.PlayerId;
 
                 int playerPoints = await _pointsRepository.GetPointsByIdAsync(playerId);
                 if (playerPoints < Settings.PointsRequiredForSet)
                 {
-                    SendMessageToPlayer(playerId, FormatCmd(Settings.SetPointsNotEnoughTip, onlinePlayer));
+                    SendMessageToPlayer(playerId, FormatCmd(Settings.SetPointsNotEnoughTip, managedPlayer));
                 }
                 else
                 {
                     var entity = await _homeLocationRepository.GetByPlayerIdAndHomeNameAsync(playerId, homeName);
-                    string position = Utils.GetPlayerPosition(onlinePlayer.EntityId).ToString();
+                    string position = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString();
                     // new home postion
                     if (entity == null)
                     {
                         var positionCount = await _homeLocationRepository.GetRecordCountByPlayerIdIdAsync(playerId);
                         if (positionCount >= Settings.SetCountLimit)
                         {
-                            SendMessageToPlayer(playerId, FormatCmd(Settings.OverLimitTip, onlinePlayer));
+                            SendMessageToPlayer(playerId, FormatCmd(Settings.OverLimitTip, managedPlayer));
                             return true;
                         }
                         else
@@ -76,24 +76,24 @@ namespace SdtdServerKit.Functions
                                 HomeName = homeName,
                                 PlayerId = playerId,
                                 CreatedAt = DateTime.Now,
-                                PlayerName = onlinePlayer.PlayerName,
+                                PlayerName = managedPlayer.PlayerName,
                                 Position = position
                             };
                             await _homeLocationRepository.InsertAsync(entity);
-                            SendMessageToPlayer(playerId, FormatCmd(Settings.SetSuccessTip, onlinePlayer, entity));
+                            SendMessageToPlayer(playerId, FormatCmd(Settings.SetSuccessTip, managedPlayer, entity));
                         }
                     }
                     else
                     {
                         entity.HomeName = homeName;
-                        entity.PlayerName = onlinePlayer.PlayerName;
+                        entity.PlayerName = managedPlayer.PlayerName;
                         entity.Position = position;
                         await _homeLocationRepository.UpdateAsync(entity);
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.OverwriteSuccessTip, onlinePlayer, entity));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.OverwriteSuccessTip, managedPlayer, entity));
                     }
 
                     await _pointsRepository.ChangePointsAsync(playerId, -Settings.PointsRequiredForSet);
-                    CustomLogger.Info("Player: {0}, entityId: {1}, set home: {2}, position: {3}", onlinePlayer.PlayerName, entityId, homeName, position);
+                    CustomLogger.Info("Player: {0}, entityId: {1}, set home: {2}, position: {3}", managedPlayer.PlayerName, entityId, homeName, position);
                 }
 
                 return true;
@@ -101,8 +101,8 @@ namespace SdtdServerKit.Functions
             else if (message.StartsWith(Settings.DeleteHomeCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
             {
                 string homeName = message.Substring(Settings.DeleteHomeCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
-                int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlayerId;
+                int entityId = managedPlayer.EntityId;
+                string playerId = managedPlayer.PlayerId;
                 int count = await _homeLocationRepository.DeleteByPlayerIdAndHomeNameAsync(playerId, homeName);
                 if (count != 1)
                 {
@@ -118,8 +118,8 @@ namespace SdtdServerKit.Functions
             else if (message.StartsWith(Settings.TeleHomeCmdPrefix + ConfigManager.GlobalSettings.ChatCommandSeparator, StringComparison.OrdinalIgnoreCase))
             {
                 string homeName = message.Substring(Settings.TeleHomeCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
-                int entityId = onlinePlayer.EntityId;
-                string playerId = onlinePlayer.PlayerId;
+                int entityId = managedPlayer.EntityId;
+                string playerId = managedPlayer.PlayerId;
 
                 var entity = await _homeLocationRepository.GetByPlayerIdAndHomeNameAsync(playerId, homeName);
                 if (entity == null)
@@ -134,7 +134,7 @@ namespace SdtdServerKit.Functions
                         int timeSpan = (int)(DateTime.Now - teleRecord.CreatedAt).TotalSeconds;
                         if (timeSpan < Settings.TeleInterval)// Cooling
                         {
-                            SendMessageToPlayer(playerId, FormatCmd(Settings.CoolingTip, onlinePlayer, entity, Settings.TeleInterval - timeSpan));
+                            SendMessageToPlayer(playerId, FormatCmd(Settings.CoolingTip, managedPlayer, entity, Settings.TeleInterval - timeSpan));
                             return true;
                         }
                     }
@@ -142,12 +142,12 @@ namespace SdtdServerKit.Functions
                     int points = await _pointsRepository.GetPointsByIdAsync(playerId);
                     if (points < Settings.PointsRequiredForTele)// Points not enough
                     {
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.TelePointsNotEnoughTip, onlinePlayer, entity));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.TelePointsNotEnoughTip, managedPlayer, entity));
                     }
                     else
                     {
                         if (ConfigManager.GlobalSettings.TeleZombieCheck &&
-                            GameManager.Instance.World.Players.dict.TryGetValue(onlinePlayer.EntityId, out EntityPlayer player))
+                            GameManager.Instance.World.Players.dict.TryGetValue(managedPlayer.EntityId, out EntityPlayer player))
                         {
                             if (Utils.ZombieCheck(player))
                             {
@@ -157,21 +157,21 @@ namespace SdtdServerKit.Functions
                         }
 
                         await _pointsRepository.ChangePointsAsync(playerId, -Settings.PointsRequiredForTele);
-                        Utils.TeleportPlayer(onlinePlayer.EntityId.ToString(), entity.Position);
+                        Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), entity.Position);
 
-                        SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, onlinePlayer, entity));
+                        SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, managedPlayer, entity));
                         await _teleRecordRepository.InsertAsync(new T_TeleRecord()
                         {
                             CreatedAt = DateTime.Now,
                             PlayerId = playerId,
-                            PlayerName = onlinePlayer.PlayerName,
-                            OriginPosition = Utils.GetPlayerPosition(onlinePlayer.EntityId).ToString(),
+                            PlayerName = managedPlayer.PlayerName,
+                            OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
                             TargetPosition = entity.Position,
                             TargetType = TeleTargetType.Home.ToString(),
                             TargetName = entity.HomeName
                         });
 
-                        CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", onlinePlayer.PlayerName, entityId, entity.HomeName);
+                        CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", managedPlayer.PlayerName, entityId, entity.HomeName);
                     }
                 }
 
@@ -181,7 +181,7 @@ namespace SdtdServerKit.Functions
             return false;
         }
 
-        private string FormatCmd(string message, OnlinePlayer player, T_HomeLocation position, int cooldownSeconds = 0)
+        private string FormatCmd(string message, ManagedPlayer player, T_HomeLocation position, int cooldownSeconds = 0)
         {
             return StringTemplate.Render(message, new TeleportHomeVariables()
             {

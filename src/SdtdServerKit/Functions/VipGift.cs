@@ -23,11 +23,11 @@ namespace SdtdServerKit.Functions
             _commandListRepository = commandListRepository;
         }
         /// <inheritdoc/>
-        protected override async Task<bool> OnChatCmd(string message, OnlinePlayer onlinePlayer)
+        protected override async Task<bool> OnChatCmd(string message, ManagedPlayer managedPlayer)
         {
             if (string.Equals(message, Settings.ClaimCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.PlayerId;
+                string playerId = managedPlayer.PlayerId;
                 var vipGift = await _vipGiftRepository.GetByIdAsync(playerId);
                 if (vipGift == null)
                 {
@@ -50,7 +50,7 @@ namespace SdtdServerKit.Functions
                     var commandList = await _commandListRepository.GetListByVipGiftIdAsync(vipGift.Id);
                     foreach (var item in commandList)
                     {
-                        Utils.ExecuteConsoleCommand(FormatCmd(item.Command, onlinePlayer, vipGift), item.InMainThread);
+                        Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, vipGift), item.InMainThread);
                     }
 
                     vipGift.ClaimState = true;
@@ -58,9 +58,9 @@ namespace SdtdServerKit.Functions
                     vipGift.LastClaimAt = DateTime.Now;
                     await _vipGiftRepository.UpdateAsync(vipGift);
 
-                    SendMessageToPlayer(playerId, FormatCmd(Settings.ClaimSuccessTip, onlinePlayer, vipGift));
+                    SendMessageToPlayer(playerId, FormatCmd(Settings.ClaimSuccessTip, managedPlayer, vipGift));
 
-                    CustomLogger.Info("PlayerId: {0}, playerName: {1}, {1} claimed: {2}.", playerId, onlinePlayer.PlayerName, vipGift.Name);
+                    CustomLogger.Info("PlayerId: {0}, playerName: {1}, {1} claimed: {2}.", playerId, managedPlayer.PlayerName, vipGift.Name);
                 }
 
                 return true;
@@ -68,7 +68,7 @@ namespace SdtdServerKit.Functions
             return false;
         }
 
-        private static string FormatCmd(string message, OnlinePlayer player, T_VipGift vipGift)
+        private static string FormatCmd(string message, ManagedPlayer player, T_VipGift vipGift)
         {
             string result = StringTemplate.Render(message, new VipGiftVariables()
             {

@@ -21,12 +21,12 @@
         /// Gets the client information.
         /// </summary>
         [JsonIgnore]
-        ClientInfo? ClientInfo { get; }
+        ClientInfo ClientInfo { get; }
 
         /// <summary>
         /// Gets the entity player.
         /// </summary>
         [JsonIgnore]
-        EntityPlayer? EntityPlayer { get; }
+        EntityPlayer EntityPlayer { get; }
     }
 }

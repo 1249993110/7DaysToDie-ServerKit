@@ -103,7 +103,7 @@ namespace SdtdServerKit.Functions
             {
                 if (entity.DeadEntity.EntityType == Models.EntityType.Zombie)
                 {
-                    var player = OnlinePlayerManager.GetByEntityId(entity.KillerEntityId);
+                    var player = LivePlayerManager.GetByEntityId(entity.KillerEntityId);
                     foreach (var command in Settings.KillZombieTrigger.ExecuteCommands)
                     {
                         if (string.IsNullOrEmpty(command) == false)

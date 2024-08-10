@@ -3,15 +3,15 @@
     /// <summary>
     /// Represents a collection of online players.
     /// </summary>
-    public static class OnlinePlayerManager
+    public static class LivePlayerManager
     {
-        private static readonly ThreadSafeReadDictionary<int, OnlinePlayer> _entityIdMap;
-        private static readonly ThreadSafeReadDictionary<string, OnlinePlayer> _playerIdMap;
+        private static readonly ThreadSafeReadDictionary<int, ManagedPlayer> _entityIdMap;
+        private static readonly ThreadSafeReadDictionary<string, ManagedPlayer> _playerIdMap;
 
-        static OnlinePlayerManager()
+        static LivePlayerManager()
         {
-            _entityIdMap = new ThreadSafeReadDictionary<int, OnlinePlayer>();
-            _playerIdMap = new ThreadSafeReadDictionary<string, OnlinePlayer>();
+            _entityIdMap = new ThreadSafeReadDictionary<int, ManagedPlayer>();
+            _playerIdMap = new ThreadSafeReadDictionary<string, ManagedPlayer>();
         }
 
         /// <summary>
@@ -19,12 +19,12 @@
         /// </summary>
         /// <param name="clientInfo">The client information of the player.</param>
         /// <returns>The added online player.</returns>
-        internal static OnlinePlayer Add(ClientInfo clientInfo)
+        internal static ManagedPlayer Add(ClientInfo clientInfo)
         {
-            var onlinePlayer = new OnlinePlayer(clientInfo);
-            _entityIdMap.Add(onlinePlayer.EntityId, onlinePlayer);
-            _playerIdMap.Add(onlinePlayer.PlayerId, onlinePlayer);
-            return onlinePlayer;
+            var managedPlayer = new ManagedPlayer(clientInfo);
+            _entityIdMap.Add(managedPlayer.EntityId, managedPlayer);
+            _playerIdMap.Add(managedPlayer.PlayerId, managedPlayer);
+            return managedPlayer;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="entityId">The entity ID of the player.</param>
         /// <returns>The online player with the specified entity ID, or throw exception if not found.</returns>
-        public static OnlinePlayer GetByEntityId(int entityId)
+        public static ManagedPlayer GetByEntityId(int entityId)
         {
             return _entityIdMap.Read(entityId);
         }
@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="playerId">The player ID of the player.</param>
         /// <returns>The online player with the specified player ID, or throw exception if not found.</returns>
-        public static OnlinePlayer GetByPlayerId(string playerId)
+        public static ManagedPlayer GetByPlayerId(string playerId)
         {
             return _playerIdMap.Read(playerId);
         }
@@ -61,29 +61,29 @@
         /// Tries to get an online player by their entity ID.
         /// </summary>
         /// <param name="entityId">The entity ID of the player.</param>
-        /// <param name="onlinePlayer">The online player with the specified entity ID, if found; otherwise, null.</param>
+        /// <param name="managedPlayer">The online player with the specified entity ID, if found; otherwise, null.</param>
         /// <returns>true if the online player with the specified entity ID is found; otherwise, false.</returns>
-        public static bool TryGetByEntityId(int entityId, out OnlinePlayer? onlinePlayer)
+        public static bool TryGetByEntityId(int entityId, out ManagedPlayer? managedPlayer)
         {
-            return _entityIdMap.TryRead(entityId, out onlinePlayer);
+            return _entityIdMap.TryRead(entityId, out managedPlayer);
         }
 
         /// <summary>
         /// Tries to get an online player by their player ID.
         /// </summary>
         /// <param name="playerId">The player ID of the player.</param>
-        /// <param name="onlinePlayer">The online player with the specified player ID, if found; otherwise, null.</param>
+        /// <param name="managedPlayer">The online player with the specified player ID, if found; otherwise, null.</param>
         /// <returns>true if the online player with the specified player ID is found; otherwise, false.</returns>
-        public static bool TryGetByPlayerId(string playerId, out OnlinePlayer? onlinePlayer)
+        public static bool TryGetByPlayerId(string playerId, out ManagedPlayer? managedPlayer)
         {
-            return _playerIdMap.TryRead(playerId, out onlinePlayer);
+            return _playerIdMap.TryRead(playerId, out managedPlayer);
         }
 
         /// <summary>
         /// Gets all online players.
         /// </summary>
         /// <returns>An enumerable collection of online players.</returns>
-        public static IEnumerable<OnlinePlayer> GetAll()
+        public static IEnumerable<ManagedPlayer> GetAll()
         {
             return _entityIdMap.GetValues();
         }

@@ -83,9 +83,9 @@ namespace SdtdServerKit.Functions
         /// 捕获玩家聊天消息时调用，返回true表示该消息由当前函数处理
         /// </summary>
         /// <param name="cmd"></param>
-        /// <param name="onlinePlayer"></param>
+        /// <param name="managedPlayer"></param>
         /// <returns></returns>
-        protected virtual Task<bool> OnChatCmd(string cmd, OnlinePlayer onlinePlayer)
+        protected virtual Task<bool> OnChatCmd(string cmd, ManagedPlayer managedPlayer)
         {
             return Task.FromResult(false);
         }

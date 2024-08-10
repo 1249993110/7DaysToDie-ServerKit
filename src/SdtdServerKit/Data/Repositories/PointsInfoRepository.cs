@@ -71,10 +71,10 @@ namespace SdtdServerKit.Data.Repositories
             return base.ExecuteAsync(sql, useTransaction: true);
         }
 
-        public async Task<Dictionary<string, int>> GetPointsByIdsAsync(IEnumerable<string> playerIds)
+        public async Task<IReadOnlyDictionary<string, int>> GetPointsByIdsAsync(IEnumerable<string> playerIds)
         {
             string sql = $"SELECT Id,Points FROM {SqlGenerator.TableName} WHERE Id IN @PlayerIds";
-            return (await base.ExecuteQueryAsync<(string Id,int Points)>(sql, new { PlayerIds = playerIds })).ToDictionary(k=>k.Id,v=>v.Points);
+            return (await base.ExecuteQueryAsync<(string Id, int Points)>(sql, new { PlayerIds = playerIds })).ToDictionary(k => k.Id, v => v.Points);
         }
     }
 }

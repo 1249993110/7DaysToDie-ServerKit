@@ -25,11 +25,11 @@ namespace SdtdServerKit.Functions
             _commandListRepository = commandListRepository;
         }
         /// <inheritdoc/>
-        protected override async Task<bool> OnChatCmd(string message, OnlinePlayer onlinePlayer)
+        protected override async Task<bool> OnChatCmd(string message, ManagedPlayer managedPlayer)
         {
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.PlayerId;
+                string playerId = managedPlayer.PlayerId;
                 var goodsList = await _goodsRepository.GetAllOrderByIdAsync();
                 if (goodsList.Any() == false)
                 {
@@ -39,7 +39,7 @@ namespace SdtdServerKit.Functions
                 {
                     foreach (var item in goodsList)
                     {
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.GoodsItemTip, onlinePlayer, item));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.GoodsItemTip, managedPlayer, item));
                     }
                 }
 
@@ -55,12 +55,12 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    string playerId = onlinePlayer.PlayerId;
+                    string playerId = managedPlayer.PlayerId;
 
                     int points = await _pointsInfoRepository.GetPointsByIdAsync(playerId);
                     if (points < goods.Price)
                     {
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.PointsNotEnoughTip, onlinePlayer, goods));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.PointsNotEnoughTip, managedPlayer, goods));
                     }
                     else
                     {
@@ -75,12 +75,12 @@ namespace SdtdServerKit.Functions
                         var commandList = await _commandListRepository.GetListByGoodsIdAsync(goods.Id);
                         foreach (var item in commandList)
                         {
-                            Utils.ExecuteConsoleCommand(FormatCmd(item.Command, onlinePlayer, goods), item.InMainThread);
+                            Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, goods), item.InMainThread);
                         }
 
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, onlinePlayer, goods));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, managedPlayer, goods));
 
-                        CustomLogger.Info("PlayerId: {0}, playerName: {1}, {1} bought: {2}.", playerId, onlinePlayer.PlayerName, goods.Name);
+                        CustomLogger.Info("PlayerId: {0}, playerName: {1}, {1} bought: {2}.", playerId, managedPlayer.PlayerName, goods.Name);
                     }
 
                     return true;
@@ -90,7 +90,7 @@ namespace SdtdServerKit.Functions
             return false;
         }
 
-        private static string FormatCmd(string message, OnlinePlayer player, T_Goods goods)
+        private static string FormatCmd(string message, ManagedPlayer player, T_Goods goods)
         {
             string result = StringTemplate.Render(message, new GameStoreVariables()
             {

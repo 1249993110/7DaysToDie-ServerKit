@@ -25,11 +25,11 @@ namespace SdtdServerKit.Functions
             _cityLocationRepository = cityLocationRepository;
         }
         /// <inheritdoc/>
-        protected override async Task<bool> OnChatCmd(string message, OnlinePlayer onlinePlayer)
+        protected override async Task<bool> OnChatCmd(string message, ManagedPlayer managedPlayer)
         {
             if (string.Equals(message, Settings.QueryListCmd, StringComparison.OrdinalIgnoreCase))
             {
-                string playerId = onlinePlayer.PlayerId;
+                string playerId = managedPlayer.PlayerId;
                 var cityPositions = await _cityLocationRepository.GetAllAsync();
 
                 if (cityPositions.Any() == false)
@@ -40,7 +40,7 @@ namespace SdtdServerKit.Functions
                 {
                     foreach (var item in cityPositions)
                     {
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, onlinePlayer, item));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.LocationItemTip, managedPlayer, item));
                     }
                 }
 
@@ -56,7 +56,7 @@ namespace SdtdServerKit.Functions
                 }
                 else
                 {
-                    string playerId = onlinePlayer.PlayerId;
+                    string playerId = managedPlayer.PlayerId;
 
                     var teleRecord = await _teleRecordRepository.GetNewestAsync(playerId, TeleTargetType.City);
                     if (teleRecord != null)
@@ -64,7 +64,7 @@ namespace SdtdServerKit.Functions
                         int timeSpan = (int)(DateTime.Now - teleRecord.CreatedAt).TotalSeconds;
                         if (timeSpan < Settings.TeleInterval) // 正在冷却
                         {
-                            SendMessageToPlayer(playerId, FormatCmd(Settings.CoolingTip, onlinePlayer, cityPosition, Settings.TeleInterval - timeSpan));
+                            SendMessageToPlayer(playerId, FormatCmd(Settings.CoolingTip, managedPlayer, cityPosition, Settings.TeleInterval - timeSpan));
 
                             return true;
                         }
@@ -73,12 +73,12 @@ namespace SdtdServerKit.Functions
                     int pointsCount = await _pointsInfoRepository.GetPointsByIdAsync(playerId);
                     if (pointsCount < cityPosition.PointsRequired) // 积分不足
                     {
-                        SendMessageToPlayer(playerId, FormatCmd(Settings.PointsNotEnoughTip, onlinePlayer, cityPosition));
+                        SendMessageToPlayer(playerId, FormatCmd(Settings.PointsNotEnoughTip, managedPlayer, cityPosition));
                     }
                     else
                     {
                         if(ConfigManager.GlobalSettings.TeleZombieCheck &&
-                            GameManager.Instance.World.Players.dict.TryGetValue(onlinePlayer.EntityId, out EntityPlayer player))
+                            GameManager.Instance.World.Players.dict.TryGetValue(managedPlayer.EntityId, out EntityPlayer player))
                         {
                             if (Utils.ZombieCheck(player))
                             {
@@ -88,21 +88,21 @@ namespace SdtdServerKit.Functions
                         }
 
                         await _pointsInfoRepository.ChangePointsAsync(playerId, -cityPosition.PointsRequired);
-                        Utils.TeleportPlayer(onlinePlayer.EntityId.ToString(), cityPosition.Position, cityPosition.ViewDirection);
-                        SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, onlinePlayer, cityPosition));
+                        Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), cityPosition.Position, cityPosition.ViewDirection);
+                        SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, managedPlayer, cityPosition));
                         
                         await _teleRecordRepository.InsertAsync(new T_TeleRecord()
                         {
                             CreatedAt = DateTime.Now,
                             PlayerId = playerId,
-                            PlayerName = onlinePlayer.PlayerName,
-                            OriginPosition = Utils.GetPlayerPosition(onlinePlayer.EntityId).ToString(),
+                            PlayerName = managedPlayer.PlayerName,
+                            OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
                             TargetPosition = cityPosition.Position,
                             TargetType = TeleTargetType.City.ToString(),
                             TargetName = cityPosition.CityName
                         });
 
-                        CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", onlinePlayer.PlayerName, onlinePlayer.EntityId, cityPosition.CityName);
+                        CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", managedPlayer.PlayerName, managedPlayer.EntityId, cityPosition.CityName);
                     }
                 }
 
@@ -112,7 +112,7 @@ namespace SdtdServerKit.Functions
             return false;
         }
 
-        private string FormatCmd(string message, OnlinePlayer player, T_CityLocation position, int cooldownSeconds = 0)
+        private string FormatCmd(string message, ManagedPlayer player, T_CityLocation position, int cooldownSeconds = 0)
         {
             return StringTemplate.Render(message, new TeleportCityVariables()
             {

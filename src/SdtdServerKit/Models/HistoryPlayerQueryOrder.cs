@@ -26,5 +26,6 @@
         TotalTimePlayed,
         LongestLife,
         EntityId,
+        PointsCount,
     }
 }

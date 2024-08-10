@@ -41,7 +41,7 @@
 		<PackageReference Include="NSwag.Annotations" Version="14.1.0" />
 		<PackageReference Include="NSwag.AspNet.Owin" Version="14.1.0" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
-		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.6" GeneratePathProperty="true" />
+		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.9" GeneratePathProperty="true" />
 		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
 		<PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
 	</ItemGroup>

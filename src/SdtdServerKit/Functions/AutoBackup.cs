@@ -50,7 +50,7 @@ namespace SdtdServerKit.Functions
             _timer.Interval = Settings.Interval;
             _timer.IsEnabled = Settings.IsEnabled;
         }
-        private void OnPlayerDisconnected(OnlinePlayer player)
+        private void OnPlayerDisconnected(ManagedPlayer player)
         {
             _lastServerStateChange = DateTime.Now;
         }
@@ -85,7 +85,7 @@ namespace SdtdServerKit.Functions
                 }
 
                 DateTime now = DateTime.Now;
-                if(Settings.SkipIfThereAreNoPlayers && OnlinePlayerManager.Count == 0 && (now - _lastServerStateChange).TotalSeconds > Settings.Interval)
+                if(Settings.SkipIfThereAreNoPlayers && LivePlayerManager.Count == 0 && (now - _lastServerStateChange).TotalSeconds > Settings.Interval)
                 {
                     CustomLogger.Info("AutoBackup: Skipped because there are no players.");
                     return;

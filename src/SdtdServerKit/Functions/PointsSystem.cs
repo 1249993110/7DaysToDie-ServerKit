@@ -19,7 +19,7 @@ namespace SdtdServerKit.Functions
 
         /// <inheritdoc/>
 
-        protected override async Task<bool> OnChatCmd(string message, OnlinePlayer player)
+        protected override async Task<bool> OnChatCmd(string message, ManagedPlayer player)
         {
             string playerId = player.PlayerId;
             // 签到命令
@@ -112,7 +112,7 @@ namespace SdtdServerKit.Functions
             }
         }
 
-        private string FormatCmd(string message, IManagedPlayer player, int playerTotalPoints, int currencyAmount = 0)
+        private string FormatCmd(string message, IPlayerBase player, int playerTotalPoints, int currencyAmount = 0)
         {
             return StringTemplate.Render(message, new PointsSystemVariables()
             {

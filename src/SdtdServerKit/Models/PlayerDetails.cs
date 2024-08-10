@@ -5,202 +5,197 @@
     /// </summary>
     public class PlayerDetails
     {
-        private readonly IManagedPlayer _player;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerDetails"/> class.
         /// </summary>
-        /// <param name="player">The player object.</param>
-        public PlayerDetails(IManagedPlayer player)
+        public PlayerDetails(PlayerDataFile playerDataFile, PersistentPlayerData persistentPlayerData, EntityPlayer? entityPlayer = null)
         {
-            _player = player;
+            IsAdmin = GameManager.Instance.adminTools.Users.GetUserPermissionLevel(persistentPlayerData.PrimaryId) == 0;
+            Position = playerDataFile.ecd.pos.ToPosition();
+            LastSpawnPosition = playerDataFile.lastSpawnPosition.ToModel();
+            LastLogin = persistentPlayerData.LastLogin;
+            PlayerKills = playerDataFile.playerKills;
+            ZombieKills = playerDataFile.zombieKills;
+            Deaths = playerDataFile.deaths;
+            Score = playerDataFile.score;
+
+            var stats = playerDataFile.ecd.stats;
+            Stats = new PlayerStats()
+            {
+                Health = stats.Health.Value,
+                Stamina = stats.Stamina.Value,
+                CoreTemp = stats.CoreTemp.Value,
+                Food = stats.Food.Value,
+                Water = stats.Water.Value
+            };
+
+            if (entityPlayer != null)
+            {
+                Progression = new PlayerProgression()
+                {
+                    Level = entityPlayer.Progression.Level,
+                    ExpToNextLevel = entityPlayer.Progression.ExpToNextLevel,
+                    SkillPoints = entityPlayer.Progression.SkillPoints
+                };
+            }
+            else
+            {
+                var progression = new PlayerProgression();
+                var stream = playerDataFile.progressionData;
+                if (stream.Length > 0L)
+                {
+                    using var binaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
+                    stream.Position = 0L;
+                    binaryReader.SetBaseStream(stream);
+
+                    byte b = binaryReader.ReadByte();
+                    progression.Level = binaryReader.ReadUInt16();
+                    progression.ExpToNextLevel = binaryReader.ReadInt32();
+                    progression.SkillPoints = binaryReader.ReadUInt16();
+                }
+
+                Progression = progression;
+            }
+
+            LandProtectionActive = GameManager.Instance.World.IsLandProtectionValidForPlayer(persistentPlayerData);
+            DistanceWalked = playerDataFile.distanceWalked;
+            TotalItemsCrafted = playerDataFile.totalItemsCrafted;
+            LongestLife = playerDataFile.longestLife;
+            CurrentLife = playerDataFile.ecd.health;
+            TotalTimePlayed = playerDataFile.totalTimePlayed;
+            RentedVMPosition = playerDataFile.rentedVMPosition.ToPosition();
+            RentalEndTime = playerDataFile.rentalEndTime;
+            RentalEndDay = playerDataFile.rentalEndDay;
+            SpawnPoints = playerDataFile.spawnPoints.ToPositions();
+            AlreadyCraftedList = playerDataFile.alreadyCraftedList;
+            UnlockedRecipeList = playerDataFile.unlockedRecipeList;
+            FavoriteRecipeList = playerDataFile.favoriteRecipeList;
+            OwnedEntities = playerDataFile.ownedEntities.ToModels();
         }
 
         /// <summary>
         /// Gets the player's admin status.
         /// </summary>
-        public bool IsAdmin
-        {
-            get
-            {
-                var users = GameManager.Instance.adminTools.Users;
-                if (_player.ClientInfo != null)
-                {
-                    return users.GetUserPermissionLevel(this._player.ClientInfo) == 0;
-                }
-                else
-                {
-                    return users.GetUserPermissionLevel(this._player.PersistentPlayerData.PrimaryId) == 0;
-                }
-            }
-        }
+        public bool IsAdmin { get; set; }
 
         /// <summary>
         /// Gets the position of the player.
         /// </summary>
-        public Position Position => _player.PlayerDataFile.ecd.pos.ToPosition();
+        public Position Position { get; set; }
 
         /// <summary>
         /// Gets the last spawn position of the player.
         /// </summary>
-        public SpawnPosition LastSpawnPosition => _player.PlayerDataFile.lastSpawnPosition.ToModel();
+        public SpawnPosition LastSpawnPosition { get; set; }
 
         /// <summary>
         /// Gets the last login time of the player.
         /// </summary>
-        public DateTime LastLogin => _player.PersistentPlayerData.LastLogin;
+        public DateTime LastLogin { get; set; }
 
         /// <summary>
         /// Gets the number of kills by the player.
         /// </summary>
-        public int PlayerKills => _player.PlayerDataFile.playerKills;
+        public int PlayerKills { get; set; }
 
         /// <summary>
         /// Gets the number of zombie kills by the player.
         /// </summary>
-        public int ZombieKills => _player.PlayerDataFile.zombieKills;
+        public int ZombieKills { get; set; }
 
         /// <summary>
         /// Gets the number of deaths by the player.
         /// </summary>
-        public int Deaths => _player.PlayerDataFile.deaths;
+        public int Deaths { get; set; }
 
         /// <summary>
         /// Gets the score of the player.
         /// </summary>
-        public int Score => _player.PlayerDataFile.score;
+        public int Score { get; set; }
 
         /// <summary>
         /// Gets the player stats.
         /// </summary>
-        public PlayerStats Stats
-        {
-            get
-            {
-                var stats = _player.PlayerDataFile.ecd.stats;
-                return new PlayerStats()
-                {
-                    Health = stats.Health.Value,
-                    Stamina = stats.Stamina.Value,
-                    CoreTemp = stats.CoreTemp.Value,
-                    Food = stats.Food.Value,
-                    Water = stats.Water.Value
-                };
-            }
-        }
+        public PlayerStats Stats { get; set; }
 
         /// <summary>
         /// Gets the player progression.
         /// </summary>
-        public PlayerProgression Progression
-        {
-            get
-            {
-                var entityPlayer = _player.EntityPlayer;
-                if (entityPlayer != null)
-                {
-                    return new PlayerProgression()
-                    {
-                        Level = entityPlayer.Progression.Level,
-                        ExpToNextLevel = entityPlayer.Progression.ExpToNextLevel,
-                        SkillPoints = entityPlayer.Progression.SkillPoints
-                    };
-                }
-                else
-                {
-                    var progression = new PlayerProgression();
-                    var stream = _player.PlayerDataFile.progressionData;
-                    if (stream.Length > 0L)
-                    {
-                        using var binaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
-                        stream.Position = 0L;
-                        binaryReader.SetBaseStream(stream);
-
-                        byte b = binaryReader.ReadByte();
-                        progression.Level = binaryReader.ReadUInt16();
-                        progression.ExpToNextLevel = binaryReader.ReadInt32();
-                        progression.SkillPoints = binaryReader.ReadUInt16();
-                    }
-
-                    return progression;
-                }
-            }
-        }
+        public PlayerProgression Progression { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether land protection is active for the player.
         /// </summary>
-        public bool LandProtectionActive => GameManager.Instance.World.IsLandProtectionValidForPlayer(_player.PersistentPlayerData);
+        public bool LandProtectionActive { get; set; }
 
         /// <summary>
         /// Gets the distance walked by the player.
         /// </summary>
-        public float DistanceWalked => _player.PlayerDataFile.distanceWalked;
+        public float DistanceWalked { get; set; }
 
         /// <summary>
         /// Gets the total number of items crafted by the player.
         /// </summary>
-        public uint TotalItemsCrafted => _player.PlayerDataFile.totalItemsCrafted;
+        public uint TotalItemsCrafted { get; set; }
 
         /// <summary>
         /// Gets the longest life of the player.
         /// </summary>
-        public float LongestLife => _player.PlayerDataFile.longestLife;
+        public float LongestLife { get; set; }
 
         /// <summary>
         /// Gets the current life of the player.
         /// </summary>
-        public float CurrentLife => _player.PlayerDataFile.currentLife;
+        public float CurrentLife { get; set; }
 
         /// <summary>
         /// Gets the total time played by the player in minutes.
         /// </summary>
-        public float TotalTimePlayed => _player.PlayerDataFile.totalTimePlayed;
+        public float TotalTimePlayed { get; set; }
 
         /// <summary>
         /// Gets the rented VM position of the player.
         /// </summary>
-        public Position RentedVMPosition => _player.PlayerDataFile.rentedVMPosition.ToPosition();
+        public Position RentedVMPosition { get; set; }
 
         /// <summary>
         /// Gets the rental end time of the player.
         /// </summary>
-        public ulong RentalEndTime => _player.PlayerDataFile.rentalEndTime;
+        public ulong RentalEndTime { get; set; }
 
         /// <summary>
         /// Gets the rental end day of the player.
         /// </summary>
-        public int RentalEndDay => _player.PlayerDataFile.rentalEndDay;
+        public int RentalEndDay { get; set; }
 
         /// <summary>
         /// Gets the spawn points of the player.
         /// </summary>
-        public IEnumerable<Position> SpawnPoints => _player.PlayerDataFile.spawnPoints.ToPositions();
+        public IEnumerable<Position> SpawnPoints { get; set; }
 
         /// <summary>
         /// Gets the list of already crafted items by the player.
         /// </summary>
-        public IEnumerable<string> AlreadyCraftedList => _player.PlayerDataFile.alreadyCraftedList;
+        public IEnumerable<string> AlreadyCraftedList { get; set; }
 
         /// <summary>
         /// Gets the list of unlocked recipes by the player.
         /// </summary>
-        public IEnumerable<string> UnlockedRecipeList => _player.PlayerDataFile.unlockedRecipeList;
+        public IEnumerable<string> UnlockedRecipeList { get; set; }
 
         /// <summary>
         /// Gets the list of favorite recipes by the player.
         /// </summary>
-        public IEnumerable<string> FavoriteRecipeList => _player.PlayerDataFile.favoriteRecipeList;
+        public IEnumerable<string> FavoriteRecipeList { get; set; }
 
         /// <summary>
         /// Gets the list of owned entities by the player.
         /// </summary>
-        public IEnumerable<OwnedEntity> OwnedEntities => _player.PlayerDataFile.ownedEntities.ToModels();
+        public IEnumerable<OwnedEntity> OwnedEntities { get; set; } 
 
         /// <summary>
         /// Gets or sets the count of points.
         /// </summary>
         public int PointsCount { get; set; }
-
     }
 }

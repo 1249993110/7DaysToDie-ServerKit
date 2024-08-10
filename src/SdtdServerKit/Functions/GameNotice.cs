@@ -62,7 +62,7 @@ namespace SdtdServerKit.Functions
         {
             try
             {
-                if(OnlinePlayerManager.Count == 0)
+                if(LivePlayerManager.Count == 0)
                 {
                     return;
                 }
