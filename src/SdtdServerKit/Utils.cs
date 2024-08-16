@@ -235,5 +235,28 @@
 
             return args;
         }
+
+        /// <summary>
+        /// 获取本地化字符串
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string GetLocalization(string key, Language language)
+        {
+            try
+            {
+                if(Localization.dictionary.TryGetValue(key, out string[] values))
+                {
+                    return values[(int)language];
+                }
+
+                return string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
     }
 }

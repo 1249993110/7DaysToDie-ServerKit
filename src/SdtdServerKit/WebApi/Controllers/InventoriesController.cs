@@ -16,7 +16,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpGet]
         [Route("{playerId}")]
         [ResponseType(typeof(Models.Inventory))]
-        public IHttpActionResult GetPlayerInventory(string playerId)
+        public IHttpActionResult GetPlayerInventory(string playerId, [FromUri]Language language)
         {
             var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);
             if(userId == null)
@@ -27,14 +27,14 @@ namespace SdtdServerKit.WebApi.Controllers
             var clientInfo = ConnectionManager.Instance.Clients.ForUserId(userId);
             if (clientInfo != null)
             {
-                return Ok(clientInfo.latestPlayerData.GetInventory());
+                return Ok(clientInfo.latestPlayerData.GetInventory(language));
             }
 
             var playerDataFile = new PlayerDataFile();
             playerDataFile.Load(GameIO.GetPlayerDataDir(), userId.CombinedString);
             if (playerDataFile.bLoaded)
             {
-                return Ok(playerDataFile.GetInventory());
+                return Ok(playerDataFile.GetInventory(language));
             }
 
             return NotFound();
@@ -46,7 +46,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public Dictionary<string, Models.Inventory> GetPlayersInventory([FromUri, Required, MinLength(1)] string[] playerIds)
+        public Dictionary<string, Models.Inventory> GetPlayersInventory([FromUri, Required, MinLength(1)] string[] playerIds, [FromUri] Language language)
         {
             var result = new Dictionary<string, Models.Inventory>(playerIds.Length);
             foreach (var playerId in playerIds)
@@ -57,7 +57,7 @@ namespace SdtdServerKit.WebApi.Controllers
                     var clientInfo = ConnectionManager.Instance.Clients.ForUserId(userId);
                     if (clientInfo != null)
                     {
-                        result.Add(playerId, clientInfo.latestPlayerData.GetInventory());
+                        result.Add(playerId, clientInfo.latestPlayerData.GetInventory(language));
                     }
                     else
                     {
@@ -65,7 +65,7 @@ namespace SdtdServerKit.WebApi.Controllers
                         playerDataFile.Load(GameIO.GetPlayerDataDir(), userId.CombinedString);
                         if (playerDataFile.bLoaded)
                         {
-                            result.Add(playerId, playerDataFile.GetInventory());
+                            result.Add(playerId, playerDataFile.GetInventory(language));
                         }
                     }
                 }

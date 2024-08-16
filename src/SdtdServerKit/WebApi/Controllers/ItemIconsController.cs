@@ -36,7 +36,7 @@ namespace SdtdServerKit.WebApi.Controllers
                     return InternalGet(iconFileName);
                 }
 
-                return InternalGet(iconFileName, (int)iconColor.r, (int)iconColor.g, (int)iconColor.b);
+                return InternalGet(iconFileName, iconColor);
             }
             else
             {
@@ -100,6 +100,44 @@ namespace SdtdServerKit.WebApi.Controllers
                         (byte)(skColor.Red * r / 255),
                         (byte)(skColor.Green * g / 255),
                         (byte)(skColor.Blue * b / 255),
+                        skColor.Alpha));
+                }
+            }
+
+            var stream = new MemoryStream(data.Length / 2);
+            skBitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
+            stream.Position = 0L;
+            return new FileStreamResult(stream, "image/png");
+        }
+
+        private IHttpActionResult InternalGet(string iconFileName, UnityEngine.Color color)
+        {
+            string? iconPath = FindIconPath(iconFileName);
+            if (iconPath == null)
+            {
+                return NotFound();
+            }
+
+            byte[] data = System.IO.File.ReadAllBytes(iconPath);
+            using var skBitmap = SKBitmap.Decode(data);
+            int width = skBitmap.Width;
+            int height = skBitmap.Height;
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    var skColor = skBitmap.GetPixel(i, j);
+
+                    if(skColor.Alpha == 0)
+                    {
+                        continue;
+                    }
+
+                    skBitmap.SetPixel(i, j, new SKColor(
+                        (byte)(skColor.Red * color.r),
+                        (byte)(skColor.Green * color.g),
+                        (byte)(skColor.Blue * color.b),
                         skColor.Alpha));
                 }
             }

@@ -1,4 +1,6 @@
-﻿namespace SdtdServerKit.Extensions
+﻿using SdtdServerKit.Models;
+
+namespace SdtdServerKit.Extensions
 {
     /// <summary>
     /// Extension methods for PlayerDataFile.
@@ -14,8 +16,8 @@
         public static int GetInventoryStackCount(this PlayerDataFile pdf, string itemName)
         {
             int count = 0;
-            var bag = ProcessInv(pdf.bag, pdf.id);
-            var belt = ProcessInv(pdf.inventory, pdf.id);
+            var bag = ProcessInv(pdf.bag, pdf.id, Language.Schinese);
+            var belt = ProcessInv(pdf.inventory, pdf.id, Language.Schinese);
 
             foreach (var item in bag)
             {
@@ -43,15 +45,15 @@
         /// </summary>
         /// <param name="pdf">The PlayerDataFile instance.</param>
         /// <returns>The player's inventory.</returns>
-        public static Models.Inventory GetInventory(this PlayerDataFile pdf)
+        public static Models.Inventory GetInventory(this PlayerDataFile pdf, Language language)
         {
             try
             {
                 return new Models.Inventory()
                 {
-                    Bag = ProcessInv(pdf.bag, pdf.id),
-                    Belt = ProcessInv(pdf.inventory, pdf.id),
-                    Equipment = ProcessEqu(pdf.equipment, pdf.id)
+                    Bag = ProcessInv(pdf.bag, pdf.id, language),
+                    Belt = ProcessInv(pdf.inventory, pdf.id, language),
+                    Equipment = ProcessEqu(pdf.equipment, pdf.id, language)
                 };
             }
             catch (Exception ex)
@@ -60,16 +62,16 @@
             }
         }
 
-        private static IEnumerable<InvItem> ProcessInv(ItemStack[] sourceFields, int entityId)
+        private static IEnumerable<InvItem> ProcessInv(ItemStack[] sourceFields, int entityId, Language language)
         {
             var target = new List<InvItem>(sourceFields.Length);
 
             foreach (var field in sourceFields)
             {
-                var invItem = CreateInvItem(field.itemValue, field.count, entityId);
+                var invItem = CreateInvItem(field.itemValue, field.count, entityId, language);
                 if (invItem != null && field.itemValue.Modifications != null)
                 {
-                    ProcessParts(field.itemValue.Modifications, invItem, entityId);
+                    ProcessParts(field.itemValue.Modifications, invItem, entityId, language);
                     target.Add(invItem);
                 }
             }
@@ -77,7 +79,7 @@
             return target;
         }
 
-        private static IEnumerable<InvItem> ProcessEqu(Equipment sourceEquipment, int entityId)
+        private static IEnumerable<InvItem> ProcessEqu(Equipment sourceEquipment, int entityId, Language language)
         {
             //int slotCount = sourceEquipment.GetSlotCount();
             //var equipment = new InvItem?[slotCount];
@@ -90,9 +92,11 @@
             var target = new List<InvItem>(slotCount);
             for (int i = 0; i < slotCount; i++)
             {
-                var invItem = CreateInvItem(sourceEquipment.GetSlotItem(i), 1, entityId);
+                var itemValue = sourceEquipment.GetSlotItem(i);
+                var invItem = CreateInvItem(itemValue, 1, entityId, language);
                 if (invItem != null)
                 {
+                    ProcessParts(itemValue.Modifications, invItem, entityId, language);
                     target.Add(invItem);
                 }
             }
@@ -100,7 +104,7 @@
             return target;
         }
 
-        private static void ProcessParts(ItemValue[] parts, InvItem item, int entityId)
+        private static void ProcessParts(ItemValue[] parts, InvItem item, int entityId, Language language)
         {
             int length = parts.Length;
 
@@ -108,10 +112,10 @@
 
             for (int i = 0; i < length; i++)
             {
-                var partItem = CreateInvItem(parts[i], 1, entityId);
+                var partItem = CreateInvItem(parts[i], 1, entityId, language);
                 if (partItem != null && parts[i].Modifications != null)
                 {
-                    ProcessParts(parts[i].Modifications, partItem, entityId);
+                    ProcessParts(parts[i].Modifications, partItem, entityId, language);
                 }
 
                 itemParts[i] = partItem;
@@ -120,7 +124,7 @@
             item.Parts = itemParts;
         }
 
-        private static InvItem? CreateInvItem(ItemValue itemValue, int count, int entityId)
+        private static InvItem? CreateInvItem(ItemValue itemValue, int count, int entityId, Language language)
         {
             try
             {
@@ -158,17 +162,18 @@
                 {
                     quality = -1;
                 }
-
+                
                 InvItem item = new InvItem()
                 {
                     ItemName = name,
+                    LocalizationName = Utils.GetLocalization(name, language),
                     Count = count,
+                    MaxStackAllowed = itemClass.Stacknumber.Value,
                     Quality = quality,
-                    IconName = itemClass.GetIconName(),
-                    IconColor = itemClass.GetIconTint().ToHex(),
                     QualityColor = qualityColor,
+                    UseTimes = itemValue.UseTimes,
                     MaxUseTimes = itemValue.MaxUseTimes,
-                    UseTimes = itemValue.UseTimes
+                    IsMod = itemValue.IsMod,
                 };
 
                 return item;

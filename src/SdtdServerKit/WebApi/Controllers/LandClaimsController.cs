@@ -29,8 +29,9 @@
 
             var claimOwner = new ClaimOwner()
             {
+                EntityId = persistentPlayerData.EntityId,
                 PlatformId = persistentPlayerData.NativeId.CombinedString,
-                CrossplatformId = persistentPlayerData.PrimaryId.CombinedString,
+                PlayerId = persistentPlayerData.PrimaryId.CombinedString,
                 PlayerName = persistentPlayerData.PlayerName.DisplayName,
                 ClaimActive = GameManager.Instance.World.IsLandProtectionValidForPlayer(persistentPlayerData),
                 ClaimPositions = persistentPlayerData.LPBlocks.ToPositions(),
@@ -56,8 +57,9 @@
                 {
                     claimOwners.Add(new ClaimOwner()
                     {
+                        EntityId = persistentPlayerData.EntityId,
                         PlatformId = persistentPlayerData.NativeId.CombinedString,
-                        CrossplatformId = persistentPlayerData.PrimaryId.CombinedString,
+                        PlayerId = persistentPlayerData.PrimaryId.CombinedString,
                         PlayerName = persistentPlayerData.PlayerName.DisplayName,
                         ClaimActive = GameManager.Instance.World.IsLandProtectionValidForPlayer(persistentPlayerData),
                         ClaimPositions = persistentPlayerData.LPBlocks.ToPositions(),

@@ -32,25 +32,15 @@
         /// <summary>
         /// 获取指定项目的本地化字符串
         /// </summary>
-        /// <param name="itemName">项目名称</param>
-        /// <param name="language">语言</param>
+        /// <param name="key">key</param>
+        /// <param name="language">language</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{itemName}")]
+        [Route("{key}")]
         [ResponseType(typeof(string))]
-        public IHttpActionResult GetLocalization(string itemName, Language language)
+        public IHttpActionResult GetLocalization(string key, Language language)
         {
-            string _language = language.ToString().ToLower();
-
-            var dict = Localization.dictionary;
-            int languageIndex = Array.LastIndexOf(dict["KEY"], _language);
-
-            if (languageIndex < 0 || dict.ContainsKey(itemName) == false)
-            {
-                return NotFound();
-            }
-
-            return Ok(dict[itemName][languageIndex]);
+            return Ok(Utils.GetLocalization(key, language));
         }
 
         /// <summary>

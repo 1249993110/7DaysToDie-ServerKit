@@ -8,7 +8,12 @@
         /// <summary>
         /// 项目名称
         /// </summary>
-        public string ItemName { get; set; }
+        public string ItemName { get; set; } = null!;
+
+        /// <summary>
+        /// 本地化名称
+        /// </summary>
+        public string LocalizationName { get; set; } = null!;
 
         /// <summary>
         /// 数量
@@ -16,19 +21,14 @@
         public int Count { get; set; }
 
         /// <summary>
+        /// 最大堆叠允许
+        /// </summary>
+        public int MaxStackAllowed { get; set; }
+
+        /// <summary>
         /// 质量
         /// </summary>
         public int Quality { get; set; }
-
-        /// <summary>
-        /// 图标
-        /// </summary>
-        public string IconName { get; set; }
-
-        /// <summary>
-        /// 图标颜色
-        /// </summary>
-        public string IconColor { get; set; }
 
         /// <summary>
         /// 质量颜色
@@ -36,18 +36,23 @@
         public string? QualityColor { get; set; }
 
         /// <summary>
-        /// 最大使用次数
-        /// </summary>
-        public int MaxUseTimes { get; set; }
-
-        /// <summary>
         /// 已使用次数
         /// </summary>
         public float UseTimes { get; set; }
 
         /// <summary>
+        /// 最大使用次数
+        /// </summary>
+        public int MaxUseTimes { get; set; }
+
+        /// <summary>
+        /// 是否是模组
+        /// </summary>
+        public bool IsMod { get; set; }
+
+        /// <summary>
         /// 部件
         /// </summary>
-        public InvItem?[] Parts { get; set; }
+        public InvItem?[]? Parts { get; set; }
     }
 }

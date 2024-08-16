@@ -35,22 +35,22 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public virtual string PlayerId { get; } = null!;
+        public virtual string PlayerId { get; set; } = null!;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public virtual string PlayerName { get; } = null!;
+        public virtual string PlayerName { get; set; } = null!;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         [DefaultValue(-1)]
-        public virtual int EntityId { get; } = -1;
+        public virtual int EntityId { get; set; } = -1;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public virtual string PlatformId { get; } = null!;
+        public virtual string PlatformId { get; set; } = null!;
     }
 }
