@@ -241,12 +241,14 @@
         /// </summary>
         /// <param name="key"></param>
         /// <param name="language"></param>
+        /// <param name="caseInsensitive"></param>
         /// <returns></returns>
-        public static string GetLocalization(string key, Language language)
+        public static string GetLocalization(string key, Language language, bool caseInsensitive = false)
         {
             try
             {
-                if(Localization.dictionary.TryGetValue(key, out string[] values))
+                var dict = caseInsensitive ? Localization.mDictionaryCaseInsensitive : Localization.mDictionary;
+                if (dict.TryGetValue(key, out string[] values))
                 {
                     return values[(int)language];
                 }

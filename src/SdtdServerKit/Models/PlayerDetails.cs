@@ -31,16 +31,12 @@
 
             if (entityPlayer != null)
             {
-                Progression = new PlayerProgression()
-                {
-                    Level = entityPlayer.Progression.Level,
-                    ExpToNextLevel = entityPlayer.Progression.ExpToNextLevel,
-                    SkillPoints = entityPlayer.Progression.SkillPoints
-                };
+                Level = entityPlayer.Progression.Level;
+                ExpToNextLevel = entityPlayer.Progression.ExpToNextLevel;
+                SkillPoints = entityPlayer.Progression.SkillPoints;
             }
             else
             {
-                var progression = new PlayerProgression();
                 var stream = playerDataFile.progressionData;
                 if (stream.Length > 0L)
                 {
@@ -49,12 +45,10 @@
                     binaryReader.SetBaseStream(stream);
 
                     byte b = binaryReader.ReadByte();
-                    progression.Level = binaryReader.ReadUInt16();
-                    progression.ExpToNextLevel = binaryReader.ReadInt32();
-                    progression.SkillPoints = binaryReader.ReadUInt16();
+                    Level = binaryReader.ReadUInt16();
+                    ExpToNextLevel = binaryReader.ReadInt32();
+                    SkillPoints = binaryReader.ReadUInt16();
                 }
-
-                Progression = progression;
             }
 
             LandProtectionActive = GameManager.Instance.World.IsLandProtectionValidForPlayer(persistentPlayerData);
@@ -119,9 +113,19 @@
         public PlayerStats Stats { get; set; }
 
         /// <summary>
-        /// Gets the player progression.
+        /// Gets or sets the level of the player.
         /// </summary>
-        public PlayerProgression Progression { get; set; }
+        public int Level { get; set; }
+
+        /// <summary>
+        /// Gets or sets the experience required to reach the next level.
+        /// </summary>
+        public int ExpToNextLevel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the skill points available for the player.
+        /// </summary>
+        public int SkillPoints { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether land protection is active for the player.

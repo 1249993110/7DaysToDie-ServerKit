@@ -126,7 +126,7 @@ namespace SdtdServerKit.WebApi.Controllers
                     historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerName) : historyPlayers.OrderBy(k => k.PlayerName);
                     break;
                 case HistoryPlayerQueryOrder.Level:
-                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.Progression.Level) : historyPlayers.OrderBy(k => k.PlayerDetails.Progression.Level);
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.Level) : historyPlayers.OrderBy(k => k.PlayerDetails.Level);
                     break;
                 case HistoryPlayerQueryOrder.IsOffline:
                     historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.IsOffline) : historyPlayers.OrderBy(k => k.IsOffline);
@@ -141,7 +141,7 @@ namespace SdtdServerKit.WebApi.Controllers
                     historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.Deaths) : historyPlayers.OrderBy(k => k.PlayerDetails.Deaths);
                     break;
                 case HistoryPlayerQueryOrder.SkillPoints:
-                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.Progression.SkillPoints) : historyPlayers.OrderBy(k => k.PlayerDetails.Progression.SkillPoints);
+                    historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.SkillPoints) : historyPlayers.OrderBy(k => k.PlayerDetails.SkillPoints);
                     break;
                 case HistoryPlayerQueryOrder.LastLogin:
                     historyPlayers = model.Desc ? historyPlayers.OrderByDescending(k => k.PlayerDetails.LastLogin) : historyPlayers.OrderBy(k => k.PlayerDetails.LastLogin);

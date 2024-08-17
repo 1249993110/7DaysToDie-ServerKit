@@ -3,40 +3,26 @@
 namespace SdtdServerKit.WebApi.Controllers
 {
     /// <summary>
-    /// ItemIcons
+    /// Ui Icons
     /// </summary>
-    public class ItemIconsController : ApiController
+    public class UiIconsController : ApiController
     {
         /// <summary>
-        /// 获取 ItemIcon
+        /// Get ui icon
         /// </summary>
         /// <remarks>
-        /// e.g. /api/ItemIcons/airConditioner__00FF00.png 颜色是可选的
+        /// e.g. /api/UiIcons/ui_game_filled_circle__00FF00.png 颜色是可选的
         /// </remarks>
-        /// <param name="name">可以是图标名称也可以是物品名称, 为图标名称时后缀必须为.png 可带颜色, 格式见例子</param>
+        /// <param name="name">后缀必须为.png 可带颜色, 格式见例子</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseCache(Duration = 7200)]
-        [Route("api/ItemIcons/{name}")]
+        [Route("api/UiIcons/{name}")]
         public IHttpActionResult Get(string name)
         {
             if (name.EndsWith(".png", StringComparison.OrdinalIgnoreCase) == false)
             {
-                var itemClass = ItemClass.GetItemClass(name);
-                if (itemClass == null)
-                {
-                    return BadRequest("Invalid item name.");
-                }
-
-                string iconFileName = itemClass.GetIconName() + ".png";
-                var iconColor = itemClass.GetIconTint();
-
-                if(iconColor == UnityEngine.Color.white)
-                {
-                    return InternalGet(iconFileName);
-                }
-
-                return InternalGet(iconFileName, iconColor);
+                return BadRequest();
             }
             else
             {
@@ -110,47 +96,9 @@ namespace SdtdServerKit.WebApi.Controllers
             return new FileStreamResult(stream, "image/png");
         }
 
-        private IHttpActionResult InternalGet(string iconFileName, UnityEngine.Color color)
-        {
-            string? iconPath = FindIconPath(iconFileName);
-            if (iconPath == null)
-            {
-                return NotFound();
-            }
-
-            byte[] data = System.IO.File.ReadAllBytes(iconPath);
-            using var skBitmap = SKBitmap.Decode(data);
-            int width = skBitmap.Width;
-            int height = skBitmap.Height;
-
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    var skColor = skBitmap.GetPixel(i, j);
-
-                    if(skColor.Alpha == 0)
-                    {
-                        continue;
-                    }
-
-                    skBitmap.SetPixel(i, j, new SKColor(
-                        (byte)(skColor.Red * color.r),
-                        (byte)(skColor.Green * color.g),
-                        (byte)(skColor.Blue * color.b),
-                        skColor.Alpha));
-                }
-            }
-
-            var stream = new MemoryStream(data.Length / 2);
-            skBitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
-            stream.Position = 0L;
-            return new FileStreamResult(stream, "image/png");
-        }
-
         private static string? FindIconPath(string icon)
         {
-            string path = "Data/ItemIcons/" + icon;
+            string path = Path.Combine(ModApi.ModInstance.Path, "Assets/Sprites", icon);
             if (File.Exists(path))
             {
                 return path;
@@ -158,7 +106,7 @@ namespace SdtdServerKit.WebApi.Controllers
 
             foreach (Mod mod in ModManager.GetLoadedMods())
             {
-                var di = new DirectoryInfo(Path.Combine(mod.Path, "UIAtlases/ItemIconAtlas"));
+                var di = new DirectoryInfo(Path.Combine(mod.Path, "UIAtlases/UIAtlas"));
                 var files = di.GetFiles(icon, SearchOption.AllDirectories);
 
                 if (files.Length > 0)

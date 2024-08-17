@@ -34,13 +34,14 @@
         /// </summary>
         /// <param name="key">key</param>
         /// <param name="language">language</param>
+        /// <param name="caseInsensitive"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("{key}")]
         [ResponseType(typeof(string))]
-        public IHttpActionResult GetLocalization(string key, Language language)
+        public IHttpActionResult GetLocalization(string key, Language language, bool caseInsensitive = false)
         {
-            return Ok(Utils.GetLocalization(key, language));
+            return Ok(Utils.GetLocalization(key, language, caseInsensitive));
         }
 
         /// <summary>
