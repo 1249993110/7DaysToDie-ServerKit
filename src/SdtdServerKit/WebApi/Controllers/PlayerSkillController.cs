@@ -44,6 +44,7 @@ namespace SdtdServerKit.WebApi.Controllers
                         MaxLevel = item.MaxLevel,
                         CostForNextLevel = progressionValue.costForNextLevel,
                         Icon = item.Icon,
+                        Type = item.Type.ToString(),
                         Children = GetChildren(progression, item),
                     };
                     result.Add(playerSkill);
@@ -74,6 +75,7 @@ namespace SdtdServerKit.WebApi.Controllers
                         MaxLevel = child.MaxLevel,
                         CostForNextLevel = childProgressionValue.costForNextLevel,
                         Icon = child.Icon,
+                        Type = child.Type.ToString(),
                         Children = GetChildren(progression, child),
                     };
                     result.Add(childPlayerSkill);

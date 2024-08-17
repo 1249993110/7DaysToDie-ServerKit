@@ -57,8 +57,20 @@ namespace SdtdServerKit.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("Render")]
+        [Route("RenderFullMap")]
         public IHttpActionResult RenderFullMap()
+        {
+            var result = Utils.ExecuteConsoleCommand("visitmap full");
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// 渲染已探索区域
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("RenderExploredArea")]
+        public IHttpActionResult RenderExploredArea()
         {
             ModApi.MainThreadSyncContext.Post((state) =>
             {

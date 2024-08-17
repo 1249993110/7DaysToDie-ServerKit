@@ -159,6 +159,11 @@ namespace SdtdServerKit.WebApi.Controllers
             foreach (Mod mod in ModManager.GetLoadedMods())
             {
                 var di = new DirectoryInfo(Path.Combine(mod.Path, "UIAtlases/ItemIconAtlas"));
+                if (di.Exists == false)
+                {
+                    continue;
+                }
+
                 var files = di.GetFiles(icon, SearchOption.AllDirectories);
 
                 if (files.Length > 0)
