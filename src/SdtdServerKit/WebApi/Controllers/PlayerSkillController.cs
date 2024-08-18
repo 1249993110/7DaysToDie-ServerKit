@@ -22,38 +22,59 @@ namespace SdtdServerKit.WebApi.Controllers
             if (LivePlayerManager.TryGetByPlayerId(playerId, out var managedPlayer))
             {
                 var progression = managedPlayer!.EntityPlayer.Progression;
-                var result = new List<PlayerSkill>();
-
-                //var attributesMap = Progression.ProgressionClasses.Where(i => i.Value.Type == ProgressionType.Attribute);
-                foreach (var item in Progression.ProgressionClasses.Values)
+                return Ok(GetPlayerSkills(progression));
+            }
+            else
+            {
+                var playerDataFile = new PlayerDataFile();
+                playerDataFile.Load(GameIO.GetPlayerDataDir(), playerId);
+                if (playerDataFile.bLoaded == false || playerDataFile.progressionData.Length <= 0L)
                 {
-                    if (item.Type != ProgressionType.Attribute)
-                    {
-                        continue;
-                    }
-    
-                    var progressionValue = progression.GetProgressionValue(item.Name);
-                    var playerSkill = new PlayerSkill()
-                    {
-                        Name = item.Name,
-                        LocalizationName = Utils.GetLocalization(item.NameKey, Language.Schinese, true),
-                        LocalizationDesc = Utils.GetLocalization(item.DescKey, Language.Schinese, true),
-                        //LocalizationLongDesc = Utils.GetLocalization(item.LongDescKey, Language.Schinese, true),
-                        Level = progressionValue.Level,
-                        MinLevel = item.MinLevel,
-                        MaxLevel = item.MaxLevel,
-                        CostForNextLevel = progressionValue.costForNextLevel,
-                        Icon = item.Icon,
-                        Type = item.Type.ToString(),
-                        Children = GetChildren(progression, item),
-                    };
-                    result.Add(playerSkill);
+                    return NotFound();
                 }
 
-                return Ok(result);
+                using PooledBinaryReader pooledBinaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
+                pooledBinaryReader.SetBaseStream(playerDataFile.progressionData);
+                
+                var entityPlayer = new EntityPlayer();
+                entityPlayer.Progression = new Progression(entityPlayer);
+                
+                var progression = Progression.Read(pooledBinaryReader, entityPlayer);
+                return Ok(GetPlayerSkills(progression));
+            }
+        }
+
+        private static List<PlayerSkill> GetPlayerSkills(Progression progression)
+        {
+            var result = new List<PlayerSkill>();
+
+            //var attributesMap = Progression.ProgressionClasses.Where(i => i.Value.Type == ProgressionType.Attribute);
+            foreach (var item in Progression.ProgressionClasses.Values)
+            {
+                if (item.Type != ProgressionType.Attribute)
+                {
+                    continue;
+                }
+
+                var progressionValue = progression.GetProgressionValue(item.Name);
+                var playerSkill = new PlayerSkill()
+                {
+                    Name = item.Name,
+                    LocalizationName = Utils.GetLocalization(item.NameKey, Language.Schinese, true),
+                    LocalizationDesc = Utils.GetLocalization(item.DescKey, Language.Schinese, true),
+                    //LocalizationLongDesc = Utils.GetLocalization(item.LongDescKey, Language.Schinese, true),
+                    Level = progressionValue.Level,
+                    MinLevel = item.MinLevel,
+                    MaxLevel = item.MaxLevel,
+                    CostForNextLevel = progressionValue.costForNextLevel,
+                    Icon = item.Icon,
+                    Type = item.Type.ToString(),
+                    Children = GetChildren(progression, item),
+                };
+                result.Add(playerSkill);
             }
 
-            return NotFound();
+            return result;
         }
 
         private static List<PlayerSkill> GetChildren(Progression progression, ProgressionClass parent)
