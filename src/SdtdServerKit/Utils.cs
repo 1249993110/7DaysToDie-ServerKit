@@ -250,7 +250,7 @@
                 var dict = caseInsensitive ? Localization.mDictionaryCaseInsensitive : Localization.mDictionary;
                 if (dict.TryGetValue(key, out string[] values))
                 {
-                    return values[(int)language];
+                    return values[(int)language] ?? string.Empty;
                 }
 
                 return string.Empty;

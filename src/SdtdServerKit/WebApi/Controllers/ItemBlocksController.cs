@@ -72,10 +72,7 @@
                 if (itemClass != null)
                 {
                     EnumCreativeMode creativeMode = itemClass.CreativeMode;
-                    if (/*creativeMode != EnumCreativeMode.None
-                        &&*/ creativeMode != EnumCreativeMode.Test
-                        && (creativeMode == EnumCreativeMode.All || showUserHidden)
-                        && (filter == null || filter.Invoke(itemClass)))
+                    if ((creativeMode == EnumCreativeMode.All || showUserHidden) && (filter == null || filter.Invoke(itemClass)))
                     {
                         string itemName = itemClass.GetItemName();
 

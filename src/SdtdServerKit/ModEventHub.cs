@@ -317,8 +317,15 @@ namespace SdtdServerKit
         /// <param name="pdf">The player data file.</param>
         public static void OnSavePlayerData(ClientInfo clientInfo, PlayerDataFile pdf)
         {
-            var managedPlayer = LivePlayerManager.GetByEntityId(clientInfo.entityId);
-            SavePlayerData?.Invoke(managedPlayer);
+            if (LivePlayerManager.TryGetByEntityId(clientInfo.entityId, out var managedPlayer))
+            {
+                SavePlayerData?.Invoke(managedPlayer!);
+                return;
+            }
+            else
+            {
+                CustomLogger.Warn($"Save player data but could not find online player: {clientInfo.playerName} ({clientInfo.InternalId.CombinedString})");
+            }
         }
 
         /// <summary>
