@@ -20,14 +20,21 @@
             Score = playerDataFile.score;
 
             var stats = playerDataFile.ecd.stats;
-            Stats = new PlayerStats()
+            if(stats != null)
             {
-                Health = stats.Health.Value,
-                Stamina = stats.Stamina.Value,
-                CoreTemp = stats.CoreTemp.Value,
-                Food = stats.Food.Value,
-                Water = stats.Water.Value
-            };
+                Stats = new PlayerStats()
+                {
+                    Health = stats.Health.Value,
+                    Stamina = stats.Stamina.Value,
+                    CoreTemp = stats.CoreTemp.Value,
+                    Food = stats.Food.Value,
+                    Water = stats.Water.Value
+                };
+            }
+            else
+            {
+                Stats = new PlayerStats();
+            }
 
             if (entityPlayer != null)
             {

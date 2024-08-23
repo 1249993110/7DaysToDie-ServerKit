@@ -105,7 +105,7 @@ namespace SdtdServerKit.WebApi
                     document.Info.Version = "v1";
                     document.Info.Title = "7DaysToDie-ServerKit RESTful APIs Documentation";
                     document.Info.Description = "RESTful APIs Documentation for 7 Days to Die dedicated servers.";
-                    document.Info.TermsOfService = "https://7daystodie.top";
+                    document.Info.TermsOfService = "https://7dtd.top";
                     document.Info.Contact = new OpenApiContact()
                     {
                         Name = "LuoShuiTianTi",

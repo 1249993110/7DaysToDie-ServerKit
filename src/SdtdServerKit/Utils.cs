@@ -45,9 +45,9 @@
         /// <summary>
         /// 检查玩家周围是否有僵尸
         /// </summary>
-        /// <param name="_player"></param>
+        /// <param name="entityPlayer"></param>
         /// <returns></returns>
-        public static bool ZombieCheck(EntityPlayer _player)
+        public static bool ZombieCheck(EntityPlayer entityPlayer)
         {
             var entities = GameManager.Instance.World.Entities.list;
             for (int i = 0; i < entities.Count; i++)
@@ -55,7 +55,7 @@
                 Entity entity = entities[i];
                 if (entity is EntityZombie zombie && zombie.IsSpawned() && zombie.IsAlive())
                 {
-                    if ((_player.serverPos.ToVector3() / 32F - entity.position).sqrMagnitude <= 10 * 10)
+                    if ((entityPlayer.serverPos.ToVector3() / 32F - entity.position).sqrMagnitude <= 10 * 10)
                     {
                         return true;
                     }
