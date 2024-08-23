@@ -14,7 +14,8 @@ Welcome join the Discord server: https://discord.gg/TsbjR4KU
 欢迎加入服主交流QQ群：[470804744](https://qm.qq.com/cgi-bin/qm/qr?k=p3TKGDnBAxxyVsR79pF-WYHI3BjsYiHe&jump_from=webapi&authKey=wTpnGpOGOsAaNTD4TqL4kukLQnxT+TmDFQx803v+Q2zWU0E7LYuSkBQQI+WhrqFB)
 
 # Screenshots
-![天依10 0](https://github.com/user-attachments/assets/9cc02734-1c7b-4cc6-ab32-fd08d31a3f80)
+![天依10 1](https://github.com/user-attachments/assets/3f2defea-4344-43f9-a18b-5428c384060c)
+
 
 ## 天依七日杀服主工具系列从2017年着手开发，至今已经迭代了9个大版本
 #### V1.0 采用易语言开发
