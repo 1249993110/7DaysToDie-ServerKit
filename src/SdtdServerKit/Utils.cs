@@ -26,7 +26,7 @@
                 throw new Exception("Player not found.");
             }
 
-            return clientInfo.latestPlayerData.GetInventoryStackCount(itemName);
+            return clientInfo.latestPlayerData.GetInventoryStackCount(itemName, Language.English);
         }
 
         /// <summary>

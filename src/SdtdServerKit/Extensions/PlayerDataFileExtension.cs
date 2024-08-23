@@ -12,12 +12,13 @@ namespace SdtdServerKit.Extensions
         /// </summary>
         /// <param name="pdf">The PlayerDataFile instance.</param>
         /// <param name="itemName">The name of the item.</param>
+        /// <param name="language"></param>
         /// <returns>The total stack count of the item.</returns>
-        public static int GetInventoryStackCount(this PlayerDataFile pdf, string itemName)
+        public static int GetInventoryStackCount(this PlayerDataFile pdf, string itemName, Language language)
         {
             int count = 0;
-            var bag = ProcessInv(pdf.bag, pdf.id, Language.Schinese);
-            var belt = ProcessInv(pdf.inventory, pdf.id, Language.Schinese);
+            var bag = ProcessInv(pdf.bag, pdf.id, language);
+            var belt = ProcessInv(pdf.inventory, pdf.id, language);
 
             foreach (var item in bag)
             {
@@ -44,6 +45,7 @@ namespace SdtdServerKit.Extensions
         /// Gets the player's inventory.
         /// </summary>
         /// <param name="pdf">The PlayerDataFile instance.</param>
+        /// <param name="language"></param>
         /// <returns>The player's inventory.</returns>
         public static Models.Inventory GetInventory(this PlayerDataFile pdf, Language language)
         {

@@ -17,12 +17,12 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpGet]
         [Route("{playerId}")]
         [ResponseType(typeof(IEnumerable<PlayerSkill>))]
-        public IHttpActionResult Get(string playerId)
+        public IHttpActionResult Get(string playerId, [FromUri] Language language)
         {
             if (LivePlayerManager.TryGetByPlayerId(playerId, out var managedPlayer))
             {
                 var progression = managedPlayer!.EntityPlayer.Progression;
-                return Ok(GetPlayerSkills(progression));
+                return Ok(GetPlayerSkills(progression, language));
             }
             else
             {
@@ -40,11 +40,11 @@ namespace SdtdServerKit.WebApi.Controllers
                 entityPlayer.Progression = new Progression(entityPlayer);
                 
                 var progression = Progression.Read(pooledBinaryReader, entityPlayer);
-                return Ok(GetPlayerSkills(progression));
+                return Ok(GetPlayerSkills(progression, language));
             }
         }
 
-        private static List<PlayerSkill> GetPlayerSkills(Progression progression)
+        private static List<PlayerSkill> GetPlayerSkills(Progression progression, Language language)
         {
             var result = new List<PlayerSkill>();
 
@@ -60,16 +60,16 @@ namespace SdtdServerKit.WebApi.Controllers
                 var playerSkill = new PlayerSkill()
                 {
                     Name = item.Name,
-                    LocalizationName = Utils.GetLocalization(item.NameKey, Language.Schinese, true),
-                    LocalizationDesc = Utils.GetLocalization(item.DescKey, Language.Schinese, true),
-                    //LocalizationLongDesc = Utils.GetLocalization(item.LongDescKey, Language.Schinese, true),
+                    LocalizationName = Utils.GetLocalization(item.NameKey, language, true),
+                    LocalizationDesc = Utils.GetLocalization(item.DescKey, language, true),
+                    //LocalizationLongDesc = Utils.GetLocalization(item.LongDescKey, language, true),
                     Level = progressionValue.Level,
                     MinLevel = item.MinLevel,
                     MaxLevel = item.MaxLevel,
                     CostForNextLevel = progressionValue.costForNextLevel,
                     Icon = item.Icon,
                     Type = item.Type.ToString(),
-                    Children = GetChildren(progression, item),
+                    Children = GetChildren(progression, item, language),
                 };
                 result.Add(playerSkill);
             }
@@ -77,7 +77,7 @@ namespace SdtdServerKit.WebApi.Controllers
             return result;
         }
 
-        private static List<PlayerSkill> GetChildren(Progression progression, ProgressionClass parent)
+        private static List<PlayerSkill> GetChildren(Progression progression, ProgressionClass parent, Language language)
         {
             var result = new List<PlayerSkill>();
             foreach (var child in Progression.ProgressionClasses.Values)
@@ -88,16 +88,16 @@ namespace SdtdServerKit.WebApi.Controllers
                     var childPlayerSkill = new PlayerSkill()
                     {
                         Name = child.Name,
-                        LocalizationName = Utils.GetLocalization(child.NameKey, Language.Schinese, true),
-                        LocalizationDesc = Utils.GetLocalization(child.DescKey, Language.Schinese, true),
-                        //LocalizationLongDesc = Utils.GetLocalization(child.LongDescKey, Language.Schinese, true),
+                        LocalizationName = Utils.GetLocalization(child.NameKey, language, true),
+                        LocalizationDesc = Utils.GetLocalization(child.DescKey, language, true),
+                        //LocalizationLongDesc = Utils.GetLocalization(child.LongDescKey, language, true),
                         Level = childProgressionValue.Level,
                         MinLevel = child.MinLevel,
                         MaxLevel = child.MaxLevel,
                         CostForNextLevel = childProgressionValue.costForNextLevel,
                         Icon = child.Icon,
                         Type = child.Type.ToString(),
-                        Children = GetChildren(progression, child),
+                        Children = GetChildren(progression, child, language),
                     };
                     result.Add(childPlayerSkill);
                 }

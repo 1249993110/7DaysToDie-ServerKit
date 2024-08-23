@@ -28,8 +28,8 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// 语言
         /// </summary>
-        [DefaultValue(Language.Schinese)]
-        public Language Language { get; set; } = Language.Schinese;
+        [DefaultValue(Language.English)]
+        public Language Language { get; set; } = Language.English;
 
         /// <summary>
         /// 搜索关键词
