@@ -20,7 +20,11 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route("")]
         public List<BackupFileResult> Get()
         {
-            var settings = ConfigManager.Get<AutoBackupSettings>();
+            if(FunctionManager.TryGetFunction<AutoBackup>(out var function) == false)
+            {
+                return new List<BackupFileResult>();
+            }
+            var settings = function!.Settings;
 
             var result = new List<BackupFileResult>();
             string path = Path.Combine(AppContext.BaseDirectory, settings.ArchiveFolder);
@@ -69,9 +73,13 @@ namespace SdtdServerKit.WebApi.Controllers
         [HttpDelete]
         public IHttpActionResult Delete([FromUri] string[] fileNames)
         {
+            if (FunctionManager.TryGetFunction<AutoBackup>(out var function) == false)
+            {
+                return BadRequest();
+            }
+            var settings = function!.Settings;
             foreach (var fileName in fileNames)
             {
-                var settings = ConfigManager.Get<AutoBackupSettings>();
                 string path = Path.Combine(AppContext.BaseDirectory, settings.ArchiveFolder, fileName);
                 if (File.Exists(path))
                 {

@@ -304,9 +304,9 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route(nameof(Settings))]
-        public List<NameDescValue> Settings([FromUri]string culture = Cultures.ZhCn)
+        public List<NameDescValue> Settings([FromUri]Language language)
         {
-            string fileName = "serversettings." + culture.ToLower() + ".json";
+            string fileName = "serversettings." + Locales.Get(language) + ".json";
             string path = ModApi.GetDefaultConfigPath(fileName);
             string json = File.ReadAllText(path, Encoding.UTF8);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, DescValue>>(json);

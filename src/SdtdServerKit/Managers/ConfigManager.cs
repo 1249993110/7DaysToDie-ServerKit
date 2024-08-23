@@ -1,9 +1,7 @@
-﻿using Autofac;
-using SdtdServerKit.FunctionSettings;
+﻿using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Data.IRepositories;
 using System.Text;
 using SdtdServerKit.Data.Entities;
-using Newtonsoft.Json.Linq;
 
 namespace SdtdServerKit.Managers
 {
@@ -24,7 +22,15 @@ namespace SdtdServerKit.Managers
         /// </summary>
         public static GlobalSettings GlobalSettings 
         {
-            get => _globalSettings ??= Get<GlobalSettings>();
+            get 
+            {
+                if (_globalSettings == null)
+                {
+                    _globalSettings = GetRequired<GlobalSettings>(Locales.Get(GamePrefs.GetString(EnumGamePrefs.Language)));
+                }
+
+                return _globalSettings;
+            }
         }
 
         /// <summary>
@@ -32,7 +38,7 @@ namespace SdtdServerKit.Managers
         /// </summary>
         /// <typeparam name="TSettings">配置类型</typeparam>
         /// <returns></returns>
-        public static TSettings Get<TSettings>(string culture = Cultures.ZhCn) where TSettings : ISettings
+        public static TSettings? Get<TSettings>() where TSettings : ISettings
         {
             TSettings? settings;
 
@@ -41,7 +47,7 @@ namespace SdtdServerKit.Managers
             var entity = settingsRepository.GetById(name);
             if (entity == null)
             {
-                settings = LoadDefault<TSettings>(culture);
+                return default;
             }
             else
             {
@@ -53,6 +59,16 @@ namespace SdtdServerKit.Managers
             }
 
             return settings;
+        }
+
+        /// <summary>
+        /// 获取配置, 如果不存在则加载默认配置
+        /// </summary>
+        /// <typeparam name="TSettings">配置类型</typeparam>
+        /// <returns></returns>
+        public static TSettings GetRequired<TSettings>(string locale) where TSettings : ISettings
+        {
+            return Get<TSettings>() ?? LoadDefault<TSettings>(locale);
         }
 
         /// <summary>
@@ -91,15 +107,15 @@ namespace SdtdServerKit.Managers
         /// 加载默认配置
         /// </summary>
         /// <typeparam name="TSettings"></typeparam>
-        /// <param name="culture"></param>
+        /// <param name="locale"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="Exception"></exception>
-        public static TSettings LoadDefault<TSettings>(string culture = Cultures.ZhCn) where TSettings : ISettings
+        public static TSettings LoadDefault<TSettings>(string locale) where TSettings : ISettings
         {
             try
             {
-                string fileName = "functionsettings." + culture.ToLower() + ".json";
+                string fileName = "functionsettings." + locale + ".json";
                 string path = ModApi.GetDefaultConfigPath(fileName);
                 string json = File.ReadAllText(path, Encoding.UTF8);
 

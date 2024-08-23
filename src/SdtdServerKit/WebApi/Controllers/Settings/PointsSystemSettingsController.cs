@@ -18,9 +18,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public PointsSystemSettings GetSettings()
+        public PointsSystemSettings GetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.Get<PointsSystemSettings>();
+            var data = ConfigManager.GetRequired<PointsSystemSettings>(Locales.Get(language));
             return data;
         }
 
@@ -42,9 +42,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public PointsSystemSettings ResetSettings()
+        public PointsSystemSettings ResetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.LoadDefault<PointsSystemSettings>();
+            var data = ConfigManager.LoadDefault<PointsSystemSettings>(Locales.Get(language));
             return data;
         }
     }

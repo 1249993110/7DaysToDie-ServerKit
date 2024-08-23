@@ -14,12 +14,23 @@ namespace SdtdServerKit.Functions
         /// <summary>
         /// Settings
         /// </summary>
-        protected TSettings Settings => _settings;
+        public TSettings Settings
+        {
+            get
+            {
+                if (_settings == null)
+                {
+                    throw new InvalidOperationException($"The settings for function '{_functionName}' is null!");
+                }
+
+                return _settings;
+            }
+        }
 
         private readonly string _functionName;
         private bool _isEnabled;
         private bool _isRunning;
-        private TSettings _settings = default!;
+        private TSettings? _settings;
 
         /// <summary>
         /// Function base constructor
@@ -32,9 +43,12 @@ namespace SdtdServerKit.Functions
         void IFunction.LoadSettings()
         {
             _settings = ConfigManager.Get<TSettings>();
-            IsEnabled = Settings.IsEnabled;
-            OnSettingsChanged();
-            ConfigManager.SettingsChanged += OnSettingsChanged;
+            if (_settings != null)
+            {
+                IsEnabled = _settings.IsEnabled;
+                OnSettingsChanged();
+                ConfigManager.SettingsChanged += OnSettingsChanged;
+            }
         }
 
         /// <summary>

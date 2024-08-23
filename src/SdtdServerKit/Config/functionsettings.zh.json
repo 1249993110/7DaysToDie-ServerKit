@@ -1,6 +1,5 @@
 {
   "GlobalSettings": {
-    //"ServerName": "[FF0000]Server[FFFFFF]",
     "ChatCommandPrefix": "",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]系统错误, 请联系服务器管理员",

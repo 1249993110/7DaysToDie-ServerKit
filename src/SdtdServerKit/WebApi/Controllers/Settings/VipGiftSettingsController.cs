@@ -18,9 +18,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public VipGiftSettings GetSettings()
+        public VipGiftSettings GetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.Get<VipGiftSettings>();
+            var data = ConfigManager.GetRequired<VipGiftSettings>(Locales.Get(language));
             return data;
         }
 
@@ -42,9 +42,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public VipGiftSettings ResetSettings()
+        public VipGiftSettings ResetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.LoadDefault<VipGiftSettings>();
+            var data = ConfigManager.LoadDefault<VipGiftSettings>(Locales.Get(language));
             return data;
         }
     }

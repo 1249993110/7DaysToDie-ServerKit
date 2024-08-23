@@ -18,9 +18,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public AutoBackupSettings GetSettings()
+        public AutoBackupSettings GetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.Get<AutoBackupSettings>();
+            var data = ConfigManager.GetRequired<AutoBackupSettings>(Locales.Get(language));
             return data;
         }
 
@@ -42,9 +42,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public AutoBackupSettings ResetSettings()
+        public AutoBackupSettings ResetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.LoadDefault<AutoBackupSettings>();
+            var data = ConfigManager.LoadDefault<AutoBackupSettings>(Locales.Get(language));
             return data;
         }
     }

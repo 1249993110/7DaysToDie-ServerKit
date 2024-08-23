@@ -18,9 +18,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public GameStoreSettings GetSettings()
+        public GameStoreSettings GetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.Get<GameStoreSettings>();
+            var data = ConfigManager.GetRequired<GameStoreSettings>(Locales.Get(language));
             return data;
         }
 
@@ -42,9 +42,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public GameStoreSettings ResetSettings()
+        public GameStoreSettings ResetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.LoadDefault<GameStoreSettings>();
+            var data = ConfigManager.LoadDefault<GameStoreSettings>(Locales.Get(language));
             return data;
         }
     }

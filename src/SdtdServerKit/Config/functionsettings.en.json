@@ -1,7 +1,6 @@
 {
   "GlobalSettings": {
-    //"ServerName": "[FF0000]Server[FFFFFF]",
-    "ChatCommandPrefix": "/",
+    "ChatCommandPrefix": "",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]System error, please contact the server administrator.",
     "TeleZombieCheck": true,
@@ -20,7 +19,10 @@
       "RestartMinute": 0,
       "Messages": [ "[00FF00]The server will reboot in 3 seconds...", "[00FF00]The server will reboot in 2 seconds...", "[00FF00]The server will reboot in 1 second...", "[FF0000]Restarting..." ]
     },
-    "BlockFamilySharingAccount": true
+    "BlockFamilySharingAccount": true,
+    "RemoveSleepingBagFromPOI": false,
+    "IsEnablePlayerInitialSpawnPoint": false,
+    "PlayerInitialPosition": null
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
@@ -39,7 +41,12 @@
     "SignInSuccessTip": "[00FF00]Sign in successful! Reward points: {SignInRewardPoints}, You currently have points: {PlayerTotalPoints}",
     "SignInFailureTip": "[FFFF00]Failed to sign in! Please come back later.",
     "QueryPointsCmd": "points",
-    "QueryPointsTip": "[00FF00]You currently have points: {PlayerTotalPoints}"
+    "QueryPointsTip": "[00FF00]You currently have points: {PlayerTotalPoints}",
+    "IsCurrencyExchangeEnabled": false,
+    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyExchangeCmd": "dh",
+    "ExchangeSuccessTip": "[00FF00]Exchange successful! Game currency consumed: {CurrencyAmount}, you currently have points",
+    "ExchangeFailureTip": "[FFFF00]Exchange failed! Please prepare Duke Casino coins or sign in before coming back"
   },
   "GameStoreSettings": {
     "IsEnabled": false,
@@ -55,11 +62,11 @@
     "QueryListCmd": "city",
     "TeleCmdPrefix": "city",
     "TeleInterval": 60,
-    "LocationItemTip": "{SerialNumber}. [00FF00]{CityName}[FFFFFF], Points required: [FF00FF]{PointsRequired}",
+    "LocationItemTip": "[FFFFFF]Input: [00FF00]hc-{CityId} [FFFFFF]Teleport to [00FF00]{CityName}[FFFFFF], Points Required: [FF00FF]{PointsRequired}",
     "TeleSuccessTip": "[00FF00]Player: {PlayerName}, teleported to: {CityName}",
     "PointsNotEnoughTip": "[00FF00]Not enough points, need points: {PointsRequired}",
     "CoolingTip": "[00FF00]Teleport cooling... Remaining time: {CooldownSeconds} seconds.",
-    "NoLocation": "[00FF00]No location."
+    "NoLocation": "[00FF00]There is no city location."
   },
   "TeleportFriendSettings": {
     "IsEnabled": false,
@@ -83,7 +90,7 @@
     "TeleHomeCmdPrefix": "home",
     "PointsRequiredForTele": 2,
     "NoHomeTip": "[00FF00]You haven't set a home yet, please use /setHome to set one.",
-    "LocationItemTip": "{SerialNumber}. [00FF00]<[FF0000]{HomeName}[00FF00]>",
+    "LocationItemTip": "[FFFFFF]Input: [00FF00]home-{HomeName} [FFFFFF]Transfer to [FF0000]{HomeName}[00FF00]",
     "OverLimitTip": "[00FF00]Exceeded the maximum number of set homes. You can set up to 3 homes.",
     "SetPointsNotEnoughTip": "[00FF00]Points Not enough, Points required: 2",
     "SetSuccessTip": "[00FF00]Successfully set.",
@@ -93,5 +100,21 @@
     "CoolingTip": "[00FF00]Teleport cooling... Remaining time: {CooldownSeconds} seconds.",
     "TelePointsNotEnoughTip": "[00FF00]Insufficient points! Points required: 2",
     "TeleSuccessTip": "[00FF00]Player: {PlayerName} teleported to their home: {HomeName}"
+  },
+  "AutoBackupSettings": {
+    "IsEnabled": false,
+    "Interval": 7200,
+    "RetainedFileCountLimit": 12,
+    "ResetIntervalAfterManualBackup": true,
+    "SkipIfThereAreNoPlayers": true,
+    "AutoBackupOnServerStartup": true,
+    "ArchiveFolder": "LSTY_Data/Backup"
+  },
+  "VipGiftSettings": {
+    "IsEnabled": false,
+    "ClaimCmd": "VIP",
+    "HasClaimedTip": "[00FF00]You have received the gift package~",
+    "NonVipTip": "[00FF00]You are not a VIP yet~",
+    "ClaimSuccessTip": "[00FF00]Congratulations on successfully receiving the gift package: {GiftName}"
   }
 }

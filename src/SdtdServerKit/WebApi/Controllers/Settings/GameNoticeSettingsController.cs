@@ -18,9 +18,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public GameNoticeSettings GetSettings()
+        public GameNoticeSettings GetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.Get<GameNoticeSettings>();
+            var data = ConfigManager.GetRequired<GameNoticeSettings>(Locales.Get(language));
             return data;
         }
 
@@ -42,9 +42,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public GameNoticeSettings ResetSettings()
+        public GameNoticeSettings ResetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.LoadDefault<GameNoticeSettings>();
+            var data = ConfigManager.LoadDefault<GameNoticeSettings>(Locales.Get(language));
             return data;
         }
     }

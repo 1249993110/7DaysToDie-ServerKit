@@ -18,9 +18,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public GlobalSettings GetSettings()
+        public GlobalSettings GetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.Get<GlobalSettings>();
+            var data = ConfigManager.GetRequired<GlobalSettings>(Locales.Get(language));
             return data;
         }
 
@@ -42,9 +42,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public GlobalSettings ResetSettings()
+        public GlobalSettings ResetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.LoadDefault<GlobalSettings>();
+            var data = ConfigManager.LoadDefault<GlobalSettings>(Locales.Get(language));
             return data;
         }
     }

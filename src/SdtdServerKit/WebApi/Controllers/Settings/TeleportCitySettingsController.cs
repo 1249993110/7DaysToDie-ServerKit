@@ -18,9 +18,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public TeleportCitySettings GetSettings()
+        public TeleportCitySettings GetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.Get<TeleportCitySettings>();
+            var data = ConfigManager.GetRequired<TeleportCitySettings>(Locales.Get(language));
             return data;
         }
 
@@ -42,9 +42,9 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public TeleportCitySettings ResetSettings()
+        public TeleportCitySettings ResetSettings([FromUri] Language language)
         {
-            var data = ConfigManager.LoadDefault<TeleportCitySettings>();
+            var data = ConfigManager.LoadDefault<TeleportCitySettings>(Locales.Get(language));
             return data;
         }
     }

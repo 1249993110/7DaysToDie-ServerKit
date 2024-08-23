@@ -11,6 +11,8 @@ namespace SdtdServerKit.Functions
     {
         private readonly SubTimer autoRestartTimer;
 
+        private new FunctionSettings.GlobalSettings Settings => ConfigManager.GlobalSettings;
+
         /// <summary>
         /// 构造函数
         /// </summary>
