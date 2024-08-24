@@ -39,7 +39,7 @@
         [HttpGet]
         [Route("{key}")]
         [ResponseType(typeof(string))]
-        public IHttpActionResult GetLocalization(string key, Language language, bool caseInsensitive = false)
+        public IHttpActionResult GetLocalization(string key, [FromUri]Language language, [FromUri] bool caseInsensitive = false)
         {
             return Ok(Utils.GetLocalization(key, language, caseInsensitive));
         }
