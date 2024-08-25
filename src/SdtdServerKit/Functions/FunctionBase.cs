@@ -47,8 +47,8 @@ namespace SdtdServerKit.Functions
             {
                 IsEnabled = _settings.IsEnabled;
                 OnSettingsChanged();
-                ConfigManager.SettingsChanged += OnSettingsChanged;
             }
+            ConfigManager.SettingsChanged += OnSettingsChanged;
         }
 
         /// <summary>
