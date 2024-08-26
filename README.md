@@ -1,7 +1,7 @@
 # 7DaysToDie-ServerKit
 A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows. (Ubuntu 22.04 and Windows Server 2016+ test passed)
 
-Welcome join the Discord server: https://discord.gg/TsbjR4KU
+Welcome join the Discord server: https://discord.gg/zdnmngsBK4
 
 开源的 7 Days to Die 专用服务器的MOD。提供 RESTful API 和强大的网页管理面板，帮助各服主和管理员管理七日杀专用服务器。同时支持 Linux 和 Windows。
 
