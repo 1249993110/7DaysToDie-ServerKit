@@ -2,24 +2,35 @@
 
 namespace SdtdServerKit.Commands
 {
+    /// <summary>
+    /// Gives a item directly to a player's inventory. Drops to the ground if inventory is full.
+    /// </summary>
     public class GiveItem : ConsoleCmdBase
     {
+        /// <summary>
+        /// Gets the description of the command.
+        /// </summary>
+        /// <returns>The description of the command.</returns>
         public override string getDescription()
         {
             return "Gives a item directly to a player's inventory. Drops to the ground if inventory is full.";
         }
 
+        /// <summary>
+        /// Gets the help text for the command.
+        /// </summary>
+        /// <returns>The help text for the command.</returns>
         public override string getHelp()
         {
             return "Usage:\n" +
-                "  1. ty-gi <EntityId/PlayerId/PlayerName> <ItemName> <Count> <Quality> <Durability>\n" +
-                "  2. ty-gi <EntityId/PlayerId/PlayerName> <ItemName> <Count> <Quality>\n" +
-                "  3. ty-gi <EntityId/PlayerId/PlayerName> <ItemName> <Count>\n" +
-                "  4. ty-gi <EntityId/PlayerId/PlayerName> <ItemName>\n" +
-                "  5. ty-gi all <ItemName> <Count> <Quality> <Durability>\n " +
-                "  6. ty-gi all <ItemName> <Count> <Quality>\n " +
-                "  7. ty-gi all <ItemName> <Count>\n " +
-                "  8. ty-gi all <ItemName>\n " +
+                "  1. ty-gi {EntityId/PlayerId/PlayerName} {ItemName} {Count} {Quality} {Durability}\n" +
+                "  2. ty-gi {EntityId/PlayerId/PlayerName} {ItemName} {Count} {Quality}\n" +
+                "  3. ty-gi {EntityId/PlayerId/PlayerName} {ItemName} {Count}\n" +
+                "  4. ty-gi {EntityId/PlayerId/PlayerName} {ItemName}\n" +
+                "  5. ty-gi all {ItemName} {Count} {Quality} {Durability}\n " +
+                "  6. ty-gi all {ItemName} {Count} {Quality}\n " +
+                "  7. ty-gi all {ItemName} {Count}\n " +
+                "  8. ty-gi all {ItemName}\n " +
                 "1. Gives a player the item with specific count, quality and durability\n" +
                 "2. Gives a player the item with specific count, quality and 100 percent durability\n" +
                 "3. Gives a player the item with specific count, 1 quality and 100 percent durability\n" +
@@ -30,11 +41,20 @@ namespace SdtdServerKit.Commands
                 "8. Gives all players the item with 1 count 1 quality and 100 percent durability\n";
         }
 
+        /// <summary>
+        /// Gets the list of commands for the command.
+        /// </summary>
+        /// <returns>The list of commands for the command.</returns>
         public override string[] getCommands()
         {
             return new string[] { "ty-GiveItem", "ty-gi", "ty-give" };
         }
 
+        /// <summary>
+        /// Executes the command.
+        /// </summary>
+        /// <param name="args">The list of arguments for the command.</param>
+        /// <param name="senderInfo">The information of the command sender.</param>
         public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             try

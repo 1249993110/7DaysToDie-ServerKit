@@ -1,12 +1,17 @@
 ﻿namespace SdtdServerKit.Commands
 {
+    /// <summary>
+    /// Command to save all world static xml data to a folder.
+    /// </summary>
     public class SaveXmlsToFolder : ConsoleCmdBase
     {
+        /// <inheritdoc/>
         public override string getDescription()
         {
             return "Save all world static xml data to a folder.";
         }
 
+        /// <inheritdoc/>
         public override string getHelp()
         {
             return "Usage:\n" +
@@ -14,15 +19,17 @@
                 "1. Save all world static xml data to a specified folder.";
         }
 
+        /// <inheritdoc/>
         public override string[] getCommands()
         {
             return new string[]
             {
-                "ty-SaveXmlsToFolder",
-                "ty-sxtf",
+                    "ty-SaveXmlsToFolder",
+                    "ty-sxtf",
             };
         }
 
+        /// <inheritdoc/>
         public override void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
             if (args.Count < 1)

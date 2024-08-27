@@ -1,25 +1,43 @@
-﻿using SdtdServerKit.Hooks;
-
-namespace SdtdServerKit.Commands
+﻿namespace SdtdServerKit.Commands
 {
+    /// <summary>
+    /// Removes a player's land claims.
+    /// </summary>
     public class RemovePlayerLandClaims : ConsoleCmdBase
     {
+        /// <summary>
+        /// Gets the description of the command.
+        /// </summary>
+        /// <returns>The description of the command.</returns>
         public override string getDescription()
         {
             return "Removes a player's land claims.";
         }
 
+        /// <summary>
+        /// Gets the help text for the command.
+        /// </summary>
+        /// <returns>The help text for the command.</returns>
         public override string getHelp()
         {
-            return "Removes land claims with the specified id from a oplayer or x y z position.\n" +
+            return "Removes land claims with the specified id from a player or x y z position.\n" +
                 "Usage: ty-rplc {EntityId/PlayerId/PlayerName} [x y z]\n";
         }
 
+        /// <summary>
+        /// Gets the list of commands associated with the command.
+        /// </summary>
+        /// <returns>The list of commands associated with the command.</returns>
         public override string[] getCommands()
         {
             return new string[] { "ty-RemovePlayerLandClaims", "ty-rplc" };
         }
 
+        /// <summary>
+        /// Executes the command.
+        /// </summary>
+        /// <param name="args">The list of arguments passed to the command.</param>
+        /// <param name="_senderInfo">The information about the command sender.</param>
         public override void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
             try
@@ -36,7 +54,7 @@ namespace SdtdServerKit.Commands
                             persistentPlayerList.RemoveLandProtectionBlock(pos);
                             blockChangeInfos.Add(new BlockChangeInfo(pos, BlockValue.Air, true, false));
                         }
-                        
+
                         GameManager.Instance.SetBlocksRPC(blockChangeInfos, null);
 
                         var entity = GameManager.Instance.World.GetEntity(persistentPlayerData.EntityId);

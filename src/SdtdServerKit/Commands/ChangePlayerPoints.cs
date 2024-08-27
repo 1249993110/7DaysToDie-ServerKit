@@ -1,20 +1,25 @@
 ﻿using SdtdServerKit.Data.IRepositories;
-using System.Runtime;
 
 namespace SdtdServerKit.Commands
 {
+    /// <summary>
+    /// Represents a command to change player points.
+    /// </summary>
     public class ChangePlayerPoints : ConsoleCmdBase
     {
+        /// <inheritdoc/>
         public override string getDescription()
         {
             return "Change player points.";
         }
 
+        /// <inheritdoc/>
         public override string getHelp()
         {
-            return "Usage: ty-cpp {EntityId/PlayerId/PlayerName} {count}";
+            return "Usage: ty-cpp {PlayerId/EntityId/PlayerName} {count}";
         }
 
+        /// <inheritdoc/>
         public override string[] getCommands()
         {
             return new string[]
@@ -24,6 +29,7 @@ namespace SdtdServerKit.Commands
             };
         }
 
+        /// <inheritdoc/>
         public override async void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
             if (args.Count < 2)
@@ -37,7 +43,7 @@ namespace SdtdServerKit.Commands
                 var cInfo = ConsoleHelper.ParseParamIdOrName(args[0]);
                 string? playerId = cInfo?.CrossplatformId.CombinedString ?? PlatformUserIdentifierAbs.FromCombinedString(args[0])?.CombinedString;
 
-                if (playerId == null) 
+                if (playerId == null)
                 {
                     Log("Unable to locate player '{0}' online or offline", args[0]);
                     return;

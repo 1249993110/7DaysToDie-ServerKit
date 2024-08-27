@@ -2,24 +2,31 @@
 
 namespace SdtdServerKit.Commands
 {
+    /// <summary>
+    /// Represents a command that removes a player's items.
+    /// </summary>
     public class RemovePlayerItems : ConsoleCmdBase
     {
+        /// <inheritdoc/>
         public override string getDescription()
         {
             return "Removes a player's items.";
         }
 
+        /// <inheritdoc/>
         public override string getHelp()
         {
-            return "Removes items with the specified name from a oplayer.\n" +
-                "Usage: ty-rpi <EntityId/PlayerId/PlayerName> <ItemName>\n";
+            return "Removes items with the specified name from a player.\n" +
+                "Usage: ty-rpi {EntityId/PlayerId/PlayerName} {ItemName}\n";
         }
 
+        /// <inheritdoc/>
         public override string[] getCommands()
         {
             return new string[] { "ty-RemovePlayerItems", "ty-rpi" };
         }
 
+        /// <inheritdoc/>
         public override void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
             try
@@ -74,7 +81,7 @@ namespace SdtdServerKit.Commands
                             bool removedFromBag = RemoveItemValue(playerDataFile.bag, itemName);
                             bool removedFromInventory = RemoveItemValue(playerDataFile.inventory, itemName);
 
-                            if(removedFromBag || removedFromInventory)
+                            if (removedFromBag || removedFromInventory)
                             {
                                 playerDataFile.Save(playerDataDir, userId.CombinedString);
 
