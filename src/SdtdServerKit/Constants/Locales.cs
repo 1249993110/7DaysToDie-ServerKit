@@ -1,4 +1,6 @@
-﻿namespace SdtdServerKit.Constants
+﻿using IceCoffee.Common.Extensions;
+
+namespace SdtdServerKit.Constants
 {
     /// <summary>
     /// Locales
@@ -8,17 +10,67 @@
         /// <summary>
         /// English
         /// </summary>
-        public const string EnUs = "en";
+        public const string EN = "en";
 
         /// <summary>
-        /// 简体中文
+        /// German
         /// </summary>
-        public const string ZhCn = "zh";
+        public const string DE = "de";
 
         /// <summary>
-        /// 繁體中文
+        /// Spanish
         /// </summary>
-        public const string ZhTw = "tw";
+        public const string ES = "es";
+
+        /// <summary>
+        /// French
+        /// </summary>
+        public const string FR = "fr";
+
+        /// <summary>
+        /// Italian
+        /// </summary>
+        public const string IT = "it";
+
+        /// <summary>
+        /// Japanese
+        /// </summary>
+        public const string JA = "ja";
+
+        /// <summary>
+        /// Korean
+        /// </summary>
+        public const string KO = "ko";
+
+        /// <summary>
+        /// Polish
+        /// </summary>
+        public const string PL = "pl";
+
+        /// <summary>
+        /// Portuguese
+        /// </summary>
+        public const string PT = "pt";
+
+        /// <summary>
+        /// Russian
+        /// </summary>
+        public const string RU = "ru";
+
+        /// <summary>
+        /// Turkish
+        /// </summary>
+        public const string TR = "tr";
+
+        /// <summary>
+        /// Simplified Chinese
+        /// </summary>
+        public const string ZH = "zh";
+
+        /// <summary>
+        /// Traditional Chinese
+        /// </summary>
+        public const string TW = "tw";
 
         /// <summary>
         /// Get locale by language
@@ -30,13 +82,33 @@
             switch (language)
             {
                 case Language.English:
-                    return EnUs;
+                    return EN;
+                case Language.German:
+                    return DE;
+                case Language.Spanish:
+                    return ES;
+                case Language.French:
+                    return FR;
+                case Language.Italian:
+                    return IT;
+                case Language.Japanese:
+                    return JA;
+                case Language.Koreana:
+                    return KO;
+                case Language.Polish:
+                    return PL;
+                case Language.Brazilian:
+                    return PT;
+                case Language.Russian:
+                    return RU;
+                case Language.Turkish:
+                    return TR;
                 case Language.Schinese:
-                    return ZhCn;
+                    return ZH;
                 case Language.Tchinese:
-                    return ZhTw;
+                    return TW;
                 default:
-                    return EnUs;
+                    return EN;
             }
         }
 
@@ -47,22 +119,12 @@
         /// <returns></returns>
         public static string Get(string language)
         {
-            if (string.Equals(language, Language.English.ToString(), StringComparison.OrdinalIgnoreCase))
+            if(Enum.TryParse<Language>(language, true, out var lang))
             {
-                return EnUs;
+                return Get(lang);
             }
 
-            if (string.Equals(language, Language.Schinese.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                return ZhCn;
-            }
-
-            if (string.Equals(language, Language.Tchinese.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                return ZhTw;
-            }
-
-            return EnUs;
+            return EN;
         }
     }
 }

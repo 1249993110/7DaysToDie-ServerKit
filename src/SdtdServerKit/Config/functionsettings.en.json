@@ -45,7 +45,7 @@
     "IsCurrencyExchangeEnabled": false,
     "CurrencyToPointsExchangeRate": 1.0,
     "CurrencyExchangeCmd": "dh",
-    "ExchangeSuccessTip": "[00FF00]Exchange successful! Game currency consumed: {CurrencyAmount}, you currently have points",
+    "ExchangeSuccessTip": "[00FF00]Exchange successful! Game currency consumed: {CurrencyAmount}, you currently have points: {PlayerTotalPoints}",
     "ExchangeFailureTip": "[FFFF00]Exchange failed! Please prepare Duke Casino coins or sign in before coming back"
   },
   "GameStoreSettings": {

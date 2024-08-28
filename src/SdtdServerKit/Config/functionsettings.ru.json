@@ -1,0 +1,120 @@
+{
+  "GlobalSettings": {
+    "ChatCommandPrefix": "",
+    "ChatCommandSeparator": "-",
+    "HandleChatMessageError": "[FF0000]Системная ошибка, пожалуйста, свяжитесь с администратором сервера.",
+    "TeleZombieCheck": true,
+    "TeleDisableTip": "[00FF00]Телепортация запрещена. Убедитесь, что окружающая среда безопасна.",
+    "KillZombieTrigger": {
+      "IsEnabled": false,
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Вы убили зомби и получили 1 очко\"", "ty-cpp {EntityId} 1" ]
+    },
+    "DeathTrigger": {
+      "IsEnabled": false,
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Вы умерли, потеряли 1 очко\"", "ty-cpp {EntityId} -1" ]
+    },
+    "AutoRestart": {
+      "IsEnabled": false,
+      "RestartHour": 4,
+      "RestartMinute": 0,
+      "Messages": [ "[00FF00]Сервер будет перезапущен через 3 секунды...", "[00FF00]Сервер будет перезапущен через 2 секунды...", "[00FF00]Сервер будет перезапущен через 1 секунду...", "[FF0000]Перезапуск..." ]
+    },
+    "BlockFamilySharingAccount": true,
+    "RemoveSleepingBagFromPOI": false,
+    "IsEnablePlayerInitialSpawnPoint": false,
+    "PlayerInitialPosition": null
+  },
+  "GameNoticeSettings": {
+    "IsEnabled": false,
+    "WelcomeNotice": "Добро пожаловать, выживший.",
+    "RotatingNotices": [],
+    "RotatingInterval": 300,
+    "BloodMoonNotice1": "Следующее кровавое полнолуние через {BloodMoonDays} дней.",
+    "BloodMoonNotice2": "Следующее кровавое полнолуние сегодня. Оно начнется в {BloodMoonStartTime}",
+    "BloodMoonNotice3": "Кровавое полнолуние наступило, держитесь до {BloodMoonEndTime}"
+  },
+  "PointsSystemSettings": {
+    "IsEnabled": false,
+    "SignInCmd": "si",
+    "SignInInterval": 3600,
+    "SignInRewardPoints": 10,
+    "SignInSuccessTip": "[00FF00]Успешный вход! Очки награды: {SignInRewardPoints}, У вас сейчас: {PlayerTotalPoints} очков",
+    "SignInFailureTip": "[FFFF00]Не удалось войти! Пожалуйста, попробуйте позже.",
+    "QueryPointsCmd": "очки",
+    "QueryPointsTip": "[00FF00]У вас сейчас: {PlayerTotalPoints} очков",
+    "IsCurrencyExchangeEnabled": false,
+    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyExchangeCmd": "обмен",
+    "ExchangeSuccessTip": "[00FF00]Обмен успешно завершен! Израсходовано валюты: {CurrencyAmount}, у вас сейчас: {PlayerTotalPoints} очков",
+    "ExchangeFailureTip": "[FFFF00]Не удалось выполнить обмен! Пожалуйста, подготовьте монеты казино Duke или войдите в систему, прежде чем повторить попытку"
+  },
+  "GameStoreSettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "купить",
+    "BuyCmdPrefix": "купить",
+    "GoodsItemTip": "[FFFFFF]Введите: [00FF00]купить-{GoodsId} [FFFFFF]чтобы купить [00FF00]{GoodsName}[FFFFFF], [00FF00]Цена: [FF00FF]{Price}",
+    "BuySuccessTip": "[00FF00]Покупка успешно завершена!",
+    "PointsNotEnoughTip": "[00FF00]Недостаточно очков, требуется: {Price}",
+    "NoGoods": "[00FF00]Нет товаров."
+  },
+  "TeleportCitySettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "город",
+    "TeleCmdPrefix": "город",
+    "TeleInterval": 60,
+    "LocationItemTip": "[FFFFFF]Введите: [00FF00]город-{CityId} [FFFFFF]чтобы телепортироваться в [00FF00]{CityName}[FFFFFF], Требуемое количество очков: [FF00FF]{PointsRequired}",
+    "TeleSuccessTip": "[00FF00]Игрок: {PlayerName}, телепортирован в: {CityName}",
+    "PointsNotEnoughTip": "[00FF00]Недостаточно очков, требуется: {PointsRequired}",
+    "CoolingTip": "[00FF00]Телепорт на перезарядке... Оставшееся время: {CooldownSeconds} секунд.",
+    "NoLocation": "[00FF00]Нет доступных локаций города."
+  },
+  "TeleportFriendSettings": {
+    "IsEnabled": false,
+    "TeleCmdPrefix": "телепорт",
+    "TeleInterval": 60,
+    "PointsRequired": 2,
+    "TeleSuccessTip": "[00FF00] Игрок: {PlayerName}, Телепортирован к: {TargetName}",
+    "PointsNotEnoughTip": "[00FF00]Недостаточно очков, требуется: {PointsRequired}",
+    "CoolingTip": "[00FF00]Телепорт на перезарядке... Оставшееся время: {CooldownSeconds} секунд.",
+    "TargetNotFoundTip": "[FF00FF]Цель для телепортации не найдена, введите: [00FF00]/телепорт имя друга [FFFFFF]чтобы телепортироваться.",
+    "TargetNotFriendTip": "[00FF00]Цель не является вашим другом."
+  },
+  "TeleportHomeSettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "дом",
+    "TeleInterval": 60,
+    "SetHomeCmdPrefix": "установитьДом",
+    "SetCountLimit": 3,
+    "PointsRequiredForSet": 2,
+    "DeleteHomeCmdPrefix": "удалитьДом",
+    "TeleHomeCmdPrefix": "дом",
+    "PointsRequiredForTele": 2,
+    "NoHomeTip": "[00FF00]Вы еще не установили дом, используйте /установитьДом, чтобы установить его.",
+    "LocationItemTip": "[FFFFFF]Введите: [00FF00]дом-{HomeName} [FFFFFF]чтобы переместиться в [FF0000]{HomeName}[00FF00]",
+    "OverLimitTip": "[00FF00]Превышено максимальное количество установленных домов. Вы можете установить до 3 домов.",
+    "SetPointsNotEnoughTip": "[00FF00]Недостаточно очков, требуется: 2",
+    "SetSuccessTip": "[00FF00]Успешно установлено.",
+    "OverwriteSuccessTip": "[00FF00]Координаты успешно перезаписаны.",
+    "DeleteSuccessTip": "[00FF00]Успешно удалено.",
+    "HomeNotFoundTip": "[00FF00]Указанный дом не найден.",
+    "CoolingTip": "[00FF00]Телепорт на перезарядке... Оставшееся время: {CooldownSeconds} секунд.",
+    "TelePointsNotEnoughTip": "[00FF00]Недостаточно очков! Требуется: 2",
+    "TeleSuccessTip": "[00FF00]Игрок: {PlayerName} телепортирован в свой дом: {HomeName}"
+  },
+  "AutoBackupSettings": {
+    "IsEnabled": false,
+    "Interval": 7200,
+    "RetainedFileCountLimit": 12,
+    "ResetIntervalAfterManualBackup": true,
+    "SkipIfThereAreNoPlayers": true,
+    "AutoBackupOnServerStartup": true,
+    "ArchiveFolder": "LSTY_Data/Backup"
+  },
+  "VipGiftSettings": {
+    "IsEnabled": false,
+    "ClaimCmd": "VIP",
+    "HasClaimedTip": "[00FF00]Вы уже получили подарочный пакет~",
+    "NonVipTip": "[00FF00]Вы еще не VIP~",
+    "ClaimSuccessTip": "[00FF00]Поздравляем, вы успешно получили подарочный пакет: {GiftName}"
+  }
+}

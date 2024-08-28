@@ -1,0 +1,120 @@
+{
+  "GlobalSettings": {
+    "ChatCommandPrefix": "",
+    "ChatCommandSeparator": "-",
+    "HandleChatMessageError": "[FF0000]Sistem hatası, lütfen sunucu yöneticisiyle iletişime geçin.",
+    "TeleZombieCheck": true,
+    "TeleDisableTip": "[00FF00]Teleportasyon devre dışı. Çevrenin güvenli olduğundan emin olun.",
+    "KillZombieTrigger": {
+      "IsEnabled": false,
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Bir zombiyi öldürdünüz ve 1 puan kazandınız\"", "ty-cpp {EntityId} 1" ]
+    },
+    "DeathTrigger": {
+      "IsEnabled": false,
+      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Öldünüz, 1 puan kaybettiniz\"", "ty-cpp {EntityId} -1" ]
+    },
+    "AutoRestart": {
+      "IsEnabled": false,
+      "RestartHour": 4,
+      "RestartMinute": 0,
+      "Messages": [ "[00FF00]Sunucu 3 saniye içinde yeniden başlatılacak...", "[00FF00]Sunucu 2 saniye içinde yeniden başlatılacak...", "[00FF00]Sunucu 1 saniye içinde yeniden başlatılacak...", "[FF0000]Yeniden başlatılıyor..." ]
+    },
+    "BlockFamilySharingAccount": true,
+    "RemoveSleepingBagFromPOI": false,
+    "IsEnablePlayerInitialSpawnPoint": false,
+    "PlayerInitialPosition": null
+  },
+  "GameNoticeSettings": {
+    "IsEnabled": false,
+    "WelcomeNotice": "Hoş geldin, hayatta kalan.",
+    "RotatingNotices": [],
+    "RotatingInterval": 300,
+    "BloodMoonNotice1": "Bir sonraki kanlı ay, {BloodMoonDays} gün içinde.",
+    "BloodMoonNotice2": "Bir sonraki kanlı ay bugün. {BloodMoonStartTime} saatinde başlayacak.",
+    "BloodMoonNotice3": "Kanlı ay geldi, {BloodMoonEndTime} saatine kadar dayan."
+  },
+  "PointsSystemSettings": {
+    "IsEnabled": false,
+    "SignInCmd": "giris",
+    "SignInInterval": 3600,
+    "SignInRewardPoints": 10,
+    "SignInSuccessTip": "[00FF00]Başarılı giriş! Ödül puanları: {SignInRewardPoints}, Şu anki puanınız: {PlayerTotalPoints}",
+    "SignInFailureTip": "[FFFF00]Giriş başarısız! Lütfen daha sonra tekrar deneyin.",
+    "QueryPointsCmd": "puan",
+    "QueryPointsTip": "[00FF00]Şu anki puanınız: {PlayerTotalPoints}",
+    "IsCurrencyExchangeEnabled": false,
+    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyExchangeCmd": "degistir",
+    "ExchangeSuccessTip": "[00FF00]Dönüştürme başarılı! Harcanan para: {CurrencyAmount}, Şu anki puanınız: {PlayerTotalPoints}",
+    "ExchangeFailureTip": "[FFFF00]Dönüştürme başarısız! Lütfen Duke'nun kumarhane jetonlarını hazırlayın veya giriş yapıp tekrar deneyin."
+  },
+  "GameStoreSettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "satinal",
+    "BuyCmdPrefix": "satinal",
+    "GoodsItemTip": "[FFFFFF]Girin: [00FF00]satinal-{GoodsId} [FFFFFF]satın almak için [00FF00]{GoodsName}[FFFFFF], [00FF00]Fiyat: [FF00FF]{Price}",
+    "BuySuccessTip": "[00FF00]Satın alma başarılı!",
+    "PointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: {Price}",
+    "NoGoods": "[00FF00]Mevcut ürün yok."
+  },
+  "TeleportCitySettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "sehir",
+    "TeleCmdPrefix": "sehir",
+    "TeleInterval": 60,
+    "LocationItemTip": "[FFFFFF]Girin: [00FF00]sehir-{CityId} [FFFFFF]teleport olmak için [00FF00]{CityName}[FFFFFF], Gerekli puan: [FF00FF]{PointsRequired}",
+    "TeleSuccessTip": "[00FF00]Oyuncu: {PlayerName}, şu şehre teleport oldu: {CityName}",
+    "PointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: {PointsRequired}",
+    "CoolingTip": "[00FF00]Teleport beklemede... Kalan süre: {CooldownSeconds} saniye.",
+    "NoLocation": "[00FF00]Mevcut şehir konumu yok."
+  },
+  "TeleportFriendSettings": {
+    "IsEnabled": false,
+    "TeleCmdPrefix": "teleport",
+    "TeleInterval": 60,
+    "PointsRequired": 2,
+    "TeleSuccessTip": "[00FF00] Oyuncu: {PlayerName}, şu kişiye teleport oldu: {TargetName}",
+    "PointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: {PointsRequired}",
+    "CoolingTip": "[00FF00]Teleport beklemede... Kalan süre: {CooldownSeconds} saniye.",
+    "TargetNotFoundTip": "[FF00FF]Teleport hedefi bulunamadı, girin: [00FF00]/teleport arkadaş ismi [FFFFFF]teleport olmak için.",
+    "TargetNotFriendTip": "[00FF00]Hedef kişi arkadaşınız değil."
+  },
+  "TeleportHomeSettings": {
+    "IsEnabled": false,
+    "QueryListCmd": "ev",
+    "TeleInterval": 60,
+    "SetHomeCmdPrefix": "evAyarla",
+    "SetCountLimit": 3,
+    "PointsRequiredForSet": 2,
+    "DeleteHomeCmdPrefix": "evSil",
+    "TeleHomeCmdPrefix": "ev",
+    "PointsRequiredForTele": 2,
+    "NoHomeTip": "[00FF00]Henüz bir ev ayarlamadınız, ayarlamak için /evAyarla komutunu kullanın.",
+    "LocationItemTip": "[FFFFFF]Girin: [00FF00]ev-{HomeName} [FFFFFF]şu konuma gitmek için [FF0000]{HomeName}[00FF00]",
+    "OverLimitTip": "[00FF00]Maksimum ev sayısını aştınız. En fazla 3 ev ayarlayabilirsiniz.",
+    "SetPointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: 2",
+    "SetSuccessTip": "[00FF00]Başarıyla ayarlandı.",
+    "OverwriteSuccessTip": "[00FF00]Koordinatlar başarıyla üzerine yazıldı.",
+    "DeleteSuccessTip": "[00FF00]Başarıyla silindi.",
+    "HomeNotFoundTip": "[00FF00]Belirtilen ev bulunamadı.",
+    "CoolingTip": "[00FF00]Teleport beklemede... Kalan süre: {CooldownSeconds} saniye.",
+    "TelePointsNotEnoughTip": "[00FF00]Yeterli puan yok! Gereken: 2",
+    "TeleSuccessTip": "[00FF00]Oyuncu: {PlayerName} şu evine teleport oldu: {HomeName}"
+  },
+  "AutoBackupSettings": {
+    "IsEnabled": false,
+    "Interval": 7200,
+    "RetainedFileCountLimit": 12,
+    "ResetIntervalAfterManualBackup": true,
+    "SkipIfThereAreNoPlayers": true,
+    "AutoBackupOnServerStartup": true,
+    "ArchiveFolder": "LSTY_Data/Backup"
+  },
+  "VipGiftSettings": {
+    "IsEnabled": false,
+    "ClaimCmd": "VIP",
+    "HasClaimedTip": "[00FF00]Hediye paketinizi zaten aldınız~",
+    "NonVipTip": "[00FF00]Henüz VIP değilsiniz~",
+    "ClaimSuccessTip": "[00FF00]Tebrikler, hediye paketini başarıyla aldınız: {GiftName}"
+  }
+}
