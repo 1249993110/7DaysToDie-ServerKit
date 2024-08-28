@@ -29,7 +29,7 @@
   },
   "ServerPort": {
     "Group": "Red",
-    "Desc": "El puerto en el que el programa del servidor está escuchando. Si deseas que las computadoras en la misma LAN lo vean como un servidor LAN, mantenlo en el rango de 26900 a 26905 o de 27015 a 27020"
+    "Desc": "El puerto en el que el programa del servidor está escuchando. Si deseas que los ordenadores en la misma LAN lo vean como un servidor LAN, mantenlo en el rango de 26900 a 26905 o de 27015 a 27020"
   },
   "ServerVisibility": {
     "Group": "Red",
@@ -41,7 +41,7 @@
   },
   "ServerMaxWorldTransferSpeedKiBs": {
     "Group": "Red",
-    "Desc": "Velocidad máxima de transferencia del mundo del servidor. Velocidad máxima (en kiB/s) para transferencias del mundo en la primera conexión si el cliente aún no tiene un mundo. El valor máximo es de aproximadamente 1300 kiB/s, incluso si lo configuras más alto"
+    "Desc": "Velocidad máxima de transferencia/descarga del mundo del servidor. Velocidad máxima (en kiB/s) para transferencias/descarga del mundo en la primera conexión si el cliente aún no tiene un mundo descargado. El valor máximo es de aproximadamente 1300 kiB/s, incluso si lo configuras más alto"
   },
   "ServerMaxPlayerCount": {
     "Group": "Espacios",
@@ -49,7 +49,7 @@
   },
   "ServerReservedSlots": {
     "Group": "Espacios",
-    "Desc": "Espacios reservados del servidor. Más allá del número máximo de jugadores, muchos espacios solo pueden ser utilizados por jugadores con un cierto nivel de permiso."
+    "Desc": "Espacios reservados del servidor. Más allá del número máximo de jugadores, muchos espacios solo pueden ser utilizados por jugadores con un cierto nivel de permiso, como por ejemplo administradores o vips."
   },
   "ServerReservedSlotsPermission": {
     "Group": "Espacios",
@@ -169,15 +169,15 @@
   },
   "BlockDamagePlayer": {
     "Group": "Dificultad del Juego",
-    "Desc": "Daño a Bloques por Jugador. Daño infligido a los bloques por el jugador (porcentaje, expresado como un número entero)"
+    "Desc": "Daño a Bloques por el Jugador. Daño infligido a los bloques por el jugador (porcentaje, expresado como un número entero)"
   },
   "BlockDamageAI": {
     "Group": "Dificultad del Juego",
-    "Desc": "Daño a Bloques por IA. Daño infligido a los bloques por la IA (porcentaje, expresado como un número entero)"
+    "Desc": "Daño a Bloques por la IA. Daño infligido a los bloques por la IA (porcentaje, expresado como un número entero)"
   },
   "BlockDamageAIBM": {
     "Group": "Dificultad del Juego",
-    "Desc": "Daño a Bloques por IA durante la Luna de Sangre. Daño causado a los bloques por la IA durante la Luna de Sangre (porcentaje, expresado como un número entero)"
+    "Desc": "Daño a Bloques por la IA durante la Luna de Sangre. Daño causado a los bloques por la IA durante la Luna de Sangre (porcentaje, expresado como un número entero)"
   },
   "XPMultiplier": {
     "Group": "Dificultad del Juego",
@@ -193,7 +193,7 @@
   },
   "BuildCreate": {
     "Group": "Dificultad del Juego",
-    "Desc": "Modo Creativo. Activa o desactiva el modo de trampas"
+    "Desc": "Modo Creativo. Activa o desactiva el modo creativo"
   },
   "DayNightLength": {
     "Group": "Dificultad del Juego",
@@ -217,7 +217,7 @@
   },
   "BedrollDeadZoneSize": {
     "Group": "Dificultad del Juego",
-    "Desc": "El tamaño de la Zona Muerta del Saco de Dormir (es decir, un radio de caja con cada lado el doble de la longitud del valor dado) donde los zombies no aparecerán. Cualquier zona de durmientes despejada que toque la Zona Muerta del Saco de Dormir no volverá a aparecer después de ser despejada"
+    "Desc": "El tamaño de la Zona Muerta del Saco de Dormir (es decir, un radio cuadrado con cada lado el doble de la longitud del valor dado) donde los zombies no aparecerán. Cualquier zona de durmientes despejada que toque la Zona Muerta del Saco de Dormir no volverá a aparecer después de ser despejada"
   },
   "BedrollExpiryTime": {
     "Group": "Dificultad del Juego",
@@ -305,19 +305,19 @@
   },
   "PlayerKillingMode": {
     "Group": "Multijugador",
-    "Desc": "Configuración de asesinato de jugadores (0 = sin asesinatos, 1 = solo dañar aliados, 2 = solo dañar extraños, 3 = dañar a todos)"
+    "Desc": "Configuración de daño a jugadores (0 = sin asesinatos, 1 = solo dañar aliados, 2 = solo dañar extraños, 3 = dañar a todos)"
   },
   "LandClaimCount": {
     "Group": "Opciones de Tamaño de Reclamo de Tierra",
-    "Desc": "Número de Reclamos de Tierra. El número máximo de Tamaños de Reclamo de Tierra permitidos por jugador"
+    "Desc": "Número de Reclamos de Tierra. El número máximo de Reclamos de Tierra permitidos por jugador"
   },
   "LandClaimSize": {
     "Group": "Opciones de Tamaño de Reclamo de Tierra",
-    "Desc": "Rango de protección del Tamaño de Reclamo de Tierra. La unidad es bloque"
+    "Desc": "Rango de protección del Reclamo de Tierra. Una unidad es un bloque"
   },
   "LandClaimDeadZone": {
     "Group": "Opciones de Tamaño de Reclamo de Tierra",
-    "Desc": "Rango de protección del Tamaño de Reclamo de Tierra. La distancia entre los Tamaños de Reclamo de Tierra. Los Tamaños de Reclamo de Tierra deben ser mayores que esta distancia para ser establecidos (a menos que seas amigo de la otra parte)"
+    "Desc": "Rango de protección del Reclamo de Tierra. La distancia entre los Reclamos de Tierra. La distancia a la que deben estar los bloques de reclamo entre jugadores. (a menos que seas amigo de la otra parte)"
   },
   "LandClaimExpiryTime": {
     "Group": "Opciones de Tamaño de Reclamo de Tierra",
@@ -325,19 +325,19 @@
   },
   "LandClaimDecayMode": {
     "Group": "Opciones de Tamaño de Reclamo de Tierra",
-    "Desc": "Modo de descomposición de la protección del Tamaño de Reclamo de Tierra. Controla el modo de descomposición del rango de tierra del jugador desconectado. 0 = Lento (Lineal), 1 = Rápido (Exponencial), 2 = Ninguno (Protección total hasta la expiración)"
+    "Desc": "Modo de descomposición de la protección del Reclamo de Tierra. Controla el modo de descomposición del Reclamo de tierra del jugador cuando está desconectado. 0 = Lento (Lineal), 1 = Rápido (Exponencial), 2 = Ninguno (Protección total hasta la expiración de los días establecidos)"
   },
   "LandClaimOnlineDurabilityModifier": {
     "Group": "Opciones de Piedra de Reclamo de Tierra",
-    "Desc": "El multiplicador de protección de la Piedra de Reclamo de Tierra cuando el jugador está en línea. Indica el multiplicador de dureza de la Piedra de Reclamo de Tierra cuando el jugador está en línea, 0 significa invencibilidad, predeterminado 4 veces"
+    "Desc": "El multiplicador de protección del Bloque de Reclamo de Tierra cuando el jugador está en línea. Indica el multiplicador de dureza del Bloque de Reclamo de Tierra cuando el jugador está en línea, 0 significa invencibilidad, predeterminado 4 veces"
   },
   "LandClaimOfflineDurabilityModifier": {
     "Group": "Opciones de Piedra de Reclamo de Tierra",
-    "Desc": "El multiplicador de protección de la Piedra de Reclamo de Tierra cuando el jugador está desconectado. Indica el multiplicador de dureza de la Piedra de Reclamo de Tierra cuando el jugador está desconectado, 0 significa invencibilidad, predeterminado 4 veces"
+    "Desc": "El multiplicador de protección del Bloque de Reclamo de Tierra cuando el jugador está desconectado. Indica el multiplicador de dureza del Bloque de Reclamo de Tierra cuando el jugador está desconectado, 0 significa invencibilidad, predeterminado 4 veces"
   },
   "LandClaimOfflineDelay": {
     "Group": "Opciones de Piedra de Reclamo de Tierra",
-    "Desc": "El número de minutos después de que el jugador sale del juego para que la dureza de la Piedra de Reclamo de Tierra cambie de en línea a desconectado. El valor predeterminado es 0"
+    "Desc": "El número de minutos después de que el jugador sale del juego, para que el Bloque de Reclamo de Tierra cambie de en línea a desconectado. El valor predeterminado es 0"
   },
   "DynamicMeshEnabled": {
     "Group": "Otros",
@@ -345,7 +345,7 @@
   },
   "DynamicMeshLandClaimOnly": {
     "Group": "Otros",
-    "Desc": "Si el sistema de malla dinámica solo es válido en el área de LCB del jugador"
+    "Desc": "Si el sistema de malla dinámica solo es válido en el área de Bloque de Reclamo de Tierra (LCB) del jugador"
   },
   "DynamicMeshLandClaimBuffer": {
     "Group": "Otros",
