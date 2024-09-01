@@ -179,7 +179,7 @@ namespace SdtdServerKit.Hooks
 
                     var propertyEl = xmlDocument.CreateElement("property");
                     propertyEl.SetAttribute("name", "items_location");
-                    propertyEl.SetAttribute("value", "Toolbelt,Backpack");//,Equipment
+                    propertyEl.SetAttribute("value", "Toolbelt,Backpack");// Equipment, Held
                     actionEl.AppendChild(propertyEl);
 
                     propertyEl = xmlDocument.CreateElement("property");

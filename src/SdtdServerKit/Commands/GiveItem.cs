@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static InvGameItem;
 
 namespace SdtdServerKit.Commands
 {
@@ -93,62 +94,40 @@ namespace SdtdServerKit.Commands
                         }
                     }
 
-                    ItemValue itemValue = new ItemValue(ItemClass.GetItem(arg1).type);
-                    if (itemValue != null)
+                    var itemValue = new ItemValue(ItemClass.GetItem(arg1).type);
+                    if (itemValue.HasQuality)
                     {
-                        if (itemValue.HasQuality)
+                        itemValue.Quality = 1;
+                        if (args.Count > 3 && ushort.TryParse(args[3], out var itemQuality))
                         {
-                            itemValue.Quality = 1;
-                            if (args.Count > 3 && ushort.TryParse(args[3], out var itemQuality))
+                            if (itemQuality > 0)
                             {
-                                if (itemQuality > 0)
-                                {
-                                    itemValue.Quality = itemQuality;
-                                }
+                                itemValue.Quality = itemQuality;
                             }
                         }
-                        if (args.Count > 4 && float.TryParse(args[4], out float durability))
-                        {
-                            if (durability > 0 && durability < 101)
-                            {
-                                float newDurability = itemValue.MaxUseTimes - (durability / 100 * itemValue.MaxUseTimes);
-                                itemValue.UseTimes = newDurability;
-                            }
-                        }
+                    }
 
-                        if (arg0.ToLower() == "all")
-                        {
-                            foreach (var cInfo in ConnectionManager.Instance.Clients.List)
-                            {
-                                if (playersDict.TryGetValue(cInfo.entityId, out EntityPlayer player)
-                                    && player.IsSpawned() && !player.IsDead())
-                                {
-                                    var entityItem = (EntityItem)EntityFactory.CreateEntity(new EntityCreationData()
-                                    {
-                                        entityClass = EntityClass.FromString("item"),
-                                        id = EntityFactory.nextEntityID++,
-                                        itemStack = new ItemStack(itemValue, itemCount),
-                                        pos = player.position,
-                                        rot = new Vector3(20f, 0f, 20f),
-                                        lifetime = 60f,
-                                        belongsPlayerId = cInfo.entityId
-                                    });
+                    var itemClass = itemValue.ItemClass;
+                    if (itemClass != null && itemClass is not ItemClassModifier && itemClass.Stacknumber.Value <= 1)
+                    {
+                        itemValue.Modifications = new ItemValue[Math.Min(255, (int)EffectManager.GetValue(PassiveEffects.ModSlots, itemValue, global::Utils.FastMax(0, itemValue.Quality - 1)))];
+                        itemValue.CosmeticMods = new ItemValue[itemClass.HasAnyTags(ItemClassModifier.CosmeticItemTags) ? 1 : 0];
+                    }
 
-                                    world.SpawnEntityInWorld(entityItem);
-                                    cInfo.SendPackage(NetPackageManager.GetPackage<NetPackageEntityCollect>().Setup(entityItem.entityId, cInfo.entityId));
-                                    world.RemoveEntity(entityItem.entityId, EnumRemoveEntityReason.Despawned);
-                                    Log(string.Format("Gave {0} to {1}", itemValue.ItemClass.GetLocalizedItemName() ?? itemValue.ItemClass.Name, cInfo.playerName));
-                                }
-                                else
-                                {
-                                    Log(string.Format("Player with pltfmId Id {0} has not spawned. Unable to give item", cInfo.PlatformId.CombinedString));
-                                }
-                            }
-                        }
-                        else
+                    if (args.Count > 4 && float.TryParse(args[4], out float durability))
+                    {
+                        if (durability > 0 && durability < 101)
                         {
-                            ClientInfo cInfo = ConsoleHelper.ParseParamIdOrName(arg0);
-                            if (cInfo != null && playersDict.TryGetValue(cInfo.entityId, out EntityPlayer player)
+                            float newDurability = itemValue.MaxUseTimes - (durability / 100 * itemValue.MaxUseTimes);
+                            itemValue.UseTimes = newDurability;
+                        }
+                    }
+
+                    if (arg0.ToLower() == "all")
+                    {
+                        foreach (var cInfo in ConnectionManager.Instance.Clients.List)
+                        {
+                            if (playersDict.TryGetValue(cInfo.entityId, out EntityPlayer player)
                                 && player.IsSpawned() && !player.IsDead())
                             {
                                 var entityItem = (EntityItem)EntityFactory.CreateEntity(new EntityCreationData()
@@ -157,27 +136,49 @@ namespace SdtdServerKit.Commands
                                     id = EntityFactory.nextEntityID++,
                                     itemStack = new ItemStack(itemValue, itemCount),
                                     pos = player.position,
-                                    rot = new Vector3(20F, 0F, 20F),
-                                    lifetime = 60F,
+                                    rot = new Vector3(20f, 0f, 20f),
+                                    lifetime = 60f,
                                     belongsPlayerId = cInfo.entityId
                                 });
 
                                 world.SpawnEntityInWorld(entityItem);
                                 cInfo.SendPackage(NetPackageManager.GetPackage<NetPackageEntityCollect>().Setup(entityItem.entityId, cInfo.entityId));
                                 world.RemoveEntity(entityItem.entityId, EnumRemoveEntityReason.Despawned);
-
-                                Log(string.Format("Gave {0} to {1}", itemValue.ItemClass.GetLocalizedItemName() ?? itemValue.ItemClass.Name, cInfo.PlatformId.CombinedString));
+                                Log(string.Format("Gave {0} to {1}", itemValue.ItemClass.GetLocalizedItemName() ?? itemValue.ItemClass.Name, cInfo.playerName));
                             }
                             else
                             {
-                                Log(string.Format("Player with id {0} is not logged on or loaded in yet", arg0));
+                                Log(string.Format("Player with pltfmId Id {0} has not spawned. Unable to give item", cInfo.PlatformId.CombinedString));
                             }
                         }
                     }
                     else
                     {
-                        Log(string.Format("Unable to find item {0}", arg1));
-                        return;
+                        ClientInfo cInfo = ConsoleHelper.ParseParamIdOrName(arg0);
+                        if (cInfo != null && playersDict.TryGetValue(cInfo.entityId, out EntityPlayer player)
+                            && player.IsSpawned() && !player.IsDead())
+                        {
+                            var entityItem = (EntityItem)EntityFactory.CreateEntity(new EntityCreationData()
+                            {
+                                entityClass = EntityClass.FromString("item"),
+                                id = EntityFactory.nextEntityID++,
+                                itemStack = new ItemStack(itemValue, itemCount),
+                                pos = player.position,
+                                rot = new Vector3(20F, 0F, 20F),
+                                lifetime = 60F,
+                                belongsPlayerId = cInfo.entityId
+                            });
+
+                            world.SpawnEntityInWorld(entityItem);
+                            cInfo.SendPackage(NetPackageManager.GetPackage<NetPackageEntityCollect>().Setup(entityItem.entityId, cInfo.entityId));
+                            world.RemoveEntity(entityItem.entityId, EnumRemoveEntityReason.Despawned);
+
+                            Log(string.Format("Gave {0} to {1}", itemValue.ItemClass.GetLocalizedItemName() ?? itemValue.ItemClass.Name, cInfo.PlatformId.CombinedString));
+                        }
+                        else
+                        {
+                            Log(string.Format("Player with id {0} is not logged on or loaded in yet", arg0));
+                        }
                     }
                 }
             }
