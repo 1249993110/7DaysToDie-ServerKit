@@ -58,7 +58,7 @@ You can use the 'help' command to view all available commands.
 | ---						| ---																						|
 | ty-GiveItem				| Gives a item directly to a player's inventory. Drops to the ground if inventory is full.	|
 | ty-GlobalMessage			| Sends a message to all connected clients.													|
-| ty-SayToPlayer				| Send a message to a single player.														|
+| ty-SayToPlayer			| Sends a message to a single player.														|
 | ty-RemovePlayerItems		| Removes a player's items from the player's inventory.										|
 | ty-RemovePlayerLandClaims	| Removes a player's land claims.															|
 | ty-ResetPlayerProfile		| Reset a player's profile.																	|

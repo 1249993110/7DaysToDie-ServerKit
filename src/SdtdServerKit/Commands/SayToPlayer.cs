@@ -11,7 +11,7 @@
         /// <returns>The description of the command.</returns>
         public override string getDescription()
         {
-            return "Send a message to a single player.";
+            return "Sends a message to a single player.";
         }
 
         /// <summary>
@@ -22,7 +22,7 @@
         {
             return "Usage:\n" +
                    "  1. ty-pm <EntityId/PlayerId/PlayerName> <Message>\n" +
-                   "1. Send a PM to the player given by the entity id or player id or player name (as given by e.g. \"lpi\").";
+                   "1. Sends a PM to the player given by the entity id or player id or player name (as given by e.g. \"lpi\").";
         }
 
         /// <summary>
