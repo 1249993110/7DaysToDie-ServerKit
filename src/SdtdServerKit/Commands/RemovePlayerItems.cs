@@ -10,7 +10,7 @@ namespace SdtdServerKit.Commands
         /// <inheritdoc/>
         public override string getDescription()
         {
-            return "Removes a player's items.";
+            return "Removes a player's items from the player's inventory.";
         }
 
         /// <inheritdoc/>
