@@ -67,6 +67,9 @@ You can use the 'help' command to view all available commands.
 ## API Documentation
 https://docs.7dtd.top
 
+## Changelog
+Detailed changes for each release are documented in the [release notes](./CHANGELOG.md)
+
 ## Links
 [Official] [Official TFP 7 Days To Die Forum](https://community.7daystodie.com/topic/37613-tianyiserverkit-a-server-panel-management-tool-for-v10)  
 [Official] [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5924)  
