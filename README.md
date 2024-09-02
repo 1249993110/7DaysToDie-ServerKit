@@ -67,7 +67,7 @@ You can use the 'help' command to view all available commands.
 ## API Documentation
 https://docs.7dtd.top
 
-# Links
+## Links
 [Official] [Official TFP 7 Days To Die Forum](https://community.7daystodie.com/topic/37613-tianyiserverkit-a-server-panel-management-tool-for-v10)  
 [Official] [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5924)  
 [Unofficial] [7daystodiemods.com](https://7daystodiemods.com/dedicated-server-api-integration-visual-management-kit)
@@ -78,9 +78,9 @@ Welcome join [our Discord server](<https://discord.gg/zdnmngsBK4>) and we can he
 ## Contributing
 We welcome and appreciate contributions. Feel free to find your own way and put up a pull request.
 
-# Donate
+## Donate
 [!["Buy Me a Coffee at ko-fi.com"](https://storage.ko-fi.com/cdn/kofi1.png?v=3)](https://ko-fi.com/L3L012RJ8R)
 
-# Screenshots
+## Screenshots
 ![天依10 1](https://github.com/user-attachments/assets/3f2defea-4344-43f9-a18b-5428c384060c)
 
