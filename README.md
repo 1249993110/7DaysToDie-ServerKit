@@ -85,5 +85,55 @@ We welcome and appreciate contributions. Feel free to find your own way and put 
 [!["Buy Me a Coffee at ko-fi.com"](https://storage.ko-fi.com/cdn/kofi1.png?v=3)](https://ko-fi.com/L3L012RJ8R)
 
 ## Screenshots
-![天依10 1](https://github.com/user-attachments/assets/3f2defea-4344-43f9-a18b-5428c384060c)
+![image](https://github.com/user-attachments/assets/581cd03d-e271-4011-b547-b82ad16f64a3)
+<table>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/fa9e18a5-65d1-46a1-bd3f-3d136bf4411c">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/748b33cb-bfbc-4585-848f-0ac07a192121">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/84661343-8a20-414b-90be-a27705555259">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/92c87d6d-8406-415b-9d13-a07a18ddb087">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/c068c9bf-0ebb-4b3d-a3c9-e01c957cfca4">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/dfdb1dfb-f801-463b-a8d1-dc64ab88736e">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/52a5d65a-0c9e-4812-baad-f6fd0c84ef95">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/4d8317ab-388b-4191-9d31-df778d93f7a6">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/193760ae-9b66-4c81-82e9-a31860130f4d">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/5b3d551b-8d77-4c0d-bd93-83b74316fff6">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/3c5e6605-3c16-45ed-a0ee-a5327e7a3056">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/0fb8610f-8a6e-4005-b2ed-5043aa066b99">
+    </td>
+  </tr>
+</table>
 
