@@ -1,4 +1,6 @@
 # 7DaysToDie-ServerKit
+[English](./README.md) | 简体中文
+
 开源的 7 Days to Die 专用服务器的MOD。提供 RESTful API 和强大的网页管理面板，帮助各服主和管理员管理七日杀专用服务器。同时支持 Linux 和 Windows。
 
 使用教程：https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
