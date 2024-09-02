@@ -5,10 +5,10 @@ English | [简体中文](./README.zh.md)
 
 A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows. (Ubuntu 22.04 and Windows Server 2016+ test passed)
 
-## Compatibility
+## 🌐 Compatibility
 Dedicated Server only. Required game version: V1.0
 
-## Features
+## 🎉 Features
 - Support online rendering of any map
 - Support viewing and modifying serverconfig.xml
 - You can switch the server on and off and automatically restart the server through the web panel
@@ -22,7 +22,7 @@ Dedicated Server only. Required game version: V1.0
 - Support server item distribution and real-time removal of player items
 - There are more features for you to explore.
 
-# Getting started
+# 📌 Getting started
 
 ## **Video Tutorial**
 https://youtu.be/8VklfFHeJJ8?t=982
@@ -47,11 +47,11 @@ https://youtu.be/8VklfFHeJJ8?t=982
 - Default username: admin
 - Default password: 123456
 
-## Configuration
+## 🚀 Configuration
 - To configure your login username and password, edit the `appsettings.json` file located in `7 Days to Die Dedicated Server\LSTY_Data`.
 - Restart the server to make it take effect.
 
-## Commands
+## 🍻 Commands
 You can use the 'help' command to view all available commands.
 
 | Command					| Explanation																				|
@@ -64,27 +64,31 @@ You can use the 'help' command to view all available commands.
 | ty-ResetPlayerProfile		| Reset a player's profile.																	|
 | ty-RestartServer			| Restart server, optional parameter -f/force.												|
 
-## API Documentation
+## 📦️ API Documentation
 https://docs.7dtd.top
 
-## Changelog
+## 🌱 Changelog
 Detailed changes for each release are documented in the [release notes](./CHANGELOG.md)
 
-## Links
+## ⚡️ Links
 [Official] [Official TFP 7 Days To Die Forum](https://community.7daystodie.com/topic/37613-tianyiserverkit-a-server-panel-management-tool-for-v10)  
 [Official] [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5924)  
 [Unofficial] [7daystodiemods.com](https://7daystodiemods.com/dedicated-server-api-integration-visual-management-kit)
 
-## Support
+## 👷 Support
 Welcome join [our Discord server](<https://discord.gg/zdnmngsBK4>) and we can help.
 
-## Contributing
+## 🙈 Contributing
 We welcome and appreciate contributions. Feel free to find your own way and put up a pull request.
 
-## Donate
+## 💚 Donate
+If you find this project useful, you can buy author a coffee :coffee:
+
 [!["Buy Me a Coffee at ko-fi.com"](https://storage.ko-fi.com/cdn/kofi1.png?v=3)](https://ko-fi.com/L3L012RJ8R)
 
-## Screenshots
+![image](https://github.com/user-attachments/assets/615fb619-5f40-42da-86ad-e60de11cdef2)
+
+## 🎨 Screenshots
 ![image](https://github.com/user-attachments/assets/581cd03d-e271-4011-b547-b82ad16f64a3)
 <table>
   <tr>
