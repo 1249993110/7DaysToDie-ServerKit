@@ -15,6 +15,9 @@ Video Tutorial: https://youtu.be/8VklfFHeJJ8?t=982
 
 欢迎加入服主交流QQ群：[470804744](https://qm.qq.com/cgi-bin/qm/qr?k=p3TKGDnBAxxyVsR79pF-WYHI3BjsYiHe&jump_from=webapi&authKey=wTpnGpOGOsAaNTD4TqL4kukLQnxT+TmDFQx803v+Q2zWU0E7LYuSkBQQI+WhrqFB)
 
+# Donate
+[!["Buy Me a Coffee at ko-fi.com"](https://storage.ko-fi.com/cdn/kofi1.png?v=3)](https://ko-fi.com/L3L012RJ8R)
+
 # Screenshots
 ![天依10 1](https://github.com/user-attachments/assets/3f2defea-4344-43f9-a18b-5428c384060c)
 
