@@ -1,9 +1,15 @@
-# 7DaysToDie-ServerKit
 English | [简体中文](./README.zh.md)
 
-[Front-end](https://github.com/1249993110/7DaysToDie-ServerKit-webui)
+<div align="center"><img width="200" src="https://github.com/user-attachments/assets/d002c198-7bb3-4a46-896f-f85ad8090500"/>
+  <h1> 7DaysToDie-ServerKit </h1>
+  <p>A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows (Ubuntu 22.04 and Windows Server 2016+ test passed). Supports multiple languages: English, Deutsch, Español, Français, Italiano, 日本語, 한국어, Polski, Português (Brasil), Русский, Türkçe, 简体中文 and 繁體中文
+  </p>
+</div>
 
-A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows. (Ubuntu 22.04 and Windows Server 2016+ test passed)
+[![stars](https://img.shields.io/github/stars/1249993110/7DaysToDie-ServerKit?style=flat-square&logo=GitHub)](https://github.com/1249993110/7DaysToDie-ServerKit)
+[![license](https://img.shields.io/github/license/1249993110/7DaysToDie-ServerKit?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
+
+[Front-end](https://github.com/1249993110/7DaysToDie-ServerKit-webui)
 
 ## 🌐 Compatibility
 Dedicated Server only. Required game version: V1.0
