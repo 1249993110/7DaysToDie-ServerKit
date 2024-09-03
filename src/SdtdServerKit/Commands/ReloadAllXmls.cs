@@ -22,7 +22,7 @@
         {
             return new string[]
             {
-                    "ty-ReloadAllXmls",
+                "ty-ReloadAllXmls",
             };
         }
 

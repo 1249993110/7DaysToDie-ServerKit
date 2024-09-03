@@ -21,7 +21,7 @@
         public override string getHelp()
         {
             return "Removes land claims with the specified id from a player or x y z position.\n" +
-                "Usage: ty-rplc {EntityId/PlayerId/PlayerName} [x y z]\n";
+                "Usage: ty-rplc {PlayerId/EntityId/PlayerName} [x y z]\n";
         }
 
         /// <summary>

@@ -21,7 +21,7 @@
         public override string getHelp()
         {
             return "Usage:\n" +
-               "  1. ty-gm <Message>\n" +
+               "  1. ty-gm {Message}\n" +
                "1. Sends a message to all connected clients by sender name.";
         }
 

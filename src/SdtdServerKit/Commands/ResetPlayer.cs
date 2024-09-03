@@ -20,7 +20,7 @@
         /// <returns>The help message for the command.</returns>
         public override string getHelp()
         {
-            return "Usage: ty-rpp <EOS/EntityId/PlayerName>";
+            return "Usage: ty-rpp {PlayerId/EntityId/PlayerName}";
         }
 
         /// <summary>
@@ -119,7 +119,7 @@
             try
             {
                 string filepath = string.Format("{0}/Player/{1}.map", GameIO.GetSaveGameDir(), uId.CombinedString);
-                if (!File.Exists(filepath))
+                if (File.Exists(filepath) == false)
                 {
                     Log(string.Format("Could not find file '{0}' for player profile reset", filepath));
                 }
@@ -149,7 +149,7 @@
             try
             {
                 string filepath = string.Format("{0}/Player/{1}.ttp", GameIO.GetSaveGameDir(), uId.CombinedString);
-                if (!File.Exists(filepath))
+                if (File.Exists(filepath) == false)
                 {
                     Log(string.Format("Could not find file '{0}' for player profile reset", filepath));
                 }

@@ -32,21 +32,24 @@
         /// <inheritdoc/>
         public override void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
+            string path;
             if (args.Count < 1)
             {
-                Log("Wrong number of arguments, expected 1, found " + args.Count + ".");
-                return;
-            }
-
-            string path = args[0];
-            if (Directory.Exists(path) == false)
-            {
-                Log("The specified directory: {0} does not exist.", path);
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "xmls");
             }
             else
             {
-                WorldStaticData.SaveXmlsToFolder(path);
+                path = args[0];
             }
+
+            if (Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+                Log("The specified directory: {0} does not exist, so it was created.", path);
+            }
+
+            WorldStaticData.SaveXmlsToFolder(path);
+            Log("All world static xml data has been saved to the specified folder: {0}", path);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SdtdServerKit.Commands
         public override string getHelp()
         {
             return "Removes items with the specified name from a player.\n" +
-                "Usage: ty-rpi {EntityId/PlayerId/PlayerName} {ItemName}\n";
+                "Usage: ty-rpi {PlayerId/EntityId/PlayerName} {ItemName}\n";
         }
 
         /// <inheritdoc/>

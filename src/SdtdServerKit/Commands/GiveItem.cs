@@ -24,10 +24,10 @@ namespace SdtdServerKit.Commands
         public override string getHelp()
         {
             return "Usage:\n" +
-                "  1. ty-gi {EntityId/PlayerId/PlayerName} {ItemName} {Count} {Quality} {Durability}\n" +
-                "  2. ty-gi {EntityId/PlayerId/PlayerName} {ItemName} {Count} {Quality}\n" +
-                "  3. ty-gi {EntityId/PlayerId/PlayerName} {ItemName} {Count}\n" +
-                "  4. ty-gi {EntityId/PlayerId/PlayerName} {ItemName}\n" +
+                "  1. ty-gi {PlayerId/EntityId/PlayerName} {ItemName} {Count} {Quality} {Durability}\n" +
+                "  2. ty-gi {PlayerId/EntityId/PlayerName} {ItemName} {Count} {Quality}\n" +
+                "  3. ty-gi {PlayerId/EntityId/PlayerName} {ItemName} {Count}\n" +
+                "  4. ty-gi {PlayerId/EntityId/PlayerName} {ItemName}\n" +
                 "  5. ty-gi all {ItemName} {Count} {Quality} {Durability}\n " +
                 "  6. ty-gi all {ItemName} {Count} {Quality}\n " +
                 "  7. ty-gi all {ItemName} {Count}\n " +

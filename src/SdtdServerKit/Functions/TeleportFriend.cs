@@ -7,7 +7,7 @@ using SdtdServerKit.Variables;
 namespace SdtdServerKit.Functions
 {
     /// <summary>
-    /// 好友传送
+    /// Teleport Friend
     /// </summary>
     public class TeleportFriend : FunctionBase<TeleportFriendSettings>
     {
@@ -30,14 +30,15 @@ namespace SdtdServerKit.Functions
                 string targetName = message.Substring(Settings.TeleCmdPrefix.Length + ConfigManager.GlobalSettings.ChatCommandSeparator.Length);
                 string playerId = managedPlayer.PlayerId;
 
-                var targetPlayer = ConnectionManager.Instance.Clients.GetForPlayerName(targetName);
-                if (targetPlayer == null)
+                var targetClient = ConnectionManager.Instance.Clients.GetForPlayerName(targetName);
+                ManagedPlayer targetPlayer;
+                if (targetClient == null || LivePlayerManager.TryGetByEntityId(targetClient.entityId, out targetPlayer!) == false)
                 {
                     SendMessageToPlayer(playerId, FormatCmd(Settings.TargetNotFoundTip, managedPlayer, targetName));
                     return true;
                 }
 
-                if (Utils.IsFriend(managedPlayer.EntityId, targetPlayer.entityId) == false)
+                if (Utils.IsFriend(managedPlayer.EntityId, targetPlayer.EntityId) == false)
                 {
                     SendMessageToPlayer(playerId, FormatCmd(Settings.TargetNotFriendTip, managedPlayer, targetName));
                     return true;
@@ -73,8 +74,10 @@ namespace SdtdServerKit.Functions
 
                 await _pointsRepository.ChangePointsAsync(playerId, -Settings.PointsRequired);
 
-                Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), targetPlayer.entityId.ToString());
-                SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, managedPlayer, targetName));
+                Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), targetPlayer.EntityId.ToString());
+                string messageToPlayer = FormatCmd(Settings.TeleSuccessTip, managedPlayer, targetName);
+                SendMessageToPlayer(playerId, messageToPlayer);
+                SendMessageToPlayer(targetPlayer.PlayerId, messageToPlayer);
 
                 await _teleRecordRepository.InsertAsync(new T_TeleRecord()
                 {
@@ -84,7 +87,7 @@ namespace SdtdServerKit.Functions
                     TargetName = targetName,
                     TargetType = TeleTargetType.Friend.ToString(),
                     OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
-                    TargetPosition = Utils.GetPlayerPosition(targetPlayer.entityId).ToString(),
+                    TargetPosition = Utils.GetPlayerPosition(targetPlayer.EntityId).ToString(),
                 });
 
                 CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", managedPlayer.PlayerName, managedPlayer.EntityId, targetName);
