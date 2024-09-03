@@ -42,11 +42,13 @@ namespace SdtdServerKit.Functions
         /// <inheritdoc/>
         protected override void OnDisableFunction()
         {
+            base.OnDisableFunction();
             GlobalTimer.UnregisterSubTimer(_timer);
         }
         /// <inheritdoc/>
         protected override void OnEnableFunction()
         {
+            base.OnEnableFunction();
             GlobalTimer.RegisterSubTimer(_timer);
         }
         /// <inheritdoc/>
