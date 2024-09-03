@@ -2,7 +2,10 @@
 using SdtdServerKit.Data.IRepositories;
 using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
+using SdtdServerKit.Models;
 using SdtdServerKit.Variables;
+using System.Collections.Concurrent;
+using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit.Functions
 {
@@ -11,8 +14,22 @@ namespace SdtdServerKit.Functions
     /// </summary>
     public class TeleportFriend : FunctionBase<TeleportFriendSettings>
     {
+        class TeleRequest
+        {
+            public ManagedPlayer SourcePlayer { get; set; }
+            public DateTime CreatedAt { get; set; }
+
+            public TeleRequest(ManagedPlayer sourcePlayer, DateTime createdAt)
+            {
+                SourcePlayer = sourcePlayer;
+                CreatedAt = createdAt;
+            }
+        }
+        private readonly SubTimer _timer;
         private readonly IPointsInfoRepository _pointsRepository;
         private readonly ITeleRecordRepository _teleRecordRepository;
+        private readonly ConcurrentDictionary<ManagedPlayer, TeleRequest> _teleRequests = new();
+
         /// <inheritdoc/>
         public TeleportFriend(
             IPointsInfoRepository pointsRepository, 
@@ -20,6 +37,67 @@ namespace SdtdServerKit.Functions
         {
             _pointsRepository = pointsRepository;
             _teleRecordRepository = teleRecordRepository;
+            _timer = new SubTimer(CheckTeleRequest);
+        }
+        /// <inheritdoc/>
+        protected override void OnDisableFunction()
+        {
+            GlobalTimer.UnregisterSubTimer(_timer);
+        }
+        /// <inheritdoc/>
+        protected override void OnEnableFunction()
+        {
+            GlobalTimer.RegisterSubTimer(_timer);
+        }
+        /// <inheritdoc/>
+        protected override void OnSettingsChanged()
+        {
+            _timer.IsEnabled = Settings.IsEnabled;
+        }
+        private void CheckTeleRequest()
+        {
+            if(_teleRequests.IsEmpty)
+            {
+                return;
+            }
+
+            DateTime now = DateTime.Now;
+            foreach (var kv in _teleRequests)
+            {
+                if((now - kv.Value.CreatedAt).TotalSeconds > Settings.KeepDuration)
+                {
+                    if(_teleRequests.TryRemove(kv.Key, out var teleRequest))
+                    {
+                        SendMessageToPlayer(teleRequest.SourcePlayer.PlayerId, FormatCmd(Settings.TargetRejectTeleTip, teleRequest.SourcePlayer, kv.Key.PlayerName));
+                    }
+                }
+            }
+        }
+
+        private async Task Tele(ManagedPlayer managedPlayer, ManagedPlayer targetPlayer)
+        {
+            string srcPlayerId = managedPlayer.PlayerId;
+            string targetName = targetPlayer.PlayerName;
+
+            await _pointsRepository.ChangePointsAsync(srcPlayerId, -Settings.PointsRequired);
+
+            Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), targetPlayer.EntityId.ToString());
+            string messageToPlayer = FormatCmd(Settings.TeleSuccessTip, managedPlayer, targetName);
+            SendMessageToPlayer(srcPlayerId, messageToPlayer);
+            SendMessageToPlayer(targetPlayer.PlayerId, messageToPlayer);
+
+            await _teleRecordRepository.InsertAsync(new T_TeleRecord()
+            {
+                CreatedAt = DateTime.Now,
+                PlayerId = srcPlayerId,
+                PlayerName = managedPlayer.PlayerName,
+                TargetName = targetName,
+                TargetType = TeleTargetType.Friend.ToString(),
+                OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
+                TargetPosition = Utils.GetPlayerPosition(targetPlayer.EntityId).ToString(),
+            });
+
+            CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", managedPlayer.PlayerName, managedPlayer.EntityId, targetName);
         }
 
         /// <inheritdoc/>
@@ -35,12 +113,6 @@ namespace SdtdServerKit.Functions
                 if (targetClient == null || LivePlayerManager.TryGetByEntityId(targetClient.entityId, out targetPlayer!) == false)
                 {
                     SendMessageToPlayer(playerId, FormatCmd(Settings.TargetNotFoundTip, managedPlayer, targetName));
-                    return true;
-                }
-
-                if (Utils.IsFriend(managedPlayer.EntityId, targetPlayer.EntityId) == false)
-                {
-                    SendMessageToPlayer(playerId, FormatCmd(Settings.TargetNotFriendTip, managedPlayer, targetName));
                     return true;
                 }
 
@@ -72,26 +144,32 @@ namespace SdtdServerKit.Functions
                     }
                 }
 
-                await _pointsRepository.ChangePointsAsync(playerId, -Settings.PointsRequired);
-
-                Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), targetPlayer.EntityId.ToString());
-                string messageToPlayer = FormatCmd(Settings.TeleSuccessTip, managedPlayer, targetName);
-                SendMessageToPlayer(playerId, messageToPlayer);
-                SendMessageToPlayer(targetPlayer.PlayerId, messageToPlayer);
-
-                await _teleRecordRepository.InsertAsync(new T_TeleRecord()
+                if (Settings.IsFriendBypass && Utils.IsFriend(managedPlayer.EntityId, targetPlayer.EntityId))
                 {
-                    CreatedAt = DateTime.Now,
-                    PlayerId = playerId,
-                    PlayerName = managedPlayer.PlayerName,
-                    TargetName = targetName,
-                    TargetType = TeleTargetType.Friend.ToString(),
-                    OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
-                    TargetPosition = Utils.GetPlayerPosition(targetPlayer.EntityId).ToString(),
-                });
+                    await Tele(managedPlayer, targetPlayer);
+                }
+                else
+                {
+                    _teleRequests.TryAdd(targetPlayer, new TeleRequest(managedPlayer, DateTime.Now));
+                    SendMessageToPlayer(targetPlayer.PlayerId, FormatCmd(Settings.TeleConfirmTip, managedPlayer, targetName));
+                }
 
-                CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", managedPlayer.PlayerName, managedPlayer.EntityId, targetName);
                 return true;
+            }
+            else if (message.Equals(Settings.RejectTele, StringComparison.OrdinalIgnoreCase))
+            {
+                if (_teleRequests.TryRemove(managedPlayer, out var teleRequest))
+                {
+                    SendMessageToPlayer(teleRequest.SourcePlayer.PlayerId, FormatCmd(Settings.TargetRejectTeleTip, teleRequest.SourcePlayer, managedPlayer.PlayerName));
+                }
+                return true;
+            }
+            else if (message.Equals(Settings.AcceptTele, StringComparison.OrdinalIgnoreCase))
+            {
+                if (_teleRequests.TryRemove(managedPlayer, out var teleRequest))
+                {
+                    await Tele(teleRequest.SourcePlayer, managedPlayer);
+                }
             }
 
             return false;

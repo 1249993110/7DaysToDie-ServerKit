@@ -77,7 +77,12 @@
     "PointsNotEnoughTip": "[00FF00]ポイントが足りません。必要なポイント: {PointsRequired}",
     "CoolingTip": "[00FF00]テレポート冷却... 残り時間: {CooldownSeconds} 秒。",
     "TargetNotFoundTip": "[FF00FF]テレポートターゲットが見つかりません。[00FF00]/tele フレンド名 [FFFFFF] を入力してテレポートしてください。",
-    "TargetNotFriendTip": "[00FF00]ターゲットはフレンドではありません。"
+    "IsFriendBypass": false,
+    "TeleConfirmTip": "[00FF00]プレーヤー: {PlayerName}、あなたにテレポートされることを希望しています。同意するには「Yes」と入力し、拒否するには「No」と入力します。",
+    "AcceptTele": "Yes",
+    "RejectTele": "No",
+    "TargetRejectTeleTip": "[FF0000]相手が送信要求を拒否しました",
+    "KeepDuration": 30
   },
   "TeleportHomeSettings": {
     "IsEnabled": false,

@@ -77,7 +77,12 @@
     "PointsNotEnoughTip": "[00FF00]Punkte nicht genug, Punkte erforderlich: {PointsRequired}",
     "CoolingTip": "[00FF00]Teleportkühlung... Verbleibende Zeit: {CooldownSeconds} Sekunden.",
     "TargetNotFoundTip": "[FF00FF]Teleportziel nicht gefunden, geben Sie ein: [00FF00]/Telefreundname [FFFFFF]zum Teleportieren.",
-    "TargetNotFriendTip": "[00FF00]Ziel ist nicht Ihr Freund."
+    "IsFriendBypass": false,
+    "TeleConfirmTip": "[00FF00]Spieler: {PlayerName}, möchte zu dir teleportiert werden, gib „Yes“ ein, um zuzustimmen, gib „No“ ein, um abzulehnen",
+    "AcceptTele": "Yes",
+    "RejectTele": "No",
+    "TargetRejectTeleTip": "[FF0000]Die andere Partei hat Ihre Übertragungsanfrage abgelehnt",
+    "KeepDuration": 30
   },
   "TeleportHomeSettings": {
     "IsEnabled": false,

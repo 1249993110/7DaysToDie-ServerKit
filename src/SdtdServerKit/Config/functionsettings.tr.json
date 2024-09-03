@@ -77,7 +77,12 @@
     "PointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: {PointsRequired}",
     "CoolingTip": "[00FF00]Teleport beklemede... Kalan süre: {CooldownSeconds} saniye.",
     "TargetNotFoundTip": "[FF00FF]Teleport hedefi bulunamadı, girin: [00FF00]/teleport arkadaş ismi [FFFFFF]teleport olmak için.",
-    "TargetNotFriendTip": "[00FF00]Hedef kişi arkadaşınız değil."
+    "IsFriendBypass": false,
+    "TeleConfirmTip": "[00FF00]Oyuncu: {PlayerName}, size ışınlanmak istiyor, kabul etmek için Yes girin, reddetmek için No girin",
+    "AcceptTele": "Yes",
+    "RejectTele": "No",
+    "TargetRejectTeleTip": "[FF0000]Diğer taraf iletim isteğinizi reddetti",
+    "KeepDuration": 30
   },
   "TeleportHomeSettings": {
     "IsEnabled": false,

@@ -77,7 +77,12 @@
     "PointsNotEnoughTip": "[00FF00]Punti insufficienti, Punti richiesti: {PointsRequired}",
     "CoolingTip": "[00FF00]Teletrasporto in raffreddamento... Tempo rimanente: {CooldownSeconds} secondi.",
     "TargetNotFoundTip": "[FF00FF]Teletrasporto bersaglio non trovato, inserisci: [00FF00]/tele nome amico [FFFFFF]per teletrasportarti.",
-    "TargetNotFriendTip": "[00FF00]Il bersaglio non è tuo amico."
+    "IsFriendBypass": false,
+    "TeleConfirmTip": "[00FF00]Giocatore: {PlayerName}, vuole essere teletrasportato da te, inserisci Yes per accettare, inserisci No per rifiutare",
+    "AcceptTele": "Yes",
+    "RejectTele": "No",
+    "TargetRejectTeleTip": "[FF0000]L'altra parte ha rifiutato la tua richiesta di trasmissione",
+    "KeepDuration": 30
   },
   "TeleportHomeSettings": {
     "IsEnabled": false,

@@ -77,7 +77,12 @@
     "PointsNotEnoughTip": "[00FF00]Points non suffisants, Points requis : {PointsRequired}",
     "CoolingTip": "[00FF00]Téléportation en refroidissement... Temps restant : {CooldownSeconds} secondes.",
     "TargetNotFoundTip": "[FF00FF]Cible de téléportation non trouvée, saisissez : [00FF00]/téléphonez le nom de l'ami [FFFFFF]pour vous téléporter.",
-    "TargetNotFriendTip": "[00FF00]La cible n'est pas votre ami."
+    "IsFriendBypass": false,
+    "TeleConfirmTip": "[00FF00]Joueur : {PlayerName}, souhaite être téléporté vers vous, saisissez Yes pour accepter, saisissez No pour rejeter",
+    "AcceptTele": "Yes",
+    "RejectTele": "No",
+    "TargetRejectTeleTip": "[FF0000]L'autre partie a rejeté votre demande de transmission",
+    "KeepDuration": 30
   },
   "TeleportHomeSettings": {
     "IsEnabled": false,

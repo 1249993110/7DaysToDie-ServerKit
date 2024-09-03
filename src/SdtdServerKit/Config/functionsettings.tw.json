@@ -77,7 +77,12 @@
     "PointsNotEnoughTip": "[00FF00]積分不足, 需要積分: {PointsRequired}",
     "CoolingTip": "[00FF00]傳送冷卻... 剩餘時間: {CooldownSeconds} 秒",
     "TargetNotFoundTip": "[FF00FF]傳送目標沒有找到, 輸入: [00FF00]/tele 好友名稱[FFFFFF], 進行傳送",
-    "TargetNotFriendTip": "[00FF00]目標不是您的好友"
+    "IsFriendBypass": false,
+    "TeleConfirmTip": "[00FF00]玩家: {PlayerName}, 想傳送到您的身旁, 輸入 Yes 同意, 輸入 No 拒絕",
+    "AcceptTele": "Yes",
+    "RejectTele": "No",
+    "TargetRejectTeleTip": "[FF0000]對方拒絕了您的傳送請求",
+    "KeepDuration": 30
   },
   "TeleportHomeSettings": {
     "IsEnabled": false,

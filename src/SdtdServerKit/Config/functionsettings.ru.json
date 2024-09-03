@@ -77,7 +77,12 @@
     "PointsNotEnoughTip": "[00FF00]Недостаточно очков, требуется: {PointsRequired}",
     "CoolingTip": "[00FF00]Телепорт на перезарядке... Оставшееся время: {CooldownSeconds} секунд.",
     "TargetNotFoundTip": "[FF00FF]Цель для телепортации не найдена, введите: [00FF00]/телепорт имя друга [FFFFFF]чтобы телепортироваться.",
-    "TargetNotFriendTip": "[00FF00]Цель не является вашим другом."
+    "IsFriendBypass": false,
+    "TeleConfirmTip": "[00FF00]Игрок: {PlayerName}, хочет, чтобы его телепортировали к вам. Введите «Yes», чтобы согласиться, введите «No», чтобы отказаться.",
+    "AcceptTele": "Yes",
+    "RejectTele": "No",
+    "TargetRejectTeleTip": "[FF0000]Другая сторона отклонила ваш запрос на передачу",
+    "KeepDuration": 30
   },
   "TeleportHomeSettings": {
     "IsEnabled": false,
