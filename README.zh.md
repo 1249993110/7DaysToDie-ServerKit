@@ -32,6 +32,7 @@
 
 ## **视频教程**
 https://www.bilibili.com/video/BV1pw4m1k7K3
+
 https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
 
 ## **安装指南**
