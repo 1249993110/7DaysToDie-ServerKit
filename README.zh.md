@@ -1,22 +1,152 @@
-# 7DaysToDie-ServerKit
 [English](./README.md) | 简体中文
 
-开源的 7 Days to Die 专用服务器的MOD。提供 RESTful API 和强大的网页管理面板，帮助各服主和管理员管理七日杀专用服务器。同时支持 Linux 和 Windows。
+<div align="center"><img width="200" src="https://github.com/user-attachments/assets/d002c198-7bb3-4a46-896f-f85ad8090500"/>
+  <h1> 7DaysToDie-ServerKit </h1>
+  <p>开源的 7 Days to Die 专用服务器的MOD。提供 RESTful API 和强大的网页管理面板，帮助各服主和管理员管理七日杀专用服务器。同时支持 Linux 和 Windows (Ubuntu 22.04 和 Windows Server 2016+ 测试通过)。支持多国语言: English, Deutsch, Español, Français, Italiano, 日本語, 한국어, Polski, Português (Brasil), Русский, Türkçe, 简体中文, 繁體中文
+  </p>
+</div>
 
-使用教程：https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
+[![stars](https://img.shields.io/github/stars/1249993110/7DaysToDie-ServerKit?style=flat-square&logo=GitHub)](https://github.com/1249993110/7DaysToDie-ServerKit)
+[![license](https://img.shields.io/github/license/1249993110/7DaysToDie-ServerKit?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
-接口文档：https://docs.7dtd.top
+[前端代码仓库](https://github.com/1249993110/7DaysToDie-ServerKit-webui)
 
-前端仓库：https://github.com/1249993110/7DaysToDie-ServerKit-webui
+## 🌐 兼容性
+仅限专用服务端。所需游戏版本：V1.0
 
+## 🎉 特征
+- 支持在线地图
+- 支持查看和修改serverconfig.xml
+- 您可以通过web面板打开和关闭服务器，并自动重新启动服务器
+- 使用web控制台，您可以查看后台信息并实时执行命令
+- 支持查看所有玩家的在线和离线信息，包括但不限于背包、腰带、装备或技能的所有细节
+- 支持黑名单，封禁解封玩家。
+- 支持传送功能，支持TP和sethome等自定义传送命令。
+- 具有存储和积分系统
+- 提供许多API供大家使用
+- 支持自动备份归档
+- 支持服务器物品分发和玩家物品实时移除
+- 还有更多功能供您探索。
+
+# 📌 入门
+
+## **视频教程**
+https://www.bilibili.com/video/BV1pw4m1k7K3
+https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
+
+## **安装指南**
+
+### 1. **下载最新版本**
+- 从 [此处](https://github.com/1249993110/7DaysToDie-ServerKit/releases) 获取最新版本。
+
+### 2. **将版本放入您的 Mods 文件夹中**
+- 将下载的 .zip 存档文件解压到您的 `7 Days to Die Dedicated Server\Mods` 文件夹中。
+- 以下是所需的服务器文件：
+- 0_TFP_Harmony
+- TFP_CommandExtensions
+- TFP_MapRendering
+- TFP_WebServer
+
+### 3. **启动服务器**
+- 通常运行 startdedicated.bat
+- 等待服务器进程完全启动。
+- 打开浏览器访问 http://IP:8888
+- 默认用户名：admin
+- 默认密码：123456
+
+## 🚀 配置
+- 要配置您的登录用户名和密码，请编辑位于`7 Days to Die Dedicated Server\LSTY_Data`中的`appsettings.json`文件。
+- 重新启动服务器以使其生效。
+
+## 🍻 命令
+您可以使用 help 命令查看所有可用命令。
+
+| 命令 | 说明 |
+| --- | --- |
+| ty-GiveItem | 将物品直接放入玩家的库存中。如果库存已满，则掉落到地面。|
+| ty-GlobalMessage | 向所有连接的客户端发送消息。|
+| ty-SayToPlayer | 向单个玩家发送消息。|
+| ty-RemovePlayerItems | 从玩家的库存中移除玩家的物品。|
+| ty-RemovePlayerLandClaims | 移除玩家的土地主张。|
+| ty-ResetPlayerProfile | 重置玩家的个人资料。|
+| ty-RestartServer | 重启服务器，可选参数 -f/force。|
+
+## 📦️ API 文档
+https://docs.7dtd.top
+
+## 🌱 更新日志
+每个版本的详细变更都记录在 [发行说明](./CHANGELOG.md) 中
+
+## ⚡️ 链接
+[官方] [七日杀官方论坛](https://community.7daystodie.com/topic/37613-tianyiserverkit-a-server-panel-management-tool-for-v10)
+[官方] [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5924)
+[非官方] [7daystodiemods.com](https://7daystodiemods.com/dedicated-server-api-integration-visual-management-kit)
+
+## 👷 支持
 欢迎加入服主交流QQ群：[470804744](https://qm.qq.com/cgi-bin/qm/qr?k=p3TKGDnBAxxyVsR79pF-WYHI3BjsYiHe&jump_from=webapi&authKey=wTpnGpOGOsAaNTD4TqL4kukLQnxT+TmDFQx803v+Q2zWU0E7LYuSkBQQI+WhrqFB)
 
-# Donate
+## 🙈 贡献
+我们欢迎并感谢贡献。请随意找到自己的方式并创建拉取请求。
+
+## 💚 捐赠
+如果您觉得这个项目有用，您可以给作者买杯咖啡 :coffee:
+
 [!["Buy Me a Coffee at ko-fi.com"](https://storage.ko-fi.com/cdn/kofi1.png?v=3)](https://ko-fi.com/L3L012RJ8R)
 
-# Screenshots
-![天依10 1](https://github.com/user-attachments/assets/3f2defea-4344-43f9-a18b-5428c384060c)
+![image](https://github.com/user-attachments/assets/615fb619-5f40-42da-86ad-e60de11cdef2)
 
+## 🎨 Screenshots
+![image](https://github.com/user-attachments/assets/581cd03d-e271-4011-b547-b82ad16f64a3)
+<table>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/fa9e18a5-65d1-46a1-bd3f-3d136bf4411c">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/748b33cb-bfbc-4585-848f-0ac07a192121">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/84661343-8a20-414b-90be-a27705555259">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/92c87d6d-8406-415b-9d13-a07a18ddb087">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/c068c9bf-0ebb-4b3d-a3c9-e01c957cfca4">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/dfdb1dfb-f801-463b-a8d1-dc64ab88736e">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/52a5d65a-0c9e-4812-baad-f6fd0c84ef95">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/4d8317ab-388b-4191-9d31-df778d93f7a6">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/193760ae-9b66-4c81-82e9-a31860130f4d">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/5b3d551b-8d77-4c0d-bd93-83b74316fff6">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/3c5e6605-3c16-45ed-a0ee-a5327e7a3056">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/0fb8610f-8a6e-4005-b2ed-5043aa066b99">
+    </td>
+  </tr>
+</table>
 
 ## 天依七日杀服主工具系列从2017年着手开发，至今已经迭代了9个大版本
 #### V1.0 采用易语言开发

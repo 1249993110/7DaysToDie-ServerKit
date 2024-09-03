@@ -2,7 +2,7 @@ English | [简体中文](./README.zh.md)
 
 <div align="center"><img width="200" src="https://github.com/user-attachments/assets/d002c198-7bb3-4a46-896f-f85ad8090500"/>
   <h1> 7DaysToDie-ServerKit </h1>
-  <p>A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows (Ubuntu 22.04 and Windows Server 2016+ test passed). Supports multiple languages: English, Deutsch, Español, Français, Italiano, 日本語, 한국어, Polski, Português (Brasil), Русский, Türkçe, 简体中文 and 繁體中文
+  <p>A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows (Ubuntu 22.04 and Windows Server 2016+ test passed). Supports multiple languages: English, Deutsch, Español, Français, Italiano, 日本語, 한국어, Polski, Português (Brasil), Русский, Türkçe, 简体中文, 繁體中文
   </p>
 </div>
 
@@ -15,12 +15,12 @@ English | [简体中文](./README.zh.md)
 Dedicated Server only. Required game version: V1.0
 
 ## 🎉 Features
-- Support online rendering of any map
+- Support online GPS map
 - Support viewing and modifying serverconfig.xml
 - You can switch the server on and off and automatically restart the server through the web panel
 - With a web console, you can view background information and execute commands in real time
 - Support viewing all players' online and offline information, including but not limited to all details of backpacks, belts, equipment or skills
-- Supports checking IP, unbanning and banning players, etc.
+- Supports unbanning and banning players, etc.
 - Supports teleportation function, supports custom teleportation commands for TP and sethome, etc.
 - Has a store and points system，
 - Provide many APIs for everyone to use 
