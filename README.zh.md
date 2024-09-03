@@ -95,7 +95,7 @@ https://docs.7dtd.top
 
 ![image](https://github.com/user-attachments/assets/615fb619-5f40-42da-86ad-e60de11cdef2)
 
-## 🎨 Screenshots
+## 🎨 截图
 ![image](https://github.com/user-attachments/assets/581cd03d-e271-4011-b547-b82ad16f64a3)
 <table>
   <tr>
@@ -148,7 +148,61 @@ https://docs.7dtd.top
   </tr>
 </table>
 
-## 天依七日杀服主工具系列从2017年着手开发，至今已经迭代了9个大版本
+## 历史版本
+天依七日杀服主工具系列从2017年着手开发，至今已经迭代了9个大版本
+<table>
+  <tr>
+    <td>
+      V1.0 采用易语言开发
+      <img src="https://github.com/user-attachments/assets/ba407055-0eee-4140-8371-a2e77a27f924">
+    </td>
+    <td>
+      V2.0 采用 C++ 和 Qt 开发
+      <img src="https://github.com/user-attachments/assets/93d0204e-4dab-4c3c-9f59-8646b0056042">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      V3.0 采用 C++ 和 Qt 开发
+      <img src="https://github.com/user-attachments/assets/dfd2f607-2f65-4ff5-9d29-f7a433ea1469">
+    </td>
+    <td>
+      V4.0 采用 C# 和 WPF 开发 (代码仓库：https://github.com/1249993110/TianYiSdtdServerTools)
+      <img src="https://github.com/user-attachments/assets/7a33428c-dad5-4c0c-9867-506ab626225a">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      V5.0 开始采用 Web 全栈架构，后端完全使用 C#，前端基于Vue，以 Mod 的形式嵌入服务端运行
+      <img src="https://github.com/user-attachments/assets/63eec623-901a-488c-a108-4629a0c804ad">
+    </td>
+    <td>
+      V6.0
+      <img src="https://github.com/user-attachments/assets/53b97c9d-596d-49d4-87db-1c182fa41810">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      V7.0
+      <img src="https://github.com/user-attachments/assets/f320be74-0390-495e-b998-6cd344a1534a">
+    </td>
+    <td>
+      V8.0
+      <img src="https://github.com/user-attachments/assets/a2e38ae6-7840-4a46-ad8c-705a396a0a04">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      V9.0
+      <img src="https://github.com/user-attachments/assets/05a7728a-62f3-4a0f-919b-b1e118f1059b">
+    </td>
+    <td>
+      V10.0
+      <img src="https://github.com/user-attachments/assets/581cd03d-e271-4011-b547-b82ad16f64a3">
+    </td>
+  </tr>
+</table>
+
 #### V1.0 采用易语言开发
 ![天依1 0](https://github.com/user-attachments/assets/ba407055-0eee-4140-8371-a2e77a27f924)
 #### V2.0 采用 C++ 和 Qt 开发
