@@ -12,3 +12,9 @@
 
 ### Notable Changes
 - Remove the maximum quality limit for given items and change the default quality to 1.
+
+
+## 10.37 (2024-08-31)
+
+### New Features
+- Allow users to manually switch languages
