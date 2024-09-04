@@ -1,7 +1,7 @@
 ## 10.39 (2024-09-03)
 
 ### Notable Changes
-- Players can releport to each other by agreeing or rejecting without adding friends. You may need to reset the configuration to load the default value.
+- Players can teleport to each other by agreeing or rejecting without adding friends. You may need to reset the configuration to load the default value.
 
 
 ## 10.38 (2024-09-01)
