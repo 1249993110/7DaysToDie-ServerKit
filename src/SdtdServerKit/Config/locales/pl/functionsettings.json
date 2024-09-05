@@ -7,17 +7,28 @@
     "TeleDisableTip": "[00FF00]Transmisja jest zabroniona. Sprawdź, czy twoje otoczenie jest bezpieczne.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Zabiłeś zombie, zdobyłeś 1 punkt\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Zabiłeś zombie, zdobyłeś 1 punkt\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Zginąłeś, odjęto 1 punkt\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Zginąłeś, odjęto 1 punkt\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]Serwer zostanie zrestartowany za 3 sekundy...", "[00FF00]Serwer zostanie zrestartowany za 2 sekundy...", "[00FF00]Serwer zostanie zrestartowany za 1 sekundę...", "[FF0000]Restartowanie..." ]
+      "Messages": [
+        "[00FF00]Serwer zostanie zrestartowany za 3 sekundy...",
+        "[00FF00]Serwer zostanie zrestartowany za 2 sekundy...",
+        "[00FF00]Serwer zostanie zrestartowany za 1 sekundę...",
+        "[FF0000]Restartowanie..."
+      ]
     },
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "punkty",
     "QueryPointsTip": "[00FF00]Obecnie masz punktów: {PlayerTotalPoints}",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "dh",
     "ExchangeSuccessTip": "[00FF00]Wymiana zakończona sukcesem! Zużyto walutę gry: {CurrencyAmount}, obecnie masz punktów: {PlayerTotalPoints}",
     "ExchangeFailureTip": "[FFFF00]Wymiana nieudana! Przygotuj monety kasyna Duke lub zaloguj się, zanim wrócisz"
