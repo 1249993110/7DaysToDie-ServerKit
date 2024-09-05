@@ -1,3 +1,3 @@
 files:
-  - source: /src/SdtdServerKit/Config/locales/**/*.json
+  - source: /src/SdtdServerKit/Config/locales/en/*.json
     translation: /src/SdtdServerKit/Config/locales/%locale%/%original_file_name%
