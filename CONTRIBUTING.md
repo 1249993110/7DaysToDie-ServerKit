@@ -1,4 +1,4 @@
-# How To Contribute
+# How To Contribute Code
 
 ## Opening issues
 - Before opening issue please search for the keyword see whether the issue you encountered has been reported already. :pray:
@@ -52,7 +52,6 @@ A good commit message enables us:
 
 Please refer to [Conventional Commits](https://www.conventionalcommits.org)&emsp;[Keeping git commit history clean](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean) for more information.
 
-# Translation
 ## How can I help contribute translated content?
 1. Create an account on [Crowdin](https://crowdin.com), it is recommended that you use your GitHub account to authorize Crowdin.
 2. Go to [7DaysToDie-ServerKit](https://crowdin.com/project/7daystodie-serverkit) project.
