@@ -7,19 +7,30 @@
     "TeleDisableTip": "[00FF00]目前禁止傳送, 請確認周圍環境是否安全",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]您殺死了一隻殭屍, 獲得了1積分\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]您殺死了一隻殭屍, 獲得了1積分\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]您死亡了, 扣除了1點\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]您死亡了, 扣除了1點\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]伺服器將在3 秒後重啟...", "[00FF00]伺服器將在2 秒後重啟...", "[00FF00]伺服器將在1 秒後重啟.. .", "[FF0000]正在重啟..." ]
+      "Messages": [
+        "[00FF00]伺服器將在3 秒後重啟...",
+        "[00FF00]伺服器將在2 秒後重啟...",
+        "[00FF00]伺服器將在1 秒後重啟.. .",
+        "[FF0000]正在重啟..."
+      ]
     },
-    "BlockFamilySharingAccount": false,
+    "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "jf",
     "QueryPointsTip": "[00FF00]您目前有積分: {PlayerTotalPoints}",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "dh",
     "ExchangeSuccessTip": "[00FF00]兌換成功! 消耗遊戲幣: {CurrencyAmount}, 您目前有積分: {PlayerTotalPoints}",
     "ExchangeFailureTip": "[FFFF00]兌換失敗! 請準備好公爵賭場幣或簽到後再來吧"
