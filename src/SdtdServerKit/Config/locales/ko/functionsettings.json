@@ -7,17 +7,28 @@
     "TeleDisableTip": "[00FF00]전송이 금지되었습니다. 주변이 안전한지 확인하세요.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]좀비를 처치하고 1점을 획득했습니다\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]좀비를 처치하고 1점을 획득했습니다\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]당신이 죽었습니다. 1포인트가 차감되었습니다\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]당신이 죽었습니다. 1포인트가 차감되었습니다\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]서버가 3초 후에 재부팅됩니다...", "[00FF00]서버가 2초 후에 재부팅됩니다...", "[00FF00]서버가 1초 후에 재부팅됩니다...", "[FF0000]다시 시작하는 중..." ]
+      "Messages": [
+        "[00FF00]서버가 3초 후에 재부팅됩니다...",
+        "[00FF00]서버가 2초 후에 재부팅됩니다...",
+        "[00FF00]서버가 1초 후에 재부팅됩니다...",
+        "[FF0000]다시 시작하는 중..."
+      ]
     },
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "points",
     "QueryPointsTip": "[00FF00]현재 포인트: {PlayerTotalPoints}",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "dh",
     "ExchangeSuccessTip": "[00FF00]교환 성공! 게임 통화 소모: {CurrencyAmount}, 현재 포인트: {PlayerTotalPoints}",
     "ExchangeFailureTip": "[FFFF00]교환 실패! Duke Casino 코인을 준비하거나 돌아오기 전에 로그인하세요"
