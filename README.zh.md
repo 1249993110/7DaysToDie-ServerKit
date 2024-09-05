@@ -8,6 +8,7 @@
 
 [![stars](https://img.shields.io/github/stars/1249993110/7DaysToDie-ServerKit?style=flat-square&logo=GitHub)](https://github.com/1249993110/7DaysToDie-ServerKit)
 [![license](https://img.shields.io/github/license/1249993110/7DaysToDie-ServerKit?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
+[![Crowdin](https://badges.crowdin.net/7daystodie-serverkit/localized.svg)](https://crowdin.com/project/7daystodie-serverkit)
 
 [前端代码仓库](https://github.com/1249993110/7DaysToDie-ServerKit-webui)
 
