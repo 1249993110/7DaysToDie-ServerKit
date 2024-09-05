@@ -23,12 +23,12 @@
     "Group": "Server",
     "Desc": "Die Region, in der sich der Server befindet. Mögliche Werte sind: Asien, NordamerikaOst, NordamerikaWest, Mittelamerika, Südamerika, Europa, Russland, Naher Osten, Afrika, Ozeanien"
   },
-  "Sprache": {
-    "Gruppe": "Server",
-    "Desc": "Die Hauptsprache der Spieler auf dem Server. Verwenden Sie den englischen Namen jeder Sprache, nach der die Spieler suchen möchten. Mögliche Werte sind: Englisch, Deutsch, Spanisch, Französisch, Italienisch, Japanisch, Koreanisch, Polnisch, Brasilianisch, Russisch, Türkisch, Chinesisch, Tschechisch"
+  "Language": {
+    "Group": "Servers",
+    "Desc": "The primary language of players on the server. Use the English name of any language players wish to search for. Possible values ​​are: english, german, spanish, french, italian, japanese, koreana, polish, brazilian, russian, turkish, schinese, tchinese"
   },
   "ServerPort": {
-    "Gruppe": "Netzwerk",
+    "Group": "Network",
     "Desc": "Der Port, auf dem das Serverprogramm lauscht. Wenn Sie möchten, dass Computer im selben LAN es als LAN-Server sehen, halten Sie dies im Bereich 26900 bis 26905 oder 27015 bis 27020"
   },
   "ServerVisibility": {
@@ -252,19 +252,19 @@
     "Desc": "Zombie Feral Sense. 0-3 (aus, Tag, Nacht, alle)"
   },
   "ZombieMove": {
-    "Gruppe": "Zombieeinstellungen",
+    "Group": "Zombie Settings",
     "Desc": "Zombiebewegung. 0-4 (Gehen, Joggen, Laufen, Sprinten, Albtraum)"
   },
   "ZombieMoveNight": {
-    "Gruppe": "Zombieeinstellungen",
+    "Group": "Zombie Settings",
     "Desc": "Zombie-Nachtbewegung. 0-4 (Gehen, Joggen, Laufen, Sprinten, Albtraum)"
   },
   "ZombieFeralMove": {
-    "Gruppe": "Zombieeinstellungen",
+    "Group": "Zombie Settings",
     "Desc": "Zombie-BM-Bewegung. 0-4 (Gehen, Joggen, Laufen, Sprinten, Albtraum)"
   },
   "ZombieBMMove": {
-    "Gruppe": "Zombieeinstellungen",
+    "Group": "Zombie Settings",
     "Desc": "Zombie-BM-Bewegung. 0-4 (Gehen, Joggen, Rennen, Sprinten, Albtraum)"
   },
   "BloodMoonFrequency": {

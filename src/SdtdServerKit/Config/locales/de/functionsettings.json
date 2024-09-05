@@ -7,17 +7,28 @@
     "TeleDisableTip": "[00FF00]Übertragung ist verboten. Bitte prüfen Sie, ob Ihre Umgebung sicher ist.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Sie haben einen Zombie getötet, 1 Punkt verdient\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Sie haben einen Zombie getötet, 1 Punkt verdient\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Sie sind gestorben, 1 Punkt abgezogen point\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Sie sind gestorben, 1 Punkt abgezogen point\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]Der Server wird in 3 Sekunden neu gestartet...", "[00FF00]Der Server wird in 2 Sekunden neu gestartet...", "[00FF00]Der Server wird in 1 Sekunde neu gestartet...", "[FF0000]Neustart..." ]
+      "Messages": [
+        "[00FF00]Der Server wird in 3 Sekunden neu gestartet...",
+        "[00FF00]Der Server wird in 2 Sekunden neu gestartet...",
+        "[00FF00]Der Server wird in 1 Sekunde neu gestartet...",
+        "[FF0000]Neustart..."
+      ]
     },
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "Punkte",
     "QueryPointsTip": "[00FF00]Sie haben derzeit Punkte: {PlayerTotalPoints}",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "dh",
     "ExchangeSuccessTip": "[00FF00]Umtausch erfolgreich! Spielwährung verbraucht: {CurrencyAmount}, Sie haben derzeit Punkte: {PlayerTotalPoints}",
     "ExchangeFailureTip": "[FFFF00]Umtausch fehlgeschlagen! Bitte bereiten Sie Duke Casino-Münzen vor oder melden Sie sich an, bevor Sie zurückkommen"

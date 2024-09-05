@@ -7,17 +7,28 @@
     "TeleDisableTip": "[00FF00]Transmissão proibida. Verifique se o ambiente ao seu redor está seguro.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Você matou um zumbi e ganhou 1 ponto\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Você matou um zumbi e ganhou 1 ponto\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Você morreu, perdeu 1 ponto\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Você morreu, perdeu 1 ponto\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]O servidor será reiniciado em 3 segundos...", "[00FF00]O servidor será reiniciado em 2 segundos...", "[00FF00]O servidor será reiniciado em 1 segundo...", "[FF0000]Reiniciando..." ]
+      "Messages": [
+        "[00FF00]O servidor será reiniciado em 3 segundos...",
+        "[00FF00]O servidor será reiniciado em 2 segundos...",
+        "[00FF00]O servidor será reiniciado em 1 segundo...",
+        "[FF0000]Reiniciando..."
+      ]
     },
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "pontos",
     "QueryPointsTip": "[00FF00]Você tem atualmente: {PlayerTotalPoints} pontos",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "dh",
     "ExchangeSuccessTip": "[00FF00]Troca bem-sucedida! Moeda do jogo consumida: {CurrencyAmount}, você tem atualmente: {PlayerTotalPoints} pontos",
     "ExchangeFailureTip": "[FFFF00]Falha na troca! Por favor, prepare moedas do Duke Casino ou faça login antes de tentar novamente"
