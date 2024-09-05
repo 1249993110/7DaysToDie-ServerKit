@@ -7,17 +7,28 @@
     "TeleDisableTip": "[00FF00]Телепортация запрещена. Убедитесь, что окружающая среда безопасна.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Вы убили зомби и получили 1 очко\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Вы убили зомби и получили 1 очко\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Вы умерли, потеряли 1 очко\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Вы умерли, потеряли 1 очко\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]Сервер будет перезапущен через 3 секунды...", "[00FF00]Сервер будет перезапущен через 2 секунды...", "[00FF00]Сервер будет перезапущен через 1 секунду...", "[FF0000]Перезапуск..." ]
+      "Messages": [
+        "[00FF00]Сервер будет перезапущен через 3 секунды...",
+        "[00FF00]Сервер будет перезапущен через 2 секунды...",
+        "[00FF00]Сервер будет перезапущен через 1 секунду...",
+        "[FF0000]Перезапуск..."
+      ]
     },
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "очки",
     "QueryPointsTip": "[00FF00]У вас сейчас: {PlayerTotalPoints} очков",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "обмен",
     "ExchangeSuccessTip": "[00FF00]Обмен успешно завершен! Израсходовано валюты: {CurrencyAmount}, у вас сейчас: {PlayerTotalPoints} очков",
     "ExchangeFailureTip": "[FFFF00]Не удалось выполнить обмен! Пожалуйста, подготовьте монеты казино Duke или войдите в систему, прежде чем повторить попытку"
