@@ -7,17 +7,28 @@
     "TeleDisableTip": "[00FF00]Teleportasyon devre dışı. Çevrenin güvenli olduğundan emin olun.",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Bir zombiyi öldürdünüz ve 1 puan kazandınız\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Bir zombiyi öldürdünüz ve 1 puan kazandınız\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]Öldünüz, 1 puan kaybettiniz\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]Öldünüz, 1 puan kaybettiniz\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]Sunucu 3 saniye içinde yeniden başlatılacak...", "[00FF00]Sunucu 2 saniye içinde yeniden başlatılacak...", "[00FF00]Sunucu 1 saniye içinde yeniden başlatılacak...", "[FF0000]Yeniden başlatılıyor..." ]
+      "Messages": [
+        "[00FF00]Sunucu 3 saniye içinde yeniden başlatılacak...",
+        "[00FF00]Sunucu 2 saniye içinde yeniden başlatılacak...",
+        "[00FF00]Sunucu 1 saniye içinde yeniden başlatılacak...",
+        "[FF0000]Yeniden başlatılıyor..."
+      ]
     },
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "puan",
     "QueryPointsTip": "[00FF00]Şu anki puanınız: {PlayerTotalPoints}",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "degistir",
     "ExchangeSuccessTip": "[00FF00]Dönüştürme başarılı! Harcanan para: {CurrencyAmount}, Şu anki puanınız: {PlayerTotalPoints}",
     "ExchangeFailureTip": "[FFFF00]Dönüştürme başarısız! Lütfen Duke'nun kumarhane jetonlarını hazırlayın veya giriş yapıp tekrar deneyin."
