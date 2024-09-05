@@ -7,17 +7,28 @@
     "TeleDisableTip": "[00FF00]送信は禁止されています。周囲の安全を確認してください。",
     "KillZombieTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]ゾンビを倒しました。1ポイント獲得しました\"", "ty-cpp {EntityId} 1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]ゾンビを倒しました。1ポイント獲得しました\"",
+        "ty-cpp {EntityId} 1"
+      ]
     },
     "DeathTrigger": {
       "IsEnabled": false,
-      "ExecuteCommands": [ "ty-pm {EntityId} \"[00FF00]死亡しました。1ポイント減点されました\"", "ty-cpp {EntityId} -1" ]
+      "ExecuteCommands": [
+        "ty-pm {EntityId} \"[00FF00]死亡しました。1ポイント減点されました\"",
+        "ty-cpp {EntityId} -1"
+      ]
     },
     "AutoRestart": {
       "IsEnabled": false,
       "RestartHour": 4,
       "RestartMinute": 0,
-      "Messages": [ "[00FF00]サーバーは3秒後に再起動します...", "[00FF00]サーバーは2秒後に再起動します...", "[00FF00]サーバーは1秒後に再起動します...", "[FF0000]再起動しています..." ]
+      "Messages": [
+        "[00FF00]サーバーは3秒後に再起動します...",
+        "[00FF00]サーバーは2秒後に再起動します...",
+        "[00FF00]サーバーは1秒後に再起動します...",
+        "[FF0000]再起動しています..."
+      ]
     },
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
@@ -43,7 +54,7 @@
     "QueryPointsCmd": "points",
     "QueryPointsTip": "[00FF00]現在保有しているポイント: {PlayerTotalPoints}",
     "IsCurrencyExchangeEnabled": false,
-    "CurrencyToPointsExchangeRate": 1.0,
+    "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "dh",
     "ExchangeSuccessTip": "[00FF00]交換に成功しました! 消費したゲーム通貨: {CurrencyAmount}、現在保有しているポイント数: {PlayerTotalPoints}",
     "ExchangeFailureTip": "[FFFF00]交換に失敗しました!戻る前にデューク カジノ コインを用意するか、サインインしてください"
