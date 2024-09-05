@@ -1,4 +1,4 @@
-# 如何贡献
+# 如何贡献代码
 
 ## 打开问题
 - 打开问题之前，请搜索关键字，查看您遇到的问题是否已被报告。 :pray:
@@ -51,8 +51,7 @@ npm install
 
 请参阅 [通用惯例](https://www.conventionalcommits.org)&emsp;[保持 git 提交历史简洁](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean)
 
-# 翻译
-## 我怎么才能帮忙贡献翻译的内容？
+## 贡献翻译内容
 1. 在 [Crowdin](https://crowdin.com) 上创建一个账号，推荐使用你的 GitHub 账号第三方登录。
 2. 进入 [7DaysToDie-ServerKit](https://crowdin.com/project/7daystodie-serverkit) 项目。
 3. 选择你想要贡献翻译的语言。
@@ -61,7 +60,7 @@ npm install
    
 这个过程很简单，Crowin 的用户界面也非常直观，还可以选择中文模式，你应该很容易就可以学会如何使用它。当你提交完你的翻译之后，它会在翻译审核通过之后上线。
 
-## 我怎么样能帮助翻译审核？
+## 帮助翻译审核
 你可以通过在 Crowdin [发起 issue](https://crowdin.com/project/7daystodie-serverkit/discussions) 的方式通知我们，issue 内请告知你希望成为哪个语言的校对官。
 
 就这样，感谢您的贡献！🤩
