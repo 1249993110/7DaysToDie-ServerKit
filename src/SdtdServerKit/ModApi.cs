@@ -19,6 +19,8 @@ using SdtdServerKit.Managers;
 using SdtdServerKit.WebSockets;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration;
+using SdtdServerKit.Constants;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace SdtdServerKit
 {
@@ -151,10 +153,36 @@ namespace SdtdServerKit
         /// 获取默认配置文件路径
         /// </summary>
         /// <param name="fileName"></param>
+        /// <param name="locale"></param>
         /// <returns></returns>
-        internal static string GetDefaultConfigPath(string fileName)
+        internal static string GetDefaultConfigPath(string fileName, string? locale = null)
         {
-            return Path.Combine(ModInstance.Path, "Config", fileName);
+            if(locale != null)
+            {
+                return Path.Combine(ModInstance.Path, "Config", "locales", locale, fileName);
+            }
+            else
+            {
+                return Path.Combine(ModInstance.Path, "Config", fileName);
+            }
+        }
+
+        /// <summary>
+        /// 获取默认配置文件路径
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="locale"></param>
+        /// <returns></returns>
+        internal static string GetDefaultConfigContent(string fileName, string locale)
+        {
+            string path = Path.Combine(ModInstance.Path, "Config", "locales", locale, fileName);
+            if (File.Exists(path) == false)
+            {
+                CustomLogger.Warn("Load default settings faild, the file: {0} is not exists, use the default locale: {1}", path, Locales.EN);
+                path = Path.Combine(ModInstance.Path, "Config", "locales", Locales.EN, fileName);
+            }
+
+            return File.ReadAllText(path, Encoding.UTF8);
         }
 
         private static void LoadAppSettings()
@@ -165,7 +193,7 @@ namespace SdtdServerKit
                 string baseSettingsPath = Path.Combine(AppContext.BaseDirectory, LSTY_Data);
                 Directory.CreateDirectory(baseSettingsPath);
 
-                string defaultAppConfigPath = GetDefaultConfigPath("appsettings.json");
+                string defaultAppConfigPath = Path.Combine(ModInstance.Path, "Config", "appsettings.json");
                 string productionAppConfigPath = Path.Combine(baseSettingsPath, "appsettings.json");
 
                 if(File.Exists(productionAppConfigPath) == false)

@@ -115,10 +115,7 @@ namespace SdtdServerKit.Managers
         {
             try
             {
-                string fileName = "functionsettings." + locale + ".json";
-                string path = ModApi.GetDefaultConfigPath(fileName);
-                string json = File.ReadAllText(path, Encoding.UTF8);
-
+                string json = ModApi.GetDefaultConfigContent("functionsettings.json", locale);
                 var jsonObject = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(json);
 
                 if (jsonObject == null)

@@ -1,5 +1,6 @@
 ﻿using Namotion.Reflection;
 using Newtonsoft.Json.Linq;
+using SdtdServerKit.Constants;
 using SdtdServerKit.ServerSettings;
 using System.Text;
 using System.Xml;
@@ -306,9 +307,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(Settings))]
         public List<NameDescValue> Settings([FromUri]Language language)
         {
-            string fileName = "serversettings." + Locales.Get(language) + ".json";
-            string path = ModApi.GetDefaultConfigPath(fileName);
-            string json = File.ReadAllText(path, Encoding.UTF8);
+            string json = ModApi.GetDefaultConfigContent("serversettings.json", Locales.Get(language));
             var dict = JsonConvert.DeserializeObject<Dictionary<string, DescValue>>(json);
 
             if (dict == null)
@@ -318,7 +317,7 @@ namespace SdtdServerKit.WebApi.Controllers
 
             var result = new List<NameDescValue>();
 
-            path = Path.Combine(AppContext.BaseDirectory, ModApi.AppSettings.ServerSettingsFileName);
+            string path = Path.Combine(AppContext.BaseDirectory, ModApi.AppSettings.ServerSettingsFileName);
             var xmlDocument = new XmlDocument();
             xmlDocument.Load(path);
             var xmlRoot = xmlDocument.DocumentElement;
