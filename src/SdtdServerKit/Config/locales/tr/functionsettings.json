@@ -46,7 +46,7 @@
   },
   "PointsSystemSettings": {
     "IsEnabled": false,
-    "SignInCmd": "giris",
+    "SignInCmd": "giriş",
     "SignInInterval": 3600,
     "SignInRewardPoints": 10,
     "SignInSuccessTip": "[00FF00]Başarılı giriş! Ödül puanları: {SignInRewardPoints}, Şu anki puanınız: {PlayerTotalPoints}",
@@ -56,24 +56,24 @@
     "IsCurrencyExchangeEnabled": false,
     "CurrencyToPointsExchangeRate": "1",
     "CurrencyExchangeCmd": "degistir",
-    "ExchangeSuccessTip": "[00FF00]Dönüştürme başarılı! Harcanan para: {CurrencyAmount}, Şu anki puanınız: {PlayerTotalPoints}",
-    "ExchangeFailureTip": "[FFFF00]Dönüştürme başarısız! Lütfen Duke'nun kumarhane jetonlarını hazırlayın veya giriş yapıp tekrar deneyin."
+    "ExchangeSuccessTip": "[00FF00]Ticaret başarılı! Harcanan para: {CurrencyAmount}, Şu anki puanınız: {PlayerTotalPoints}",
+    "ExchangeFailureTip": "[FFFF00]Ticaret başarısız! Lütfen Duke'nun kumarhane jetonlarını hazırlayın veya giriş yapıp tekrar deneyin"
   },
   "GameStoreSettings": {
     "IsEnabled": false,
-    "QueryListCmd": "satinal",
+    "QueryListCmd": "satınal",
     "BuyCmdPrefix": "satinal",
-    "GoodsItemTip": "[FFFFFF]Girin: [00FF00]satinal-{GoodsId} [FFFFFF]satın almak için [00FF00]{GoodsName}[FFFFFF], [00FF00]Fiyat: [FF00FF]{Price}",
+    "GoodsItemTip": "[FFFFFF]Satın almak için [00FF00]satinal-{GoodsName}[FFFFFF], [00FF00]Fiyat: [FF00FF]{Price}",
     "BuySuccessTip": "[00FF00]Satın alma başarılı!",
     "PointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: {Price}",
     "NoGoods": "[00FF00]Mevcut ürün yok."
   },
   "TeleportCitySettings": {
     "IsEnabled": false,
-    "QueryListCmd": "sehir",
-    "TeleCmdPrefix": "sehir",
+    "QueryListCmd": "şehir",
+    "TeleCmdPrefix": "şehir",
     "TeleInterval": 60,
-    "LocationItemTip": "[FFFFFF]Girin: [00FF00]sehir-{CityId} [FFFFFF]teleport olmak için [00FF00]{CityName}[FFFFFF], Gerekli puan: [FF00FF]{PointsRequired}",
+    "LocationItemTip": "[FFFFFF]Işınlanmak için [00FF00]Şehir-{CityID}[FFFFFF]'i girin: [00FF00]{CityName}[FFFFFF], Gerekli puan: [FF00FF]{PointsRequired}",
     "TeleSuccessTip": "[00FF00]Oyuncu: {PlayerName}, şu şehre teleport oldu: {CityName}",
     "PointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: {PointsRequired}",
     "CoolingTip": "[00FF00]Teleport beklemede... Kalan süre: {CooldownSeconds} saniye.",
@@ -87,12 +87,12 @@
     "TeleSuccessTip": "[00FF00] Oyuncu: {PlayerName}, şu kişiye teleport oldu: {TargetName}",
     "PointsNotEnoughTip": "[00FF00]Yeterli puan yok, gereken: {PointsRequired}",
     "CoolingTip": "[00FF00]Teleport beklemede... Kalan süre: {CooldownSeconds} saniye.",
-    "TargetNotFoundTip": "[FF00FF]Teleport hedefi bulunamadı, girin: [00FF00]/teleport arkadaş ismi [FFFFFF]teleport olmak için.",
+    "TargetNotFoundTip": "[FF00FF]Teleport hedefi bulunamadı, [FFFFFF]teleport olmak için. [00FF00]/teleport arkadaş ismini girin.",
     "IsFriendBypass": false,
-    "TeleConfirmTip": "[00FF00]Oyuncu: {PlayerName}, size ışınlanmak istiyor, kabul etmek için Yes girin, reddetmek için No girin",
-    "AcceptTele": "Yes",
-    "RejectTele": "No",
-    "TargetRejectTeleTip": "[FF0000]Diğer taraf iletim isteğinizi reddetti",
+    "TeleConfirmTip": "[00FF00]Oyuncu: {PlayerName}, size ışınlanmak istiyor, kabul etmek için Kabul yazin, reddetmek için Reddet yazin",
+    "AcceptTele": "Kabul",
+    "RejectTele": "Reddet",
+    "TargetRejectTeleTip": "[FF0000]Diğer taraf işinlanma isteğinizi reddetti",
     "KeepDuration": 30
   },
   "TeleportHomeSettings": {

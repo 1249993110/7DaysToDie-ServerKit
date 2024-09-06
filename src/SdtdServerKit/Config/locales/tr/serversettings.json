@@ -4,11 +4,11 @@
     "Desc": "Sunucu adı. İstediğiniz adı girin"
   },
   "ServerDescription": {
-    "Group": "Sunucu",
+    "Group": "Sunucular",
     "Desc": "Sunucu açıklaması. İstediğiniz sunucu açıklamasını girin"
   },
   "ServerWebsiteURL": {
-    "Group": "Sunucu",
+    "Group": "Sunucular",
     "Desc": "Sunucu web sitesi URL'si. Sunucu tarayıcısında tıklanabilir bir bağlantı olarak gösterilecektir"
   },
   "ServerPassword": {
