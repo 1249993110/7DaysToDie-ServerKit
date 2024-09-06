@@ -86,7 +86,7 @@ Detailed changes for each release are documented in the [release notes](./CHANGE
 Welcome join [our Discord server](<https://discord.gg/zdnmngsBK4>) and we can help.
 
 ## 🙈 Contributing
-We welcome and appreciate contributions. Feel free to find your own way and create a pull request.
+We welcome and appreciate contributions. To contribute code or translations, please see [here](./CONTRIBUTING.md)
 
 ## 💚 Donate
 If you find this project useful, you can buy author a coffee :coffee:

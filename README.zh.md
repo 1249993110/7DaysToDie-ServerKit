@@ -88,7 +88,7 @@ https://docs.7dtd.top
 欢迎加入服主交流QQ群：[470804744](https://qm.qq.com/cgi-bin/qm/qr?k=p3TKGDnBAxxyVsR79pF-WYHI3BjsYiHe&jump_from=webapi&authKey=wTpnGpOGOsAaNTD4TqL4kukLQnxT+TmDFQx803v+Q2zWU0E7LYuSkBQQI+WhrqFB)
 
 ## 🙈 贡献
-我们欢迎并感谢贡献。请随意找到自己的方式并创建拉取请求。
+我们欢迎并感谢贡献。贡献代码或翻译内容请参阅 [此处](./CONTRIBUTING.zh.md)
 
 ## 💚 捐赠
 您的支持是对我的最大鼓励！如果您觉得这个项目有用，您可以给作者买杯咖啡 :coffee:
