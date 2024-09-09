@@ -191,20 +191,26 @@ namespace SdtdServerKit
             {
                 const string LSTY_Data = "LSTY_Data";
                 string baseSettingsPath = Path.Combine(AppContext.BaseDirectory, LSTY_Data);
-                Directory.CreateDirectory(baseSettingsPath);
-
+                
                 string defaultAppConfigPath = Path.Combine(ModInstance.Path, "Config", "appsettings.json");
                 string productionAppConfigPath = Path.Combine(baseSettingsPath, "appsettings.json");
 
-                if(File.Exists(productionAppConfigPath) == false)
-                {
-                    File.Copy(defaultAppConfigPath, productionAppConfigPath);
-                }
-
                 var builder = new ConfigurationBuilder()
-                    //.SetBasePath(AppContext.BaseDirectory)
-                    .AddJsonFile(defaultAppConfigPath, optional: false, reloadOnChange: false)
-                    .AddJsonFile(productionAppConfigPath, optional: true, reloadOnChange: false);
+                    .AddJsonFile(defaultAppConfigPath, optional: false, reloadOnChange: false);
+
+                if (File.Exists(productionAppConfigPath) == false)
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(baseSettingsPath);
+                        File.Copy(defaultAppConfigPath, productionAppConfigPath);
+                        builder.AddJsonFile(productionAppConfigPath, optional: true, reloadOnChange: false);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomLogger.Warn(ex, $"Copy appsettings to production path {baseSettingsPath} faild, use the default path {defaultAppConfigPath}");
+                    }
+                }
 
                 var configuration = builder.Build();
                 var appSettings = configuration.Get<AppSettings>();
