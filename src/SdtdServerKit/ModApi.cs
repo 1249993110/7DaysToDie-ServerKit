@@ -359,17 +359,10 @@ namespace SdtdServerKit
 
             SqlMapper.AddTypeHandler(new GuidHandler());
 
-            string databasePath = Path.Combine(AppContext.BaseDirectory, AppSettings.DatabasePath);
-
-            // 复制旧数据库文件
-            if (File.Exists(databasePath) == false)
+            string databasePath = AppSettings.DatabasePath;
+            if (Path.IsPathRooted(databasePath) == false)
             {
-                string oldDatabasePath = Path.Combine(ModInstance.Path, "Data/database.db");
-                if (File.Exists(oldDatabasePath))
-                {
-                    File.Copy(oldDatabasePath, databasePath);
-                    CustomLogger.Info("Copy old database file success.");
-                }
+                databasePath = Path.Combine(AppContext.BaseDirectory, AppSettings.DatabasePath);
             }
 
             string connectionString = $"Data Source={databasePath};Cache=Shared";
