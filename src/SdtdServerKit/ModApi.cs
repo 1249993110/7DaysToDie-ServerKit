@@ -168,7 +168,7 @@ namespace SdtdServerKit
         }
 
         /// <summary>
-        /// 获取默认配置文件路径
+        /// Get default config content
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="locale"></param>
