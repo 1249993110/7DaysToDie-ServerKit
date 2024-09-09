@@ -41,23 +41,21 @@
         /// <param name="senderInfo">The information of the command sender.</param>
         public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
-            int senderEntityId;
-
-            // From console.
-            if (senderInfo.RemoteClientInfo == null)
-            {
-                senderEntityId = -1;
-            }
-            // From game client.
-            else
-            {
-                senderEntityId = senderInfo.RemoteClientInfo.entityId;
-            }
-
             if (args.Count < 2)
             {
                 Log(getHelp());
                 return;
+            }
+
+            int senderEntityId;
+                                     
+            if (senderInfo.RemoteClientInfo == null) // From console.
+            {
+                senderEntityId = -1;
+            }
+            else // From game client.
+            {
+                senderEntityId = senderInfo.RemoteClientInfo.entityId;
             }
 
             var receiver = ConsoleHelper.ParseParamIdOrName(args[0]);
@@ -74,7 +72,7 @@
             GameManager.Instance.ChatMessageServer(
                 ModApi.CmdExecuteDelegate,
                 EChatType.Whisper,
-                senderEntityId,
+                _senderEntityId: senderEntityId,
                 message,
                 new List<int>() { receiver.entityId },
                 EMessageSender.None);

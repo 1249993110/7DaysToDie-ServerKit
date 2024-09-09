@@ -59,7 +59,7 @@
             GameManager.Instance.ChatMessageServer(
                 ModApi.CmdExecuteDelegate,
                 EChatType.Global,
-                -1,
+                _senderEntityId: -1,
                 message,
                 null,
                 EMessageSender.None);

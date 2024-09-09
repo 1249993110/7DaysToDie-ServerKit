@@ -1,12 +1,12 @@
 ﻿namespace SdtdServerKit.Constants
 {
     /// <summary>
-    /// 公共常量
+    /// Common constants
     /// </summary>
     public struct Common
     {
         /// <summary>
-        /// 非玩家
+        /// Non-player
         /// </summary>
         public const string NonPlayer = "-non-player-";
     }
