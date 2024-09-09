@@ -24,8 +24,8 @@
         {
             return new string[]
             {
-                    "ty-SaveXmlsToFolder",
-                    "ty-sxtf",
+                "ty-SaveXmlsToFolder",
+                "ty-sxtf",
             };
         }
 

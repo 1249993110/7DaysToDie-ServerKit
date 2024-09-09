@@ -104,13 +104,18 @@ namespace SdtdServerKit.Functions
             try
             {
                 string backupSrcPath = GameIO.GetSaveGameDir();
-                string backupDestPath = Path.Combine(AppContext.BaseDirectory, Settings.ArchiveFolder);
+                string backupDestPath = Settings.ArchiveFolder;
+                if (Path.IsPathRooted(backupDestPath) == false)
+                {
+                    backupDestPath = Path.Combine(AppContext.BaseDirectory, Settings.ArchiveFolder);
+                }
+                
                 Directory.CreateDirectory(backupDestPath);
 
                 // 服务端版本、游戏世界、游戏名称、游戏时间
-                string serverVersion = global::Constants.cVersionInformation.LongString;
-                string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld);
-                string gameName = GamePrefs.GetString(EnumGamePrefs.GameName);
+                string serverVersion = global::Constants.cVersionInformation.LongString.Replace('_', ' ');
+                string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld).Replace('_', ' ');
+                string gameName = GamePrefs.GetString(EnumGamePrefs.GameName).Replace('_', ' ');
 
                 var worldTime = GameManager.Instance.World.GetWorldTime();
                 int days = GameUtils.WorldTimeToDays(worldTime);

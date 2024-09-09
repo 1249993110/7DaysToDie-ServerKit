@@ -1,4 +1,6 @@
-﻿namespace SdtdServerKit.Commands
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace SdtdServerKit.Commands
 {
     /// <summary>
     /// ResetPlayer class represents a command to reset a player's profile.
@@ -46,14 +48,16 @@
                     Log("Wrong number of arguments, expected 1, found '{0}'", args.Count);
                     return;
                 }
-
+                
                 var cInfo = ConsoleHelper.ParseParamIdOrName(args[0]);
                 if (cInfo != null && GameManager.Instance.World.Players.dict.TryGetValue(cInfo.entityId, out EntityPlayer entityPlayer))
                 {
                     SdtdConsole.Instance.ExecuteSync(string.Format("kick {0}", cInfo.CrossplatformId.CombinedString), ModApi.CmdExecuteDelegate);
+                    //Log("Kicking Player " + cInfo.playerName + ": ResetPlayer");
+                    //GameUtils.EKickReason ekickReason = GameUtils.EKickReason.ManualKick;
+                    //GameUtils.KickPlayerForClientInfo(cInfo, new GameUtils.KickPlayerData(ekickReason, 0, default(DateTime), "ResetPlayer"));
+                    
                     GameManager.Instance.World.aiDirector.RemoveEntity(entityPlayer);
-                    GC.Collect();
-                    MemoryPools.Cleanup();
                     ResetProfileExec(cInfo.CrossplatformId);
                     return;
                 }
@@ -64,8 +68,6 @@
                     var persistentPlayersDict = GameManager.Instance.GetPersistentPlayerList().Players;
                     if (persistentPlayersDict.TryGetValue(userId, out var persistentPlayerData))
                     {
-                        GC.Collect();
-                        MemoryPools.Cleanup();
                         ResetProfileExec(persistentPlayerData.PrimaryId);
                         return;
                     }
@@ -118,21 +120,22 @@
         {
             try
             {
-                string filepath = string.Format("{0}/Player/{1}.map", GameIO.GetSaveGameDir(), uId.CombinedString);
-                if (File.Exists(filepath) == false)
+                string dir = string.Format("{0}/Player/{1}", GameIO.GetSaveGameDir(), uId.CombinedString);
+                if (Directory.Exists(dir) == false)
                 {
-                    Log(string.Format("Could not find file '{0}' for player profile reset", filepath));
+                    Log(string.Format("Could not find directory '{0}' for player profile reset", dir));
                 }
                 else
                 {
-                    File.Delete(filepath);
-                    Log(string.Format("File '{0}' deleted for player profile reset", filepath));
+                    Directory.Delete(dir, true);
+                    Log(string.Format("Directory '{0}' deleted for player profile reset", dir));
                 }
                 Log(string.Format("Removing .ttp file in three seconds"));
-                Task.Delay(3000).ContinueWith((task) =>
-                {
+
+                Task.Run(async () => {
+                    await Task.Delay(3000);
                     DelayedProfileDeletion(uId);
-                }).Start();
+                });
             }
             catch (Exception e)
             {

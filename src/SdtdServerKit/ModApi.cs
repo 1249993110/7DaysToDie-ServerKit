@@ -168,7 +168,7 @@ namespace SdtdServerKit
         }
 
         /// <summary>
-        /// 获取默认配置文件路径
+        /// Get default config content
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="locale"></param>
@@ -191,18 +191,24 @@ namespace SdtdServerKit
             {
                 const string LSTY_Data = "LSTY_Data";
                 string baseSettingsPath = Path.Combine(AppContext.BaseDirectory, LSTY_Data);
-                Directory.CreateDirectory(baseSettingsPath);
-
+                
                 string defaultAppConfigPath = Path.Combine(ModInstance.Path, "Config", "appsettings.json");
                 string productionAppConfigPath = Path.Combine(baseSettingsPath, "appsettings.json");
 
-                if(File.Exists(productionAppConfigPath) == false)
+                if (File.Exists(productionAppConfigPath) == false)
                 {
-                    File.Copy(defaultAppConfigPath, productionAppConfigPath);
+                    try
+                    {
+                        Directory.CreateDirectory(baseSettingsPath);
+                        File.Copy(defaultAppConfigPath, productionAppConfigPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomLogger.Warn(ex, $"Copy appsettings to production path {baseSettingsPath} faild, use the default path {defaultAppConfigPath}");
+                    }
                 }
 
                 var builder = new ConfigurationBuilder()
-                    //.SetBasePath(AppContext.BaseDirectory)
                     .AddJsonFile(defaultAppConfigPath, optional: false, reloadOnChange: false)
                     .AddJsonFile(productionAppConfigPath, optional: true, reloadOnChange: false);
 
@@ -353,17 +359,10 @@ namespace SdtdServerKit
 
             SqlMapper.AddTypeHandler(new GuidHandler());
 
-            string databasePath = Path.Combine(AppContext.BaseDirectory, AppSettings.DatabasePath);
-
-            // 复制旧数据库文件
-            if (File.Exists(databasePath) == false)
+            string databasePath = AppSettings.DatabasePath;
+            if (Path.IsPathRooted(databasePath) == false)
             {
-                string oldDatabasePath = Path.Combine(ModInstance.Path, "Data/database.db");
-                if (File.Exists(oldDatabasePath))
-                {
-                    File.Copy(oldDatabasePath, databasePath);
-                    CustomLogger.Info("Copy old database file success.");
-                }
+                databasePath = Path.Combine(AppContext.BaseDirectory, AppSettings.DatabasePath);
             }
 
             string connectionString = $"Data Source={databasePath};Cache=Shared";
