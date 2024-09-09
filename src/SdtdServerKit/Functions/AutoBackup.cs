@@ -104,7 +104,12 @@ namespace SdtdServerKit.Functions
             try
             {
                 string backupSrcPath = GameIO.GetSaveGameDir();
-                string backupDestPath = Path.Combine(AppContext.BaseDirectory, Settings.ArchiveFolder);
+                string backupDestPath = Settings.ArchiveFolder;
+                if (Path.IsPathRooted(backupDestPath) == false)
+                {
+                    backupDestPath = Path.Combine(AppContext.BaseDirectory, Settings.ArchiveFolder);
+                }
+                
                 Directory.CreateDirectory(backupDestPath);
 
                 // 服务端版本、游戏世界、游戏名称、游戏时间
