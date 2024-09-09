@@ -150,14 +150,19 @@ namespace SdtdServerKit
         /// <param name="eChatType">The chat type.</param>
         /// <param name="entityId">The entity ID.</param>
         /// <param name="message">The chat message.</param>
-        /// <param name="mainName">The main name.</param>
+        /// <param name="senderName">The sender name.</param>
         /// <param name="recipientEntityIds">The recipient entity IDs.</param>
         /// <returns>True to pass the message on to the next mod or output to chat, false to prevent the message from being passed on or output to chat.</returns>
-        public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int entityId, string message, string mainName, List<int> recipientEntityIds)
+        public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int entityId, string message, string senderName, List<int> recipientEntityIds)
         {
             if (ChatMessage == null)
             {
                 return true;
+            }
+
+            if(string.IsNullOrEmpty(senderName))
+            {
+                senderName = Localization.Get("xuiChatServer", false);
             }
 
             var chatMessage = new ChatMessage()
@@ -166,7 +171,7 @@ namespace SdtdServerKit
                 PlayerId = clientInfo?.InternalId.CombinedString,
                 ChatType = (ChatType)eChatType,
                 Message = message,
-                SenderName = entityId == -1 ? Localization.Get("xuiChatServer", false) : mainName,
+                SenderName = senderName,
                 CreatedAt = DateTime.Now,
             };
 
