@@ -195,22 +195,22 @@ namespace SdtdServerKit
                 string defaultAppConfigPath = Path.Combine(ModInstance.Path, "Config", "appsettings.json");
                 string productionAppConfigPath = Path.Combine(baseSettingsPath, "appsettings.json");
 
-                var builder = new ConfigurationBuilder()
-                    .AddJsonFile(defaultAppConfigPath, optional: false, reloadOnChange: false);
-
                 if (File.Exists(productionAppConfigPath) == false)
                 {
                     try
                     {
                         Directory.CreateDirectory(baseSettingsPath);
                         File.Copy(defaultAppConfigPath, productionAppConfigPath);
-                        builder.AddJsonFile(productionAppConfigPath, optional: true, reloadOnChange: false);
                     }
                     catch (Exception ex)
                     {
                         CustomLogger.Warn(ex, $"Copy appsettings to production path {baseSettingsPath} faild, use the default path {defaultAppConfigPath}");
                     }
                 }
+
+                var builder = new ConfigurationBuilder()
+                    .AddJsonFile(defaultAppConfigPath, optional: false, reloadOnChange: false)
+                    .AddJsonFile(productionAppConfigPath, optional: true, reloadOnChange: false);
 
                 var configuration = builder.Build();
                 var appSettings = configuration.Get<AppSettings>();
