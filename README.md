@@ -80,7 +80,7 @@ Detailed changes for each release are documented in the [release notes](./CHANGE
 ## ⚡️ Links
 [Official] [Official TFP 7 Days To Die Forum](https://community.7daystodie.com/topic/37613-tianyiserverkit-a-server-panel-management-tool-for-v10)  
 [Official] [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5924)  
-[Unofficial] [7daystodiemods.com](https://7daystodiemods.com/dedicated-server-api-integration-visual-management-kit)
+[Unofficial] [7daystodiemods.com](https://7daystodiemods.com/serverkit)
 
 ## 👷 Support
 Welcome join [our Discord server](<https://discord.gg/zdnmngsBK4>) and we can help.

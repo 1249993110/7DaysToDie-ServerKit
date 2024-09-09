@@ -82,7 +82,7 @@ https://docs.7dtd.top
 ## ⚡️ 链接
 [官方] [七日杀官方论坛](https://community.7daystodie.com/topic/37613-tianyiserverkit-a-server-panel-management-tool-for-v10)
 [官方] [Nexus Mods](https://www.nexusmods.com/7daystodie/mods/5924)
-[非官方] [7daystodiemods.com](https://7daystodiemods.com/dedicated-server-api-integration-visual-management-kit)
+[非官方] [7daystodiemods.com](https://7daystodiemods.com/serverkit)
 
 ## 👷 支持
 欢迎加入服主交流QQ群：[470804744](https://qm.qq.com/cgi-bin/qm/qr?k=p3TKGDnBAxxyVsR79pF-WYHI3BjsYiHe&jump_from=webapi&authKey=wTpnGpOGOsAaNTD4TqL4kukLQnxT+TmDFQx803v+Q2zWU0E7LYuSkBQQI+WhrqFB)
