@@ -1,5 +1,7 @@
 {
   "GlobalSettings": {
+    "GlobalServerName": "[FFFFFF]Server",
+    "WhisperServerName": "[FF0000]Server",
     "ChatCommandPrefix": "",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]系统错误, 请联系服务器管理员",
