@@ -20,8 +20,32 @@ namespace SdtdServerKit.Functions
         {
             ModEventHub.EntityKilled += OnEntityKilled;
             ModEventHub.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
+            ModEventHub.EntitySpawned += OnModEventHubEntitySpawned;
             autoRestartTimer = new SubTimer(AutoRestart, 5) { IsEnabled = true };
             GlobalTimer.RegisterSubTimer(autoRestartTimer);
+        }
+
+        private void OnModEventHubEntitySpawned()
+        {
+            if (Settings.EnableAutoZombieCleanup)
+            {
+                int zombies = 0;
+                foreach (var entity in GameManager.Instance.World.Entities.list)
+                {
+                    if (entity.IsAlive())
+                    {
+                        if (entity is EntityEnemy)
+                        {
+                            zombies++;
+                        }
+                    }
+                }
+                if(zombies > Settings.AutoZombieCleanupThreshold)
+                {
+                    Utils.ExecuteConsoleCommand("killall", true);
+                    CustomLogger.Info("Auto zombie cleanup triggered.");
+                }
+            }
         }
 
         /// <summary>
@@ -63,7 +87,7 @@ namespace SdtdServerKit.Functions
                 {
                     foreach (var item in Settings.AutoRestart.Messages)
                     {
-                        Utils.ExecuteConsoleCommand("say \"" + item + "\"", true);
+                        Utils.ExecuteConsoleCommand("say \"" + item + "\"", false);
                         await Task.Delay(1000);
                     }
                 }

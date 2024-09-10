@@ -171,7 +171,7 @@
         /// <returns></returns>
         public static IEnumerable<string> ExecuteConsoleCommand(string command, bool inMainThread = false)
         {
-            if (inMainThread)
+            if (inMainThread && ThreadManager.IsMainThread() == false)
             {
                 IEnumerable<string> executeResult = Enumerable.Empty<string>();
                 ModApi.MainThreadSyncContext.Send((state) =>
