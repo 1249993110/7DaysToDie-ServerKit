@@ -21,7 +21,7 @@
         public override string getHelp()
         {
             return "Usage:\n" +
-                   "  1. ty-pm {PlayerId/EntityId/PlayerName} {Message}\n" +
+                   "  1. ty-pm {PlayerId/EntityId/PlayerName} {Message} {SenderName}\n" +
                    "1. Sends a PM to the player given by the entity id or player id or player name (as given by e.g. \"lpi\").";
         }
 
@@ -41,36 +41,41 @@
         /// <param name="senderInfo">The information of the command sender.</param>
         public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
-            int senderEntityId = -1; // From console.
-                                     // From game client.
-            if (senderInfo.RemoteClientInfo != null)
-            {
-                senderEntityId = senderInfo.RemoteClientInfo.entityId;
-            }
-
             if (args.Count < 2)
             {
                 Log(getHelp());
                 return;
             }
 
-            string message = args[1];
+            int senderEntityId;
+                                     
+            if (senderInfo.RemoteClientInfo == null) // From console.
+            {
+                senderEntityId = -1;
+            }
+            else // From game client.
+            {
+                senderEntityId = senderInfo.RemoteClientInfo.entityId;
+            }
 
-            ClientInfo receiver = ConsoleHelper.ParseParamIdOrName(args[0]);
+            var receiver = ConsoleHelper.ParseParamIdOrName(args[0]);
             if (receiver == null)
             {
                 Log("Unable to locate player '{0}' online", args[0]);
+                return;
             }
-            else
-            {
-                GameManager.Instance.ChatMessageServer(
-                    ModApi.CmdExecuteDelegate,
-                    EChatType.Whisper,
-                    senderEntityId,
-                    message,
-                    new List<int>() { receiver.entityId },
-                    EMessageSender.Server);
-            }
+
+            string message = args[1];
+            string senderName = args.Count > 2 ? args[2] : Localization.Get("xuiChatServer", false);
+            message = global::Utils.CreateGameMessage(senderName, message);
+
+            GameManager.Instance.ChatMessageServer(
+                ModApi.CmdExecuteDelegate,
+                EChatType.Whisper,
+                _senderEntityId: senderEntityId,
+                message,
+                new List<int>() { receiver.entityId },
+                EMessageSender.None);
         }
     }
 }

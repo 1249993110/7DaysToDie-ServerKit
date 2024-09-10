@@ -2,6 +2,7 @@
 using SdtdServerKit.Managers;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Windows;
 using Webserver.WebAPI.APIs.WorldState;
 
 namespace SdtdServerKit
@@ -148,25 +149,41 @@ namespace SdtdServerKit
         /// </summary>
         /// <param name="clientInfo">The client info.</param>
         /// <param name="eChatType">The chat type.</param>
-        /// <param name="entityId">The entity ID.</param>
+        /// <param name="senderEntityId">The sender entity ID.</param>
         /// <param name="message">The chat message.</param>
         /// <param name="mainName">The main name.</param>
         /// <param name="recipientEntityIds">The recipient entity IDs.</param>
         /// <returns>True to pass the message on to the next mod or output to chat, false to prevent the message from being passed on or output to chat.</returns>
-        public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int entityId, string message, string mainName, List<int> recipientEntityIds)
+        public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderEntityId, string message, string mainName, List<int> recipientEntityIds)
         {
             if (ChatMessage == null)
             {
                 return true;
             }
 
+            string senderName;
+            if (clientInfo == ModApi.CmdExecuteDelegate) 
+            {
+                string[] parts = message.Split(new string[] { ": " }, 2, StringSplitOptions.None);
+                senderName = parts[0];
+                message = parts[1];
+            }
+            else if(senderEntityId == -1)
+            {
+                senderName = Localization.Get("xuiChatServer", false);
+            }
+            else
+            {
+                senderName = mainName ?? Common.NonPlayer;
+            }
+
             var chatMessage = new ChatMessage()
             {
-                EntityId = entityId,
+                EntityId = senderEntityId,
                 PlayerId = clientInfo?.InternalId.CombinedString,
                 ChatType = (ChatType)eChatType,
                 Message = message,
-                SenderName = entityId == -1 ? Localization.Get("xuiChatServer", false) : mainName,
+                SenderName = senderName,
                 CreatedAt = DateTime.Now,
             };
 

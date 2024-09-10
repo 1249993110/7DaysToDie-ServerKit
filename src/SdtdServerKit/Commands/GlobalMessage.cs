@@ -11,7 +11,7 @@
         /// <returns>The description of the command.</returns>
         public override string getDescription()
         {
-            return "Sends a message to all connected clients.";
+            return "Sends a message to all connected clients by sender name.";
         }
 
         /// <summary>
@@ -21,7 +21,7 @@
         public override string getHelp()
         {
             return "Usage:\n" +
-               "  1. ty-gm {Message}\n" +
+               "  1. ty-gm {Message} {SenderName}\n" +
                "1. Sends a message to all connected clients by sender name.";
         }
 
@@ -53,7 +53,16 @@
             }
 
             string message = args[0];
-            GameManager.Instance.ChatMessageServer(ModApi.CmdExecuteDelegate, EChatType.Global, -1, message, null, EMessageSender.Server);
+            string senderName = args.Count > 1 ? args[1] : Localization.Get("xuiChatServer", false);
+            message = global::Utils.CreateGameMessage(senderName, message);
+
+            GameManager.Instance.ChatMessageServer(
+                ModApi.CmdExecuteDelegate,
+                EChatType.Global,
+                _senderEntityId: -1,
+                message,
+                null,
+                EMessageSender.None);
         }
     }
 }
