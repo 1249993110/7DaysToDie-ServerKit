@@ -1,6 +1,7 @@
 ﻿using Namotion.Reflection;
 using Newtonsoft.Json.Linq;
 using SdtdServerKit.Constants;
+using SdtdServerKit.Managers;
 using SdtdServerKit.ServerSettings;
 using System.Text;
 using System.Xml;
@@ -250,6 +251,10 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(SendGlobalMessage))]
         public IEnumerable<string> SendGlobalMessage([FromBody] GlobalMessage globalMessage)
         {
+            if (string.IsNullOrEmpty(globalMessage.SenderName))
+            {
+                globalMessage.SenderName = ConfigManager.GlobalSettings.GlobalServerName;
+            }
             return Utils.SendGlobalMessage(globalMessage);
         }
 
@@ -260,6 +265,10 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(SendPrivateMessage))]
         public IEnumerable<string> SendPrivateMessage([FromBody] PrivateMessage privateMessage)
         {
+            if (string.IsNullOrEmpty(privateMessage.SenderName))
+            {
+                privateMessage.SenderName = ConfigManager.GlobalSettings.WhisperServerName;
+            }
             return Utils.SendPrivateMessage(privateMessage);
         }
 

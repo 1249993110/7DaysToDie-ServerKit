@@ -155,7 +155,7 @@ namespace SdtdServerKit.Functions
             Utils.SendGlobalMessage(new GlobalMessage()
             {
                 Message = message,
-                //SenderName = ConfigManager.GlobalSettings.ServerName
+                SenderName = ConfigManager.GlobalSettings.GlobalServerName
             });
         }
 
@@ -171,7 +171,7 @@ namespace SdtdServerKit.Functions
             {
                 TargetPlayerIdOrName = playerIdOrName,
                 Message = message,
-                //SenderName = ConfigManager.GlobalSettings.ServerName
+                SenderName = ConfigManager.GlobalSettings.WhisperServerName
             });
         }
 
