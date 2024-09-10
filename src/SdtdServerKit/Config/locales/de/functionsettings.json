@@ -35,7 +35,9 @@
     "BlockFamilySharingAccount": true,
     "RemoveSleepingBagFromPOI": false,
     "IsEnablePlayerInitialSpawnPoint": false,
-    "PlayerInitialPosition": null
+    "PlayerInitialPosition": null,
+    "EnableAutoZombieCleanup": false,
+    "AutoZombieCleanupThreshold": 128
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
