@@ -73,11 +73,11 @@ namespace SdtdServerKit.Functions
 
             {
                 var original = AccessTools.Method(typeof(GameManager), nameof(GameManager.RequestToSpawnPlayer));
-                var patch = AccessTools.Method(typeof(GameManagerPatcher), nameof(GameManagerPatcher.After_RequestToSpawnPlayer));
+                var patch = AccessTools.Method(typeof(GameManagerPatcher), nameof(GameManagerPatcher.Before_RequestToSpawnPlayer));
 
                 if (Settings.EnableXmlsSecondaryOverwrite)
                 {
-                    ModApi.Harmony.Patch(original, postfix: new HarmonyMethod(patch));
+                    ModApi.Harmony.Patch(original, prefix: new HarmonyMethod(patch));
                 }
                 else
                 {

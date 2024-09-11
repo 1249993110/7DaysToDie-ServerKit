@@ -32,7 +32,7 @@
         "[FF0000]Restartowanie..."
       ]
     },
-    "BlockFamilySharingAccount": true,
+    "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null,

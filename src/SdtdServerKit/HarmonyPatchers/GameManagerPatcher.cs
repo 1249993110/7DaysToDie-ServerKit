@@ -6,7 +6,7 @@ namespace SdtdServerKit.HarmonyPatchers
     [HarmonyPatch(typeof(GameManager))]
     internal class GameManagerPatcher
     {
-        public static bool After_RequestToSpawnPlayer(ClientInfo _cInfo, int _chunkViewDim, PlayerProfile _playerProfile)
+        public static bool Before_RequestToSpawnPlayer(ClientInfo _cInfo, int _chunkViewDim, PlayerProfile _playerProfile)
         {
             var xmlsToLoad = WorldStaticData.xmlsToLoad;
 
