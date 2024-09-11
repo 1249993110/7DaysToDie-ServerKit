@@ -121,5 +121,10 @@
         /// Gets or sets the auto zombie cleanup threshold.
         /// </summary>
         public int AutoZombieCleanupThreshold { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable XMLs secondary overwrites.
+        /// </summary>
+        public bool EnableXmlsSecondaryOverwrite { get; set; }
     }
 }
