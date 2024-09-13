@@ -140,7 +140,7 @@
   },
   "ColoredChatSettings": {
     "IsEnabled": false,
-    "GlobalDefault": "ФФФФФ",
+    "GlobalDefault": "FFFFFF",
     "WhisperDefault": "D00000",
     "FriendsDefault": "00BB00",
     "PartyDefault": "FFCC00"
