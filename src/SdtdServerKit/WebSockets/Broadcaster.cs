@@ -57,7 +57,7 @@ namespace SdtdServerKit.WebSockets
             ModEventHub.GameShutdown += () => Broadcast(ModEventType.GameShutdown);
             ModEventHub.ChatMessage += (message) => Broadcast(ModEventType.ChatMessage, message);
             ModEventHub.EntityKilled += (killedEntity) => Broadcast(ModEventType.EntityKilled, killedEntity);
-            ModEventHub.EntitySpawned += () => Broadcast(ModEventType.EntitySpawned);
+            ModEventHub.EntitySpawned += (entityInfo) => Broadcast(ModEventType.EntitySpawned, entityInfo);
             ModEventHub.PlayerDisconnected += (managedPlayer) => Broadcast(ModEventType.PlayerDisconnected, managedPlayer);
             ModEventHub.PlayerLogin += (playerBase) => Broadcast(ModEventType.PlayerLogin, playerBase);
             ModEventHub.PlayerSpawnedInWorld += (spawnedPlayer) => Broadcast(ModEventType.PlayerSpawnedInWorld, spawnedPlayer);

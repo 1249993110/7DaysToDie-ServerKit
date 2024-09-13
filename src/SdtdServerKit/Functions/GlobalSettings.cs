@@ -29,7 +29,7 @@ namespace SdtdServerKit.Functions
             GlobalTimer.RegisterSubTimer(autoRestartTimer);
         }
 
-        private void OnEntitySpawned()
+        private void OnEntitySpawned(EntityInfo entityInfo)
         {
             if (Settings.EnableAutoZombieCleanup)
             {
@@ -46,8 +46,8 @@ namespace SdtdServerKit.Functions
                 }
                 if(zombies > Settings.AutoZombieCleanupThreshold)
                 {
-                    Utils.ExecuteConsoleCommand("killall", true);
-                    CustomLogger.Info("Auto zombie cleanup triggered.");
+                    Utils.ExecuteConsoleCommand("ty-RemoveEntity " + entityInfo.EntityId, true);
+                    CustomLogger.Info($"Auto zombie cleanup triggered, the entity: {entityInfo.EntityName} was removed.");
                 }
             }
         }
