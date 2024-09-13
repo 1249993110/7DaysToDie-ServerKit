@@ -137,5 +137,12 @@
     "HasClaimedTip": "[00FF00]Hediye paketinizi zaten aldınız~",
     "NonVipTip": "[00FF00]Henüz VIP değilsiniz~",
     "ClaimSuccessTip": "[00FF00]Tebrikler, hediye paketini başarıyla aldınız: {GiftName}"
+  },
+  "ColoredChat": {
+    "IsEnabled": false,
+    "GlobalDefault": "FFFFFF",
+    "WhisperDefault": "D00000",
+    "FriendsDefault": "00BB00",
+    "PartyDefault": "FFCC00"
   }
 }
