@@ -137,5 +137,12 @@
     "HasClaimedTip": "[00FF00]Вы уже получили подарочный пакет~",
     "NonVipTip": "[00FF00]Вы еще не VIP~",
     "ClaimSuccessTip": "[00FF00]Поздравляем, вы успешно получили подарочный пакет: {GiftName}"
+  },
+  "ColoredChat": {
+    "IsEnabled": false,
+    "GlobalDefault": "FFFFFF",
+    "WhisperDefault": "D00000",
+    "FriendsDefault": "00BB00",
+    "PartyDefault": "FFCC00"
   }
 }
