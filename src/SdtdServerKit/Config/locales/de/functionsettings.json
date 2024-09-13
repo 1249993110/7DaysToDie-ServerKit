@@ -138,7 +138,7 @@
     "NonVipTip": "[00FF00]Sie sind noch kein VIP~",
     "ClaimSuccessTip": "[00FF00]Herzlichen Glückwunsch zum erfolgreichen Erhalt des Geschenkpakets: {GiftName}"
   },
-  "ColoredChat": {
+  "ColoredChatSettings": {
     "IsEnabled": false,
     "GlobalDefault": "FFFFFF",
     "WhisperDefault": "D00000",
