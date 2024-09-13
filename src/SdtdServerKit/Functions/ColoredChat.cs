@@ -51,45 +51,48 @@ namespace SdtdServerKit.Functions
                 if (coloredChat != null)
                 {
                     string playerName = managedPlayer.PlayerName;
-
                     message = $"[{coloredChat.NameColor}]{playerName}[{GetDefaultColor(eChatType)}]: [{coloredChat.TextColor}]{message}";
+                }
+                else
+                {
+                    message = $"[{GetDefaultColor(eChatType)}]" + message;
+                }
 
-                    if (recipientEntityIds != null)
+                if (recipientEntityIds != null)
+                {
+                    foreach (var entityId in recipientEntityIds)
                     {
-                        foreach (var entityId in recipientEntityIds)
+                        if (LivePlayerManager.TryGetByEntityId(entityId, out var recipientPlayer))
                         {
-                            if(LivePlayerManager.TryGetByEntityId(entityId, out var recipientPlayer))
-                            {
-                                recipientPlayer!.ClientInfo.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
-                                    .Setup(eChatType, senderEntityId, message, null, EMessageSender.None));
-                            }
+                            recipientPlayer!.ClientInfo.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
+                                .Setup(eChatType, senderEntityId, message, null, EMessageSender.None));
                         }
                     }
-                    else
-                    {
-                        ConnectionManager.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
-                            .Setup(eChatType, senderEntityId, message, null, EMessageSender.None), true, -1, -1, -1, null, 192);
-                    }
-
-                    return false;
                 }
+                else
+                {
+                    ConnectionManager.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
+                        .Setup(eChatType, senderEntityId, message, null, EMessageSender.None), true, -1, -1, -1, null, 192);
+                }
+
+                return false;
             }
 
             return true;
         }
 
-        private static string GetDefaultColor(EChatType eChatType)
+        private string GetDefaultColor(EChatType eChatType)
         {
             switch (eChatType)
             {
                 case EChatType.Global:
-                    return "FFFFFF";
-                case EChatType.Friends:
-                    return "00BB00";
-                case EChatType.Party:
-                    return "FFCC00";
+                    return !string.IsNullOrEmpty(Settings.GlobalDefault) ? Settings.GlobalDefault! : "FFFFFF";
                 case EChatType.Whisper:
-                    return "D00000";
+                    return !string.IsNullOrEmpty(Settings.WhisperDefault) ? Settings.GlobalDefault! : "D00000";
+                case EChatType.Friends:
+                    return !string.IsNullOrEmpty(Settings.FriendsDefault) ? Settings.GlobalDefault! : "00BB00";
+                case EChatType.Party:
+                    return !string.IsNullOrEmpty(Settings.PartyDefault) ? Settings.GlobalDefault! : "FFCC00";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(eChatType), eChatType, null);
             }
