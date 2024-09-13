@@ -1,19 +1,22 @@
 ﻿namespace SdtdServerKit.Functions
 {
+    /// <summary>
+    /// Function Interface
+    /// </summary>
     public interface IFunction
     {
         /// <summary>
-        /// 是否启用功能
+        /// Whether the function is running
         /// </summary>
-        public bool IsEnabled { get; }
+        public bool IsRunning { get; }
 
         /// <summary>
-        /// 功能名称
+        /// Function Name
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// 加载配置
+        /// Load Settings
         /// </summary>
         internal void LoadSettings();
     }

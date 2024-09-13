@@ -24,11 +24,11 @@
     "Desc": "Die Region, in der sich der Server befindet. Mögliche Werte sind: Asien, NordamerikaOst, NordamerikaWest, Mittelamerika, Südamerika, Europa, Russland, Naher Osten, Afrika, Ozeanien"
   },
   "Language": {
-    "Group": "Servers",
-    "Desc": "The primary language of players on the server. Use the English name of any language players wish to search for. Possible values ​​are: english, german, spanish, french, italian, japanese, koreana, polish, brazilian, russian, turkish, schinese, tchinese"
+    "Group": "Server",
+    "Desc": "Die primäre Sprache der Spieler auf dem Server. Verwenden Sie den englischen Namen aller Sprachen, nach denen Spieler suchen möchten. Mögliche Werte sind: Englisch, Deutsch, Spanisch, Französisch, Japanisch, Koreanisch, Polnisch, Brasil, Russisch, Türkisch, Schinese, TChinesisch"
   },
   "ServerPort": {
-    "Group": "Network",
+    "Group": "Netzwerk",
     "Desc": "Der Port, auf dem das Serverprogramm lauscht. Wenn Sie möchten, dass Computer im selben LAN es als LAN-Server sehen, halten Sie dies im Bereich 26900 bis 26905 oder 27015 bis 27020"
   },
   "ServerVisibility": {
@@ -252,19 +252,19 @@
     "Desc": "Zombie Feral Sense. 0-3 (aus, Tag, Nacht, alle)"
   },
   "ZombieMove": {
-    "Group": "Zombie Settings",
+    "Group": "Zombie-Einstellungen",
     "Desc": "Zombiebewegung. 0-4 (Gehen, Joggen, Laufen, Sprinten, Albtraum)"
   },
   "ZombieMoveNight": {
-    "Group": "Zombie Settings",
+    "Group": "Zombie-Einstellungen",
     "Desc": "Zombie-Nachtbewegung. 0-4 (Gehen, Joggen, Laufen, Sprinten, Albtraum)"
   },
   "ZombieFeralMove": {
-    "Group": "Zombie Settings",
+    "Group": "Zombie-Einstellungen",
     "Desc": "Zombie-BM-Bewegung. 0-4 (Gehen, Joggen, Laufen, Sprinten, Albtraum)"
   },
   "ZombieBMMove": {
-    "Group": "Zombie Settings",
+    "Group": "Zombie-Einstellungen",
     "Desc": "Zombie-BM-Bewegung. 0-4 (Gehen, Joggen, Rennen, Sprinten, Albtraum)"
   },
   "BloodMoonFrequency": {

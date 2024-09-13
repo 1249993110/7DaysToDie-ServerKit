@@ -1,12 +1,7 @@
 ﻿namespace SdtdServerKit.FunctionSettings
 {
-    public class TeleportCitySettings : ISettings
+    public class TeleportCitySettings : SettingsBase
     {
-        /// <summary>
-        /// 是否启用功能
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// 查询列表命令
         /// </summary>

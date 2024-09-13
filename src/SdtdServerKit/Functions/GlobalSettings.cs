@@ -1,6 +1,10 @@
-﻿using Platform.Steam;
+﻿using HarmonyLib;
+using Platform.Steam;
 using SdtdServerKit.HarmonyPatchers;
 using SdtdServerKit.Managers;
+using System.Reflection;
+using UnityEngine.Rendering;
+using static SaveDataPrefsFile;
 
 namespace SdtdServerKit.Functions
 {
@@ -20,22 +24,79 @@ namespace SdtdServerKit.Functions
         {
             ModEventHub.EntityKilled += OnEntityKilled;
             ModEventHub.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
+            ModEventHub.EntitySpawned += OnEntitySpawned;
             autoRestartTimer = new SubTimer(AutoRestart, 5) { IsEnabled = true };
             GlobalTimer.RegisterSubTimer(autoRestartTimer);
         }
 
+        private void OnEntitySpawned(EntityInfo entityInfo)
+        {
+            if (Settings.EnableAutoZombieCleanup)
+            {
+                int zombies = 0;
+                foreach (var entity in GameManager.Instance.World.Entities.list)
+                {
+                    if (entity.IsAlive())
+                    {
+                        if (entity is EntityEnemy)
+                        {
+                            zombies++;
+                        }
+                    }
+                }
+                if(zombies > Settings.AutoZombieCleanupThreshold)
+                {
+                    Utils.ExecuteConsoleCommand("ty-RemoveEntity " + entityInfo.EntityId, true);
+                    CustomLogger.Info($"Auto zombie cleanup triggered, the entity: {entityInfo.EntityName} was removed.");
+                }
+            }
+        }
+
         /// <summary>
-        /// 当设置发生变化时调用
+        /// <inheritdoc/>
         /// </summary>
         protected override void OnSettingsChanged()
         {
-            if (Settings.RemoveSleepingBagFromPOI)
-            {
-                RemoveSleepingBagFromPOI.Patch();
+            { 
+                var original = AccessTools.Method(typeof(GameManager), nameof(GameManager.ChangeBlocks));
+                var patch = AccessTools.Method(typeof(GameManagerPatcher), nameof(GameManagerPatcher.Before_ChangeBlocks));
+
+                if (Settings.RemoveSleepingBagFromPOI)
+                {
+                    ModApi.Harmony.Patch(original, prefix: new HarmonyMethod(patch));
+                }
+                else
+                {
+                    ModApi.Harmony.Unpatch(original, patch);
+                }
             }
-            else
+
             {
-                RemoveSleepingBagFromPOI.UnPatch();
+                var original = AccessTools.Method(typeof(GameManager), nameof(GameManager.RequestToSpawnPlayer));
+                var patch = AccessTools.Method(typeof(GameManagerPatcher), nameof(GameManagerPatcher.Before_RequestToSpawnPlayer));
+
+                if (Settings.EnableXmlsSecondaryOverwrite)
+                {
+                    ModApi.Harmony.Patch(original, prefix: new HarmonyMethod(patch));
+                }
+                else
+                {
+                    ModApi.Harmony.Unpatch(original, patch);
+                }
+            }
+
+            {
+                var original = AccessTools.Method(typeof(PlayerDataFile), nameof(PlayerDataFile.ToPlayer));
+                var patch = AccessTools.Method(typeof(PlayerDataFilePatcher), nameof(PlayerDataFilePatcher.After_ToPlayer));
+
+                if (Settings.IsEnablePlayerInitialSpawnPoint)
+                {
+                    ModApi.Harmony.Patch(original, postfix: new HarmonyMethod(patch));
+                }
+                else
+                {
+                    ModApi.Harmony.Unpatch(original, patch);
+                }
             }
         }
 
@@ -63,7 +124,7 @@ namespace SdtdServerKit.Functions
                 {
                     foreach (var item in Settings.AutoRestart.Messages)
                     {
-                        Utils.ExecuteConsoleCommand("say \"" + item + "\"", true);
+                        SendGlobalMessage(item);
                         await Task.Delay(1000);
                     }
                 }

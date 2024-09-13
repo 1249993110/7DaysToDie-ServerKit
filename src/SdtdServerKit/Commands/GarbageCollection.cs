@@ -24,8 +24,8 @@ namespace SdtdServerKit.Commands
         {
             return new string[]
             {
-                    "ty-GarbageCollection",
-                    "ty-gc"
+                "ty-GarbageCollection",
+                "ty-gc"
             };
         }
 

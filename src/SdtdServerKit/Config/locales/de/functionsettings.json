@@ -32,10 +32,13 @@
         "[FF0000]Neustart..."
       ]
     },
-    "BlockFamilySharingAccount": true,
+    "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
     "IsEnablePlayerInitialSpawnPoint": false,
-    "PlayerInitialPosition": null
+    "PlayerInitialPosition": null,
+    "EnableAutoZombieCleanup": false,
+    "AutoZombieCleanupThreshold": 128,
+    "EnableXmlsSecondaryOverwrite": false
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
@@ -134,5 +137,12 @@
     "HasClaimedTip": "[00FF00]Sie haben das Geschenkpaket erhalten~",
     "NonVipTip": "[00FF00]Sie sind noch kein VIP~",
     "ClaimSuccessTip": "[00FF00]Herzlichen Glückwunsch zum erfolgreichen Erhalt des Geschenkpakets: {GiftName}"
+  },
+  "ColoredChatSettings": {
+    "IsEnabled": false,
+    "GlobalDefault": "FFFFFF",
+    "WhisperDefault": "D00000",
+    "FriendsDefault": "00BB00",
+    "PartyDefault": "FFCC00"
   }
 }

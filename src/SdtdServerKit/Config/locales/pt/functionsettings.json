@@ -1,7 +1,7 @@
 {
   "GlobalSettings": {
-    "GlobalServerName": "[FFFFFF]Server",
-    "WhisperServerName": "[FF0000]Server",
+    "GlobalServerName": "[FFFFFF]Servidor",
+    "WhisperServerName": "[FF0000]Servidor",
     "ChatCommandPrefix": "",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]Erro do sistema, por favor contate o administrador do servidor.",
@@ -32,10 +32,13 @@
         "[FF0000]Reiniciando..."
       ]
     },
-    "BlockFamilySharingAccount": true,
+    "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
     "IsEnablePlayerInitialSpawnPoint": false,
-    "PlayerInitialPosition": null
+    "PlayerInitialPosition": null,
+    "EnableAutoZombieCleanup": false,
+    "AutoZombieCleanupThreshold": 128,
+    "EnableXmlsSecondaryOverwrite": false
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
@@ -134,5 +137,12 @@
     "HasClaimedTip": "[00FF00]Você já recebeu o pacote de presente~",
     "NonVipTip": "[00FF00]Você ainda não é um VIP~",
     "ClaimSuccessTip": "[00FF00]Parabéns por receber com sucesso o pacote de presente: {GiftName}"
+  },
+  "ColoredChatSettings": {
+    "IsEnabled": false,
+    "GlobalDefault": "FFFFFF",
+    "WhisperDefault": "D00000",
+    "FriendsDefault": "00BB00",
+    "PartyDefault": "FFCC00"
   }
 }

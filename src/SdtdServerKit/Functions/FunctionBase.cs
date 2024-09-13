@@ -28,9 +28,13 @@ namespace SdtdServerKit.Functions
         }
 
         private readonly string _functionName;
-        private bool _isEnabled;
         private bool _isRunning;
         private TSettings? _settings;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public bool IsRunning => _isRunning;
 
         /// <summary>
         /// Function base constructor
@@ -45,8 +49,7 @@ namespace SdtdServerKit.Functions
             _settings = ConfigManager.Get<TSettings>();
             if (_settings != null)
             {
-                IsEnabled = _settings.IsEnabled;
-                OnSettingsChanged();
+                OnSettingsChanged(_settings);
             }
             ConfigManager.SettingsChanged += OnSettingsChanged;
         }
@@ -55,27 +58,6 @@ namespace SdtdServerKit.Functions
         /// 功能名称
         /// </summary>
         public string Name => _functionName;
-
-        /// <summary>
-        /// 是否启用
-        /// </summary>
-        public bool IsEnabled
-        {
-            get => _isEnabled;
-            private set
-            {
-                if (value)
-                {
-                    _isEnabled = value;
-                    PrivateEnableFunction();
-                }
-                else
-                {
-                    _isEnabled = value;
-                    PrivateDisableFunction();
-                }
-            }
-        }
 
         /// <summary>
         /// 格式化命令
@@ -128,13 +110,27 @@ namespace SdtdServerKit.Functions
         //    return false;
         //}
 
+        /// <summary>
+        /// If the settings are changed, update the settings and call the protected OnSettingsChanged method
+        /// </summary>
+        /// <param name="settings"></param>
         private void OnSettingsChanged(ISettings settings)
         {
             if (settings is TSettings changedSettings)
             {
-                _settings = changedSettings;
-                IsEnabled = _settings.IsEnabled;
-                OnSettingsChanged();
+                lock (this)
+                {
+                    _settings = changedSettings;
+                    if (_settings.IsEnabled)
+                    {
+                        PrivateEnableFunction();
+                    }
+                    else
+                    {
+                        PrivateDisableFunction();
+                    }
+                    OnSettingsChanged();
+                }
             }
         }
 
@@ -155,7 +151,7 @@ namespace SdtdServerKit.Functions
             Utils.SendGlobalMessage(new GlobalMessage()
             {
                 Message = message,
-                //SenderName = ConfigManager.GlobalSettings.ServerName
+                SenderName = ConfigManager.GlobalSettings.GlobalServerName
             });
         }
 
@@ -171,7 +167,7 @@ namespace SdtdServerKit.Functions
             {
                 TargetPlayerIdOrName = playerIdOrName,
                 Message = message,
-                //SenderName = ConfigManager.GlobalSettings.ServerName
+                SenderName = ConfigManager.GlobalSettings.WhisperServerName
             });
         }
 
@@ -181,13 +177,10 @@ namespace SdtdServerKit.Functions
         private void PrivateDisableFunction()
         {
             // If the function is not disabled
-            lock (this)
+            if (_isRunning)
             {
-                if (_isRunning)
-                {
-                    _isRunning = false;
-                    OnDisableFunction();
-                }
+                _isRunning = false;
+                OnDisableFunction();
             }
         }
 
@@ -197,18 +190,15 @@ namespace SdtdServerKit.Functions
         private void PrivateEnableFunction()
         {
             // If the function is not running.
-            lock (this)
+            if (_isRunning == false)
             {
-                if (_isRunning == false && _isEnabled)
-                {
-                    //_isRunning = OnEnableFunctionNonePlayer();
+                //_isRunning = OnEnableFunctionNonePlayer();
 
-                    // Only there are players on the server.
-                    //if (ConnectionManager.Instance.Clients.Count > 0)
-                    {
-                        _isRunning = true;
-                        OnEnableFunction();
-                    }
+                // Only there are players on the server.
+                //if (ConnectionManager.Instance.Clients.Count > 0)
+                {
+                    _isRunning = true;
+                    OnEnableFunction();
                 }
             }
         }

@@ -53,7 +53,7 @@ namespace SdtdServerKit
         /// <summary>
         /// Event that is triggered when an entity is spawned.
         /// </summary>
-        public static event Action? EntitySpawned;
+        public static event Action<EntityInfo>? EntitySpawned;
 
         /// <summary>
         /// Event that is triggered when a player disconnects.
@@ -254,7 +254,7 @@ namespace SdtdServerKit
         /// <param name="entity">The spawned entity.</param>
         public static void OnEntitySpawned(EntityInfo entity)
         {
-            EntitySpawned?.Invoke();
+            EntitySpawned?.Invoke(entity);
         }
 
         /// <summary>

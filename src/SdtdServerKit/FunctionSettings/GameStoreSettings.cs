@@ -1,12 +1,7 @@
 ﻿namespace SdtdServerKit.FunctionSettings
 {
-    public class GameStoreSettings : ISettings
+    public class GameStoreSettings : SettingsBase
     {
-        /// <summary>
-        /// 是否启用功能
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// 查询商品列表命令
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System.Reflection;
 
 namespace SdtdServerKit.HarmonyPatchers
 {
@@ -8,7 +7,7 @@ namespace SdtdServerKit.HarmonyPatchers
     {
         [HarmonyPostfix]
         [HarmonyPatch(nameof(World.SpawnEntityInWorld))]
-        public static void OnAfterSpawnEntityInWorld(Entity _entity)
+        public static void After_SpawnEntityInWorld(Entity _entity)
         {
             if (_entity is EntityAlive entityAlive)
             {

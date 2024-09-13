@@ -75,9 +75,10 @@ namespace SdtdServerKit.Hooks
             try
             {
                 string? playerId = chatMessage.PlayerId;
-                if (playerId != null 
+                if (playerId != null
+                    && chatMessage.ChatType == ChatType.Global
                     && LivePlayerManager.TryGetByPlayerId(playerId, out var player) 
-                    && chatMessage.ChatType == ChatType.Global)
+                    && player != null)
                 {
                     string cmd = chatMessage.Message;
                     string chatPrefix = ConfigManager.GlobalSettings.ChatCommandPrefix;
@@ -95,7 +96,7 @@ namespace SdtdServerKit.Hooks
                     }
 
                     var chatHook = _cache.Get(cmd);
-                    if (chatHook != null && chatHook.Target is IFunction function && function.IsEnabled)
+                    if (chatHook != null && chatHook.Target is IFunction function && function.IsRunning)
                     {
                         bool isHandled = await HandleChatCmd(chatHook, cmd, player);
 

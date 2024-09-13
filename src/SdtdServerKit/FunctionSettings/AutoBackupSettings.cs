@@ -3,13 +3,8 @@
     /// <summary>
     /// 自动备份设置
     /// </summary>
-    public class AutoBackupSettings : ISettings
+    public class AutoBackupSettings : SettingsBase
     {
-        /// <summary>
-        /// 是否启用功能
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// 自动备份间隔
         /// </summary>
