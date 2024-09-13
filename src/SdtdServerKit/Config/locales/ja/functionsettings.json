@@ -37,7 +37,8 @@
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null,
     "EnableAutoZombieCleanup": false,
-    "AutoZombieCleanupThreshold": 128
+    "AutoZombieCleanupThreshold": 128,
+    "EnableXmlsSecondaryOverwrite": false
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
@@ -136,5 +137,12 @@
     "HasClaimedTip": "[00FF00]ギフト パッケージを受け取りました~",
     "NonVipTip": "[00FF00]あなたはまだ VIP ではありません～",
     "ClaimSuccessTip": "[00FF00]ギフト パッケージの受け取りおめでとうございます: {GiftName}"
+  },
+  "ColoredChat": {
+    "IsEnabled": false,
+    "GlobalDefault": "FFFFFF",
+    "WhisperDefault": "D00000",
+    "FriendsDefault": "00BB00",
+    "PartyDefault": "FFCC00"
   }
 }
