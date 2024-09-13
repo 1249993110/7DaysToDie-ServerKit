@@ -1,5 +1,9 @@
 ﻿using HarmonyLib;
 using Noemax.GZip;
+using SdtdServerKit.Data.IRepositories;
+using SdtdServerKit.Managers;
+using SdtdServerKit.Models;
+using System.Runtime.Remoting.Messaging;
 
 namespace SdtdServerKit.HarmonyPatchers
 {
@@ -71,5 +75,40 @@ namespace SdtdServerKit.HarmonyPatchers
 
             return true;
         }
+
+        //public static bool Before_ChatMessageServer(ClientInfo _cInfo, EChatType _chatType, int _senderEntityId, ref string _msg, List<int> _recipientEntityIds, ref EMessageSender _msgSender)
+        //{
+        //    if(_msgSender == EMessageSender.SenderIdAsPlayer && LivePlayerManager.TryGetByEntityId(_senderEntityId, out var managedPlayer))
+        //    {
+        //        var repository = ModApi.ServiceContainer.Resolve<IColoredChatRepository>();
+        //        var coloredChat = repository.GetById(managedPlayer!.PlayerId);
+        //        if (coloredChat != null)
+        //        {
+        //            string playerName = managedPlayer.PlayerName;
+
+        //            _msg = $"[{coloredChat.NameColor}]{playerName}[{GetDefaultColor(_chatType)}]: [{coloredChat.TextColor}]{_msg}";
+        //            _msgSender = EMessageSender.None;
+        //        }
+        //    }
+
+        //    return true;
+        //}
+
+        //private static string GetDefaultColor(EChatType eChatType)
+        //{
+        //    switch (eChatType)
+        //    {
+        //        case EChatType.Global:
+        //            return "FFFFFF";
+        //        case EChatType.Friends:
+        //            return "00BB00";
+        //        case EChatType.Party:
+        //            return "FFCC00";
+        //        case EChatType.Whisper:
+        //            return "D00000";
+        //        default:
+        //            throw new ArgumentOutOfRangeException(nameof(eChatType), eChatType, null);
+        //    }
+        //}
     }
 }

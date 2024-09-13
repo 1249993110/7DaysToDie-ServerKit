@@ -75,9 +75,10 @@ namespace SdtdServerKit.Hooks
             try
             {
                 string? playerId = chatMessage.PlayerId;
-                if (playerId != null 
+                if (playerId != null
+                    && chatMessage.ChatType == ChatType.Global
                     && LivePlayerManager.TryGetByPlayerId(playerId, out var player) 
-                    && chatMessage.ChatType == ChatType.Global)
+                    && player != null)
                 {
                     string cmd = chatMessage.Message;
                     string chatPrefix = ConfigManager.GlobalSettings.ChatCommandPrefix;

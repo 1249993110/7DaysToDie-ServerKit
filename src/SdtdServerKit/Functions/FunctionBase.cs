@@ -33,6 +33,11 @@ namespace SdtdServerKit.Functions
         private TSettings? _settings;
 
         /// <summary>
+        /// Whether the function is running
+        /// </summary>
+        public bool IsRunning => _isRunning;
+
+        /// <summary>
         /// Function base constructor
         /// </summary>
         public FunctionBase()
