@@ -1,7 +1,7 @@
 {
   "GlobalSettings": {
-    "GlobalServerName": "[FFFFFF]Server",
-    "WhisperServerName": "[FF0000]Server",
+    "GlobalServerName": "[FFFFFF]Сервер",
+    "WhisperServerName": "[FF0000]Сервер",
     "ChatCommandPrefix": "",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]Системная ошибка, пожалуйста, свяжитесь с администратором сервера.",

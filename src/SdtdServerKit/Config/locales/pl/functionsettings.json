@@ -1,7 +1,7 @@
 {
   "GlobalSettings": {
-    "GlobalServerName": "[FFFFFF]Server",
-    "WhisperServerName": "[FF0000]Server",
+    "GlobalServerName": "[FFFFFF]Serwer",
+    "WhisperServerName": "[FF0000]Serwer",
     "ChatCommandPrefix": "",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]Błąd systemu, skontaktuj się z administratorem serwera.",
@@ -140,7 +140,7 @@
   },
   "ColoredChatSettings": {
     "IsEnabled": false,
-    "GlobalDefault": "FFFFFF",
+    "GlobalDefault": "FFFFF",
     "WhisperDefault": "D00000",
     "FriendsDefault": "00BB00",
     "PartyDefault": "FFCC00"

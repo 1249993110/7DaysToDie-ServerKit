@@ -1,7 +1,7 @@
 {
   "GlobalSettings": {
-    "GlobalServerName": "[FFFFFF]Server",
-    "WhisperServerName": "[FF0000]Server",
+    "GlobalServerName": "[FFFFFF]サーバー",
+    "WhisperServerName": "[FF0000]サーバー",
     "ChatCommandPrefix": "",
     "ChatCommandSeparator": "-",
     "HandleChatMessageError": "[FF0000]システムエラーです。サーバー管理者に連絡してください。",
