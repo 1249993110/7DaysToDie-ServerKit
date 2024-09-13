@@ -96,7 +96,7 @@ namespace SdtdServerKit.Hooks
                     }
 
                     var chatHook = _cache.Get(cmd);
-                    if (chatHook != null && chatHook.Target is IFunction function && function.IsEnabled)
+                    if (chatHook != null && chatHook.Target is IFunction function && function.IsRunning)
                     {
                         bool isHandled = await HandleChatCmd(chatHook, cmd, player);
 
