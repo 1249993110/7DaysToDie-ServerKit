@@ -1,6 +1,7 @@
 ﻿using SdtdServerKit.Data.IRepositories;
 using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
+using SdtdServerKit.Models;
 
 namespace SdtdServerKit.Functions
 {
@@ -45,17 +46,22 @@ namespace SdtdServerKit.Functions
 
         private bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderEntityId, string message, string mainName, List<int> recipientEntityIds)
         {
-            if (LivePlayerManager.TryGetByEntityId(senderEntityId, out var managedPlayer))
+            if (LivePlayerManager.TryGetByEntityId(senderEntityId, out var managedPlayer) && managedPlayer != null)
             {
-                var coloredChat = _coloredChatRepository.GetById(managedPlayer!.PlayerId);
+                string playerName = managedPlayer.PlayerName;
+                var coloredChat = _coloredChatRepository.GetById(managedPlayer.PlayerId);
                 if (coloredChat != null)
                 {
-                    string playerName = managedPlayer.PlayerName;
+                    if(string.IsNullOrEmpty(coloredChat.CustomName) == false)
+                    {
+                        playerName = StringTemplate.Render(coloredChat.CustomName!, new { PlayerName = playerName });
+                    }
+
                     message = $"[{coloredChat.NameColor}]{playerName}[{GetDefaultColor(eChatType)}]: [{coloredChat.TextColor}]{message}";
                 }
                 else
                 {
-                    message = $"[{GetDefaultColor(eChatType)}]" + message;
+                    message = $"[{GetDefaultColor(eChatType)}]{playerName}: {message}";
                 }
 
                 if (recipientEntityIds != null)

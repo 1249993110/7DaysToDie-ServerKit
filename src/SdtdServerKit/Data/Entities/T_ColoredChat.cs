@@ -25,6 +25,11 @@ namespace SdtdServerKit.Data.Entities
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
+        /// Custom Name
+        /// </summary>
+        public string? CustomName { get; set; }
+
+        /// <summary>
         /// Name Color
         /// </summary>
         public string? NameColor { get; set; }

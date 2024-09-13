@@ -18,6 +18,11 @@ namespace SdtdServerKit.Models
         public string Id { get; set; } = null!;
 
         /// <summary>
+        /// Custom Name
+        /// </summary>
+        public string? CustomName { get; set; }
+
+        /// <summary>
         /// Name Color
         /// </summary>
         public string? NameColor { get; set; }

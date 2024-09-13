@@ -2,6 +2,7 @@
 using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
 using System.ComponentModel.DataAnnotations;
+using System.Security.AccessControl;
 
 namespace SdtdServerKit.WebApi.Controllers
 {
@@ -64,6 +65,7 @@ namespace SdtdServerKit.WebApi.Controllers
             {
                 Id = model.Id,
                 CreatedAt = DateTime.Now,
+                CustomName = model.CustomName,
                 NameColor = model.NameColor,
                 TextColor = model.TextColor,
                 Description = model.Description,
@@ -87,6 +89,7 @@ namespace SdtdServerKit.WebApi.Controllers
                 return NotFound();
             }
 
+            entity.CustomName = model.CustomName;
             entity.NameColor = model.NameColor;
             entity.TextColor = model.TextColor;
             entity.Description = model.Description;
