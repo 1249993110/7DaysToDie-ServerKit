@@ -3,13 +3,8 @@
     /// <summary>
     /// Teleport Friend Settings
     /// </summary>
-    public class TeleportFriendSettings : ISettings
+    public class TeleportFriendSettings : SettingsBase
     {
-        /// <summary>
-        /// Whether the feature is enabled
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// Teleport command prefix
         /// </summary>

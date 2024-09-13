@@ -1,12 +1,7 @@
 ﻿namespace SdtdServerKit.FunctionSettings
 {
-    public class GameNoticeSettings : ISettings
+    public class GameNoticeSettings : SettingsBase
     {
-        /// <summary>
-        /// 是否启用功能
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// 欢迎通知
         /// </summary>

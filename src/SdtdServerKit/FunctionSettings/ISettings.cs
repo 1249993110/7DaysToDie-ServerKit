@@ -1,9 +1,12 @@
 ﻿namespace SdtdServerKit.FunctionSettings
 {
+    /// <summary>
+    /// Settings Interface
+    /// </summary>
     public interface ISettings
     {
         /// <summary>
-        /// 是否启用功能
+        /// Whether to enable the function
         /// </summary>
         public bool IsEnabled { get; set; }
     }

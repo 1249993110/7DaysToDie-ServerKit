@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace SdtdServerKit.FunctionSettings
 {
-    public class VipGiftSettings : ISettings
+    public class VipGiftSettings : SettingsBase
     {
-        /// <summary>
-        /// 是否启用功能
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// 领取命令
         /// </summary>

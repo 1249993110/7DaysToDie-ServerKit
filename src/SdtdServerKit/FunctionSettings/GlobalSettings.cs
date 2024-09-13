@@ -38,7 +38,7 @@
     /// <summary>
     /// Global settings.
     /// </summary>
-    public class GlobalSettings : ISettings
+    public class GlobalSettings : SettingsBase
     {
         /// <summary>
         /// Gets or sets the global server name.
@@ -64,8 +64,6 @@
         /// Gets or sets the error message for handling chat messages.
         /// </summary>
         public string HandleChatMessageError { get; set; }
-
-        bool ISettings.IsEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to check for zombies around the player before teleporting.

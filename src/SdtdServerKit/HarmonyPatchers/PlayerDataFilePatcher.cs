@@ -21,7 +21,6 @@ namespace SdtdServerKit.HarmonyPatchers
                             var pos = new UnityEngine.Vector3(float.Parse(position[0]), float.Parse(position[1]), float.Parse(position[2]));
                             __instance.ecd.pos = pos;
                             _player.InitLocation(pos, __instance.ecd.rot);
-                            CustomLogger.Warn(pos.ToString());
                         }
                     }
                 }

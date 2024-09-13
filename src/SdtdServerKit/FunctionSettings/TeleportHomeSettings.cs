@@ -1,12 +1,7 @@
 ﻿namespace SdtdServerKit.FunctionSettings
 {
-    public class TeleportHomeSettings : ISettings
+    public class TeleportHomeSettings : SettingsBase
     {
-        /// <summary>
-        /// 是否启用功能
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// 查询Home列表命令
         /// </summary>

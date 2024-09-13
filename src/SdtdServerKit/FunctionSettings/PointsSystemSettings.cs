@@ -1,12 +1,7 @@
 ﻿namespace SdtdServerKit.FunctionSettings
 {
-    public class PointsSystemSettings : ISettings
+    public class PointsSystemSettings : SettingsBase
     {
-        /// <summary>
-        /// 是否启用功能
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
         /// <summary>
         /// 签到命令
         /// </summary>
