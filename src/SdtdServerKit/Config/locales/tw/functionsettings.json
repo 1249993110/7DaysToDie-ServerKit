@@ -137,5 +137,12 @@
     "HasClaimedTip": "[00FF00]您已經領過禮包了~",
     "NonVipTip": "[00FF00]您還不是VIP哦~",
     "ClaimSuccessTip": "[00FF00]恭喜您成功領取了禮包: {GiftName}"
+  },
+  "ColoredChat": {
+    "IsEnabled": false,
+    "GlobalDefault": "FFFFFF",
+    "WhisperDefault": "D00000",
+    "FriendsDefault": "00BB00",
+    "PartyDefault": "FFCC00"
   }
 }
