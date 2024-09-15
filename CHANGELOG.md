@@ -1,6 +1,6 @@
 ## 10.41 (2024-09-13)
 ### New Features
-- Added color chat function, supports customizing player name color and text color, supports using variable {PlayerName} to customize title
+- Added color chat function, supports customizing player name color and text color, supports using variable `{PlayerName}` to customize title
 - Added automatic zombie cleanup function
 - Supports customizing global chat server name and whisper chat server name
 

@@ -1,4 +1,6 @@
-﻿namespace SdtdServerKit.Commands
+﻿using SdtdServerKit.Managers;
+
+namespace SdtdServerKit.Commands
 {
     /// <summary>
     /// Send a message to a single player.
@@ -66,7 +68,21 @@
             }
 
             string message = args[1];
-            string senderName = args.Count > 2 ? args[2] : Localization.Get("xuiChatServer", false);
+            string senderName;
+            if (args.Count > 2)
+            {
+                senderName = args[2];
+            }
+            else
+            {
+                senderName = ConfigManager.GlobalSettings.WhisperServerName;
+            }
+
+            if (string.IsNullOrEmpty(senderName))
+            {
+                senderName = Localization.Get("xuiChatServer", false);
+            }
+            
             message = global::Utils.CreateGameMessage(senderName, message);
 
             GameManager.Instance.ChatMessageServer(
