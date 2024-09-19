@@ -136,15 +136,18 @@
 
         internal static void SetMaxUndoHistorySize(int maxUndoHistorySize, int entityId)
         {
-            if(maxUndoHistorySize <= 0 && _prefabCache.IsValueCreated)
+            if(maxUndoHistorySize <= 0)
             {
-                if (entityId == -1)
+                if (_prefabCache.IsValueCreated)
                 {
-                    _prefabCache.Value.Clear();
-                }
-                else
-                {
-                    _prefabCache.Value.Remove(entityId);
+                    if (entityId == -1)
+                    {
+                        _prefabCache.Value.Clear();
+                    }
+                    else
+                    {
+                        _prefabCache.Value.Remove(entityId);
+                    }
                 }
             }
             else

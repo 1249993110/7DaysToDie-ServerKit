@@ -55,7 +55,7 @@ namespace SdtdServerKit.Hooks
             {
                 CustomLogger.Error(ex, "Error in ChatMessageHook.HandleChatMessage");
 
-                Utils.SendPrivateMessage(new PrivateMessage()
+                Utilities.Utils.SendPrivateMessage(new PrivateMessage()
                 {
                     Message = ConfigManager.GlobalSettings.HandleChatMessageError,
                     //SenderName = ConfigManager.GlobalSettings.ServerName,
@@ -131,7 +131,7 @@ namespace SdtdServerKit.Hooks
             {
                 CustomLogger.Error(ex, "Error in ChatMessageHook.OnChatMessage");
 
-                Utils.SendPrivateMessage(new PrivateMessage()
+                Utilities.Utils.SendPrivateMessage(new PrivateMessage()
                 {
                     Message = ConfigManager.GlobalSettings.HandleChatMessageError,
                     TargetPlayerIdOrName = chatMessage.PlayerId!,

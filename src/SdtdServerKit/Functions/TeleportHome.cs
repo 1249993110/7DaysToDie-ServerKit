@@ -59,7 +59,7 @@ namespace SdtdServerKit.Functions
                 else
                 {
                     var entity = await _homeLocationRepository.GetByPlayerIdAndHomeNameAsync(playerId, homeName);
-                    string position = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString();
+                    string position = Utilities.Utils.GetPlayerPosition(managedPlayer.EntityId).ToString();
                     // new home postion
                     if (entity == null)
                     {
@@ -149,7 +149,7 @@ namespace SdtdServerKit.Functions
                         if (ConfigManager.GlobalSettings.TeleZombieCheck &&
                             GameManager.Instance.World.Players.dict.TryGetValue(managedPlayer.EntityId, out EntityPlayer player))
                         {
-                            if (Utils.ZombieCheck(player))
+                            if (Utilities.Utils.ZombieCheck(player))
                             {
                                 SendMessageToPlayer(playerId, ConfigManager.GlobalSettings.TeleDisableTip);
                                 return true;
@@ -157,7 +157,7 @@ namespace SdtdServerKit.Functions
                         }
 
                         await _pointsRepository.ChangePointsAsync(playerId, -Settings.PointsRequiredForTele);
-                        Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), entity.Position);
+                        Utilities.Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), entity.Position);
 
                         SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, managedPlayer, entity));
                         await _teleRecordRepository.InsertAsync(new T_TeleRecord()
@@ -165,7 +165,7 @@ namespace SdtdServerKit.Functions
                             CreatedAt = DateTime.Now,
                             PlayerId = playerId,
                             PlayerName = managedPlayer.PlayerName,
-                            OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
+                            OriginPosition = Utilities.Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
                             TargetPosition = entity.Position,
                             TargetType = TeleTargetType.Home.ToString(),
                             TargetName = entity.HomeName

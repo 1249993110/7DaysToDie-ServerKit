@@ -20,7 +20,7 @@ namespace SdtdServerKit.WebApi.Controllers
             var executeResult = new List<string>();
             foreach (var item in whitelist)
             {
-                string command = $"whitelist add {item.PlayerId} {Utils.FormatCommandArgs(item.DisplayName)}";
+                string command = $"whitelist add {item.PlayerId} {Utilities.Utils.FormatCommandArgs(item.DisplayName)}";
                 var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
                 executeResult.AddRange(result);
             }

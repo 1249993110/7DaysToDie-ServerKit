@@ -20,7 +20,7 @@ namespace SdtdServerKit.WebApi.Controllers
             var executeResult = new List<string>();
             foreach (var item in blacklist)
             {
-                string command = $"ban add {item.PlayerId} {(int)(item.BannedUntil - DateTime.Now).TotalMinutes} minutes {Utils.FormatCommandArgs(item.Reason)} {Utils.FormatCommandArgs(item.DisplayName)}";
+                string command = $"ban add {item.PlayerId} {(int)(item.BannedUntil - DateTime.Now).TotalMinutes} minutes {Utilities.Utils.FormatCommandArgs(item.Reason)} {Utilities.Utils.FormatCommandArgs(item.DisplayName)}";
                 var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
                 executeResult.AddRange(result);
             }

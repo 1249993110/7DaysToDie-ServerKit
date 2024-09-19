@@ -168,7 +168,7 @@ namespace SdtdServerKit.Extensions
                 InvItem item = new InvItem()
                 {
                     ItemName = name,
-                    LocalizationName = Utils.GetLocalization(name, language),
+                    LocalizationName = Utilities.Utils.GetLocalization(name, language),
                     Count = count,
                     MaxStackAllowed = itemClass.Stacknumber.Value,
                     Quality = quality,

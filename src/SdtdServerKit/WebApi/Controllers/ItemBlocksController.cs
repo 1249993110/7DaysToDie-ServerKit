@@ -81,7 +81,7 @@
                             continue;
                         }
 
-                        string localizationName = Utils.GetLocalization(itemName, language);
+                        string localizationName = Utilities.Utils.GetLocalization(itemName, language);
                         if (string.IsNullOrEmpty(keyword) == false)
                         {
                             if (itemName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1

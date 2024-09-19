@@ -56,7 +56,7 @@ namespace SdtdServerKit.Utilities
                         int z = offsetPosition.z + j;
                         if (GameManager.Instance.World.IsChunkAreaLoaded(x, y, z) == false)
                         {
-                            throw new Exception("The prefab is too far away. Chunk not loaded on that area.");
+                            throw new Exception("The prefab is too far away or target area is not loaded. Chunk not loaded on that area.");
                         }
 
                         var chunk = (Chunk)GameManager.Instance.World.GetChunkFromWorldPos(x, y, z);

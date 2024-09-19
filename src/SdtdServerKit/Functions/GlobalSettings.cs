@@ -46,7 +46,7 @@ namespace SdtdServerKit.Functions
                 }
                 if(zombies > Settings.AutoZombieCleanupThreshold)
                 {
-                    Utils.ExecuteConsoleCommand("ty-RemoveEntity " + entityInfo.EntityId, true);
+                    Utilities.Utils.ExecuteConsoleCommand("ty-RemoveEntity " + entityInfo.EntityId, true);
                     CustomLogger.Info($"Auto zombie cleanup triggered, the entity: {entityInfo.EntityName} was removed.");
                 }
             }
@@ -105,7 +105,7 @@ namespace SdtdServerKit.Functions
             if (clientInfo.PlatformId is UserIdentifierSteam userIdentifierSteam
                 && userIdentifierSteam.OwnerId.Equals(userIdentifierSteam) == false)
             {
-                Utils.ExecuteConsoleCommand("kick " + clientInfo.entityId + " \"Family sharing account is not allowed to join the server!\"");
+                Utilities.Utils.ExecuteConsoleCommand("kick " + clientInfo.entityId + " \"Family sharing account is not allowed to join the server!\"");
             }
         }
 
@@ -129,7 +129,7 @@ namespace SdtdServerKit.Functions
                     }
                 }
 
-                Utils.ExecuteConsoleCommand("ty-rs", true);
+                Utilities.Utils.ExecuteConsoleCommand("ty-rs", true);
             }
         }
 
@@ -153,7 +153,7 @@ namespace SdtdServerKit.Functions
                     {
                         if (string.IsNullOrEmpty(command) == false)
                         {
-                            Utils.ExecuteConsoleCommand(FormatCmd(command, player), true);
+                            Utilities.Utils.ExecuteConsoleCommand(FormatCmd(command, player), true);
                         }
                     }
                 }
@@ -171,7 +171,7 @@ namespace SdtdServerKit.Functions
                     {
                         if (string.IsNullOrEmpty(command) == false)
                         {
-                            Utils.ExecuteConsoleCommand(FormatCmd(command, player), true);
+                            Utilities.Utils.ExecuteConsoleCommand(FormatCmd(command, player), true);
                         }
                     }
                 }

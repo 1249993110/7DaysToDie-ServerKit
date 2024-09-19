@@ -60,8 +60,8 @@ namespace SdtdServerKit.WebApi.Controllers
                 var playerSkill = new PlayerSkill()
                 {
                     Name = item.Name,
-                    LocalizationName = Utils.GetLocalization(item.NameKey, language, true),
-                    LocalizationDesc = Utils.GetLocalization(item.DescKey, language, true),
+                    LocalizationName = Utilities.Utils.GetLocalization(item.NameKey, language, true),
+                    LocalizationDesc = Utilities.Utils.GetLocalization(item.DescKey, language, true),
                     //LocalizationLongDesc = Utils.GetLocalization(item.LongDescKey, language, true),
                     Level = progressionValue.Level,
                     MinLevel = item.MinLevel,
@@ -88,8 +88,8 @@ namespace SdtdServerKit.WebApi.Controllers
                     var childPlayerSkill = new PlayerSkill()
                     {
                         Name = child.Name,
-                        LocalizationName = Utils.GetLocalization(child.NameKey, language, true),
-                        LocalizationDesc = Utils.GetLocalization(child.DescKey, language, true),
+                        LocalizationName = Utilities.Utils.GetLocalization(child.NameKey, language, true),
+                        LocalizationDesc = Utilities.Utils.GetLocalization(child.DescKey, language, true),
                         //LocalizationLongDesc = Utils.GetLocalization(child.LongDescKey, language, true),
                         Level = childProgressionValue.Level,
                         MinLevel = child.MinLevel,

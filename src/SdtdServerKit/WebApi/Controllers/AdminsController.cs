@@ -20,7 +20,7 @@ namespace SdtdServerKit.WebApi.Controllers
             var executeResult = new List<string>();
             foreach (var item in admins)
             {
-                string command = $"admin add {item.PlayerId} {item.PermissionLevel} {Utils.FormatCommandArgs(item.DisplayName)}";
+                string command = $"admin add {item.PlayerId} {item.PermissionLevel} {Utilities.Utils.FormatCommandArgs(item.DisplayName)}";
                 var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
                 executeResult.AddRange(result);
             }
