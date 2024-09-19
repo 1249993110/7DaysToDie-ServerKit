@@ -62,6 +62,9 @@ namespace SdtdServerKit.Commands
         {
             try
             {
+                CustomLogger.Warn("Is Main: " + ThreadManager.IsMainThread());
+                var remoteClientInfo = senderInfo.RemoteClientInfo;
+
                 if (args.Count < 1 || args.Count > 7)
                 {
                     Log($"ERR: Wrong number of arguments, expected 1 to 7, found {args.Count}.");
@@ -101,7 +104,6 @@ namespace SdtdServerKit.Commands
                 }
                 else
                 {
-                    var remoteClientInfo = senderInfo.RemoteClientInfo;
                     if (remoteClientInfo == null)
                     {
                         Log("ERR: This command can be only sent by player in game.");
@@ -118,7 +120,7 @@ namespace SdtdServerKit.Commands
                     y = playerBlockPosition.y;
                     z = playerBlockPosition.z;
 
-                    if(args.Count == 2)
+                    if(args.Count >= 2)
                     {
                         rot = int.Parse(args[1]);
                         if (rot < 0 || rot > 3)
@@ -126,15 +128,19 @@ namespace SdtdServerKit.Commands
                             Log("ERR: Invalid rotation parameter. It need to be 0,1,2 or 3.");
                             return;
                         }
-                    }
-                    else if (args.Count == 3)
-                    {
-                        int depth = int.Parse(args[2]);
-                        y += depth;
+
+                        if (args.Count == 3)
+                        {
+                            int depth = int.Parse(args[2]);
+                            y += depth;
+                        }
                     }
                 }
 
-                var prefab = new Prefab();
+                var prefab = new Prefab()
+                {
+                    bCopyAirBlocks = true
+                };
                 if (prefab.Load(prefabFileName, true, true, false, false) == false)
                 {
                     // Runtime load from LocalPrefabs
@@ -150,97 +156,49 @@ namespace SdtdServerKit.Commands
 
                 Log("Rendering..., please wait.");
 
-                prefab.bCopyAirBlocks = true;
                 y += prefab.yOffset;
                 prefab.RotateY(true, rot);
+
                 var prefabSize = prefab.size;
+                var offsetPosition = new Vector3i(x, y, z);
 
-                var chunkSet = new HashSet<Chunk>();
-                for (int i = 0; i < prefabSize.x; i++)
+                IEnumerable<Chunk>? chunks;
+                try
                 {
-                    for (int j = 0; j < prefabSize.z; j++)
-                    {
-                        for (int k = 0; k < prefabSize.y; k++)
-                        {
-                            if (GameManager.Instance.World.IsChunkAreaLoaded(x + i, y + k, z + j) == false)
-                            {
-                                Log("ERR: The prefab is too far away. Chunk not loaded on that area.");
-                                return;
-                            }
-
-                            var chunk = (Chunk)GameManager.Instance.World.GetChunkFromWorldPos(x + i, y + k, z + j);
-                            chunkSet.Add(chunk);
-                        }
-                    }
+                    chunks = ChunkHelper.GetChunksInArea(offsetPosition, prefabSize);
+                }
+                catch (Exception ex)
+                {
+                    Log("ERR: " + ex.Message);
+                    return;
                 }
 
-                //var prefab2 = new Prefab(new Vector3i(prefabSize.x, prefabSize.y, prefabSize.z));
-                //prefab2.bCopyAirBlocks = true;
-                //prefab2.copyFromWorld(GameManager.Instance.World, new Vector3i(x, y, z), new Vector3i(x + prefabSize.x, y + prefabSize.y, z + prefabSize.z));
+                var oldPrefab = new Prefab(prefabSize)
+                {
+                    bCopyAirBlocks = true
+                };
+                oldPrefab.copyFromWorld(GameManager.Instance.World, offsetPosition, new Vector3i(x + prefabSize.x, y + prefabSize.y, z + prefabSize.z));
+                
                 if (noSleepers)
                 {
                     prefab.SleeperVolumes = new List<Prefab.PrefabSleeperVolume>();
                 }
-                prefab.CopyIntoLocal(GameManager.Instance.World.ChunkCache, new Vector3i(x, y, z), true, true, FastTags<TagGroup.Global>.none);
+                prefab.CopyIntoLocal(GameManager.Instance.World.ChunkCache, offsetPosition, true, true, FastTags<TagGroup.Global>.none);
 
-                ChunkHelper.ForceReload(chunkSet);
+                ChunkHelper.ForceReload(chunks);
 
-                var stabilityCalculator = new StabilityCalculator();
-                stabilityCalculator.Init(GameManager.Instance.World);
-                for (int l = 0; l < prefabSize.x; l++)
-                {
-                    for (int m = 0; m < prefabSize.z; m++)
-                    {
-                        for (int n = 0; n < prefabSize.y; n++)
-                        {
-                            if (GameManager.Instance.World.GetBlock(x + l, y + n, z + m).Equals(BlockValue.Air) == false)
-                            {
-                                var vector3i = new Vector3i(x + l, y + n, z + m);
-                                stabilityCalculator.BlockPlacedAt(vector3i, false);
-                            }
-                        }
-                    }
-                }
-                stabilityCalculator.Cleanup();
+                ChunkHelper.CalculateStability(offsetPosition, prefabSize);
 
+                int prefabInstanceId = -1;
                 if (addToRWG)
                 {
-                    var dynamicPrefabDecorator = GameManager.Instance.GetDynamicPrefabDecorator();
-                    var prefabInstance = new PrefabInstance(dynamicPrefabDecorator.GetNextId(), prefab.location, new Vector3i(x, y, z), (byte)prefab.GetLocalRotation(), prefab, 0)
-                    {
-                        bPrefabCopiedIntoWorld = true
-                    };
-                    dynamicPrefabDecorator.GetDynamicPrefabs().Add(prefabInstance);
-                    dynamicPrefabDecorator.GetPOIPrefabs().Add(prefabInstance);
-                    dynamicPrefabDecorator.Save(PathAbstractions.WorldsSearchPaths.GetLocation(GameManager.Instance.World.ChunkCache.Name, null, null).FullPath);
-                    //if (senderInfo.RemoteClientInfo == null)
-                    //{
-                    //    PrefabUndo.setUndo("server_", prefab2, new Vector3i(x, y, z), prefabInstance.id);
-                    //}
-                    //else
-                    //{
-                    //    PrefabUndo.setUndo(senderInfo.RemoteClientInfo.entityId.ToString() ?? "", prefab2, new Vector3i(x, y, z), prefabInstance.id);
-                    //}
+                    prefabInstanceId = ChunkHelper.AddPrefabToRWG(prefab, offsetPosition);
                 }
-                //else if (senderInfo.RemoteClientInfo == null)
-                //{
-                //    PrefabUndo.setUndo("server_", prefab2, new Vector3i(x, y, z), -1);
-                //}
-                //else
-                //{
-                //    PrefabUndo.setUndo(senderInfo.RemoteClientInfo.entityId.ToString() ?? "", prefab2, new Vector3i(x, y, z), -1);
-                //}
-                Log(string.Concat(new string[]
-                {
-                    "Prefab ",
-                    prefabFileName,
-                    " loaded at ",
-                    x.ToString(),
-                    " ",
-                    y.ToString(),
-                    " ",
-                    z.ToString()
-                }));
+
+                int entityId = remoteClientInfo == null ? -1 : remoteClientInfo.entityId;
+                UndoPrefab.SetUndo(entityId, oldPrefab, offsetPosition, prefabInstanceId);
+
+                Log($"Prefab {prefabFileName} loaded at {offsetPosition}");
             }
             catch (Exception ex)
             {
