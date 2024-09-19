@@ -1,5 +1,4 @@
 ﻿using SdtdServerKit.Managers;
-using static SaveDataPrefsFile;
 
 namespace SdtdServerKit
 {
@@ -93,6 +92,46 @@ namespace SdtdServerKit
                 }
             }
             stabilityCalculator.Cleanup();
+        }
+
+        /// <summary>
+        /// Remove entity in area.
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="z1"></param>
+        /// <param name="x2"></param>
+        /// <param name="z2"></param>
+        public static void RemoveEntityInArea(int x1, int z1, int x2, int z2)
+        {
+            // Ensures x1 is the smaller value, x2 is the larger value, and so are z1 and z2.
+            if (x2 < x1)
+            {
+                (x1, x2) = (x2, x1);
+            }
+            if (z2 < z1)
+            {
+                (z1, z2) = (z2, z1);
+            }
+
+            var beRemoves = new List<EntityAlive>();
+
+            foreach (var entity in GameManager.Instance.World.Entities.list)
+            {
+                if (entity is EntityAlive entityAlive && entityAlive.IsAlive() && entityAlive is EntityEnemy) // EntityClass.list[entityAlive.entityClass].bIsEnemyEntity
+                {
+                    // Checks if an entity is within a specified region
+                    var vector3i = new Vector3i(entityAlive.GetPosition());
+                    if (vector3i.x > x1 && vector3i.x < x2 && vector3i.z > z1 && vector3i.z < z2)
+                    {
+                        beRemoves.Add(entityAlive);
+                    }
+                }
+            }
+
+            foreach (EntityAlive entityAlive in beRemoves)
+            {
+                GameManager.Instance.World.RemoveEntity(entityAlive.entityId, EnumRemoveEntityReason.Killed);
+            }
         }
 
         /// <summary>

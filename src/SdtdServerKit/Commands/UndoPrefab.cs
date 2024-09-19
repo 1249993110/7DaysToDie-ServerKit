@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UniLinq;
-
-namespace SdtdServerKit.Commands
+﻿namespace SdtdServerKit.Commands
 {
     /// <summary>
     /// Undo last prefab command.
@@ -92,7 +85,7 @@ namespace SdtdServerKit.Commands
 
                     ChunkHelper.CalculateStability(offsetPosition, prefabSize);
 
-                    CheckEntityInArea(offsetPosition.x, offsetPosition.z, offsetPosition.x + prefab.size.x, offsetPosition.z + prefab.size.z);
+                    ChunkHelper.RemoveEntityInArea(offsetPosition.x, offsetPosition.z, offsetPosition.x + prefab.size.x, offsetPosition.z + prefab.size.z);
 
                     if (prefabInstanceId > 0)
                     {
@@ -109,46 +102,7 @@ namespace SdtdServerKit.Commands
             {
                 Log("Error in UndoPrefab.Execute" + Environment.NewLine + ex.ToString());
             }
-        }
-
-        private void CheckEntityInArea(int x1, int z1, int x2, int z2)
-        {
-            // Ensures x1 is the smaller value, x2 is the larger value, and so are z1 and z2.
-            if (x2 < x1)
-            {
-                (x1, x2) = (x2, x1);
-            }
-            if (z2 < z1)
-            {
-                (z1, z2) = (z2, z1);
-            }
-
-            var beRemoves = new List<EntityAlive>();
-            try
-            {
-                foreach (var entity in GameManager.Instance.World.Entities.list)
-                {
-                    if (entity is EntityAlive entityAlive && entityAlive.IsAlive() && entityAlive is EntityEnemy) // EntityClass.list[entityAlive.entityClass].bIsEnemyEntity
-                    {
-                        // Checks if an entity is within a specified region
-                        var vector3i = new Vector3i(entityAlive.GetPosition());
-                        if (vector3i.x > x1 && vector3i.x < x2 && vector3i.z > z1 && vector3i.z < z2)
-                        {
-                            beRemoves.Add(entityAlive);
-                        }
-                    }
-                }
-
-                foreach (EntityAlive entityAlive in beRemoves)
-                {
-                    GameManager.Instance.World.RemoveEntity(entityAlive.entityId, EnumRemoveEntityReason.Killed);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log("Error in UndoPrefab.CheckEntityInArea" + Environment.NewLine + ex.ToString());
-            }
-        }
+        }        
 
         internal static UndoPrefabObj? GetUndoPrefab(int entityId)
         {
