@@ -10,7 +10,7 @@ namespace SdtdServerKit.Commands
         /// <inheritdoc/>
         public override string getDescription()
         {
-            return "Garbage collection";
+            return "Use the framework's own methods for garbage collection.";
         }
 
         /// <inheritdoc/>

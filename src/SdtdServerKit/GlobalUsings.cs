@@ -1,4 +1,5 @@
 ﻿global using SdtdServerKit.Models;
+global using SdtdServerKit.Utilities;
 global using SdtdServerKit.Constants;
 global using SdtdServerKit.Extensions;
 global using IceCoffee.Common.Extensions;

@@ -1,6 +1,6 @@
 ﻿using SdtdServerKit.Managers;
 
-namespace SdtdServerKit
+namespace SdtdServerKit.Utilities
 {
     /// <summary>
     /// Provides a set of helper methods for chunks.

@@ -1,4 +1,4 @@
-﻿namespace SdtdServerKit
+﻿namespace SdtdServerKit.Utilities
 {
     /// <summary>
     /// 工具类
@@ -15,7 +15,7 @@
         public static int GetPlayerInventoryStackCount(string playerId, string itemName)
         {
             var userId = PlatformUserIdentifierAbs.FromCombinedString(playerId);
-            if(userId == null)
+            if (userId == null)
             {
                 throw new Exception("Invalid player id.");
             }
@@ -93,7 +93,7 @@
         /// <returns></returns>
         public static Position GetPlayerPosition(int entityId)
         {
-            if(GameManager.Instance.World.Players.dict.TryGetValue(entityId, out EntityPlayer player))
+            if (GameManager.Instance.World.Players.dict.TryGetValue(entityId, out EntityPlayer player))
             {
                 return player.position.ToPosition();
             }
@@ -101,7 +101,7 @@
             var clientInfo = ConnectionManager.Instance.Clients.ForEntityId(entityId);
             if (clientInfo != null)
             {
-                if(GameManager.Instance.GetPersistentPlayerList().Players.TryGetValue(clientInfo.InternalId, out PersistentPlayerData persistentPlayerData))
+                if (GameManager.Instance.GetPersistentPlayerList().Players.TryGetValue(clientInfo.InternalId, out PersistentPlayerData persistentPlayerData))
                 {
                     return persistentPlayerData.Position.ToPosition();
                 }
@@ -142,7 +142,7 @@
         /// <returns></returns>
         public static IEnumerable<string> SendGlobalMessage(GlobalMessage globalMessage)
         {
-            string cmd = string.Format("ty-say {0} {1}", 
+            string cmd = string.Format("ty-say {0} {1}",
                 FormatCommandArgs(globalMessage.Message),
                 FormatCommandArgs(globalMessage.SenderName));
             return ExecuteConsoleCommand(cmd);
