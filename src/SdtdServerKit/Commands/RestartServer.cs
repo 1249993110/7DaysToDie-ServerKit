@@ -27,7 +27,7 @@ namespace SdtdServerKit.Commands
         /// <inheritdoc />
         public override string[] getCommands()
         {
-            return new[] { "ty-rs", "ty-RestartServer" };
+            return new[] { "ty-RestartServer", "ty-rs" };
         }
 
         /// <inheritdoc />
