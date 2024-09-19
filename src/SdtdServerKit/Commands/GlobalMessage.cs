@@ -36,9 +36,9 @@ namespace SdtdServerKit.Commands
         {
             return new string[]
             {
-                    "ty-GlobalMessage",
-                    "ty-gm",
-                    "ty-say"
+                "ty-GlobalMessage",
+                "ty-gm",
+                "ty-say"
             };
         }
 
