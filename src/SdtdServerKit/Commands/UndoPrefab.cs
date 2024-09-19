@@ -43,15 +43,11 @@
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <returns></returns>
         public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             try
             {
-                var remoteClientInfo = senderInfo.RemoteClientInfo;
-                int entityId = remoteClientInfo == null ? -1 : remoteClientInfo.entityId;
-  
-                var undoPrefab = GetUndoPrefab(entityId);
+                var undoPrefab = GetUndoPrefab(senderInfo.GetEntityId());
                 if (undoPrefab == null)
                 {
                     Log("ERR: Unable to undo the last prefab command.");
@@ -155,6 +151,11 @@
             {
                 _maxUndoHistorySize = maxUndoHistorySize;
             }
+        }
+
+        internal static int GetMaxUndoHistorySize()
+        {
+            return _maxUndoHistorySize;
         }
 
         internal class UndoPrefabObj

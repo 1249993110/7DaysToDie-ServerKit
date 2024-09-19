@@ -55,14 +55,11 @@ namespace SdtdServerKit.Commands
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <returns></returns>
         public override void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
             try
             {
                 CustomLogger.Warn("Is Main: " + ThreadManager.IsMainThread());
-                var remoteClientInfo = senderInfo.RemoteClientInfo;
-
                 if (args.Count < 1 || args.Count > 7)
                 {
                     Log($"ERR: Wrong number of arguments, expected 1 to 7, found {args.Count}.");
@@ -102,12 +99,13 @@ namespace SdtdServerKit.Commands
                 }
                 else
                 {
-                    if (remoteClientInfo == null)
+                    int entityId = senderInfo.GetEntityId();
+                    if (entityId == -1)
                     {
                         Log("ERR: This command can be only sent by player in game.");
                         return;
                     }
-                    if (LivePlayerManager.TryGetByEntityId(remoteClientInfo.entityId, out var managedPlayer) == false)
+                    if (LivePlayerManager.TryGetByEntityId(entityId, out var managedPlayer) == false)
                     {
                         Log("ERR: Unable to get your position");
                         return;
@@ -193,8 +191,7 @@ namespace SdtdServerKit.Commands
                     prefabInstanceId = ChunkHelper.AddPrefabToRWG(prefab, offsetPosition);
                 }
 
-                int entityId = remoteClientInfo == null ? -1 : remoteClientInfo.entityId;
-                UndoPrefab.SetUndo(entityId, oldPrefab, offsetPosition, prefabInstanceId);
+                UndoPrefab.SetUndo(senderInfo.GetEntityId(), oldPrefab, offsetPosition, prefabInstanceId);
 
                 Log($"Prefab {prefabFileName} loaded at {offsetPosition}");
             }
