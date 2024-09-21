@@ -73,7 +73,7 @@
             }
             catch (Exception ex)
             {
-                Log("Error in RenderPrefab.SetUndoSize" + Environment.NewLine + ex.ToString());
+                Log("Error in SetUndoSize.Execute" + Environment.NewLine + ex.ToString());
             }
         }
     }

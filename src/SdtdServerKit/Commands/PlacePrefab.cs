@@ -3,9 +3,9 @@
 namespace SdtdServerKit.Commands
 {
     /// <summary>
-    /// Renders a Prefab on given location.
+    /// Places a Prefab on given location.
     /// </summary>
-    public class RenderPrefab : ConsoleCmdBase
+    public class PlacePrefab : ConsoleCmdBase
     {
         /// <summary>
         /// <inheritdoc/>
@@ -13,7 +13,7 @@ namespace SdtdServerKit.Commands
         /// <returns></returns>
         public override string getDescription()
         {
-            return "Renders a Prefab on given location.";
+            return "Places a Prefab on given location.";
         }
 
         /// <summary>
@@ -23,19 +23,21 @@ namespace SdtdServerKit.Commands
         public override string getHelp()
         {
             return "Usage:\n" +
-                "  1. ty-RenderPrefab {prefabFileName} {x} {y} {z} [noSleepers] [addToRWG]\n" +
-                "  2. ty-RenderPrefab {prefabFileName} {x} {y} {z} {rot} [noSleepers] [addToRWG]\n" +
-                "  3. ty-RenderPrefab {prefabFileName} [noSleepers] [addToRWG]\n" +
-                "  4. ty-RenderPrefab {prefabFileName} {rot} [noSleepers] [addToRWG]\n" +
-                "  5. ty-RenderPrefab {prefabFileName} {rot} {depth} [noSleepers] [addToRWG]\n" +
-                "1. Render prefab on {x} {y} {z} location\n" +
-                "2. Render prefab on {x} {y} {z} location with rot\n" +
-                "3. Render prefab on your position\n" +
-                "4. Render prefab on your position with rot\n" +
-                "5. Render prefab on your position with rot and y deslocated (depth blocks)\n" +
+                "  1. ty-PlacePrefab {prefabFileName} {x} {y} {z} [noSleepers] [addToRWG]\n" +
+                "  2. ty-PlacePrefab {prefabFileName} {x} {y} {z} {rot} [noSleepers] [addToRWG]\n" +
+                "  3. ty-PlacePrefab {prefabFileName} [noSleepers] [addToRWG]\n" +
+                "  4. ty-PlacePrefab {prefabFileName} {rot} [noSleepers] [addToRWG]\n" +
+                "  5. ty-PlacePrefab {prefabFileName} {rot} {depth} [noSleepers] [addToRWG]\n" +
+                "1. Places a prefab on {x} {y} {z} location\n" +
+                "2. Places a prefab on {x} {y} {z} location with rot\n" +
+                "3. Places a prefab on your position\n" +
+                "4. Places a prefab on your position with rot\n" +
+                "5. Places a prefab on your position with rot and y deslocated (depth blocks)\n" +
                 "NOTE: {rot} means rotate the prefab to the left, must be equal to 0=0°, 1=90°, 2=180° or 3=270°\n" +
                 "NOTE: Sleeper control is ONLY possible on prefabs that are present in prefabs.xml (world folder) that is used to create the map (RWG).\n" +
-                "NOTE: Use parameter \"addToRWG\" to permanently add this prefab to the current RWG world. Can be reset like any other RWG prefab and will still be in world after a wipe. Will cause re-download of world for clients!";
+                "NOTE: Use parameter \"addToRWG\" to permanently add this prefab to the current RWG world. Can be reset like any other RWG prefab and will still be in world after a wipe. Will cause re-download of world for clients!\n" +
+                "NOTE: Runtime search and load from {UserDataFolder}/LocalPrefabs\n" +
+                "NOTE: If {prefabFileName} is a full file name that actually exists, it will be loaded exactly";
         }
 
         /// <summary>
@@ -46,9 +48,8 @@ namespace SdtdServerKit.Commands
         {
             return new string[]
             {
-                "ty-RenderPrefab",
-                "ty-rp",
-                "ty-brender"
+                "ty-PlacePrefab",
+                "ty-pp"
             };
         }
 
@@ -79,6 +80,19 @@ namespace SdtdServerKit.Commands
                 }
 
                 string prefabFileName = args[0];
+                string? runtimeSearchDir = null;
+                bool isExactlyLoad = File.Exists(prefabFileName);
+                if (isExactlyLoad)
+                {
+                    prefabFileName = Path.GetFileNameWithoutExtension(prefabFileName);
+                    runtimeSearchDir = Path.GetDirectoryName(prefabFileName);
+                }
+                else
+                {
+                    var dir = new DirectoryInfo(Path.Combine(LaunchPrefs.UserDataFolder.Value, "LocalPrefabs"));
+                    runtimeSearchDir = dir.FullName;
+                }
+
                 int x;
                 int y;
                 int z;
@@ -137,12 +151,10 @@ namespace SdtdServerKit.Commands
                 {
                     bCopyAirBlocks = true
                 };
-                if (prefab.Load(prefabFileName, true, true, false, false) == false)
+                if (isExactlyLoad || prefab.Load(prefabFileName, true, true, false, false) == false)
                 {
-                    // Runtime load from LocalPrefabs
-                    var dir = new DirectoryInfo(Path.Combine(LaunchPrefs.UserDataFolder.Value, "LocalPrefabs"));
-                    Log("Try loading prefab from " + dir.FullName);
-                    var abstractedLocation = new PathAbstractions.AbstractedLocation(PathAbstractions.EAbstractedLocationType.UserDataPath, prefabFileName, dir.FullName, null, prefabFileName, ".tts", true, null);
+                    Log("Try loading prefab from " + runtimeSearchDir);
+                    var abstractedLocation = new PathAbstractions.AbstractedLocation(PathAbstractions.EAbstractedLocationType.UserDataPath, prefabFileName, runtimeSearchDir, null, prefabFileName, ".tts", true, null);
                     if (prefab.Load(abstractedLocation, true, true, false, false) == false)
                     {
                         Log("ERR: Unable to load prefab " + prefabFileName);
@@ -177,7 +189,7 @@ namespace SdtdServerKit.Commands
                 
                 if (noSleepers)
                 {
-                    prefab.SleeperVolumes = new List<Prefab.PrefabSleeperVolume>();
+                    prefab.SleeperVolumes.Clear();
                 }
                 prefab.CopyIntoLocal(GameManager.Instance.World.ChunkCache, offsetPosition, true, true, FastTags<TagGroup.Global>.none);
 
@@ -197,7 +209,7 @@ namespace SdtdServerKit.Commands
             }
             catch (Exception ex)
             {
-                Log("Error in RenderPrefab.Execute" + Environment.NewLine + ex.ToString());
+                Log("Error in PlacePrefab.Execute" + Environment.NewLine + ex.ToString());
             }
         }
     }

@@ -22,7 +22,7 @@
         {
             return "Usage:\n" +
                 "  1. ty-UndoPrefab\n" +
-                "1. Undo prefabs command. Works with RenderPrefab, FillBlock, ReplaceBlock and DuplicateArea\n" +
+                "1. Undo prefabs command. Works with PlacePrefab, FillBlock, ReplaceBlock and DuplicateArea\n" +
                 "NOTE: By default the size of undo history ise set to 1. You can change the undo history size using \"setundosize\"\n";
         }
 
