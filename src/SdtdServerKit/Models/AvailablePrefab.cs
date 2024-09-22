@@ -8,12 +8,17 @@
         /// <summary>
         /// Gets or sets the name of the prefab.
         /// </summary>
-        public string PrefabName { get; set; }
+        public string? Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the localization name of the prefab.
+        /// </summary>
+        public string? LocalizationName { get; set; }
 
         /// <summary>
         /// Gets or sets the full path of the prefab.
         /// </summary>
-        public string FullPath { get; set; }
+        public string? FullPath { get; set; }
 
         ///// <summary>
         ///// Gets or sets the size of the prefab.

@@ -1,10 +1,4 @@
-﻿using SdtdServerKit.Commands;
-using System;
-using System.Drawing;
-using WorldGenerationEngineFinal;
-using static XUiC_CharacterFrameWindow;
-
-namespace SdtdServerKit.WebApi.Controllers
+﻿namespace SdtdServerKit.WebApi.Controllers
 {
     /// <summary>
     /// Prefab
@@ -19,17 +13,37 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route(nameof(AvailablePrefabs))]
-        public IEnumerable<AvailablePrefab> AvailablePrefabs()
+        public Paged<AvailablePrefab> AvailablePrefabs([FromUri] AvailablePrefabQuery model)
         {
-            var result = new List<AvailablePrefab>();
+            var list = new List<AvailablePrefab>();
             foreach (var item in PathAbstractions.PrefabsSearchPaths.GetAvailablePathsList())
             {
-                result.Add(new AvailablePrefab()
+                string name = item.Name;
+                string localizationName = Utilities.Utils.GetLocalization(name, model.Language, true);
+                string fullPath = item.FullPath;
+
+                string? keyword = model.Keyword;
+                if (string.IsNullOrEmpty(keyword) == false)
                 {
-                    PrefabName = item.Name,
-                    FullPath = item.FullPath,
+                    if(name.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1 && 
+                        localizationName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1)
+                    {
+                        continue;
+                    }
+                }
+
+                list.Add(new AvailablePrefab()
+                {
+                    Name = name,
+                    LocalizationName = localizationName,
+                    FullPath = fullPath,
                 });
             }
+
+            int pageSize = model.PageSize;
+            var items = pageSize < 0 ? list : list.Skip((model.PageNumber - 1) * pageSize).Take(pageSize);
+            var result = new Paged<AvailablePrefab>(items, list.Count);
+            
             
             //foreach (var item in PrefabManager.AllPrefabDatas.Values)
             //{

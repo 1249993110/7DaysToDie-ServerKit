@@ -60,7 +60,7 @@ namespace SdtdServerKit.Commands
         {
             try
             {
-                CustomLogger.Warn("Is Main: " + ThreadManager.IsMainThread());
+                //CustomLogger.Warn("Is Main: " + ThreadManager.IsMainThread());
                 if (args.Count < 1 || args.Count > 7)
                 {
                     Log($"ERR: Wrong number of arguments, expected 1 to 7, found {args.Count}.");
@@ -84,8 +84,8 @@ namespace SdtdServerKit.Commands
                 bool isExactlyLoad = File.Exists(prefabName);
                 if (isExactlyLoad)
                 {
-                    prefabName = Path.GetFileNameWithoutExtension(prefabName);
                     runtimeSearchDir = Path.GetDirectoryName(prefabName);
+                    prefabName = Path.GetFileNameWithoutExtension(prefabName);
                 }
                 else
                 {
