@@ -22,8 +22,10 @@
         {
             return "Usage:\n" +
                 "  1. ty-UndoPrefab\n" +
+                "  2. ty-UndoPrefab {id}\n" +
                 "1. Undo prefabs command. Works with PlacePrefab, FillBlock, ReplaceBlock and DuplicateArea\n" +
-                "NOTE: By default the size of undo history ise set to 1. You can change the undo history size using \"setundosize\"\n";
+                "2. Undo prefabs command by specifying id.\n" +
+                "NOTE: By default the size of undo history ise set to 10. You can change the undo history size using \"setundosize\"\n";
         }
 
         /// <summary>
@@ -47,7 +49,13 @@
         {
             try
             {
-                var undoPrefab = GetUndoPrefab(senderInfo.GetEntityId());
+                if (args.Count == 0 || int.TryParse(args[0], out int id) == false)
+                {
+                    id = 0;
+                }
+
+                var undoPrefab = GetUndoPrefab(senderInfo.GetEntityId(), id);
+
                 if (undoPrefab == null)
                 {
                     Log("ERR: Unable to undo the last prefab command.");
@@ -100,7 +108,7 @@
             }
         }        
 
-        internal static UndoPrefabObj? GetUndoPrefab(int entityId)
+        internal static UndoPrefabObj? GetUndoPrefab(int entityId, int id = 0)
         {
             if (_prefabCache.IsValueCreated == false
                 || _prefabCache.Value.TryGetValue(entityId, out var list) == false 
@@ -109,12 +117,17 @@
                 return null;
             }
 
-            var obj = list[0];
-            list.RemoveAt(0);
+            if(id < 0 || id >= list.Count)
+            {
+                return null;
+            }
+
+            var obj = list[id];
+            list.RemoveAt(id);
             return obj;
         }
 
-        internal static void SetUndo(int entityId, Prefab prefab, Vector3i offsetPosition, int prefabInstanceId)
+        internal static void SetUndo(int entityId, Prefab prefab, string prefabName, Vector3i offsetPosition, int prefabInstanceId)
         {
             if (_prefabCache.Value.TryGetValue(entityId, out var list) == false)
             {
@@ -127,11 +140,21 @@
                 list.RemoveAt(list.Count - 1);
             }
 
-            var item = new UndoPrefabObj(prefab, offsetPosition, prefabInstanceId);
+            var item = new UndoPrefabObj(prefab, prefabName, offsetPosition, prefabInstanceId);
             list.Insert(0, item);
         }
 
-        private static int _maxUndoHistorySize = 1;
+        internal static List<UndoPrefabObj>? GetUndoHistoryList(int entityId = -1)
+        {
+            if (_prefabCache.IsValueCreated == false || _prefabCache.Value.TryGetValue(entityId, out var list) == false)
+            {
+                return null;
+            }
+
+            return list;
+        }
+
+        private static int _maxUndoHistorySize = 10;
         private static readonly Lazy<Dictionary<int, List<UndoPrefabObj>>> _prefabCache = new Lazy<Dictionary<int, List<UndoPrefabObj>>>();
 
         internal static void SetMaxUndoHistorySize(int maxUndoHistorySize, int entityId)
@@ -163,18 +186,22 @@
 
         internal class UndoPrefabObj
         {
-            public UndoPrefabObj(Prefab prefab, Vector3i offsetPosition, int prefabInstanceId)
+            public UndoPrefabObj(Prefab prefab, string prefabName, Vector3i offsetPosition, int prefabInstanceId)
             {
                 this.Prefab = prefab;
                 this.OffsetPosition = offsetPosition;
                 this.PrefabInstanceId = prefabInstanceId;
+                this.PrefabName = prefabName;
+                this.CreatedAt = DateTime.Now;
 
                 // Clear sleeper volumes
                 prefab.SleeperVolumes.Clear();
             }
 
             public Prefab Prefab { get; set; }
+            public string PrefabName { get; set; }
             public Vector3i OffsetPosition { get; set; }
+            public DateTime CreatedAt { get; set; }
             public int PrefabInstanceId { get; set; }
         }
     }

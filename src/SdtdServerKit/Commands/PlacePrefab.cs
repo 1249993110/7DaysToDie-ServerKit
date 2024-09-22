@@ -79,13 +79,13 @@ namespace SdtdServerKit.Commands
                     args.RemoveAll(i => string.Equals(i, "nosleepers", StringComparison.OrdinalIgnoreCase));
                 }
 
-                string prefabFileName = args[0];
+                string prefabName = args[0];
                 string? runtimeSearchDir = null;
-                bool isExactlyLoad = File.Exists(prefabFileName);
+                bool isExactlyLoad = File.Exists(prefabName);
                 if (isExactlyLoad)
                 {
-                    prefabFileName = Path.GetFileNameWithoutExtension(prefabFileName);
-                    runtimeSearchDir = Path.GetDirectoryName(prefabFileName);
+                    prefabName = Path.GetFileNameWithoutExtension(prefabName);
+                    runtimeSearchDir = Path.GetDirectoryName(prefabName);
                 }
                 else
                 {
@@ -151,13 +151,13 @@ namespace SdtdServerKit.Commands
                 {
                     bCopyAirBlocks = true
                 };
-                if (isExactlyLoad || prefab.Load(prefabFileName, true, true, false, false) == false)
+                if (isExactlyLoad || prefab.Load(prefabName, true, true, false, false) == false)
                 {
                     Log("Try loading prefab from " + runtimeSearchDir);
-                    var abstractedLocation = new PathAbstractions.AbstractedLocation(PathAbstractions.EAbstractedLocationType.UserDataPath, prefabFileName, runtimeSearchDir, null, prefabFileName, ".tts", true, null);
+                    var abstractedLocation = new PathAbstractions.AbstractedLocation(PathAbstractions.EAbstractedLocationType.UserDataPath, prefabName, runtimeSearchDir, null, prefabName, ".tts", true, null);
                     if (prefab.Load(abstractedLocation, true, true, false, false) == false)
                     {
-                        Log("ERR: Unable to load prefab " + prefabFileName);
+                        Log("ERR: Unable to load prefab " + prefabName);
                         return;
                     }
                 }
@@ -203,9 +203,9 @@ namespace SdtdServerKit.Commands
                     prefabInstanceId = ChunkHelper.AddPrefabToRWG(prefab, offsetPosition);
                 }
 
-                UndoPrefab.SetUndo(senderInfo.GetEntityId(), oldPrefab, offsetPosition, prefabInstanceId);
+                UndoPrefab.SetUndo(senderInfo.GetEntityId(), oldPrefab, prefabName, offsetPosition, prefabInstanceId);
 
-                Log($"Prefab {prefabFileName} loaded at {offsetPosition}");
+                Log($"Prefab {prefabName} loaded at {offsetPosition}");
             }
             catch (Exception ex)
             {
