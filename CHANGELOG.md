@@ -2,7 +2,7 @@
 ### New Features
 - Added commands for placing prefabs, undo prefab, and set undo history size, enter `help ty-PlacePrefab` in the console to view details
 - Added a simple web ui for placing prefabs
-- Add the last time the owner was online under the territory stone information on the GPS map
+- Add the last time the owner was online under the land claim information on the GPS map
 
 ### Notable Changes
 - Update GameIcon font size
