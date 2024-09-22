@@ -69,13 +69,13 @@ namespace SdtdServerKit.Functions
                         var itemList = await _itemListRepository.GetListByGoodsIdAsync(goods.Id);
                         foreach (var item in itemList)
                         {
-                            Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
+                            Utilities.Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
                         }
 
                         var commandList = await _commandListRepository.GetListByGoodsIdAsync(goods.Id);
                         foreach (var item in commandList)
                         {
-                            Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, goods), item.InMainThread);
+                            Utilities.Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, goods), item.InMainThread);
                         }
 
                         SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, managedPlayer, goods));

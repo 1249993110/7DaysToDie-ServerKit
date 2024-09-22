@@ -6,12 +6,17 @@
     public class ClaimOwner : PlayerBase
     {
         /// <summary>
-        /// 是否激活
+        /// Claim Active
         /// </summary>
         public bool ClaimActive { get; set; }
 
         /// <summary>
-        /// 领地石坐标集合
+        /// Last Login
+        /// </summary>
+        public DateTime LastLogin { get; set; }
+
+        /// <summary>
+        /// Claim Positions
         /// </summary>
         public IEnumerable<Position> ClaimPositions { get; set; }
     }

@@ -35,6 +35,7 @@
                 PlayerName = persistentPlayerData.PlayerName.DisplayName,
                 ClaimActive = GameManager.Instance.World.IsLandProtectionValidForPlayer(persistentPlayerData),
                 ClaimPositions = persistentPlayerData.LPBlocks.ToPositions(),
+                LastLogin = persistentPlayerData.LastLogin
             };
 
             return Ok(claimOwner);
@@ -63,6 +64,7 @@
                         PlayerName = persistentPlayerData.PlayerName.DisplayName,
                         ClaimActive = GameManager.Instance.World.IsLandProtectionValidForPlayer(persistentPlayerData),
                         ClaimPositions = persistentPlayerData.LPBlocks.ToPositions(),
+                        LastLogin = persistentPlayerData.LastLogin
                     });
                 }
             }

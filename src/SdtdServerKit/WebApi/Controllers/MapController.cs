@@ -60,7 +60,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route("RenderFullMap")]
         public IHttpActionResult RenderFullMap()
         {
-            var result = Utils.ExecuteConsoleCommand("visitmap full");
+            var result = Utilities.Utils.ExecuteConsoleCommand("visitmap full");
             return Ok(result);
         }
 

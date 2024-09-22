@@ -23,5 +23,25 @@
         {
             SdtdConsole.Instance.Output(CustomLogger.Prefix + string.Format(line, args));
         }
+
+        /// <summary>
+        /// Checks if the arguments contain the specified name.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="name"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        protected static bool ContainsCaseInsensitive(List<string> args, string name, int startIndex = 0)
+        {
+            for (int i = startIndex; i < args.Count; i++)
+            {
+                if (string.Equals(args[i], name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

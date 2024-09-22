@@ -80,7 +80,7 @@ namespace SdtdServerKit.Functions
                         if(ConfigManager.GlobalSettings.TeleZombieCheck &&
                             GameManager.Instance.World.Players.dict.TryGetValue(managedPlayer.EntityId, out EntityPlayer player))
                         {
-                            if (Utils.ZombieCheck(player))
+                            if (Utilities.Utils.ZombieCheck(player))
                             {
                                 SendMessageToPlayer(playerId, ConfigManager.GlobalSettings.TeleDisableTip);
                                 return true;
@@ -88,7 +88,7 @@ namespace SdtdServerKit.Functions
                         }
 
                         await _pointsInfoRepository.ChangePointsAsync(playerId, -cityPosition.PointsRequired);
-                        Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), cityPosition.Position, cityPosition.ViewDirection);
+                        Utilities.Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), cityPosition.Position, cityPosition.ViewDirection);
                         SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, managedPlayer, cityPosition));
                         
                         await _teleRecordRepository.InsertAsync(new T_TeleRecord()
@@ -96,7 +96,7 @@ namespace SdtdServerKit.Functions
                             CreatedAt = DateTime.Now,
                             PlayerId = playerId,
                             PlayerName = managedPlayer.PlayerName,
-                            OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
+                            OriginPosition = Utilities.Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
                             TargetPosition = cityPosition.Position,
                             TargetType = TeleTargetType.City.ToString(),
                             TargetName = cityPosition.CityName

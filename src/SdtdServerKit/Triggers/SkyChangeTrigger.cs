@@ -47,7 +47,7 @@
                     {
                         ModEventHub.OnSkyChanged(new SkyChanged()
                         {
-                            BloodMoonDaysRemaining = Utils.DaysRemaining(days),
+                            BloodMoonDaysRemaining = Utilities.Utils.DaysRemaining(days),
                             DawnHour = world.DawnHour,
                             DuskHour = world.DuskHour,
                             SkyChangeEventType = SkyChangeEventType.Dusk
@@ -60,7 +60,7 @@
                     {
                         ModEventHub.OnSkyChanged(new SkyChanged()
                         {
-                            BloodMoonDaysRemaining = Utils.DaysRemaining(days),
+                            BloodMoonDaysRemaining = Utilities.Utils.DaysRemaining(days),
                             DawnHour = world.DawnHour,
                             DuskHour = world.DuskHour,
                             SkyChangeEventType = SkyChangeEventType.Dawn

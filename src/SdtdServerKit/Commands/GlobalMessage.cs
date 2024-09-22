@@ -1,4 +1,7 @@
-﻿namespace SdtdServerKit.Commands
+﻿using SdtdServerKit.Managers;
+using SdtdServerKit.Models;
+
+namespace SdtdServerKit.Commands
 {
     /// <summary>
     /// Sends a message to all connected clients.
@@ -33,9 +36,9 @@
         {
             return new string[]
             {
-                    "ty-GlobalMessage",
-                    "ty-gm",
-                    "ty-say"
+                "ty-GlobalMessage",
+                "ty-gm",
+                "ty-say"
             };
         }
 
@@ -53,7 +56,21 @@
             }
 
             string message = args[0];
-            string senderName = args.Count > 1 ? args[1] : Localization.Get("xuiChatServer", false);
+            string senderName;
+            if (args.Count > 1)
+            {
+                senderName = args[1];
+            }
+            else
+            {
+                senderName = ConfigManager.GlobalSettings.GlobalServerName;
+            }
+
+            if (string.IsNullOrEmpty(senderName))
+            {
+                senderName = Localization.Get("xuiChatServer", false);
+            }
+
             message = global::Utils.CreateGameMessage(senderName, message);
 
             GameManager.Instance.ChatMessageServer(

@@ -44,13 +44,13 @@ namespace SdtdServerKit.Functions
                     var itemList = await _itemListRepository.GetListByVipGiftIdAsync(vipGift.Id);
                     foreach (var item in itemList)
                     {
-                        Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
+                        Utilities.Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
                     }
 
                     var commandList = await _commandListRepository.GetListByVipGiftIdAsync(vipGift.Id);
                     foreach (var item in commandList)
                     {
-                        Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, vipGift), item.InMainThread);
+                        Utilities.Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, vipGift), item.InMainThread);
                     }
 
                     vipGift.ClaimState = true;

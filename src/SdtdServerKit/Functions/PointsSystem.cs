@@ -91,14 +91,14 @@ namespace SdtdServerKit.Functions
                     return true;
                 }
                 const string currencyName = "casinoCoin";
-                int currencyAmount = Utils.GetPlayerInventoryStackCount(playerId, currencyName);
+                int currencyAmount = Utilities.Utils.GetPlayerInventoryStackCount(playerId, currencyName);
                 if (currencyAmount <= 0)
                 {
                     SendMessageToPlayer(playerId, base.FormatCmd(Settings.ExchangeFailureTip, player));
                     return true;
                 }
 
-                Utils.ExecuteConsoleCommand($"ty-rpi {playerId} {currencyName}");
+                Utilities.Utils.ExecuteConsoleCommand($"ty-rpi {playerId} {currencyName}");
                 int increasePoints = (int)Math.Round(currencyAmount * Settings.CurrencyToPointsExchangeRate);
                 await _pointsInfoRepository.ChangePointsAsync(playerId, increasePoints);
 

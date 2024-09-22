@@ -28,7 +28,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(ExecuteConsoleCommand))]
         public IEnumerable<string> ExecuteConsoleCommand([FromUri] string command, [FromUri] bool inMainThread = false)
         {
-            return Utils.ExecuteConsoleCommand(command, inMainThread);
+            return Utilities.Utils.ExecuteConsoleCommand(command, inMainThread);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace SdtdServerKit.WebApi.Controllers
         public IEnumerable<string> GiveItem([FromBody]GiveItem giveItemEntry)
         {
             string cmd = string.Format("ty-gi {0} {1} {2} {3} {4}",
-                Utils.FormatCommandArgs(giveItemEntry.TargetPlayerIdOrName),
+                Utilities.Utils.FormatCommandArgs(giveItemEntry.TargetPlayerIdOrName),
                 giveItemEntry.ItemName,
                 giveItemEntry.Count,
                 giveItemEntry.Quality,
@@ -251,11 +251,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(SendGlobalMessage))]
         public IEnumerable<string> SendGlobalMessage([FromBody] GlobalMessage globalMessage)
         {
-            if (string.IsNullOrEmpty(globalMessage.SenderName))
-            {
-                globalMessage.SenderName = ConfigManager.GlobalSettings.GlobalServerName;
-            }
-            return Utils.SendGlobalMessage(globalMessage);
+            return Utilities.Utils.SendGlobalMessage(globalMessage);
         }
 
         /// <summary>
@@ -265,11 +261,7 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route(nameof(SendPrivateMessage))]
         public IEnumerable<string> SendPrivateMessage([FromBody] PrivateMessage privateMessage)
         {
-            if (string.IsNullOrEmpty(privateMessage.SenderName))
-            {
-                privateMessage.SenderName = ConfigManager.GlobalSettings.WhisperServerName;
-            }
-            return Utils.SendPrivateMessage(privateMessage);
+            return Utilities.Utils.SendPrivateMessage(privateMessage);
         }
 
         /// <summary>

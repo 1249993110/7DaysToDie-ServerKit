@@ -83,7 +83,7 @@ namespace SdtdServerKit.Functions
 
             await _pointsRepository.ChangePointsAsync(srcPlayerId, -Settings.PointsRequired);
 
-            Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), targetPlayer.EntityId.ToString());
+            Utilities.Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), targetPlayer.EntityId.ToString());
             string messageToPlayer = FormatCmd(Settings.TeleSuccessTip, managedPlayer, targetName);
             SendMessageToPlayer(srcPlayerId, messageToPlayer);
             SendMessageToPlayer(targetPlayer.PlayerId, messageToPlayer);
@@ -95,8 +95,8 @@ namespace SdtdServerKit.Functions
                 PlayerName = managedPlayer.PlayerName,
                 TargetName = targetName,
                 TargetType = TeleTargetType.Friend.ToString(),
-                OriginPosition = Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
-                TargetPosition = Utils.GetPlayerPosition(targetPlayer.EntityId).ToString(),
+                OriginPosition = Utilities.Utils.GetPlayerPosition(managedPlayer.EntityId).ToString(),
+                TargetPosition = Utilities.Utils.GetPlayerPosition(targetPlayer.EntityId).ToString(),
             });
 
             CustomLogger.Info("Player: {0}, entityId: {1}, teleported to: {2}", managedPlayer.PlayerName, managedPlayer.EntityId, targetName);
@@ -139,14 +139,14 @@ namespace SdtdServerKit.Functions
                 if (ConfigManager.GlobalSettings.TeleZombieCheck &&
                     GameManager.Instance.World.Players.dict.TryGetValue(managedPlayer.EntityId, out EntityPlayer player))
                 {
-                    if (Utils.ZombieCheck(player))
+                    if (Utilities.Utils.ZombieCheck(player))
                     {
                         SendMessageToPlayer(playerId, ConfigManager.GlobalSettings.TeleDisableTip);
                         return true;
                     }
                 }
 
-                if (Settings.IsFriendBypass && Utils.IsFriend(managedPlayer.EntityId, targetPlayer.EntityId))
+                if (Settings.IsFriendBypass && Utilities.Utils.IsFriend(managedPlayer.EntityId, targetPlayer.EntityId))
                 {
                     await Tele(managedPlayer, targetPlayer);
                 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SdtdServerKit.Commands
+﻿namespace SdtdServerKit.Commands
 {
     /// <summary>
     /// Remove Entity
@@ -27,8 +21,8 @@ namespace SdtdServerKit.Commands
         public override string getHelp()
         {
             return "Removes an entity from the game\n" +
-                "Usage: ty-re <EntityId>\n" +
-                "Usage: rem <EntityId>";
+                "Usage: ty-re {EntityId}\n" +
+                "Usage: ty-RemoveEntity {EntityId}";
         }
 
         /// <summary>

@@ -41,7 +41,7 @@
         [ResponseType(typeof(string))]
         public IHttpActionResult GetLocalization(string key, [FromUri]Language language, [FromUri] bool caseInsensitive = false)
         {
-            return Ok(Utils.GetLocalization(key, language, caseInsensitive));
+            return Ok(Utilities.Utils.GetLocalization(key, language, caseInsensitive));
         }
 
         /// <summary>

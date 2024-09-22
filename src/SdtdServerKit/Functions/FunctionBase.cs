@@ -148,7 +148,7 @@ namespace SdtdServerKit.Functions
         /// <returns></returns>
         protected void SendGlobalMessage(string message)
         {
-            Utils.SendGlobalMessage(new GlobalMessage()
+            Utilities.Utils.SendGlobalMessage(new GlobalMessage()
             {
                 Message = message,
                 SenderName = ConfigManager.GlobalSettings.GlobalServerName
@@ -163,7 +163,7 @@ namespace SdtdServerKit.Functions
         /// <returns></returns>
         protected void SendMessageToPlayer(string playerIdOrName, string message)
         {
-            Utils.SendPrivateMessage(new PrivateMessage()
+            Utilities.Utils.SendPrivateMessage(new PrivateMessage()
             {
                 TargetPlayerIdOrName = playerIdOrName,
                 Message = message,
