@@ -1,3 +1,13 @@
+## 10.42 (2024-09-22)
+### New Features
+- Added commands for placing prefabs, undo prefab, and set undo history size, enter `help ty-PlacePrefab` in the console to view details
+- Added a simple web ui for placing prefabs
+- Add the last time the owner was online under the territory stone information on the GPS map
+
+### Notable Changes
+- Update GameIcon font size
+
+
 ## 10.41 (2024-09-13)
 ### New Features
 - Added color chat function, supports customizing player name color and text color, supports using variable `{PlayerName}` to customize title
