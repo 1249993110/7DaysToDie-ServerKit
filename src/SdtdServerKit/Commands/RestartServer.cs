@@ -11,17 +11,17 @@ namespace SdtdServerKit.Commands
         /// <inheritdoc />
         public override string getDescription()
         {
-            return "Restart server, optional parameter -f/force.";
+            return "Restart server, optional parameter [{delay}] and [-f/force].";
         }
 
         /// <inheritdoc />
         public override string getHelp()
         {
             return "Usage:\n" +
-                "  1. ty-rs" +
-                "  2. ty-rs -f" +
-                "1. Restart server by shutdown" +
-                "2. Force restart server";
+                "  1. ty-rs [-f/force]\n" +
+                "  2. ty-rs {delay} [-f/force]\n" +
+                "1. Restart server by shutdown or force restart by kill process\n" +
+                "2. Delay for a specified number of seconds before restarting";
         }
 
         /// <inheritdoc />
@@ -31,24 +31,41 @@ namespace SdtdServerKit.Commands
         }
 
         /// <inheritdoc />
-        public override void Execute(List<string> args, CommandSenderInfo senderInfo)
+        public override async void Execute(List<string> args, CommandSenderInfo senderInfo)
         {
-            Log("Server is restarting..., please wait");
+            Log("Server is restarting..., please wait.");
 
-            if (args.Count > 0)
+            if (_isRestarting)
             {
-                if (string.Equals(args[0], "-f", StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(args[0], "-force", StringComparison.OrdinalIgnoreCase))
-                {
-                    PrepareRestart(true);
-                    return;
-                }
+                return;
             }
 
-            PrepareRestart(false);
+            bool force = ContainsCaseInsensitive(args, "-f") || ContainsCaseInsensitive(args, "force");
+            if (force)
+            {
+                args.RemoveAll(i => string.Equals(i, "-f", StringComparison.OrdinalIgnoreCase) || string.Equals(i, "force", StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (args.Count > 0 && int.TryParse(args[0], out int delay))
+            {
+                await Task.Delay(delay);
+            }
+
+            if (force)
+            {
+                PrepareRestart(true);
+            }
+            else
+            {
+                PrepareRestart(false);
+            }
         }
 
         private static volatile bool _isRestarting;
+        /// <summary>
+        /// Gets a value indicating whether the server is restarting.
+        /// </summary>
+        public static bool IsRestarting => _isRestarting;
 
         /// <summary>
         /// Prepares the server for restart.

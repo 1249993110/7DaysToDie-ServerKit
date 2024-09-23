@@ -20,8 +20,10 @@
         /// <returns>The help text for the command.</returns>
         public override string getHelp()
         {
-            return "Removes land claims with the specified id from a player or x y z position.\n" +
-                "Usage: ty-rplc {PlayerId/EntityId/PlayerName} [x y z]\n";
+            return "Removes land claims with the specified id from a player or x y z position\n" +
+                "Usage:\n" +
+                "  1. ty-rplc {PlayerId/EntityId/PlayerName}\n" +
+                "  2. ty-rplc {x} {y} {z}\n";
         }
 
         /// <summary>

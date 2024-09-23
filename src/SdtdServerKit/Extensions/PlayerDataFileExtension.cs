@@ -8,7 +8,7 @@ namespace SdtdServerKit.Extensions
     internal static class PlayerDataFileExtension
     {
         /// <summary>
-        /// Gets the total stack count of a specific item in the player's inventory.
+        /// Gets the total stack count of a specified item in the player's inventory.
         /// </summary>
         /// <param name="pdf">The PlayerDataFile instance.</param>
         /// <param name="itemName">The name of the item.</param>
