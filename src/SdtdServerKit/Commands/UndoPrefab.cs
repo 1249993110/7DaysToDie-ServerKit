@@ -25,7 +25,7 @@
                 "  2. ty-UndoPrefab {id}\n" +
                 "1. Undo prefabs command. Works with PlacePrefab, FillBlock, ReplaceBlock and DuplicateArea\n" +
                 "2. Undo prefabs command by specifying id.\n" +
-                "NOTE: By default the size of undo history ise set to 10. You can change the undo history size using \"setundosize\"\n";
+                "NOTE: By default the size of undo history ise set to 10. You can change the undo history size using `ty-SetUndoSize`\n";
         }
 
         /// <summary>
@@ -95,7 +95,7 @@
                     {
                         if (ChunkHelper.RemovePrefabFromRWG(prefabInstanceId))
                         {
-                            Log("Found undoBrender with \"addToRWG\". Removed prefab with PrefabInstanceId={0} from Randomgen World.", prefabInstanceId);
+                            Log("Found undoBrender with `addToRWG`. Removed prefab with PrefabInstanceId={0} from Randomgen World.", prefabInstanceId);
                         }
                     }
 

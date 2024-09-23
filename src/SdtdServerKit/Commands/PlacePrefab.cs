@@ -35,7 +35,7 @@ namespace SdtdServerKit.Commands
                 "5. Places a prefab on your position with rot and y deslocated (depth blocks)\n" +
                 "NOTE: {rot} means rotate the prefab to the left, must be equal to 0=0°, 1=90°, 2=180° or 3=270°\n" +
                 "NOTE: Sleeper control is ONLY possible on prefabs that are present in prefabs.xml (world folder) that is used to create the map (RWG).\n" +
-                "NOTE: Use parameter \"addToRWG\" to permanently add this prefab to the current RWG world. Can be reset like any other RWG prefab and will still be in world after a wipe. Will cause re-download of world for clients!\n" +
+                "NOTE: Use parameter `addToRWG` to permanently add this prefab to the current RWG world. Can be reset like any other RWG prefab and will still be in world after a wipe. Will cause re-download of world for clients!\n" +
                 "NOTE: Runtime search and load from {UserDataFolder}/LocalPrefabs\n" +
                 "NOTE: If {prefabFileName} is a full file name that actually exists, it will be loaded exactly";
         }
