@@ -3,14 +3,14 @@
 namespace SdtdServerKit.Commands
 {
     /// <summary>
-    /// Duplicate an Area to another location.
+    /// Duplicates an Area to another location.
     /// </summary>
     public class DuplicateArea : ConsoleCmdBase
     {
         /// <inheritdoc/>
         public override string getDescription()
         {
-            return "Duplicate an Area to another location.";
+            return "Duplicates an Area to another location.";
         }
 
         /// <inheritdoc/>
@@ -33,7 +33,8 @@ namespace SdtdServerKit.Commands
                 "6. Use stored position 1 and 2 to duplicate on x,y,z with rot\n" +
                 "7. Use stored position 1 and 2 to duplicate on your current position\n" +
                 "8. Use stored position 1 and 2 to duplicate on your current position with rot\n" +
-                "NOTE: {rot} means rotate the prefab to the left, must be equal to 0=0°, 1=90°, 2=180° or 3=270°";
+                "NOTE: {rot} means rotate the prefab to the left, must be equal to 0=0°, 1=90°, 2=180° or 3=270°" +
+                "NOTE: Sleepervolumes are lost during this process.";
         }
 
         /// <inheritdoc/>
