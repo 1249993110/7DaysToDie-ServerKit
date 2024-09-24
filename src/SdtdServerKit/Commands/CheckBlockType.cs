@@ -17,8 +17,8 @@ namespace SdtdServerKit.Commands
         public override string getHelp()
         {
             return "Usage:\n" +
-                "  1. bcheck {x} {y} {z}\n" +
-                "  2. bcheck\n" +
+                "  1. ty-CheckBlockType {x} {y} {z}\n" +
+                "  2. ty-CheckBlockType\n" +
                 "1. check the block at x, y, z.\n" +
                 "2. check the block under your feet.";
         }
