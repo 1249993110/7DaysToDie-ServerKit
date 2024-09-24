@@ -181,7 +181,7 @@ namespace SdtdServerKit.Commands
                 {
                     bCopyAirBlocks = true
                 };
-                oldPrefab.copyFromWorld(GameManager.Instance.World, offsetPosition, new Vector3i(x + prefabSize.x, y + prefabSize.y, z + prefabSize.z));
+                oldPrefab.copyFromWorld(GameManager.Instance.World, offsetPosition, offsetPosition + prefabSize);
                 
                 if (noSleepers)
                 {

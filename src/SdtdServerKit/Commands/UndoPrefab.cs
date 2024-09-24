@@ -127,7 +127,7 @@
             return obj;
         }
 
-        internal static void SetUndo(int entityId, Prefab prefab, string prefabName, Vector3i offsetPosition, int prefabInstanceId)
+        internal static void SetUndo(int entityId, Prefab prefab, string prefabName, Vector3i offsetPosition, int prefabInstanceId = -1)
         {
             if (_prefabCache.Value.TryGetValue(entityId, out var list) == false)
             {

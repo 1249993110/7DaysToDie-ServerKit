@@ -3,7 +3,7 @@
 namespace SdtdServerKit.Commands
 {
     /// <summary>
-    /// 
+    /// Checks the type of block by position or under your feet.
     /// </summary>
     public class CheckBlockType : ConsoleCmdBase
     {
