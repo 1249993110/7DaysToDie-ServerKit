@@ -93,11 +93,7 @@ namespace SdtdServerKit.Commands
                     runtimeSearchDir = dir.FullName;
                 }
 
-                int x;
-                int y;
-                int z;
-                int rot = 0;
-
+                int x, y, z, rot = 0;
                 if (args.Count == 4)
                 {
                     x = int.Parse(args[1]);
@@ -121,7 +117,7 @@ namespace SdtdServerKit.Commands
                     }
                     if (LivePlayerManager.TryGetByEntityId(entityId, out var managedPlayer) == false)
                     {
-                        Log("ERR: Unable to get your position");
+                        Log("ERR: Unable to get your position.");
                         return;
                     }
 
