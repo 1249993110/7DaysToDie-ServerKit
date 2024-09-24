@@ -52,8 +52,8 @@ namespace SdtdServerKit.Commands
             try
             {
                 int x1, y1, z1, x2, y2, z2, dest_x, dest_y, dest_z, rot = 0;
-
-                if(args.Count >= 9)
+                int entityId = senderInfo.GetEntityId();
+                if (args.Count >= 9)
                 {
                     int.TryParse(args[0], out x1);
                     int.TryParse(args[1], out y1);
@@ -72,7 +72,6 @@ namespace SdtdServerKit.Commands
                 }                
                 else if (args.Count <= 1)
                 {
-                    int entityId = senderInfo.GetEntityId();
                     if (LivePlayerManager.TryGetByEntityId(entityId, out var managedPlayer) == false)
                     {
                         Log("ERR: Unable to get your position.");
@@ -102,7 +101,7 @@ namespace SdtdServerKit.Commands
                         }
                     }
 
-                    if (TryGetPosition(senderInfo.GetEntityId(), out x1, out y1, out z1, out x2, out y2, out z2) == false)
+                    if (TryGetPosition(entityId, out x1, out y1, out z1, out x2, out y2, out z2) == false)
                     {
                         return;
                     }
@@ -111,7 +110,7 @@ namespace SdtdServerKit.Commands
                 }
                 else if (args.Count <= 4)
                 {
-                    if(TryGetPosition(senderInfo.GetEntityId(), out x1, out y1, out z1, out x2, out y2, out z2) == false)
+                    if(TryGetPosition(entityId, out x1, out y1, out z1, out x2, out y2, out z2) == false)
                     {
                         return;
                     }
@@ -180,7 +179,7 @@ namespace SdtdServerKit.Commands
 
                 ChunkHelper.CalculateStability(offsetPosition, prefabSize);
 
-                UndoPrefab.SetUndo(senderInfo.GetEntityId(), oldPrefab, "Duplicated Area", offsetPosition);
+                UndoPrefab.SetUndo(entityId, oldPrefab, "Duplicated Area", offsetPosition);
 
                 Log($"Duplicated Area at {offsetPosition}");
             }

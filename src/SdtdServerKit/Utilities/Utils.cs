@@ -188,26 +188,6 @@
         }
 
         /// <summary>
-        /// 获取血月剩余天数
-        /// </summary>
-        /// <param name="daysUntilHorde"></param>
-        /// <returns></returns>
-        public static int DaysRemaining(int daysUntilHorde)
-        {
-            int bloodmoonFrequency = GamePrefs.GetInt(EnumGamePrefs.BloodMoonFrequency);
-            if (daysUntilHorde <= bloodmoonFrequency)
-            {
-                int daysLeft = bloodmoonFrequency - daysUntilHorde;
-                return daysLeft;
-            }
-            else
-            {
-                int daysLeft = daysUntilHorde - bloodmoonFrequency;
-                return DaysRemaining(daysLeft);
-            }
-        }
-
-        /// <summary>
         /// 格式化命令参数
         /// </summary>
         /// <param name="args"></param>

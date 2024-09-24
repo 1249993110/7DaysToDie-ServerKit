@@ -40,6 +40,7 @@
                 _isDark = isDark;
 
                 int hours = GameUtils.WorldTimeToHours(world.GetWorldTime());
+                int bloodmoonFrequency = GamePrefs.GetInt(EnumGamePrefs.BloodMoonFrequency);
 
                 if (_isDark)
                 {
@@ -47,7 +48,7 @@
                     {
                         ModEventHub.OnSkyChanged(new SkyChanged()
                         {
-                            BloodMoonDaysRemaining = Utilities.Utils.DaysRemaining(days),
+                            BloodMoonDaysRemaining = days % bloodmoonFrequency,
                             DawnHour = world.DawnHour,
                             DuskHour = world.DuskHour,
                             SkyChangeEventType = SkyChangeEventType.Dusk
@@ -60,7 +61,7 @@
                     {
                         ModEventHub.OnSkyChanged(new SkyChanged()
                         {
-                            BloodMoonDaysRemaining = Utilities.Utils.DaysRemaining(days),
+                            BloodMoonDaysRemaining = days % bloodmoonFrequency,
                             DawnHour = world.DawnHour,
                             DuskHour = world.DuskHour,
                             SkyChangeEventType = SkyChangeEventType.Dawn
