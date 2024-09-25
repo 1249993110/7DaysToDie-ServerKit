@@ -53,7 +53,21 @@ namespace SdtdServerKit.Commands
                     int.TryParse(args[5], out z2);
                     prefabFileName = args[6];
                 }
-                else if(args.Count >= 1)
+                else if (args.Count == 0)
+                {
+                    int entityId = senderInfo.GetEntityId();
+                    if (LivePlayerManager.TryGetByEntityId(entityId, out var managedPlayer) == false)
+                    {
+                        Log("ERR: Unable to get your position.");
+                        return;
+                    }
+
+                    var playerPosition = managedPlayer!.EntityPlayer.GetBlockPosition();
+                    _positionCache[entityId] = playerPosition;
+                    Log("Stored position: " + playerPosition);
+                    return;
+                }
+                else if(args.Count == 1 || args.Count == 2)
                 {
                     prefabFileName = args[0];
 
@@ -74,19 +88,6 @@ namespace SdtdServerKit.Commands
                     }
 
                     (x2, y2, z2) = (storedPosition.x, storedPosition.y, storedPosition.z);
-                }
-                else if(args.Count == 0)
-                {
-                    int entityId = senderInfo.GetEntityId();
-                    if (LivePlayerManager.TryGetByEntityId(entityId, out var managedPlayer) == false)
-                    {
-                        Log("ERR: Unable to get your position.");
-                        return;
-                    }
-
-                    var playerPosition = managedPlayer!.EntityPlayer.GetBlockPosition();
-                    _positionCache[entityId] = playerPosition;
-                    return;
                 }
                 else
                 {
