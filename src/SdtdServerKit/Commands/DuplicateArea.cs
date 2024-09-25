@@ -146,9 +146,11 @@ namespace SdtdServerKit.Commands
                     (z1, z2) = (z2, z1);
                 }
 
-                var prefab = new Prefab();
+                var prefab = new Prefab()
+                {
+                    bCopyAirBlocks = true
+                };
                 prefab.copyFromWorld(GameManager.Instance.World, new Vector3i(x1, y1, z1), new Vector3i(x2, y2, z2));
-                prefab.bCopyAirBlocks = true;
                 
                 Log($"Area duplicated from {x1}, {y1}, {z1} to {x2}, {y2}, {z2}");
                 prefab.RotateY(true, rot);
