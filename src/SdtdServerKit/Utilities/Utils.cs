@@ -242,5 +242,41 @@
                 return string.Empty;
             }
         }
+
+        /// <summary>
+        /// Get BlockValue
+        /// </summary>
+        /// <param name="blockIdOrName"></param>
+        /// <param name="blockValue"></param>
+        /// <returns></returns>
+        public static bool TryGetBlockValue(string blockIdOrName, out BlockValue blockValue)
+        {
+            if (int.TryParse(blockIdOrName, out var blockId))
+            {
+                foreach (Block block in Block.list)
+                {
+                    if (block.blockID == blockId)
+                    {
+                        blockValue = Block.GetBlockValue(block.GetBlockName(), false);
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                foreach (Block block in Block.list)
+                {
+                    string blockName = block.GetBlockName();
+                    if (string.Equals(blockName, blockIdOrName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        blockValue = Block.GetBlockValue(block.GetBlockName(), false);
+                        return true;
+                    }
+                }
+            }
+
+            blockValue = BlockValue.Air;
+            return false;
+        }
     }
 }

@@ -40,7 +40,6 @@ namespace SdtdServerKit.Commands
         {
             try
             {
-
                 string blockIdOrName;
                 int x1, y1, z1, x2, y2, z2;
                 if (args.Count == 7)
@@ -96,7 +95,7 @@ namespace SdtdServerKit.Commands
                     return;
                 }
 
-                if(TryGetBlockValue(blockIdOrName, out var blockValue) == false)
+                if(Utilities.Utils.TryGetBlockValue(blockIdOrName, out var blockValue) == false)
                 {
                     Log("ERR: Invalid block name or ID: " + blockIdOrName);
                     return;
@@ -113,7 +112,7 @@ namespace SdtdServerKit.Commands
                     {
                         for (int z = z1; z <= z2; z++)
                         {
-                            if (!GameManager.Instance.World.IsChunkAreaLoaded(x, y, z))
+                            if (GameManager.Instance.World.IsChunkAreaLoaded(x, y, z) == false)
                             {
                                 Log("The prefab is too far away or target area is not loaded. Chunk not loaded on that area.");
                                 return;
@@ -150,37 +149,7 @@ namespace SdtdServerKit.Commands
             {
                 Log("Error in FillBlock.Execute" + Environment.NewLine + ex.ToString());
             }
-        }
-
-        private static bool TryGetBlockValue(string blockIdOrName, out BlockValue blockValue)
-        {
-            if(int.TryParse(blockIdOrName, out var blockId))
-            {
-                foreach (Block block in Block.list)
-                {
-                    if (block.blockID == blockId)
-                    {
-                        blockValue = Block.GetBlockValue(block.GetBlockName(), false);
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                foreach (Block block in Block.list)
-                {
-                    string blockName = block.GetBlockName();
-                    if (string.Equals(blockName, blockIdOrName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        blockValue = Block.GetBlockValue(block.GetBlockName(), false);
-                        return true;
-                    }
-                }
-            }
-            
-            blockValue = BlockValue.Air;
-            return false;
-        }
+        }        
 
         private static readonly Dictionary<int, Vector3i> _positionCache = new Dictionary<int, Vector3i>();
     }
