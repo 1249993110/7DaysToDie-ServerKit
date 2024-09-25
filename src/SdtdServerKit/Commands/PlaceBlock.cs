@@ -15,7 +15,7 @@
         public override string getHelp()
         {
             return "Usage:\n" +
-                "  1. fblock1 {blockIdOrName} {x} {y} {z}\n" +
+                "  1. ty-PlaceBlock {blockIdOrName} {x} {y} {z}\n" +
                 "1. Place one block on position x,y,z";
         }
 
@@ -24,8 +24,8 @@
         {
             return new string[]
             {
-                "cpm-fblock1",
-                "fblock1"
+                "ty-PlaceBlock",
+                "ty-pb"
             };
         }
 
