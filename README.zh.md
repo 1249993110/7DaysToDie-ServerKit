@@ -74,7 +74,7 @@ https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
 | ty-RestartServer | 重启服务器，可选参数 -f/force。|
 
 ## 📦️ API 文档
-https://docs.7dtd.top
+[<img src="https://cdn.apifox.com/logo/apifox-logo-64.png" alt="Run In Apifox" style="width: 24px; height: 24px;"> Run In Apifox](https://apifox.com/apidoc/shared-085f4112-2ab3-4273-ae37-fee9bdef44d6)
 
 ## 🌱 更新日志
 每个版本的详细变更都记录在 [发行说明](./CHANGELOG.md) 中
