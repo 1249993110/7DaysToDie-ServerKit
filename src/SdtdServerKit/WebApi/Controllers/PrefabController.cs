@@ -1,4 +1,6 @@
-﻿namespace SdtdServerKit.WebApi.Controllers
+﻿using System.ComponentModel;
+
+namespace SdtdServerKit.WebApi.Controllers
 {
     /// <summary>
     /// Prefab
@@ -115,7 +117,7 @@
         /// <returns></returns>
         [HttpPut]
         [Route(nameof(UndoPrefab) + "/{id:int}")]
-        public IEnumerable<string> UndoPrefab(int id)
+        public IEnumerable<string> UndoPrefab([DefaultValue(0)] int id = 0)
         {
             return Utilities.Utils.ExecuteConsoleCommand($"ty-UndoPrefab {id}", true);
         }

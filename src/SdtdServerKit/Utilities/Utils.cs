@@ -188,26 +188,6 @@
         }
 
         /// <summary>
-        /// 获取血月剩余天数
-        /// </summary>
-        /// <param name="daysUntilHorde"></param>
-        /// <returns></returns>
-        public static int DaysRemaining(int daysUntilHorde)
-        {
-            int bloodmoonFrequency = GamePrefs.GetInt(EnumGamePrefs.BloodMoonFrequency);
-            if (daysUntilHorde <= bloodmoonFrequency)
-            {
-                int daysLeft = bloodmoonFrequency - daysUntilHorde;
-                return daysLeft;
-            }
-            else
-            {
-                int daysLeft = daysUntilHorde - bloodmoonFrequency;
-                return DaysRemaining(daysLeft);
-            }
-        }
-
-        /// <summary>
         /// 格式化命令参数
         /// </summary>
         /// <param name="args"></param>
@@ -261,6 +241,42 @@
             {
                 return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Get BlockValue
+        /// </summary>
+        /// <param name="blockIdOrName"></param>
+        /// <param name="blockValue"></param>
+        /// <returns></returns>
+        public static bool TryGetBlockValue(string blockIdOrName, out BlockValue blockValue)
+        {
+            if (int.TryParse(blockIdOrName, out var blockId))
+            {
+                foreach (Block block in Block.list)
+                {
+                    if (block.blockID == blockId)
+                    {
+                        blockValue = Block.GetBlockValue(block.GetBlockName(), false);
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                foreach (Block block in Block.list)
+                {
+                    string blockName = block.GetBlockName();
+                    if (string.Equals(blockName, blockIdOrName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        blockValue = Block.GetBlockValue(block.GetBlockName(), false);
+                        return true;
+                    }
+                }
+            }
+
+            blockValue = BlockValue.Air;
+            return false;
         }
     }
 }

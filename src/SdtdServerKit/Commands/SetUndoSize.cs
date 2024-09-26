@@ -36,8 +36,7 @@
             return new string[]
             {
                 "ty-SetUndoSize",
-                "ty-sus",
-                "setundosize"
+                "ty-sus"
             };
         }
 

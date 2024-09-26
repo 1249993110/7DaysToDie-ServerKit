@@ -32,13 +32,13 @@ namespace SdtdServerKit.Commands
                 "  6. ty-gi all {ItemName} {Count} {Quality}\n " +
                 "  7. ty-gi all {ItemName} {Count}\n " +
                 "  8. ty-gi all {ItemName}\n " +
-                "1. Gives a player the item with specific count, quality and durability\n" +
-                "2. Gives a player the item with specific count, quality and 100 percent durability\n" +
-                "3. Gives a player the item with specific count, 1 quality and 100 percent durability\n" +
+                "1. Gives a player the item with specified count, quality and durability\n" +
+                "2. Gives a player the item with specified count, quality and 100 percent durability\n" +
+                "3. Gives a player the item with specified count, 1 quality and 100 percent durability\n" +
                 "4. Gives a player the item with 1 count 1 quality and 100 percent durability\n" +
-                "5. Gives all players the item with specific count, quality and durability\n" +
-                "6. Gives all players the item with specific count, quality and 100 percent durability\n" +
-                "7. Gives all players the item with specific count, 1 quality and 100 percent durability\n" +
+                "5. Gives all players the item with specified count, quality and durability\n" +
+                "6. Gives all players the item with specified count, quality and 100 percent durability\n" +
+                "7. Gives all players the item with specified count, 1 quality and 100 percent durability\n" +
                 "8. Gives all players the item with 1 count 1 quality and 100 percent durability\n";
         }
 

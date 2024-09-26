@@ -35,7 +35,7 @@ namespace SdtdServerKit.Commands
                 "5. Places a prefab on your position with rot and y deslocated (depth blocks)\n" +
                 "NOTE: {rot} means rotate the prefab to the left, must be equal to 0=0°, 1=90°, 2=180° or 3=270°\n" +
                 "NOTE: Sleeper control is ONLY possible on prefabs that are present in prefabs.xml (world folder) that is used to create the map (RWG).\n" +
-                "NOTE: Use parameter \"addToRWG\" to permanently add this prefab to the current RWG world. Can be reset like any other RWG prefab and will still be in world after a wipe. Will cause re-download of world for clients!\n" +
+                "NOTE: Use parameter `addToRWG` to permanently add this prefab to the current RWG world. Can be reset like any other RWG prefab and will still be in world after a wipe. Will cause re-download of world for clients!\n" +
                 "NOTE: Runtime search and load from {UserDataFolder}/LocalPrefabs\n" +
                 "NOTE: If {prefabFileName} is a full file name that actually exists, it will be loaded exactly";
         }
@@ -93,11 +93,7 @@ namespace SdtdServerKit.Commands
                     runtimeSearchDir = dir.FullName;
                 }
 
-                int x;
-                int y;
-                int z;
-                int rot = 0;
-
+                int x, y, z, rot = 0;
                 if (args.Count == 4)
                 {
                     x = int.Parse(args[1]);
@@ -121,7 +117,7 @@ namespace SdtdServerKit.Commands
                     }
                     if (LivePlayerManager.TryGetByEntityId(entityId, out var managedPlayer) == false)
                     {
-                        Log("ERR: Unable to get your position");
+                        Log("ERR: Unable to get your position.");
                         return;
                     }
 
@@ -185,7 +181,7 @@ namespace SdtdServerKit.Commands
                 {
                     bCopyAirBlocks = true
                 };
-                oldPrefab.copyFromWorld(GameManager.Instance.World, offsetPosition, new Vector3i(x + prefabSize.x, y + prefabSize.y, z + prefabSize.z));
+                oldPrefab.copyFromWorld(GameManager.Instance.World, offsetPosition, offsetPosition + prefabSize);
                 
                 if (noSleepers)
                 {

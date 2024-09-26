@@ -72,7 +72,7 @@ You can use the 'help' command to view all available commands.
 | ty-RestartServer			| Restart server, optional parameter -f/force.												|
 
 ## 📦️ API Documentation
-https://docs.7dtd.top
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/16017553-75ae3c46-8366-4136-8d17-8ae6b2b24f99?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D16017553-75ae3c46-8366-4136-8d17-8ae6b2b24f99%26entityType%3Dcollection%26workspaceId%3D61ddea11-86cc-48bb-a755-44783caeaee5)
 
 ## 🌱 Changelog
 Detailed changes for each release are documented in the [release notes](./CHANGELOG.md)

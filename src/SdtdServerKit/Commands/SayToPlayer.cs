@@ -24,7 +24,7 @@ namespace SdtdServerKit.Commands
         {
             return "Usage:\n" +
                    "  1. ty-pm {PlayerId/EntityId/PlayerName} {Message} {SenderName}\n" +
-                   "1. Sends a PM to the player given by the entity id or player id or player name (as given by e.g. \"lpi\").";
+                   "1. Sends a PM to the player given by the entity id or player id or player name (as given by e.g. `lpi`).";
         }
 
         /// <summary>

@@ -41,7 +41,6 @@
 //            {
 //                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
 //                {
-//                    // 读取响应内容
 //                    string responseData = reader.ReadToEnd();
 //                    return responseData;
 //                }
