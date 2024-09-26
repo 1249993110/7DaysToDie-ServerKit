@@ -55,17 +55,9 @@
                     return;
                 }
 
-                if (GameManager.Instance.World.Entities.dict.TryGetValue(entityId, out var entity) && entity != null)
+                if (GameManager.Instance.World.RemoveEntity(entityId, EnumRemoveEntityReason.Despawned) != null)
                 {
-                    if (entity.IsMarkedForUnload() == false)
-                    {
-                        entity.MarkToUnload();
-                        Log(string.Format("Marked entity '{0}' for unload", entityId));
-                    }
-                    else
-                    {
-                        Log(string.Format("Entity '{0}' is already marked for unload", entityId));
-                    }
+                    Log(string.Format("Entity '{0}' removed", entityId));
                 }
                 else
                 {
