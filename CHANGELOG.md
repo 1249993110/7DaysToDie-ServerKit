@@ -1,3 +1,17 @@
+## 10.43 (2024-09-27)
+### New Features
+- The console page supports pause refresh, automatic command completion, and echoing historical commands using the up and down keys
+- Added 5 new console commands: `ty-CheckBlockType` (check the block type under the feet), `ty-DuplicateArea` (duplicate area), `ty-ExportPrefab` (export prefab), `ty-FillBlock` (fill area with blocks), `ty-PlaceBlock` (place a single block), for detailed instructions, please use `help {command}` to view
+- Add the last time the owner was online under the land claim information on the GPS map
+
+### Bug Fixes
+- Fix a sporadic bug that stack overflow when gameplay moved from night to day (4:00 AM in the game)
+- Fixed the bug that the Mod item name contains special characters such as spaces and cannot be sent to player backpack
+
+### Notable Changes
+- The `ty-RestartServer` command supports delay parameters
+
+
 ## 10.42 (2024-09-22)
 ### New Features
 - Added commands for placing prefabs, undo prefab, and set undo history size, enter `help ty-PlacePrefab` in the console to view details
