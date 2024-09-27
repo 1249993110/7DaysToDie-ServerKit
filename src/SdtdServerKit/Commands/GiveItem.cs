@@ -94,7 +94,14 @@ namespace SdtdServerKit.Commands
                         }
                     }
 
-                    var itemValue = new ItemValue(ItemClass.GetItem(arg1).type);
+                    ItemValue itemValue = ItemClass.GetItem(arg1, true);
+                    if (itemValue.type == ItemValue.None.type)
+                    {
+                        Log("ERR: Item not found.");
+                        return;
+                    }
+
+                    itemValue = new ItemValue(itemValue.type);
                     if (itemValue.HasQuality)
                     {
                         itemValue.Quality = 1;

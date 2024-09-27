@@ -39,7 +39,7 @@
         /// <param name="durability"></param>
         public static void GiveItem(string playerIdOrName, string itemName, int count, int quality = 0, int durability = 0)
         {
-            ExecuteConsoleCommand($"ty-gi {FormatCommandArgs(playerIdOrName)} {itemName} {count} {quality} {durability}");
+            ExecuteConsoleCommand($"ty-gi {FormatCommandArgs(playerIdOrName)} {FormatCommandArgs(itemName)} {count} {quality} {durability}");
         }
 
         /// <summary>
