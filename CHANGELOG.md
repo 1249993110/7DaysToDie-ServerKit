@@ -2,7 +2,6 @@
 ### New Features
 - The console page supports pause refresh, automatic command completion, and echoing historical commands using the up and down keys
 - Added 5 new console commands: `ty-CheckBlockType` (check the block type under the feet), `ty-DuplicateArea` (duplicate area), `ty-ExportPrefab` (export prefab), `ty-FillBlock` (fill area with blocks), `ty-PlaceBlock` (place a single block), for detailed instructions, please use `help {command}` to view
-- Add the last time the owner was online under the land claim information on the GPS map
 
 ### Bug Fixes
 - Fix a sporadic bug that stack overflow when gameplay moved from night to day (4:00 AM in the game)
