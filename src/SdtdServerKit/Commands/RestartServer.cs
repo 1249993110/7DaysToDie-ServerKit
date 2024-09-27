@@ -48,7 +48,11 @@ namespace SdtdServerKit.Commands
 
             if (args.Count > 0 && int.TryParse(args[0], out int delay))
             {
-                await Task.Delay(delay);
+                for (int i = 0; i < delay; i++)
+                {
+                    await Task.Delay(1000);
+                    Log($"{delay - i}");
+                }
             }
 
             if (force)
