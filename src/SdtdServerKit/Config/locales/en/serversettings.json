@@ -261,7 +261,7 @@
   },
   "ZombieFeralMove": {
     "Group": "Zombie Settings",
-    "Desc": "Zombie BM Move. 0-4 (Walk, Jog, Run, Sprint, Nightmare)"
+    "Desc": "Zombie Feral Move. 0-4 (Walk, Jog, Run, Sprint, Nightmare)"
   },
   "ZombieBMMove": {
     "Group": "Zombie Settings",
