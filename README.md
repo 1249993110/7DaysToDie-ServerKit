@@ -13,7 +13,7 @@ English | [简体中文](./README.zh.md)
 [Front-end](https://github.com/1249993110/7DaysToDie-ServerKit-webui)
 
 ## 🌐 Compatibility
-Dedicated Server only. Required game version: V1.0
+Dedicated Server only. Required game version: V1.0+
 
 ## 🎉 Features
 - Support online GPS map
