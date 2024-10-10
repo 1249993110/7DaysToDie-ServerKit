@@ -1,5 +1,6 @@
 ﻿using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
+using SdtdServerKit.Triggers;
 using SdtdServerKit.Variables;
 
 namespace SdtdServerKit.Functions
@@ -78,7 +79,7 @@ namespace SdtdServerKit.Functions
                     string message = rotatingNotices[_lastRotatingIndex];
                     if(string.IsNullOrEmpty(message) == false)
                     {
-                        SendGlobalMessage(message);
+                        SendGlobalMessage(FormatCmd(message));
                     }
                     
                     _lastRotatingIndex++;
@@ -88,6 +89,59 @@ namespace SdtdServerKit.Functions
             {
                 CustomLogger.Warn(ex, "Error in GameNotice.SendRotatingNotice");
             }
+        }
+
+        private string FormatCmd(string message, SpawnedPlayer? spawnedPlayer = null)
+        {
+            var changed = SkyChangeTrigger.LatestSkyState;
+            var gameNoticeVariables = new GameNoticeVariables()
+            {
+                BloodMoonDays = changed.BloodMoonDaysRemaining,
+                BloodMoonStartTime = changed.DuskHour + ":00",
+                BloodMoonEndTime = changed.DawnHour + ":00"
+            };
+
+            if (changed.SkyChangeEventType == SkyChangeEventType.Dawn)
+            {
+                if (changed.BloodMoonDaysRemaining == 0)
+                {
+                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice2) == false)
+                    {
+                        message = StringTemplate.Render(Settings.BloodMoonNotice2, gameNoticeVariables);
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice1) == false)
+                    {
+                        message = StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables);
+                    }
+                }
+            }
+            else if (changed.SkyChangeEventType == SkyChangeEventType.Dusk)
+            {
+                if (changed.BloodMoonDaysRemaining == 0)
+                {
+                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice3) == false)
+                    {
+                        message = StringTemplate.Render(Settings.BloodMoonNotice3, gameNoticeVariables);
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice1) == false)
+                    {
+                        message = StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables);
+                    }
+                }
+            }
+
+            if(spawnedPlayer == null)
+            {
+                return message;
+            }
+
+            return base.FormatCmd(message, spawnedPlayer);
         }
 
         private void OnSkyChanged(SkyChanged changed)

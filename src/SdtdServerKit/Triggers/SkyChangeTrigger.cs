@@ -8,15 +8,15 @@
         private static int _lastDays;
         private static bool _isDark;
 
+        /// <summary>
+        /// Latest sky state
+        /// </summary>
+        public static SkyChanged LatestSkyState { get; private set; } = new SkyChanged();
+
         private static int DaysRemaining(int days)
         {
             int bloodmoonFrequency = GamePrefs.GetInt(EnumGamePrefs.BloodMoonFrequency);
             int daysSinceLastBloodMoon = days % bloodmoonFrequency;
-
-            if (daysSinceLastBloodMoon == 0)
-            {
-                return bloodmoonFrequency;
-            }
 
             return bloodmoonFrequency - daysSinceLastBloodMoon;
         }
@@ -58,26 +58,28 @@
                 {
                     if(hours == world.DuskHour)
                     {
-                        ModEventHub.OnSkyChanged(new SkyChanged()
+                        LatestSkyState = new SkyChanged()
                         {
                             BloodMoonDaysRemaining = bloodMoonDaysRemaining,
                             DawnHour = world.DawnHour,
                             DuskHour = world.DuskHour,
                             SkyChangeEventType = SkyChangeEventType.Dusk
-                        });
+                        };
+                        ModEventHub.OnSkyChanged(LatestSkyState);
                     }
                 }
                 else
                 {
                     if(hours == world.DawnHour)
                     {
-                        ModEventHub.OnSkyChanged(new SkyChanged()
+                        LatestSkyState = new SkyChanged()
                         {
                             BloodMoonDaysRemaining = bloodMoonDaysRemaining,
                             DawnHour = world.DawnHour,
                             DuskHour = world.DuskHour,
                             SkyChangeEventType = SkyChangeEventType.Dawn
-                        });
+                        };
+                        ModEventHub.OnSkyChanged(LatestSkyState);
                     }
                 }
             }
