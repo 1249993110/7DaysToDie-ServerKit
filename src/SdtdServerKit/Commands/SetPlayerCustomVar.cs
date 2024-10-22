@@ -49,6 +49,7 @@
                 if (cInfo == null)
                 {
                     Log("Unable to locate player '{0}' online", args[0]);
+                    return;
                 }
                 name = args[1];
                 value = args[2];
