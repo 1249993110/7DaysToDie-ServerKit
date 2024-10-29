@@ -101,42 +101,9 @@ namespace SdtdServerKit.Functions
                 BloodMoonEndTime = changed.DawnHour + ":00"
             };
 
-            if (changed.SkyChangeEventType == SkyChangeEventType.Dawn)
-            {
-                if (changed.BloodMoonDaysRemaining == 0)
-                {
-                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice2) == false)
-                    {
-                        message = StringTemplate.Render(Settings.BloodMoonNotice2, gameNoticeVariables);
-                    }
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice1) == false)
-                    {
-                        message = StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables);
-                    }
-                }
-            }
-            else if (changed.SkyChangeEventType == SkyChangeEventType.Dusk)
-            {
-                if (changed.BloodMoonDaysRemaining == 0)
-                {
-                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice3) == false)
-                    {
-                        message = StringTemplate.Render(Settings.BloodMoonNotice3, gameNoticeVariables);
-                    }
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(Settings.BloodMoonNotice1) == false)
-                    {
-                        message = StringTemplate.Render(Settings.BloodMoonNotice1, gameNoticeVariables);
-                    }
-                }
-            }
+            message = StringTemplate.Render(message, gameNoticeVariables);
 
-            if(spawnedPlayer == null)
+            if (spawnedPlayer == null)
             {
                 return message;
             }
