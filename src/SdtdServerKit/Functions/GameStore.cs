@@ -75,7 +75,10 @@ namespace SdtdServerKit.Functions
                         var commandList = await _commandListRepository.GetListByGoodsIdAsync(goods.Id);
                         foreach (var item in commandList)
                         {
-                            Utilities.Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, goods), item.InMainThread);
+                            foreach (var cmd in item.Command.Split('\n'))
+                            {
+                                Utilities.Utils.ExecuteConsoleCommand(FormatCmd(cmd, managedPlayer, goods), item.InMainThread);
+                            }
                         }
 
                         SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, managedPlayer, goods));
