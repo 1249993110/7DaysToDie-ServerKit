@@ -50,7 +50,10 @@ namespace SdtdServerKit.Functions
                     var commandList = await _commandListRepository.GetListByVipGiftIdAsync(vipGift.Id);
                     foreach (var item in commandList)
                     {
-                        Utilities.Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, vipGift), item.InMainThread);
+                        foreach (var cmd in item.Command.Split('\n'))
+                        {
+                            Utilities.Utils.ExecuteConsoleCommand(FormatCmd(cmd, managedPlayer, vipGift), item.InMainThread);
+                        }
                     }
 
                     vipGift.ClaimState = true;
