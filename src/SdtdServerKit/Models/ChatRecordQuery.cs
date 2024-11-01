@@ -11,18 +11,23 @@ namespace SdtdServerKit.Models
     }
 
     /// <summary>
-    /// 日期时间查询
+    /// Chat Record Query
     /// </summary>
-    public class DateTimeQuery : PaginationQuery<ChatRecordQueryOrder>
+    public class ChatRecordQuery : PaginationQuery<ChatRecordQueryOrder>
     {
         /// <summary>
-        /// 开始时间
+        /// Start Date Time
         /// </summary>
         public DateTime? StartDateTime { get; set; }
 
         /// <summary>
-        /// 结束时间
+        /// End Date Time
         /// </summary>
         public DateTime? EndDateTime { get; set; }
+
+        /// <summary>
+        /// Chat Type
+        /// </summary>
+        public ChatType? ChatType { get; set; }
     }
 }

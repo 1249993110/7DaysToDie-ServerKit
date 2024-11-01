@@ -7,6 +7,11 @@
     public enum ChatType
     {
         /// <summary>
+        /// 未知
+        /// </summary>
+        Unknown = -1,
+
+        /// <summary>
         /// 全局
         /// </summary>
         Global = 0,
@@ -24,6 +29,6 @@
         /// <summary>
         /// 私人
         /// </summary>
-        Whisper = 3
+        Whisper = 3,
     }
 }

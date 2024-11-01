@@ -31,9 +31,9 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<PagedDto<T_ChatRecord>> Get([FromUri] DateTimeQuery model)
+        public async Task<PagedDto<T_ChatRecord>> Get([FromUri] ChatRecordQuery model)
         {
-            var dto = new DateTimeQueryDto()
+            var dto = new ChatRecordQueryDto()
             {
                 PageNumber = model.PageNumber,
                 PageSize = model.PageSize,
@@ -41,7 +41,8 @@ namespace SdtdServerKit.WebApi.Controllers
                 EndDateTime = model.EndDateTime,
                 Keyword = model.Keyword,
                 Order = model.Order,
-                Desc = model.Desc
+                Desc = model.Desc,
+                ChatType = model.ChatType
             };
             var data = await _repository.GetPagedListAsync(dto);
             return data;
