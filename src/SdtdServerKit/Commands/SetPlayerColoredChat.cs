@@ -21,9 +21,11 @@ namespace SdtdServerKit.Commands
                 "  1. ty-SetPlayerColoredChat {PlayerId/EntityId/PlayerName} {NameColor} {TextColor} {CustomName} {Description}\n" +
                 "  2. ty-SetPlayerColoredChat {PlayerId/EntityId/PlayerName} {NameColor} {TextColor} {CustomName}\n" +
                 "  3. ty-SetPlayerColoredChat {PlayerId/EntityId/PlayerName} {NameColor} {TextColor}\n" +
+                "  4. ty-SetPlayerColoredChat {PlayerId/EntityId/PlayerName} {NameColor}\n" +
                 "1. Set player colored chat with name color, text color, custom name and description.\n" +
                 "2. Set player colored chat with name color, text color and custom name.\n" +
-                "3. Set player colored chat with name color and text color.";
+                "3. Set player colored chat with name color and text color.\n" +
+                "4. Set player colored chat with name color.";
         }
 
         /// <inheritdoc/>
