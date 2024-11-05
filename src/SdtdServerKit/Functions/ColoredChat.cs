@@ -54,7 +54,8 @@ namespace SdtdServerKit.Functions
                 {
                     if(string.IsNullOrEmpty(coloredChat.CustomName) == false)
                     {
-                        playerName = StringTemplate.Render(coloredChat.CustomName!, new { PlayerName = playerName });
+                        //playerName = StringTemplate.Render(coloredChat.CustomName!, new { PlayerName = playerName });
+                        playerName = coloredChat.CustomName!.Replace("{PlayerName}", playerName);
                     }
 
                     message = $"[{coloredChat.NameColor}]{playerName}[{GetDefaultColor(eChatType)}]: [{coloredChat.TextColor}]{message}";
