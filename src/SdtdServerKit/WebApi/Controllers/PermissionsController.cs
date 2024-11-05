@@ -15,17 +15,10 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public IEnumerable<string> AddPermissions([FromBody, Required, MinLength(1)] PermissionEntry[] permissions)
+        public IEnumerable<string> AddPermissions([FromBody, Required] PermissionEntryAdd permission)
         {
-            var executeResult = new List<string>();
-            foreach (var item in permissions)
-            {
-                string command = $"cp add {item.Command} {item.Level}";
-                var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
-                executeResult.AddRange(result);
-            }
-            
-            return executeResult;
+            string command = $"cp add {permission.Command} {permission.PermissionLevel}";
+            return SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
         }
 
         /// <summary>
@@ -42,7 +35,8 @@ namespace SdtdServerKit.WebApi.Controllers
                 permissions.Add(new PermissionEntry()
                 {
                     Command = item.Command,
-                    Level = item.PermissionLevel
+                    PermissionLevel = item.PermissionLevel,
+                    Description = SdtdConsole.Instance.GetCommand(item.Command)?.GetDescription(),
                 });
             }
 
@@ -52,14 +46,14 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <summary>
         /// Remove permissions
         /// </summary>
-        /// <param name="playerIds"></param>
+        /// <param name="cmds"></param>
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        public IEnumerable<string> RemovePermissions([FromUri, Required, MinLength(1)] string[] playerIds)
+        public IEnumerable<string> RemovePermissions([FromUri, Required, MinLength(1)] string[] cmds)
         {
             var executeResult = new List<string>();
-            foreach (var item in playerIds)
+            foreach (var item in cmds)
             {
                 string command = $"cp remove {item}";
                 var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
