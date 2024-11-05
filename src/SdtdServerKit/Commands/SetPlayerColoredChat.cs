@@ -21,8 +21,8 @@ namespace SdtdServerKit.Commands
                 "  1. ty-SetPlayerColoredChat {PlayerId/EntityId/PlayerName} {NameColor} {TextColor} {CustomName} {Description}\n" +
                 "  2. ty-SetPlayerColoredChat {PlayerId/EntityId/PlayerName} {NameColor} {TextColor} {CustomName}\n" +
                 "  3. ty-SetPlayerColoredChat {PlayerId/EntityId/PlayerName} {NameColor} {TextColor}\n" +
-                "1. Set player colored chat with name color, text color, custom name and description." +
-                "2. Set player colored chat with name color, text color and custom name." +
+                "1. Set player colored chat with name color, text color, custom name and description.\n" +
+                "2. Set player colored chat with name color, text color and custom name.\n" +
                 "3. Set player colored chat with name color and text color.";
         }
 
@@ -63,7 +63,8 @@ namespace SdtdServerKit.Commands
                     NameColor = args[1],
                     TextColor = args[2],
                     CustomName = args.Count > 3 ? args[3] : null,
-                    Description = args.Count > 4 ? args[4] : null
+                    Description = args.Count > 4 ? args[4] : null,
+                    CreatedAt = DateTime.Now,
                 };
 
                 var repository = ModApi.ServiceContainer.Resolve<IColoredChatRepository>();

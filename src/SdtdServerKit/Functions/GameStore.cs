@@ -7,7 +7,7 @@ using SdtdServerKit.Variables;
 namespace SdtdServerKit.Functions
 {
     /// <summary>
-    /// 游戏商店
+    /// GameStore
     /// </summary>
     public class GameStore : FunctionBase<GameStoreSettings>
     {
