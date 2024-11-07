@@ -41,7 +41,7 @@ namespace SdtdServerKit.Commands
         /// <inheritdoc/>
         public override async void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
-            if (args.Count < 3)
+            if (args.Count < 2)
             {
                 Log("Wrong number of arguments.");
                 Log(getHelp());
