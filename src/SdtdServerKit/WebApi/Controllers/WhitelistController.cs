@@ -15,17 +15,10 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public IEnumerable<string> AddWhitelist([FromBody, Required, MinLength(1)] WhitelistEntry[] whitelist)
+        public IEnumerable<string> AddWhitelist([FromBody, Required] WhitelistEntry model)
         {
-            var executeResult = new List<string>();
-            foreach (var item in whitelist)
-            {
-                string command = $"whitelist add {item.PlayerId} {Utilities.Utils.FormatCommandArgs(item.DisplayName)}";
-                var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
-                executeResult.AddRange(result);
-            }
-            
-            return executeResult;
+            string command = $"whitelist add {model.PlayerId} {Utilities.Utils.FormatCommandArgs(model.DisplayName)}";
+            return SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
         }
 
         /// <summary>

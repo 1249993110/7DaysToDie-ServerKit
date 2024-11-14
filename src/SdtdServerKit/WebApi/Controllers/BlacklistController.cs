@@ -15,17 +15,10 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public IEnumerable<string> AddBlacklist([FromBody, Required, MinLength(1)] BlacklistEntry[] blacklist)
+        public IEnumerable<string> AddBlacklist([FromBody, Required] BlacklistEntry model)
         {
-            var executeResult = new List<string>();
-            foreach (var item in blacklist)
-            {
-                string command = $"ban add {item.PlayerId} {(int)(item.BannedUntil - DateTime.Now).TotalMinutes} minutes {Utilities.Utils.FormatCommandArgs(item.Reason)} {Utilities.Utils.FormatCommandArgs(item.DisplayName)}";
-                var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
-                executeResult.AddRange(result);
-            }
-            
-            return executeResult;
+            string command = $"ban add {model.PlayerId} {(int)(model.BannedUntil - DateTime.Now).TotalMinutes} minutes {Utilities.Utils.FormatCommandArgs(model.Reason)} {Utilities.Utils.FormatCommandArgs(model.DisplayName)}";
+            return SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
         }
 
         /// <summary>

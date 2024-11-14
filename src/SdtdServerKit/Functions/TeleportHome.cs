@@ -159,7 +159,7 @@ namespace SdtdServerKit.Functions
                         await _pointsRepository.ChangePointsAsync(playerId, -Settings.PointsRequiredForTele);
                         Utilities.Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), entity.Position);
 
-                        SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, managedPlayer, entity));
+                        SendMessageToPlayer(managedPlayer.PlayerId, FormatCmd(Settings.TeleSuccessTip, managedPlayer, entity));
                         await _teleRecordRepository.InsertAsync(new T_TeleRecord()
                         {
                             CreatedAt = DateTime.Now,

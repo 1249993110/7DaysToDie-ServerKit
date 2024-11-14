@@ -1,18 +1,29 @@
 ﻿namespace SdtdServerKit.Models
 {
     /// <summary>
-    /// 命令权限条目
+    /// Permission Entry Add
     /// </summary>
-    public class PermissionEntry
+    public class PermissionEntryAdd
     {
         /// <summary>
-        /// 命令
+        /// Command
         /// </summary>
-        public string Command { get; set; }
+        public string Command { get; set; } = null!;
 
         /// <summary>
-        /// 权限等级
+        /// Permission Level
         /// </summary>
-        public int Level { get; set; }
+        public int PermissionLevel { get; set; }
+    }
+
+    /// <summary>
+    /// Permission Entry
+    /// </summary>
+    public class PermissionEntry : PermissionEntryAdd
+    {
+        /// <summary>
+        /// Description
+        /// </summary>
+        public string? Description { get; internal set; }
     }
 }

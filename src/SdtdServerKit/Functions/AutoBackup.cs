@@ -5,7 +5,7 @@ using System.IO.Compression;
 namespace SdtdServerKit.Functions
 {
     /// <summary>
-    /// 自动备份
+    /// AutoBackup
     /// </summary>
     public class AutoBackup : FunctionBase<AutoBackupSettings>
     {

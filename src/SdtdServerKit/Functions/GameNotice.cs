@@ -1,5 +1,6 @@
 ﻿using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
+using SdtdServerKit.Triggers;
 using SdtdServerKit.Variables;
 
 namespace SdtdServerKit.Functions
@@ -78,7 +79,7 @@ namespace SdtdServerKit.Functions
                     string message = rotatingNotices[_lastRotatingIndex];
                     if(string.IsNullOrEmpty(message) == false)
                     {
-                        SendGlobalMessage(message);
+                        SendGlobalMessage(FormatCmd(message));
                     }
                     
                     _lastRotatingIndex++;
@@ -88,6 +89,26 @@ namespace SdtdServerKit.Functions
             {
                 CustomLogger.Warn(ex, "Error in GameNotice.SendRotatingNotice");
             }
+        }
+
+        private string FormatCmd(string message, SpawnedPlayer? spawnedPlayer = null)
+        {
+            var changed = SkyChangeTrigger.LatestSkyState;
+            var gameNoticeVariables = new GameNoticeVariables()
+            {
+                BloodMoonDays = changed.BloodMoonDaysRemaining,
+                BloodMoonStartTime = changed.DuskHour + ":00",
+                BloodMoonEndTime = changed.DawnHour + ":00"
+            };
+
+            message = StringTemplate.Render(message, gameNoticeVariables);
+
+            if (spawnedPlayer == null)
+            {
+                return message;
+            }
+
+            return base.FormatCmd(message, spawnedPlayer);
         }
 
         private void OnSkyChanged(SkyChanged changed)

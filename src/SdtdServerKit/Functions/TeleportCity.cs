@@ -89,7 +89,7 @@ namespace SdtdServerKit.Functions
 
                         await _pointsInfoRepository.ChangePointsAsync(playerId, -cityPosition.PointsRequired);
                         Utilities.Utils.TeleportPlayer(managedPlayer.EntityId.ToString(), cityPosition.Position, cityPosition.ViewDirection);
-                        SendGlobalMessage(FormatCmd(Settings.TeleSuccessTip, managedPlayer, cityPosition));
+                        SendMessageToPlayer(managedPlayer.PlayerId, FormatCmd(Settings.TeleSuccessTip, managedPlayer, cityPosition));
                         
                         await _teleRecordRepository.InsertAsync(new T_TeleRecord()
                         {

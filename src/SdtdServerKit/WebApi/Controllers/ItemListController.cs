@@ -65,7 +65,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> Post([FromBody] ItemList model)
+        public async Task<IHttpActionResult> Post([FromBody, Required] ItemList model)
         {
             var entity = new T_ItemList()
             {
@@ -87,7 +87,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IHttpActionResult> Put(string id, [FromBody] ItemList model)
+        public async Task<IHttpActionResult> Put(string id, [FromBody, Required] ItemList model)
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)

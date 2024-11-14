@@ -15,17 +15,10 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public IEnumerable<string> AddAdmins([FromBody, Required, MinLength(1)] AdminEntry[] admins)
+        public IEnumerable<string> AddAdmins([FromBody, Required, MinLength(1)] AdminEntry admin)
         {
-            var executeResult = new List<string>();
-            foreach (var item in admins)
-            {
-                string command = $"admin add {item.PlayerId} {item.PermissionLevel} {Utilities.Utils.FormatCommandArgs(item.DisplayName)}";
-                var result = SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
-                executeResult.AddRange(result);
-            }
-            
-            return executeResult;
+            string command = $"admin add {admin.PlayerId} {admin.PermissionLevel} {Utilities.Utils.FormatCommandArgs(admin.DisplayName)}";
+            return SdtdConsole.Instance.ExecuteSync(command, ModApi.CmdExecuteDelegate);
         }
 
         /// <summary>

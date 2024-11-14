@@ -307,8 +307,6 @@ namespace SdtdServerKit
                 ModEvents.ChatMessage.RegisterHandler(ModEventHub.OnChatMessage);
                 ModEvents.PlayerSpawning.RegisterHandler(ModEventHub.OnPlayerSpawning);
 
-                GlobalTimer.RegisterSubTimer(new SubTimer(SkyChangeTrigger.Callback, 1) { IsEnabled = true });
-
                 ModEventHub.GameStartDone += OnGameStartDone;
 
                 CustomLogger.Info("Registered mod event handlers success.");
@@ -322,6 +320,7 @@ namespace SdtdServerKit
         private static void OnGameStartDone()
         {
             WorldStaticDataHook.ReplaceXmls();
+            GlobalTimer.RegisterSubTimer(new SubTimer(SkyChangeTrigger.Callback, 1) { IsEnabled = true });
             try
             {
                 MapTileCache = (MapTileCache)MapRenderer.GetTileCache();

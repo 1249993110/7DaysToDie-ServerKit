@@ -7,7 +7,7 @@ using SdtdServerKit.Variables;
 namespace SdtdServerKit.Functions
 {
     /// <summary>
-    /// 游戏商店
+    /// GameStore
     /// </summary>
     public class GameStore : FunctionBase<GameStoreSettings>
     {
@@ -70,12 +70,17 @@ namespace SdtdServerKit.Functions
                         foreach (var item in itemList)
                         {
                             Utilities.Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
+                            await Task.Delay(100);
                         }
 
                         var commandList = await _commandListRepository.GetListByGoodsIdAsync(goods.Id);
                         foreach (var item in commandList)
                         {
-                            Utilities.Utils.ExecuteConsoleCommand(FormatCmd(item.Command, managedPlayer, goods), item.InMainThread);
+                            foreach (var cmd in item.Command.Split('\n'))
+                            {
+                                Utilities.Utils.ExecuteConsoleCommand(FormatCmd(cmd, managedPlayer, goods), item.InMainThread);
+                            }
+                            await Task.Delay(100);
                         }
 
                         SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, managedPlayer, goods));
