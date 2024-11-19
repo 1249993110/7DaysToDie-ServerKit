@@ -1,3 +1,34 @@
+## 10.46 (2024-11-14)
+### New Features
+- Added dark mode
+- Added outlines to region files to avoid unclear areas in winter
+- Backpack UI is compatible with some mods with large quality values
+
+### Notable Changes
+- Live chat filtering of messages sent by the server
+- Added icons for Commands and Admins
+
+### Bug Fixes
+- Fixed the issue that excessive one-time distribution of items in the GameStore and VIPGift may cause unexpected situations
+
+## 10.45 (2024-11-08)
+### New Features
+- Added permission management page and whitelist management page
+- Added a new console commands: `ty-SetPlayerColoredChat`
+
+## 10.44 (2024-11-04)
+### New Features
+- Optimize UI experience
+- Chat record supports searching by datetime range, chat type and keyword
+- Added a new console commands: `ty-setcvar` (Set player custom var)
+
+### Bug Fixes
+- Fixed known typos
+- GameNotice function variable correction
+
+### Notable Changes
+- Change unnecessary global chat prompts to private chat
+
 ## 10.43 (2024-09-27)
 ### New Features
 - The console page supports pause refresh, automatic command completion, and echoing historical commands using the up and down keys
