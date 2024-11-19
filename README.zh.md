@@ -57,7 +57,7 @@ https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
 - 默认密码：123456
 
 ## 🚀 配置
-- 要配置您的登录用户名和密码，请编辑位于`7 Days to Die Dedicated Server\LSTY_Data`中的`appsettings.json`文件。
+- 要配置您的登录用户名和密码，请编辑位于`7 Days to Die Dedicated Server/LSTY_Data`中的`appsettings.json`文件。
 - 重新启动服务器以使其生效。
 
 ## 🍻 命令

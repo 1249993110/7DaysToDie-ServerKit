@@ -55,7 +55,7 @@ https://youtu.be/8VklfFHeJJ8?t=982
 - Default password: 123456
 
 ## 🚀 Configuration
-- To configure your login username and password, edit the `appsettings.json` file located in `7 Days to Die Dedicated Server\LSTY_Data`.
+- To configure your login username and password, edit the `appsettings.json` file located in `7 Days to Die Dedicated Server/LSTY_Data`.
 - Restart the server to make it take effect.
 
 ## 🍻 Commands
