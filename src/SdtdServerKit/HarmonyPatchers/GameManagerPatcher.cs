@@ -63,6 +63,12 @@ namespace SdtdServerKit.HarmonyPatchers
                     if (poiBulidings.Count > 0)
                     {
                         BlockValue oldBlockValue = world.GetBlock(blockPosition);
+
+                        if(oldBlockValue.type != BlockValue.Air.type)
+                        {
+                            continue;
+                        }
+
                         info.blockValue = oldBlockValue;
 
                         NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, new List<BlockChangeInfo>() { info }, -1);
