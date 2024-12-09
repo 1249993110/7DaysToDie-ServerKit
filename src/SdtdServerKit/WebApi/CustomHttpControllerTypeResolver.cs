@@ -3,13 +3,13 @@ using System.Web.Http.Dispatcher;
 
 namespace SdtdServerKit.WebApi
 {
-    public class CustomHttpControllerTypeResolver : DefaultHttpControllerTypeResolver
+    internal class CustomHttpControllerTypeResolver : DefaultHttpControllerTypeResolver
     {
         public CustomHttpControllerTypeResolver() : base(IsControllerType)
         {
         }
 
-        internal static bool IsControllerType(Type t)
+        public static bool IsControllerType(Type t)
         {
             try
             {
