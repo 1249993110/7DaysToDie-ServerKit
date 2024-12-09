@@ -9,6 +9,8 @@ namespace SdtdServerKit.WebApi.DataProtection
     {
         private static readonly IDataProtector _dataProtector = new AesDataProtector();
 
+        public static IDataProtector DataProtector => _dataProtector;
+
         public IDataProtector Create(params string[] purposes)
         {
             return _dataProtector;
