@@ -13,6 +13,7 @@ using Microsoft.Owin.FileSystems;
 using NJsonSchema.NewtonsoftJson.Generation;
 using Autofac.Integration.WebApi;
 using SdtdServerKit.WebApi.DataProtection;
+using SdtdServerKit.WebApi.Middlewares;
 
 namespace SdtdServerKit.WebApi
 {
@@ -25,6 +26,11 @@ namespace SdtdServerKit.WebApi
         /// OAuth token endpoint path
         /// </summary>
         public const string OAuthTokenEndpointPath = "/api/oauth/token";
+
+        /// <summary>
+        /// OAuth steam return path
+        /// </summary>
+        public const string OAuthSteamReturnPath = "/api/oauth/steam/return";
 
         /// <summary>
         /// This code configures Web API.
@@ -62,6 +68,7 @@ namespace SdtdServerKit.WebApi
                 }
             });
 
+            app.Use<SteamReturnMiddleware>();
 
             string webRootPath = Path.Combine(ModApi.ModInstance.Path, "wwwroot");
             if (Directory.Exists(webRootPath))
@@ -129,7 +136,8 @@ namespace SdtdServerKit.WebApi
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString(OAuthTokenEndpointPath),
                 AccessTokenExpireTimeSpan = TimeSpan.FromSeconds(ModApi.AppSettings.AccessTokenExpireTime),
-                Provider = new SimpleAuthorizationServerProvider(),
+                Provider = new CustomOAuthProvider(),
+                RefreshTokenProvider = new CustomRefreshTokenProvider()
             });
 
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
@@ -197,6 +205,14 @@ namespace SdtdServerKit.WebApi
                 Kind = OpenApiParameterKind.FormData,
                 Type = JsonObjectType.String
             });
+            tokenOpr.Parameters.Add(new OpenApiParameter()
+            {
+                Name = "refresh_token",
+                Description = "",
+                IsRequired = true,
+                Kind = OpenApiParameterKind.FormData,
+                Type = JsonObjectType.String
+            });
 
             var resp200 = new OpenApiResponse()
             {
@@ -206,6 +222,7 @@ namespace SdtdServerKit.WebApi
             resp200.Schema.Properties.Add("access_token", new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true });
             resp200.Schema.Properties.Add("token_type", new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true });
             resp200.Schema.Properties.Add("expires_in", new JsonSchemaProperty { Type = JsonObjectType.Integer, IsRequired = true, Format = JsonFormatStrings.Integer });
+            resp200.Schema.Properties.Add("refresh_token", new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = false });
 
             var resp400 = new OpenApiResponse()
             {
