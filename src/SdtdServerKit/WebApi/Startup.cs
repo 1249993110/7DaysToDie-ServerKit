@@ -14,6 +14,7 @@ using NJsonSchema.NewtonsoftJson.Generation;
 using Autofac.Integration.WebApi;
 using SdtdServerKit.WebApi.DataProtection;
 using SdtdServerKit.WebApi.Middlewares;
+using System.Web.Http.Dispatcher;
 
 namespace SdtdServerKit.WebApi
 {
@@ -164,7 +165,7 @@ namespace SdtdServerKit.WebApi
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);
 
-            //config.Services.Replace(typeof(IHttpControllerTypeResolver), new CustomHttpControllerTypeResolver());
+            config.Services.Replace(typeof(IHttpControllerTypeResolver), new CustomHttpControllerTypeResolver());
 
             config.EnsureInitialized();
         }
@@ -193,7 +194,7 @@ namespace SdtdServerKit.WebApi
             {
                 Name = "username",
                 Description = "",
-                IsRequired = true,
+                IsRequired = false,
                 Kind = OpenApiParameterKind.FormData,
                 Type = JsonObjectType.String
             });
@@ -201,7 +202,7 @@ namespace SdtdServerKit.WebApi
             {
                 Name = "password",
                 Description = "",
-                IsRequired = true,
+                IsRequired = false,
                 Kind = OpenApiParameterKind.FormData,
                 Type = JsonObjectType.String
             });
@@ -209,7 +210,7 @@ namespace SdtdServerKit.WebApi
             {
                 Name = "refresh_token",
                 Description = "",
-                IsRequired = true,
+                IsRequired = false,
                 Kind = OpenApiParameterKind.FormData,
                 Type = JsonObjectType.String
             });
