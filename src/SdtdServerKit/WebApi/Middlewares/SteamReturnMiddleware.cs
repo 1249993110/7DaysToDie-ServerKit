@@ -9,12 +9,24 @@ using System.Security.Claims;
 
 namespace SdtdServerKit.WebApi.Middlewares
 {
-    internal class SteamReturnMiddleware : OwinMiddleware
+    /// <summary>
+    ///
+    /// </summary>
+    public class SteamReturnMiddleware : OwinMiddleware
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="next"></param>
         public SteamReturnMiddleware(OwinMiddleware next) : base(next)
         {
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override Task Invoke(IOwinContext context)
         {
             // 检查请求路径是否为 /api/auth/steam/return
@@ -41,7 +53,7 @@ namespace SdtdServerKit.WebApi.Middlewares
 
                     // 3. 验证 Steam 登录是否有效
                     bool isValid = VerifySteamLogin(context.Request.QueryString.ToString());
-                    if(isValid == false)
+                    if (isValid == false)
                     {
                         string message = "Steam login verification failed.";
                         string errorRedirectUrl = "/#/error?message=" + message;
@@ -100,19 +112,6 @@ namespace SdtdServerKit.WebApi.Middlewares
             return Next.Invoke(context);
         }
 
-        private static PlatformUserIdentifierAbs? GetEOS(string steamId)
-        {
-            foreach (var item in GameManager.Instance.persistentPlayers.Players.Values)
-            {
-                if (item.NativeId.ReadablePlatformUserIdentifier == steamId)
-                {
-                    return item.PrimaryId;
-                }
-            }
-
-            return null;
-        }
-
         private static string ExtractSteamId(string claimedId)
         {
             if (string.IsNullOrEmpty(claimedId))
@@ -146,6 +145,19 @@ namespace SdtdServerKit.WebApi.Middlewares
             };
             var newTicket = new AuthenticationTicket(newIdentity, props);
             return new TicketDataFormat(CustomDataProtectionProvider.DataProtector).Protect(newTicket);
+        }
+
+        private static PlatformUserIdentifierAbs GetEOS(string steamId)
+        {
+            foreach (var item in GameManager.Instance.persistentPlayers.Players.Values)
+            {
+                if (item.NativeId.ReadablePlatformUserIdentifier == steamId)
+                {
+                    return item.PrimaryId;
+                }
+            }
+
+            return null;
         }
 
         private static bool VerifySteamLogin(string queryString)
