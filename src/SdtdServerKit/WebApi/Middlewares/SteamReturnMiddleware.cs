@@ -27,7 +27,7 @@ namespace SdtdServerKit.WebApi.Middlewares
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override Task Invoke(IOwinContext context)
+        public override async Task Invoke(IOwinContext context)
         {
             // 检查请求路径是否为 /api/auth/steam/return
             if (context.Request.Path == new PathString("/api/auth/steam/return"))
@@ -48,7 +48,7 @@ namespace SdtdServerKit.WebApi.Middlewares
                         string message = "Invalid Steam OAuth callback.";
                         string errorRedirectUrl = "/#/error?message=" + message;
                         context.Response.Redirect(errorRedirectUrl);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     // 3. 验证 Steam 登录是否有效
@@ -58,7 +58,7 @@ namespace SdtdServerKit.WebApi.Middlewares
                         string message = "Steam login verification failed.";
                         string errorRedirectUrl = "/#/error?message=" + message;
                         context.Response.Redirect(errorRedirectUrl);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     // 4. 提取 Steam ID
@@ -70,7 +70,7 @@ namespace SdtdServerKit.WebApi.Middlewares
                         string message = "You are not a registered player.";
                         string errorRedirectUrl = "/#/403?message=" + message;
                         context.Response.Redirect(errorRedirectUrl);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     if (GameManager.Instance.persistentPlayers.Players.TryGetValue(eos, out var player))
@@ -84,7 +84,7 @@ namespace SdtdServerKit.WebApi.Middlewares
                         string message = "You are not a level 0 administrator.";
                         string errorRedirectUrl = "/#/403?message=" + message;
                         context.Response.Redirect(errorRedirectUrl);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     // 5. 生成 JWT Token 或其他必要信息
@@ -96,7 +96,7 @@ namespace SdtdServerKit.WebApi.Middlewares
                     string redirectUrl = $"/#/loginSuccess?steamid={steamId}&playerName={playerName}&accessToken={accessToken}&expiresIn={ModApi.AppSettings.AccessTokenExpireTime}&refreshToken={refreshToken}&redirect={redirect}";
                     context.Response.Redirect(redirectUrl);
 
-                    return Task.CompletedTask; // 确保不调用下一个中间件
+                    return; // 确保不调用下一个中间件
                 }
                 catch (Exception ex)
                 {
@@ -104,12 +104,12 @@ namespace SdtdServerKit.WebApi.Middlewares
                     string errorRedirectUrl = "/#/error?message=" + message;
                     context.Response.Redirect(errorRedirectUrl);
                     CustomLogger.Warn(ex.ToString());
-                    return Task.CompletedTask;
+                    return;
                 }
             }
 
             // 如果不是 /api/auth/steam/return，调用下一个中间件
-            return Next.Invoke(context);
+            await Next.Invoke(context);
         }
 
         private static string ExtractSteamId(string claimedId)
