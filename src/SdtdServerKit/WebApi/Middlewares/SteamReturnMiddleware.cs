@@ -147,7 +147,7 @@ namespace SdtdServerKit.WebApi.Middlewares
             return new TicketDataFormat(CustomDataProtectionProvider.DataProtector).Protect(newTicket);
         }
 
-        private static PlatformUserIdentifierAbs GetEOS(string steamId)
+        private static PlatformUserIdentifierAbs? GetEOS(string steamId)
         {
             foreach (var item in GameManager.Instance.persistentPlayers.Players.Values)
             {
