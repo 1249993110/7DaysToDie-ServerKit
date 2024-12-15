@@ -24,6 +24,13 @@ namespace SdtdServerKit.Data.IRepositories
         Task<IEnumerable<T_CommandList>> GetListByVipGiftIdAsync(string vipGiftId);
 
         /// <summary>
+        /// 根据任务调度Id获取命令清单
+        /// </summary>
+        /// <param name="taskScheduleId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<T_CommandList>> GetListByTaskScheduleIdAsync(int taskScheduleId);
+
+        /// <summary>
         /// 分页获取命令清单
         /// </summary>
         /// <param name="dto"></param>

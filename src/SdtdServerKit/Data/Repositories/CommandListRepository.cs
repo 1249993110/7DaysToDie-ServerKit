@@ -18,6 +18,12 @@ namespace SdtdServerKit.Data.Repositories
             return base.GetListAsync(whereClause, param: new { GoodsId = goodsId });
         }
 
+        public Task<IEnumerable<T_CommandList>> GetListByTaskScheduleIdAsync(int taskScheduleId)
+        {
+            string whereClause = "Id IN (SELECT CommandId FROM T_TaskScheduleCommand WHERE TaskScheduleId=@TaskScheduleId)";
+            return base.GetListAsync(whereClause, param: new { TaskScheduleId = taskScheduleId });
+        }
+
         /// <inheritdoc/>
         public Task<IEnumerable<T_CommandList>> GetListByVipGiftIdAsync(string vipGiftId)
         {
