@@ -5,12 +5,12 @@
         /// <summary>
         /// 玩家Id
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         /// <summary>
         /// 玩家名称
         /// </summary>
-        public string PlayerName { get; set; }
+        public string? PlayerName { get; set; }
 
         /// <summary>
         /// 拥有积分
