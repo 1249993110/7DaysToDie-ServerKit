@@ -1,0 +1,201 @@
+﻿using IceCoffee.SimpleCRUD;
+using SdtdServerKit.Data.Entities;
+using SdtdServerKit.Data.IRepositories;
+using System.ComponentModel.DataAnnotations;
+
+namespace SdtdServerKit.WebApi.Controllers
+{
+    /// <summary>
+    /// Task Schedule
+    /// </summary>
+    [Authorize]
+    [RoutePrefix("api/TaskSchedule")]
+    public class TaskScheduleController : ApiController
+    {
+        private readonly ITaskScheduleRepository _taskScheduleRepository;
+        private readonly ITaskScheduleCommandRepository _taskScheduleCommandRepository;
+        private readonly ICommandListRepository _commandListRepository;
+        private readonly Functions.TaskSchedule _taskSchedule;
+
+        public TaskScheduleController(ITaskScheduleRepository taskScheduleRepository, ITaskScheduleCommandRepository taskScheduleCommandRepository, ICommandListRepository commandListRepository, Functions.TaskSchedule taskSchedule)
+        {
+            _taskScheduleRepository = taskScheduleRepository;
+            _taskScheduleCommandRepository = taskScheduleCommandRepository;
+            _commandListRepository = commandListRepository;
+            _taskSchedule = taskSchedule;
+        }
+
+
+        /// <summary>
+        /// Get all task schedules.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("")]
+        public async Task<IEnumerable<TaskScheduleModel>> GetAll()
+        {
+            var result = new List<TaskScheduleModel>();
+            var entites = await _taskScheduleRepository.GetAllAsync();
+            foreach (var item in entites)
+            {
+                result.Add(new TaskScheduleModel
+                {
+                    Id = item.Id,
+                    CreatedAt = item.CreatedAt,
+                    Name = item.Name,
+                    CronExpression = item.CronExpression,
+                    IsEnabled = item.IsEnabled,
+                    LastRunAt = item.LastRunAt,
+                    Description = item.Description,
+                    IsRunning = _taskSchedule.IsTaskScheduleRunning(item.Id),
+                });
+            }
+            return result;
+        }
+        /// <summary>
+        /// Creates a new task schedule.
+        /// </summary>
+        /// <param name="model">The task schedule model to create.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        [HttpPost]
+        [Route("")]
+        public async Task<IHttpActionResult> Post([FromBody] TaskScheduleAdd model)
+        {
+            var entity = new T_TaskSchedule()
+            {
+                Name = model.Name,
+                CreatedAt = DateTime.Now,
+                CronExpression = model.CronExpression,
+                IsEnabled = model.IsEnabled,
+                Description = model.Description,
+            };
+            await _taskScheduleRepository.InsertAsync(entity);
+
+            if (entity.IsEnabled)
+            {
+                _taskSchedule.AddTaskSchedule(entity);
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Updates an existing task schedule.
+        /// </summary>
+        /// <param name="id">The ID of the task schedule to update.</param>
+        /// <param name="model">The updated task schedule model.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> Put([FromUri] int id, [FromBody] TaskScheduleUpdate model)
+        {
+            var entity = await _taskScheduleRepository.GetByIdAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            entity.Name = model.Name;
+            entity.CronExpression = model.CronExpression;
+            entity.IsEnabled = model.IsEnabled;
+            entity.Description = model.Description;
+            await _taskScheduleRepository.UpdateAsync(entity);
+
+            if (entity.IsEnabled)
+            {
+                _taskSchedule.AddTaskSchedule(entity);
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Deletes a task schedule by ID.
+        /// </summary>
+        /// <param name="id">The ID of the task schedule to delete.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> Delete([FromUri] int id)
+        {
+            var entity = await _taskScheduleRepository.GetByIdAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            _taskSchedule.RemoveTaskSchedule(entity.Id);
+
+            await _taskScheduleRepository.DeleteAsync(entity);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Deletes multiple task schedules by their IDs.
+        /// </summary>
+        /// <param name="ids">The IDs of the task schedules to delete.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        [HttpDelete]
+        [Route("")]
+        public async Task<IHttpActionResult> Delete([FromUri, Required, MinLength(1)] int[] ids)
+        {
+            foreach (var id in ids)
+            {
+                _taskSchedule.RemoveTaskSchedule(id);
+            }
+
+            int count = await _taskScheduleRepository.DeleteByIdsAsync(ids, true);
+
+            return Ok(count);
+        }
+
+        /// <summary>
+        /// Gets the commands associated with a task schedule.
+        /// </summary>
+        /// <param name="id">The ID of the task schedule.</param>
+        /// <returns>A list of commands associated with the task schedule.</returns>
+        [HttpGet]
+        [Route("{id}/Commands")]
+        public async Task<IEnumerable<T_CommandList>> GetCommands(int id)
+        {
+            var data = await _commandListRepository.GetListByTaskScheduleIdAsync(id);
+            return data;
+        }
+
+        /// <summary>
+        /// Updates the commands associated with a task schedule.
+        /// </summary>
+        /// <param name="id">The ID of the task schedule.</param>
+        /// <param name="itemIds">The IDs of the commands to associate with the task schedule.</param>
+        /// <returns>An IHttpActionResult indicating the result of the operation.</returns>
+        [HttpPut]
+        [Route("{id}/Commands")]
+        public async Task<IHttpActionResult> PutCommands(int id, [FromBody, Required] int[] itemIds)
+        {
+            var entity = await _taskScheduleRepository.GetByIdAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            var entities = new List<T_TaskScheduleCommand>();
+            foreach (var item in itemIds)
+            {
+                entities.Add(new T_TaskScheduleCommand()
+                {
+                    TaskScheduleId = id,
+                    CommandId = item
+                });
+            }
+
+            using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
+            var repository = unitOfWork.GetRepository<ITaskScheduleCommandRepository>();
+            await repository.DeleteByTaskScheduleIdAsync(id);
+            await repository.InsertAsync(entities);
+            unitOfWork.Commit();
+
+            return Ok();
+        }
+    }
+}

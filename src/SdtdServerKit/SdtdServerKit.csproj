@@ -13,6 +13,7 @@
 		<Description>A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows.</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<LangVersion>10.0</LangVersion>
+		<NoWarn>$(NoWarn);1591</NoWarn>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -32,6 +33,7 @@
 		<PackageReference Include="Autofac.WebApi2.Owin" Version="6.2.1" />
 		<PackageReference Include="DeviceId" Version="6.8.0" />
 		<PackageReference Include="IceCoffee.Common" Version="1.2.0" />
+		<PackageReference Include="IceCoffee.Cron" Version="1.0.1" />
 		<PackageReference Include="IceCoffee.SimpleCRUD" Version="1.4.0" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.3.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
