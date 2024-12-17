@@ -13,6 +13,7 @@
 		<Description>A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows.</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<LangVersion>10.0</LangVersion>
+		<NoWarn>$(NoWarn);1591</NoWarn>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -30,22 +31,24 @@
 
 	<ItemGroup>
 		<PackageReference Include="Autofac.WebApi2.Owin" Version="6.2.1" />
-		<PackageReference Include="DeviceId" Version="6.7.0" />
-		<PackageReference Include="IceCoffee.Common" Version="1.1.2" />
-		<PackageReference Include="IceCoffee.SimpleCRUD" Version="1.3.13" />
+		<PackageReference Include="DeviceId" Version="6.8.0" />
+		<PackageReference Include="IceCoffee.Common" Version="1.2.0" />
+		<PackageReference Include="IceCoffee.Cron" Version="1.0.1" />
+		<PackageReference Include="IceCoffee.SimpleCRUD" Version="1.4.0" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.3.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.2.2" />
 		<PackageReference Include="Microsoft.Owin.StaticFiles" Version="4.2.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="NSwag.Annotations" Version="14.1.0" />
-		<PackageReference Include="NSwag.AspNet.Owin" Version="14.1.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
+		<PackageReference Include="NSwag.Annotations" Version="14.2.0" />
+		<PackageReference Include="NSwag.AspNet.Owin" Version="14.2.0" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.116.1" />
 		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.10" GeneratePathProperty="true" />
-		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
-		<PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
+		<PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="9.0.0" />
 	</ItemGroup>
 
 	<!--<ItemGroup>

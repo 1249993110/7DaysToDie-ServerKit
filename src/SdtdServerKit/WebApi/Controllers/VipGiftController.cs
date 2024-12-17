@@ -79,7 +79,6 @@ namespace SdtdServerKit.WebApi.Controllers
             return Ok();
         }
 
-
         /// <summary>
         /// 通过Id更新记录
         /// </summary>
@@ -237,9 +236,9 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
-            var userTagRepository = unitOfWork.GetRepository<IVipGiftCommandRepository>();
-            await userTagRepository.DeleteByVipGiftIdAsync(id);
-            await userTagRepository.InsertAsync(entities);
+            var repository = unitOfWork.GetRepository<IVipGiftCommandRepository>();
+            await repository.DeleteByVipGiftIdAsync(id);
+            await repository.InsertAsync(entities);
             unitOfWork.Commit();
 
             return Ok();

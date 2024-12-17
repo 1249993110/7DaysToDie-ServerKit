@@ -115,8 +115,7 @@ namespace SdtdServerKit.Functions
 
             if (Settings.AutoRestart.IsEnabled
                 && now.Hour == Settings.AutoRestart.RestartHour
-                && now.Minute == Settings.AutoRestart.RestartMinute
-                && ModApi.IsGameStartDone)
+                && now.Minute == Settings.AutoRestart.RestartMinute)
             {
                 autoRestartTimer.IsEnabled = false;
 

@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration;
 using SdtdServerKit.Constants;
 using System.Runtime.InteropServices.ComTypes;
+using System.Net;
 
 namespace SdtdServerKit
 {
@@ -330,6 +331,8 @@ namespace SdtdServerKit
                 CustomLogger.Error(ex, "Load map tile cache failed, Please do not delete the default mod, You can verify the integrity of the game to solve this problem.");
             }
 
+            FunctionManager.Init();
+
             IsGameStartDone = true;
         }
 
@@ -395,7 +398,6 @@ namespace SdtdServerKit
             ServiceContainer = container;
 
             InitDatabase();
-            FunctionManager.Init();
         }
 
         /// <summary>

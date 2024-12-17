@@ -4,12 +4,12 @@ using SdtdServerKit.Data.Entities;
 namespace SdtdServerKit.Data.IRepositories
 {
     /// <summary>
-    /// 礼品仓储
+    /// Gift repository
     /// </summary>
     public interface IVipGiftRepository : IRepository<T_VipGift>
     {
         /// <summary>
-        /// 重置领取状态
+        /// Reset claim state
         /// </summary>
         /// <returns></returns>
         Task<int> ResetClaimStateAsync();

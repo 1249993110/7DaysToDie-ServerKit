@@ -70,7 +70,7 @@ namespace SdtdServerKit.Functions
                         foreach (var item in itemList)
                         {
                             Utilities.Utils.GiveItem(playerId, item.ItemName, item.Count, item.Quality, item.Durability);
-                            await Task.Delay(100);
+                            await Task.Delay(20);
                         }
 
                         var commandList = await _commandListRepository.GetListByGoodsIdAsync(goods.Id);
@@ -80,7 +80,7 @@ namespace SdtdServerKit.Functions
                             {
                                 Utilities.Utils.ExecuteConsoleCommand(FormatCmd(cmd, managedPlayer, goods), item.InMainThread);
                             }
-                            await Task.Delay(100);
+                            await Task.Delay(20);
                         }
 
                         SendMessageToPlayer(playerId, FormatCmd(Settings.BuySuccessTip, managedPlayer, goods));

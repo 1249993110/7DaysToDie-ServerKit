@@ -28,15 +28,7 @@ namespace SdtdServerKit.Functions
         {
             if (Settings.IsEnabled)
             {
-                // Delay register handler until game start done
-                if (ModApi.IsGameStartDone == false)
-                {
-                    ModEventHub.GameStartDone += () => { ModEvents.ChatMessage.RegisterHandler(OnChatMessage); };
-                }
-                else
-                {
-                    ModEvents.ChatMessage.RegisterHandler(OnChatMessage);
-                }
+                ModEvents.ChatMessage.RegisterHandler(OnChatMessage);
             }
             else
             {

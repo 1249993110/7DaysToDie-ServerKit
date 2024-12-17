@@ -26,7 +26,18 @@ namespace SdtdServerKit.Managers
             {
                 if (_globalSettings == null)
                 {
-                    _globalSettings = GetRequired<GlobalSettings>(Locales.Get(GamePrefs.GetString(EnumGamePrefs.Language)));
+                    string language;
+                    try
+                    {
+                        language = GamePrefs.GetString(EnumGamePrefs.Language);
+                    }
+                    catch
+                    {
+                        language = Language.English.ToString();
+                        CustomLogger.Warn("Failed to get language from GamePrefs, use English as default.");
+                    }
+                    
+                    _globalSettings = GetRequired<GlobalSettings>(Locales.Get(language));
                 }
 
                 return _globalSettings;

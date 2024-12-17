@@ -31,7 +31,7 @@ namespace SdtdServerKit.WebSockets
         protected override void OnOpen()
         {
             string token = base.QueryString["token"] ?? base.Headers["token"];
-            var ticket = new TicketDataFormat(new AesDataProtector()).Unprotect(token);
+            var ticket = new TicketDataFormat(CustomDataProtectionProvider.DataProtector).Unprotect(token);
 
             if (ticket == null)
             {

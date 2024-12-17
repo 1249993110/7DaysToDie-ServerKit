@@ -79,11 +79,6 @@ namespace SdtdServerKit.Functions
         {
             try
             {
-                if(ModApi.IsGameStartDone == false)
-                {
-                    return;
-                }
-
                 DateTime now = DateTime.Now;
                 if(Settings.SkipIfThereAreNoPlayers && LivePlayerManager.Count == 0 && (now - _lastServerStateChange).TotalSeconds > Settings.Interval)
                 {
