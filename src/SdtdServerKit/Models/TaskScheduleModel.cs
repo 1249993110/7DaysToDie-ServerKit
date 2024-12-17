@@ -48,10 +48,5 @@ namespace SdtdServerKit.Models
         /// Gets or sets the date and time when the task was last run.
         /// </summary>
         public DateTime? LastRunAt { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the task schedule is running.
-        /// </summary>
-        public bool IsRunning { get; set; }
     }
 }

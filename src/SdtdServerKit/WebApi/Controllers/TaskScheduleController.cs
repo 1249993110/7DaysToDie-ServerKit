@@ -47,7 +47,6 @@ namespace SdtdServerKit.WebApi.Controllers
                     IsEnabled = item.IsEnabled,
                     LastRunAt = item.LastRunAt,
                     Description = item.Description,
-                    IsRunning = _taskSchedule.IsTaskScheduleRunning(item.Id),
                 });
             }
             return result;
@@ -61,19 +60,27 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Post([FromBody] TaskScheduleAdd model)
         {
-            var entity = new T_TaskSchedule()
+            try
             {
-                Name = model.Name,
-                CreatedAt = DateTime.Now,
-                CronExpression = model.CronExpression,
-                IsEnabled = model.IsEnabled,
-                Description = model.Description,
-            };
-            await _taskScheduleRepository.InsertAsync(entity);
+                var entity = new T_TaskSchedule()
+                {
+                    Name = model.Name,
+                    CreatedAt = DateTime.Now,
+                    CronExpression = model.CronExpression,
+                    IsEnabled = model.IsEnabled,
+                    Description = model.Description,
+                };
+                await _taskScheduleRepository.InsertAsync(entity);
 
-            if (entity.IsEnabled)
+                if (entity.IsEnabled)
+                {
+                    _taskSchedule.AddTaskSchedule(entity);
+                }
+
+            }
+            catch (Exception ex)
             {
-                _taskSchedule.AddTaskSchedule(entity);
+                return BadRequest(ex.Message);
             }
 
             return Ok();
@@ -89,23 +96,34 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> Put([FromUri] int id, [FromBody] TaskScheduleUpdate model)
         {
-            var entity = await _taskScheduleRepository.GetByIdAsync(id);
-            if (entity == null)
+            try
             {
-                return NotFound();
+                var entity = await _taskScheduleRepository.GetByIdAsync(id);
+                if (entity == null)
+                {
+                    return NotFound();
+                }
+
+                entity.Name = model.Name;
+                entity.CronExpression = model.CronExpression;
+                entity.IsEnabled = model.IsEnabled;
+                entity.Description = model.Description;
+                await _taskScheduleRepository.UpdateAsync(entity);
+
+                if (entity.IsEnabled)
+                {
+                    _taskSchedule.AddTaskSchedule(entity);
+                }
+                else
+                {
+                    _taskSchedule.RemoveTaskSchedule(entity.Id);
+                }
             }
-
-            entity.Name = model.Name;
-            entity.CronExpression = model.CronExpression;
-            entity.IsEnabled = model.IsEnabled;
-            entity.Description = model.Description;
-            await _taskScheduleRepository.UpdateAsync(entity);
-
-            if (entity.IsEnabled)
+            catch (Exception ex)
             {
-                _taskSchedule.AddTaskSchedule(entity);
+                return BadRequest(ex.Message);
             }
-
+            
             return Ok();
         }
 
@@ -118,17 +136,11 @@ namespace SdtdServerKit.WebApi.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> Delete([FromUri] int id)
         {
-            var entity = await _taskScheduleRepository.GetByIdAsync(id);
-            if (entity == null)
-            {
-                return NotFound();
-            }
+            _taskSchedule.RemoveTaskSchedule(id);
 
-            _taskSchedule.RemoveTaskSchedule(entity.Id);
+            int count = await _taskScheduleRepository.DeleteByIdAsync(id);
 
-            await _taskScheduleRepository.DeleteAsync(entity);
-
-            return Ok();
+            return Ok(count);
         }
 
         /// <summary>
