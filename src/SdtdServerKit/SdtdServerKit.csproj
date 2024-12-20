@@ -31,6 +31,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Autofac.WebApi2.Owin" Version="6.2.1" />
+		<PackageReference Include="CronExpressionDescriptor" Version="2.36.0" />
 		<PackageReference Include="DeviceId" Version="6.8.0" />
 		<PackageReference Include="IceCoffee.Common" Version="1.2.0" />
 		<PackageReference Include="IceCoffee.Cron" Version="1.0.1" />

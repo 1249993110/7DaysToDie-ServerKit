@@ -48,5 +48,10 @@ namespace SdtdServerKit.Models
         /// Gets or sets the date and time when the task was last run.
         /// </summary>
         public DateTime? LastRunAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expression description of the task schedule.
+        /// </summary>
+        public string? ExpressionDescription { get; set; }
     }
 }

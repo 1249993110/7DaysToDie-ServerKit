@@ -1,4 +1,6 @@
-﻿using IceCoffee.SimpleCRUD;
+﻿using CronExpressionDescriptor;
+using IceCoffee.SimpleCRUD;
+using SdtdServerKit.Constants;
 using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +27,56 @@ namespace SdtdServerKit.WebApi.Controllers
             _taskSchedule = taskSchedule;
         }
 
+        /// <summary>
+        /// Get locale by language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        private static string GetLocale(Language language)
+        {
+            switch (language)
+            {
+                case Language.English:
+                    return "en";
+                case Language.German:
+                    return "de";
+                case Language.Spanish:
+                    return "es";
+                case Language.French:
+                    return "fr";
+                case Language.Italian:
+                    return "it";
+                case Language.Japanese:
+                    return "ja";
+                case Language.Koreana:
+                    return "ko";
+                case Language.Polish:
+                    return "pl";
+                case Language.Brazilian:
+                    return "pt";
+                case Language.Russian:
+                    return "ru";
+                case Language.Turkish:
+                    return "tr";
+                case Language.Schinese:
+                    return "zh-CN";
+                case Language.Tchinese:
+                    return "zh-TW";
+                default:
+                    return "en";
+            }
+        }
+
+        private static string GetExpressionDescription(string cronExpression, Language language)
+        {
+            return ExpressionDescriptor.GetDescription(cronExpression, new Options()
+            {
+                ThrowExceptionOnParseError = false,
+                DayOfWeekStartIndexZero = true,
+                Use24HourTimeFormat = true,
+                Locale = GetLocale(language)
+            });
+        }
 
         /// <summary>
         /// Get all task schedules.
@@ -32,7 +84,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<TaskScheduleModel>> GetAll()
+        public async Task<IEnumerable<TaskScheduleModel>> GetAll([FromUri] Language language)
         {
             var result = new List<TaskScheduleModel>();
             var entites = await _taskScheduleRepository.GetAllAsync();
@@ -47,6 +99,7 @@ namespace SdtdServerKit.WebApi.Controllers
                     IsEnabled = item.IsEnabled,
                     LastRunAt = item.LastRunAt,
                     Description = item.Description,
+                    ExpressionDescription = GetExpressionDescription(item.CronExpression, language)
                 });
             }
             return result;
