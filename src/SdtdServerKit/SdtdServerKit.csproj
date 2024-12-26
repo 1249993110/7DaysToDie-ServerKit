@@ -12,7 +12,7 @@
 		<Copyright>Copyright (c) 2024 IceCoffee</Copyright>
 		<Description>A open source mod for 7 Days to Die dedicated servers. Provides RESTful APIs and a powerful web management panel to help owners and administrators operate their dedicated server. Works with both Linux and Windows.</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>11.0</LangVersion>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
