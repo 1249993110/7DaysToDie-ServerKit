@@ -53,15 +53,15 @@ namespace SdtdServerKit.WebApi.Controllers
                 case Language.Polish:
                     return "pl";
                 case Language.Brazilian:
-                    return "pt";
+                    return "pt-BR";
                 case Language.Russian:
                     return "ru";
                 case Language.Turkish:
                     return "tr";
                 case Language.Schinese:
-                    return "zh-CN";
+                    return "zh-hans";
                 case Language.Tchinese:
-                    return "zh-TW";
+                    return "zh-hant";
                 default:
                     return "en";
             }
