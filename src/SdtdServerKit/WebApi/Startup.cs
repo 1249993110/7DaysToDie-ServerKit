@@ -161,8 +161,13 @@ namespace SdtdServerKit.WebApi
 
             // Register the Autofac middleware FIRST, then the Autofac Web API middleware,
             // and finally the standard Web API middleware.
+            // 注册 Autofac 中间件, 支持请求范围和中间件注入
             app.UseAutofacMiddleware(ModApi.ServiceContainer);
+
+            // 将 Autofac 容器与 Web API 集成, 设置 Web API 的依赖解析器为 Autofac, 并确保 Web API 控制器及其依赖项由 Autofac 容器管理
             app.UseAutofacWebApi(config);
+
+            // 将 Web API 的运行时（中间件）添加到 OWIN 管道中, 负责处理 HTTP 请求并将它们路由到正确的 Web API 控制器和操作方法
             app.UseWebApi(config);
 
             config.Services.Replace(typeof(IHttpControllerTypeResolver), new CustomHttpControllerTypeResolver());
