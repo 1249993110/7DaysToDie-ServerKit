@@ -22,31 +22,31 @@ namespace SdtdServerKit.Data.Entities
         /// <summary>
         /// 玩家Id
         /// </summary>
-        public string PlayerId { get; set; } = null!;
+        public required string PlayerId { get; set; }
 
         /// <summary>
         /// 玩家名称
         /// </summary>
-        public string PlayerName { get; set; } = null!;
+        public required string PlayerName { get; set; }
 
         /// <summary>
         /// 目标类型
         /// </summary>
-        public string TargetType { get; set; } = null!;
+        public required string TargetType { get; set; }
 
         /// <summary>
         /// 目标名称
         /// </summary>
-        public string TargetName { get; set; } = null!;
+        public required string TargetName { get; set; }
 
         /// <summary>
         /// 源坐标, 空格分割
         /// </summary>
-        public string OriginPosition { get; set; } = null!;
+        public required string OriginPosition { get; set; }
 
         /// <summary>
         /// 目的坐标, 空格分割
         /// </summary>
-        public string TargetPosition { get; set; } = null!;
+        public required string TargetPosition { get; set; }
     }
 }

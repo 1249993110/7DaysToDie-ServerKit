@@ -8,7 +8,7 @@ namespace SdtdServerKit.Models
 {
     public class ItemList
     {
-        public string ItemName { get; set; } = null!;
+        public required string ItemName { get; set; }
 
         public int Count { get; set; }
 

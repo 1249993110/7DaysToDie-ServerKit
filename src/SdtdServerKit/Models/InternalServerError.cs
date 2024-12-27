@@ -6,7 +6,7 @@
     public class InternalServerError
     {
         [JsonProperty("message")]
-        public string Message { get; set; } = null!;
+        public required string Message { get; set; }
 
         [JsonProperty("exceptionMessage", NullValueHandling = NullValueHandling.Ignore)]
         public string? ExceptionMessage { get; set; }

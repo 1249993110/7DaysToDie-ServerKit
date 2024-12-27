@@ -23,7 +23,7 @@ namespace SdtdServerKit.Data.Entities
         /// <summary>
         /// 城市名称
         /// </summary>
-        public string CityName { get; set; } = null!;
+        public required string CityName { get; set; }
 
         /// <summary>
         /// 传送需要积分
@@ -33,7 +33,7 @@ namespace SdtdServerKit.Data.Entities
         /// <summary>
         /// 三维坐标
         /// </summary>
-        public string Position { get; set; } = null!;
+        public required string Position { get; set; }
 
         /// <summary>
         /// 视角方向

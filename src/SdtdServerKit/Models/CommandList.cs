@@ -8,7 +8,7 @@ namespace SdtdServerKit.Models
 {
     public class CommandList
     {
-        public string Command { get; set; } = null!;
+        public required string Command { get; set; }
 
         public bool InMainThread { get; set; }
 

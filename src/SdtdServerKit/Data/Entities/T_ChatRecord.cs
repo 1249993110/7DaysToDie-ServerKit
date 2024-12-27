@@ -13,10 +13,10 @@ namespace SdtdServerKit.Data.Entities
         public int EntityId { get; set; }
         public string? PlayerId { get; set; }
 
-        public string SenderName { get; set; }
+        public required string SenderName { get; set; }
 
         public ChatType ChatType { get; set; }
 
-        public string Message { get; set; }
+        public required string Message { get; set; }
     }
 }

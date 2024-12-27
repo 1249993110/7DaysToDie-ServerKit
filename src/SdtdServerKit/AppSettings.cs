@@ -8,15 +8,15 @@
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; } = null!;
+        public required string UserName { get; set; }
         /// <summary>
         /// 密码
         /// </summary>
-        public string Password { get; set; } = null!;
+        public required string Password { get; set; }
         /// <summary>
         /// 服务器地址
         /// </summary>
-        public string WebUrl { get; set; } = null!;
+        public required string WebUrl { get; set; }
         /// <summary>
         /// WebSocket端口
         /// </summary>
@@ -24,7 +24,7 @@
         /// <summary>
         /// WebSocket地址
         /// </summary>
-        public string WebSocketUrl { get; set; } = null!;
+        public required string WebSocketUrl { get; set; }
         /// <summary>
         /// AccessToken到期时间
         /// </summary>
@@ -32,10 +32,10 @@
         /// <summary>
         /// 数据库路径
         /// </summary>
-        public string DatabasePath { get; set; } = null!;
+        public required string DatabasePath { get; set; }
         /// <summary>
         /// 服务器配置文件名
         /// </summary>
-        public string ServerSettingsFileName { get; set; } = null!;
+        public required string ServerSettingsFileName { get; set; }
     }
 }

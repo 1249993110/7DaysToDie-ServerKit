@@ -8,7 +8,7 @@
         /// <summary>
         /// 消息
         /// </summary>
-        public string Message { get; set; } = null!;
+        public required string Message { get; set; }
 
         /// <summary>
         /// 发送者名称

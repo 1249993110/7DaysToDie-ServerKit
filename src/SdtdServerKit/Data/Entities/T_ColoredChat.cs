@@ -16,7 +16,7 @@ namespace SdtdServerKit.Data.Entities
         /// Player Id
         /// </summary>
         [PrimaryKey]
-        public string Id { get; set; } = null!;
+        public required string Id { get; set; }
 
         /// <summary>
         /// Created At
