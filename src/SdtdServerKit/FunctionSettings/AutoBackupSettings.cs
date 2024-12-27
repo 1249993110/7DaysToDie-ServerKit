@@ -33,6 +33,6 @@
         /// <summary>
         /// 备份文件夹
         /// </summary>
-        public string ArchiveFolder { get; set; } = null!;
+        public required string ArchiveFolder { get; set; }
     }
 }
