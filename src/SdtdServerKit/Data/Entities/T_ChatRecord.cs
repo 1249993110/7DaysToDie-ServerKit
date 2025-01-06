@@ -2,8 +2,14 @@
 
 namespace SdtdServerKit.Data.Entities
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class T_ChatRecord
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [PrimaryKey, IgnoreUpdate, IgnoreInsert]
         public int Id { get; set; }
 
