@@ -15,14 +15,12 @@ namespace SdtdServerKit.WebApi.Controllers
     public class TaskScheduleController : ApiController
     {
         private readonly ITaskScheduleRepository _taskScheduleRepository;
-        private readonly ITaskScheduleCommandRepository _taskScheduleCommandRepository;
         private readonly ICommandListRepository _commandListRepository;
         private readonly Functions.TaskSchedule _taskSchedule;
 
-        public TaskScheduleController(ITaskScheduleRepository taskScheduleRepository, ITaskScheduleCommandRepository taskScheduleCommandRepository, ICommandListRepository commandListRepository, Functions.TaskSchedule taskSchedule)
+        public TaskScheduleController(ITaskScheduleRepository taskScheduleRepository, ICommandListRepository commandListRepository, Functions.TaskSchedule taskSchedule)
         {
             _taskScheduleRepository = taskScheduleRepository;
-            _taskScheduleCommandRepository = taskScheduleCommandRepository;
             _commandListRepository = commandListRepository;
             _taskSchedule = taskSchedule;
         }
@@ -104,6 +102,7 @@ namespace SdtdServerKit.WebApi.Controllers
             }
             return result;
         }
+        
         /// <summary>
         /// Creates a new task schedule.
         /// </summary>
