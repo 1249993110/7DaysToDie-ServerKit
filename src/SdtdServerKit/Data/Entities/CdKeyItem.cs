@@ -13,7 +13,7 @@ namespace SdtdServerKit.Data.Entities
         /// </summary>
         [Column("[CdKeyId]")]
         [PrimaryKey]
-        public required string CdKeyId { get; set; }
+        public int CdKeyId { get; set; }
 		
         /// <summary>
         /// Item Id

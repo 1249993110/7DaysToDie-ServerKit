@@ -8,5 +8,9 @@ namespace SdtdServerKit.Data.Repositories
     /// </summary>
     public class CdKeyCommandRepository : DefaultRepository<CdKeyCommand>, ICdKeyCommandRepository
     {
+        public Task<int> DeleteByCdKeyIdAsync(int cdKeyId)
+        {
+            return base.DeleteAsync("CdKeyId=@CdKeyId", param: new { CdKeyId = cdKeyId });
+        }
     }
 }
