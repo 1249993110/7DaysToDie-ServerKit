@@ -9,13 +9,14 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
     /// </summary>
     [Authorize]
     [RoutePrefix("api/Settings/CdKeyRedeem")]
-    [OpenApiTag("Settings", Description = "配置")]
+    [OpenApiTag("Settings", Description = "Configuration")]
     public class CdKeyRedeemSettingsController : ApiController
     {
         /// <summary>
-        /// 获取配置
+        /// Get the settings
         /// </summary>
-        /// <returns></returns>
+        /// <param name="language">The language to get the settings for</param>
+        /// <returns>The CdKey redeem settings</returns>
         [HttpGet]
         [Route("")]
         public CdKeyRedeemSettings GetSettings([FromUri] Language language)
@@ -25,9 +26,10 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         }
 
         /// <summary>
-        /// 更新配置
+        /// Update the settings
         /// </summary>
-        /// <returns></returns>
+        /// <param name="model">The settings model to update</param>
+        /// <returns>HTTP action result</returns>
         [HttpPut]
         [Route("")]
         public IHttpActionResult UpdateSettings([FromBody] CdKeyRedeemSettings model)
@@ -37,9 +39,10 @@ namespace SdtdServerKit.WebApi.Controllers.Settings
         }
 
         /// <summary>
-        /// 重置配置
+        /// Reset the settings to default
         /// </summary>
-        /// <returns></returns>
+        /// <param name="language">The language to reset the settings for</param>
+        /// <returns>The default CdKey redeem settings</returns>
         [HttpDelete]
         [Route("")]
         public CdKeyRedeemSettings ResetSettings([FromUri] Language language)
