@@ -191,7 +191,10 @@ namespace SdtdServerKit.WebApi.Controllers
             _taskSchedule.RemoveTaskSchedule(id);
 
             int count = await _taskScheduleRepository.DeleteByIdAsync(id);
-
+            if(count == 0)
+            {
+                return NotFound();
+            }
             return Ok(count);
         }
 
@@ -210,7 +213,10 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             int count = await _taskScheduleRepository.DeleteByIdsAsync(ids, true);
-
+            if (count == 0)
+            {
+                return NotFound();
+            }
             return Ok(count);
         }
 
