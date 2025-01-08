@@ -44,7 +44,7 @@ namespace SdtdServerKit.Functions
 
                 if (cdKey.ExpiryAt.HasValue && cdKey.ExpiryAt.Value < DateTime.Now)
                 {
-                    SendMessageToPlayer(playerId, Settings.HasRedemptionCodeExpired);
+                    SendMessageToPlayer(playerId, Settings.HasRedemptionCodeExpiredTip);
                     return true;
                 }
 
