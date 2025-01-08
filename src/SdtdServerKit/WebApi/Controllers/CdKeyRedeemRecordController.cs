@@ -38,9 +38,9 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("")]
+        [Route("{id}")]
         [ResponseType(typeof(CdKeyRedeemRecordDto))]
-        public async Task<IHttpActionResult> GetCdKeyRedeemRecord(int id)
+        public async Task<IHttpActionResult> GetCdKeyRedeemRecord([FromUri] int id)
         {
             var entity = await _cdKeyRedeemRecordRepository.GetByIdAsync(id);
             if (entity == null)
