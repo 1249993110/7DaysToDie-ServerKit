@@ -55,6 +55,13 @@ namespace SdtdServerKit.Functions
                     return true;
                 }
 
+                int rowsAffected = await _cdKeyRepository.UpdateRedeemCount(cdKey.Id);
+                if (rowsAffected == 0)
+                {
+                    SendMessageToPlayer(playerId, Settings.HasAlreadyRedeemedTip);
+                    return true;
+                }
+
                 var itemList = await _itemListRepository.GetListByCdKeyIdAsync(cdKey.Id);
                 foreach (var item in itemList)
                 {
@@ -71,9 +78,6 @@ namespace SdtdServerKit.Functions
                     }
                     await Task.Delay(20);
                 }
-
-                cdKey.RedeemCount++;
-                await _cdKeyRepository.UpdateAsync(cdKey);
 
                 var redeemRecord = new CdKeyRedeemRecord()
                 {

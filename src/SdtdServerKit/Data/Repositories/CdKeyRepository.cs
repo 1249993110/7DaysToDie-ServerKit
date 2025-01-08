@@ -12,5 +12,11 @@ namespace SdtdServerKit.Data.Repositories
         {
             return base.GetFirstOrDefaultAsync("[Key]=@Key", param: new { Key = key });
         }
+
+        public Task<int> UpdateRedeemCount(int id)
+        {
+            string sql = "UPDATE CdKey SET RedeemCount = RedeemCount + 1 WHERE Id=@Id AND RedeemCount < MaxRedeemCount";
+            return base.ExecuteAsync(sql, param: new { Id = id }, true);
+        }
     }
 }

@@ -14,5 +14,12 @@ namespace SdtdServerKit.Data.IRepositories
         /// <param name="key"></param>
         /// <returns></returns>
         Task<CdKey?> GetByKeyAsync(string key);
+
+        /// <summary>
+        /// Update redeem count.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<int> UpdateRedeemCount(int id);
     }
 }
