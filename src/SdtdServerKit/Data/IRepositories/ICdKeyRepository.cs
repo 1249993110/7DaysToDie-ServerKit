@@ -8,5 +8,11 @@ namespace SdtdServerKit.Data.IRepositories
     /// </summary>
     public interface ICdKeyRepository : IRepository<CdKey>
     {
+        /// <summary>
+        /// Get a Cd Key by key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<CdKey?> GetByKeyAsync(string key);
     }
 }

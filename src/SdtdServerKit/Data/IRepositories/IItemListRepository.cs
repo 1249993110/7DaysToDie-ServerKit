@@ -5,29 +5,36 @@ using SdtdServerKit.Data.Entities;
 namespace SdtdServerKit.Data.IRepositories
 {
     /// <summary>
-    /// 物品清单仓储
+    /// Item list repository
     /// </summary>
     public interface IItemListRepository : IRepository<T_ItemList>
     {
         /// <summary>
-        /// 根据商品Id获取物品清单
+        /// Get item list by CdKey Id
         /// </summary>
-        /// <param name="goodsId"></param>
-        /// <returns></returns>
+        /// <param name="cdKeyId">CdKey Id</param>
+        /// <returns>List of items</returns>
+        Task<IEnumerable<T_ItemList>> GetListByCdKeyIdAsync(int cdKeyId);
+
+        /// <summary>
+        /// Get item list by goods Id
+        /// </summary>
+        /// <param name="goodsId">Goods Id</param>
+        /// <returns>List of items</returns>
         Task<IEnumerable<T_ItemList>> GetListByGoodsIdAsync(int goodsId);
 
         /// <summary>
-        /// 根据VIP礼包Id获取物品清单
+        /// Get item list by VIP gift Id
         /// </summary>
-        /// <param name="vipGiftId"></param>
-        /// <returns></returns>
+        /// <param name="vipGiftId">VIP gift Id</param>
+        /// <returns>List of items</returns>
         Task<IEnumerable<T_ItemList>> GetListByVipGiftIdAsync(string vipGiftId);
 
         /// <summary>
-        /// 分页获取物品清单
+        /// Get paged item list
         /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <param name="dto">Pagination query DTO</param>
+        /// <returns>Paged list of items</returns>
         Task<PagedDto<T_ItemList>> GetPagedListAsync(PaginationQueryDto dto);
     }
 }

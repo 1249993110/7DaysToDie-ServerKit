@@ -8,5 +8,9 @@ namespace SdtdServerKit.Data.Repositories
     /// </summary>
     public class CdKeyRepository : DefaultRepository<CdKey>, ICdKeyRepository
     {
+        public Task<CdKey?> GetByKeyAsync(string key)
+        {
+            return base.GetFirstOrDefaultAsync("[Key]=@Key", param: new { Key = key });
+        }
     }
 }

@@ -7,10 +7,16 @@ using System.Text;
 namespace SdtdServerKit.Data.Repositories
 {
     /// <summary>
-    /// 命令清单仓储
+    /// 
     /// </summary>
     public class CommandListRepository : DefaultRepository<T_CommandList>, ICommandListRepository
     {
+        public Task<IEnumerable<T_CommandList>> GetListByCdKeyIdAsync(int cdKeyId)
+        {
+            string whereClause = "Id IN (SELECT CommandId FROM CdKeyCommand WHERE CdKeyId=@CdKeyId)";
+            return base.GetListAsync(whereClause, param: new { CdKeyId = cdKeyId });
+        }
+
         /// <inheritdoc/>
         public Task<IEnumerable<T_CommandList>> GetListByGoodsIdAsync(int goodsId)
         {

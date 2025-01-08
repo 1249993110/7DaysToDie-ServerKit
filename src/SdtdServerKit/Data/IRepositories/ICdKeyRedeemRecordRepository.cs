@@ -8,5 +8,12 @@ namespace SdtdServerKit.Data.IRepositories
     /// </summary>
     public interface ICdKeyRedeemRecordRepository : IRepository<CdKeyRedeemRecord>
     {
+        /// <summary>
+        /// Get a Cd Key Redeem Record by key and player id.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
+        Task<CdKeyRedeemRecord?> GetByKeyAndPlayerIdAsync(string key, string playerId);
     }
 }

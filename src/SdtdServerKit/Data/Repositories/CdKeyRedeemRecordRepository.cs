@@ -8,5 +8,9 @@ namespace SdtdServerKit.Data.Repositories
     /// </summary>
     public class CdKeyRedeemRecordRepository : DefaultRepository<CdKeyRedeemRecord>, ICdKeyRedeemRecordRepository
     {
+        public Task<CdKeyRedeemRecord?> GetByKeyAndPlayerIdAsync(string key, string playerId)
+        {
+            return base.GetFirstOrDefaultAsync("WHERE [Key]=@Key AND [PlayerId]=@PlayerId", param: new { Key = key, PlayerId = playerId });
+        }
     }
 }
