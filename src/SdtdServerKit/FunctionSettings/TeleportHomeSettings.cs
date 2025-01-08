@@ -3,98 +3,98 @@
     public class TeleportHomeSettings : SettingsBase
     {
         /// <summary>
-        /// 查询Home列表命令
+        /// Command to query the Home list
         /// </summary>
-        public string QueryListCmd { get; set; } = "home";
+        public required string QueryListCmd { get; set; }
 
         /// <summary>
-        /// 传送间隔, 单位: 秒
+        /// Teleport interval in seconds
         /// </summary>
-        public int TeleInterval { get; set; } = 60;
+        public int TeleInterval { get; set; }
 
         /// <summary>
-        /// 设置Home命令前缀
+        /// Prefix for the set Home command
         /// </summary>
-        public string SetHomeCmdPrefix { get; set; } = "setHome";
+        public required string SetHomeCmdPrefix { get; set; }
 
         /// <summary>
-        /// 最大可设置数量
+        /// Maximum number of Homes that can be set
         /// </summary>
-        public int SetCountLimit { get; set; } = 3;
+        public int SetCountLimit { get; set; }
 
         /// <summary>
-        /// 设置需要积分
+        /// Points required to set a Home
         /// </summary>
-        public int PointsRequiredForSet { get; set; } = 2;
+        public int PointsRequiredForSet { get; set; }
 
         /// <summary>
-        /// 删除Home命令前缀
+        /// Prefix for the delete Home command
         /// </summary>
-        public string DeleteHomeCmdPrefix { get; set; } = "delHome";
+        public required string DeleteHomeCmdPrefix { get; set; }
 
         /// <summary>
-        /// 传送Home命令前缀
+        /// Prefix for the teleport Home command
         /// </summary>
-        public string TeleHomeCmdPrefix { get; set; } = "home";
+        public required string TeleHomeCmdPrefix { get; set; }
 
         /// <summary>
-        /// 传送需要积分
+        /// Points required to teleport to a Home
         /// </summary>
-        public int PointsRequiredForTele { get; set; } = 2;
+        public int PointsRequiredForTele { get; set; }
 
         /// <summary>
-        /// 没有Home提示
+        /// Tip when no Home is found
         /// </summary>
-        public string NoHomeTip { get; set; } = "[00FF00]您尚未设置过家，请输入 /setHome 设置";
+        public required string NoHomeTip { get; set; }
 
         /// <summary>
-        /// 查询列表提示
+        /// Tip for querying the list
         /// </summary>
-        public string LocationItemTip { get; set; } = "[00FF00][00FF00]<[FF0000]{homeName}[00FF00]> 传送命令: [FF0000]/goHome {HomeName}, 需要积分: 2, 坐标: {Position}";
+        public required string LocationItemTip { get; set; }
 
         /// <summary>
-        /// 超出限制提示
+        /// Tip when the limit is exceeded
         /// </summary>
-        public string OverLimitTip { get; set; } = "[00FF00]超过最大设置数，您最多可设置3个家";
+        public required string OverLimitTip { get; set; }
 
         /// <summary>
-        /// 设置积分不足提示
+        /// Tip when there are not enough points to set a Home
         /// </summary>
-        public string SetPointsNotEnoughTip { get; set; } = "[00FF00]积分不够! 需要积分: 2";
+        public required string SetPointsNotEnoughTip { get; set; }
 
         /// <summary>
-        /// 设置成功提示
+        /// Tip when setting a Home is successful
         /// </summary>
-        public string SetSuccessTip { get; set; } = "[00FF00]设置成功";
+        public required string SetSuccessTip { get; set; }
 
         /// <summary>
-        /// 覆盖成功提示
+        /// Tip when overwriting a Home is successful
         /// </summary>
-        public string OverwriteSuccessTip { get; set; } = "[00FF00]已成功覆盖旧坐标";
+        public required string OverwriteSuccessTip { get; set; }
 
         /// <summary>
-        /// 删除成功提示
+        /// Tip when deleting a Home is successful
         /// </summary>
-        public string DeleteSuccessTip { get; set; } = "[00FF00]删除成功";
+        public required string DeleteSuccessTip { get; set; }
 
         /// <summary>
-        /// Home没有找到提示
+        /// Tip when the Home is not found
         /// </summary>
-        public string HomeNotFoundTip { get; set; } = "[00FF00]没有找到指定的家";
+        public required string HomeNotFoundTip { get; set; }
 
         /// <summary>
-        /// 正在冷却提示
+        /// Tip when the teleport is cooling down
         /// </summary>
-        public string CoolingTip { get; set; } = "[00FF00]传送冷却... 剩余时间: {CoolingTime} 秒";
+        public required string CoolingTip { get; set; }
 
         /// <summary>
-        /// 传送积分不足提示
+        /// Tip when there are not enough points to teleport
         /// </summary>
-        public string TelePointsNotEnoughTip { get; set; } = "[00FF00]积分不够! 需要积分: 2";
+        public required string TelePointsNotEnoughTip { get; set; }
 
         /// <summary>
-        /// 传送成功提示
+        /// Tip when teleporting is successful
         /// </summary>
-        public string TeleSuccessTip { get; set; } = "[00FF00]玩家: {PlayerName}, 传送到了自己的家: {HomeName}";
+        public required string TeleSuccessTip { get; set; }
     }
 }
