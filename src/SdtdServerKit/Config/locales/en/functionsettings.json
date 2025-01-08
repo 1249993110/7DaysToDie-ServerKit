@@ -142,7 +142,7 @@
     "IsEnabled": false,
     "HasAlreadyRedeemedTip": "[00FF00]You have already redeemed the CD key.",
     "HasReachedMaxRedemptionLimitTip": "[00FF00]You have reached the maximum redemption limit.",
-    "HasRedemptionCodeExpired": "[00FF00]The redemption code has expired.",
+    "HasRedemptionCodeExpiredTip": "[00FF00]The redemption code has expired.",
     "RedeemSuccessTip": "[00FF00]Congratulations on successfully redeeming the CD key."
   },
   "ColoredChatSettings": {

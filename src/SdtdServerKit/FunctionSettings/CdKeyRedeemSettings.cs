@@ -15,7 +15,7 @@
         /// <summary>
         /// Has Redemption Code Expired
         /// </summary>
-        public required string HasRedemptionCodeExpired { get; set; }
+        public required string HasRedemptionCodeExpiredTip { get; set; }
 
         /// <summary>
         /// Redeem Success Tip
