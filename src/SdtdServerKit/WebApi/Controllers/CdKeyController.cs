@@ -4,6 +4,8 @@ using SdtdServerKit.Data.IRepositories;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Mapster;
+using IceCoffee.SimpleCRUD;
+using SdtdServerKit.Data.Repositories;
 
 namespace SdtdServerKit.WebApi.Controllers
 {
@@ -15,10 +17,14 @@ namespace SdtdServerKit.WebApi.Controllers
     public class CdKeysController : ApiController
     {
         private readonly ICdKeyRepository _cdKeyRepository;
+        private readonly IItemListRepository _itemListRepository;
+        private readonly ICommandListRepository _commandListRepository;
 
-        public CdKeysController(ICdKeyRepository cdKeyRepository)
+        public CdKeysController(ICdKeyRepository cdKeyRepository, IItemListRepository itemListRepository, ICommandListRepository commandListRepository)
         {
             _cdKeyRepository = cdKeyRepository;
+            _itemListRepository = itemListRepository;
+            _commandListRepository = commandListRepository;
         }
 
         /// <summary>
@@ -122,6 +128,103 @@ namespace SdtdServerKit.WebApi.Controllers
                 return NotFound();
             }
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+        /// <summary>
+        /// Get item list associated with the Cd Key ID.
+        /// </summary>
+        /// <param name="id">Cd Key Id</param>
+        /// <returns>List of items</returns>
+        [HttpGet]
+        [Route("{id}/Items")]
+        public async Task<IEnumerable<T_ItemList>> GetItems(int id)
+        {
+            var data = await _itemListRepository.GetListByCdKeyIdAsync(id);
+            return data;
+        }
+
+        /// <summary>
+        /// Update items associated with the Cd Key ID.
+        /// </summary>
+        /// <param name="id">Cd Key Id</param>
+        /// <param name="itemIds">Array of item Ids</param>
+        /// <returns>HTTP action result</returns>
+        [HttpPut]
+        [Route("{id}/Items")]
+        public async Task<IHttpActionResult> PutItems(int id, [FromBody, Required] int[] itemIds)
+        {
+            var entity = await _cdKeyRepository.GetByIdAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            var entities = new List<CdKeyItem>();
+            foreach (var item in itemIds)
+            {
+                entities.Add(new CdKeyItem()
+                {
+                    CdKeyId = id,
+                    ItemId = item
+                });
+            }
+
+            using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
+            var cdKeyItemRepository = unitOfWork.GetRepository<ICdKeyItemRepository>();
+            await cdKeyItemRepository.DeleteByCdKeyIdAsync(id);
+            await cdKeyItemRepository.InsertAsync(entities);
+            unitOfWork.Commit();
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Get command list associated with the Cd Key ID.
+        /// </summary>
+        /// <param name="id">Cd Key Id</param>
+        /// <returns>List of commands</returns>
+        [HttpGet]
+        [Route("{id}/Commands")]
+        public async Task<IEnumerable<T_CommandList>> GetCommands(int id)
+        {
+            var data = await _commandListRepository.GetListByCdKeyIdAsync(id);
+            return data;
+        }
+
+        /// <summary>
+        /// Update commands associated with the Cd Key ID.
+        /// </summary>
+        /// <param name="id">Cd Key Id</param>
+        /// <param name="itemIds">Array of command Ids</param>
+        /// <returns>HTTP action result</returns>
+        [HttpPut]
+        [Route("{id}/Commands")]
+        public async Task<IHttpActionResult> PutCommands(int id, [FromBody, Required] int[] itemIds)
+        {
+            var entity = await _cdKeyRepository.GetByIdAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            var entities = new List<CdKeyCommand>();
+            foreach (var item in itemIds)
+            {
+                entities.Add(new CdKeyCommand()
+                {
+                    CdKeyId = id,
+                    CommandId = item
+                });
+            }
+
+            using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
+            var cdKeyCommandRepository = unitOfWork.GetRepository<ICdKeyCommandRepository>();
+            await cdKeyCommandRepository.DeleteByCdKeyIdAsync(id);
+            await cdKeyCommandRepository.InsertAsync(entities);
+            unitOfWork.Commit();
+
+            return Ok();
         }
     }
 }

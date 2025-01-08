@@ -193,9 +193,9 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
-            var userTagRepository = unitOfWork.GetRepository<IVipGiftItemRepository>();
-            await userTagRepository.DeleteByVipGiftIdAsync(id);
-            await userTagRepository.InsertAsync(entities);
+            var vipGiftItemRepository = unitOfWork.GetRepository<IVipGiftItemRepository>();
+            await vipGiftItemRepository.DeleteByVipGiftIdAsync(id);
+            await vipGiftItemRepository.InsertAsync(entities);
             unitOfWork.Commit();
 
             return Ok();
@@ -241,9 +241,9 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
-            var repository = unitOfWork.GetRepository<IVipGiftCommandRepository>();
-            await repository.DeleteByVipGiftIdAsync(id);
-            await repository.InsertAsync(entities);
+            var vipGiftCommandRepository = unitOfWork.GetRepository<IVipGiftCommandRepository>();
+            await vipGiftCommandRepository.DeleteByVipGiftIdAsync(id);
+            await vipGiftCommandRepository.InsertAsync(entities);
             unitOfWork.Commit();
 
             return Ok();
