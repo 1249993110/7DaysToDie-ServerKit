@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Mapster;
 using IceCoffee.SimpleCRUD;
-using SdtdServerKit.Data.Repositories;
 
 namespace SdtdServerKit.WebApi.Controllers
 {
@@ -152,7 +151,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns>HTTP action result</returns>
         [HttpPut]
         [Route("{id}/Items")]
-        public async Task<IHttpActionResult> PutItems(int id, [FromBody, Required] int[] itemIds)
+        public async Task<IHttpActionResult> UpdateItems(int id, [FromBody, Required] int[] itemIds)
         {
             var entity = await _cdKeyRepository.GetByIdAsync(id);
             if (entity == null)
@@ -200,7 +199,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns>HTTP action result</returns>
         [HttpPut]
         [Route("{id}/Commands")]
-        public async Task<IHttpActionResult> PutCommands(int id, [FromBody, Required] int[] itemIds)
+        public async Task<IHttpActionResult> UpdateCommands(int id, [FromBody, Required] int[] itemIds)
         {
             var entity = await _cdKeyRepository.GetByIdAsync(id);
             if (entity == null)
