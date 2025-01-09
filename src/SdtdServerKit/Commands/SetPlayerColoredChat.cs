@@ -39,7 +39,7 @@ namespace SdtdServerKit.Commands
         }
 
         /// <inheritdoc/>
-        public override async void Execute(List<string> args, CommandSenderInfo _senderInfo)
+        public override void Execute(List<string> args, CommandSenderInfo _senderInfo)
         {
             if (args.Count < 2)
             {

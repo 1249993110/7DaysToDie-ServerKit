@@ -21,7 +21,7 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// 项目名称
         /// </summary>
-        public string ItemName { get; set; } = null!;
+        public required string ItemName { get; set; }
 
         /// <summary>
         /// 质量
@@ -31,6 +31,6 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// 目标玩家的Id或昵称
         /// </summary>
-        public string TargetPlayerIdOrName { get; set; } = null!;
+        public required string TargetPlayerIdOrName { get; set; }
     }
 }

@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets or sets the name of the prefab file.
         /// </summary>
-        public string PrefabFileName { get; set; } = null!;
+        public required string PrefabFileName { get; set; }
 
         /// <summary>
         /// Gets or sets the position of the prefab.

@@ -8,12 +8,12 @@
         /// <summary>
         /// 项目名称
         /// </summary>
-        public string ItemName { get; set; } = null!;
+        public required string ItemName { get; set; }
 
         /// <summary>
         /// 本地化名称
         /// </summary>
-        public string LocalizationName { get; set; } = null!;
+        public required string LocalizationName { get; set; }
 
         /// <summary>
         /// 数量

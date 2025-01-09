@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SdtdServerKit.FunctionSettings
+﻿namespace SdtdServerKit.FunctionSettings
 {
     public class VipGiftSettings : SettingsBase
     {
         /// <summary>
-        /// 领取命令
+        /// Claim Cmd
         /// </summary>
-        public string ClaimCmd { get; set; }
+        public required string ClaimCmd { get; set; }
 
         /// <summary>
-        /// 已经领取过提示
+        /// Has Claimed Tip
         /// </summary>
-        public string HasClaimedTip { get; set; }
+        public required string HasClaimedTip { get; set; }
 
         /// <summary>
-        /// 非VIP提示
+        /// Non Vip Tip
         /// </summary>
-        public string NonVipTip { get; set; }
+        public required string NonVipTip { get; set; }
 
         /// <summary>
-        /// 领取成功提示
+        /// Claim Success Tip
         /// </summary>
-        public string ClaimSuccessTip { get; set; }
+        public required string ClaimSuccessTip { get; set; }
     }
 }

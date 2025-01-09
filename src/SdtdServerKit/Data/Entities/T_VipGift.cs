@@ -23,7 +23,7 @@ namespace SdtdServerKit.Data.Entities
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
 
         /// <summary>
         /// 领取状态, true: 已领取, false: 未领取

@@ -19,7 +19,7 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// 文件名称
         /// </summary>
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
 
         /// <summary>
         /// 大小

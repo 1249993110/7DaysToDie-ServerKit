@@ -14,7 +14,7 @@ namespace SdtdServerKit.Data.Entities
 
         public DateTime CreatedAt { get; set; }
 
-        public string ItemName { get; set; }
+        public required string ItemName { get; set; }
 
         [Column("[Count]")]
         public int Count { get; set; }

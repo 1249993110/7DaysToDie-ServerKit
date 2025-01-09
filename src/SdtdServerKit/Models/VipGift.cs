@@ -13,7 +13,7 @@
         /// <summary>
         /// 礼品名称
         /// </summary>
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
 
         /// <summary>
         /// 领取状态

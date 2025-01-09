@@ -8,12 +8,12 @@
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public string PlayerId { get; set; } = null!;
+        public required string PlayerId { get; set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public string PlayerName { get; set; } = null!;
+        public required string PlayerName { get; set; }
 
         /// <summary>
         /// <inheritdoc/>
@@ -23,7 +23,7 @@
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public string PlatformId { get; set; } = null!;
+        public required string PlatformId { get; set; }
 
         /// <summary>
         /// Gets or sets the position.

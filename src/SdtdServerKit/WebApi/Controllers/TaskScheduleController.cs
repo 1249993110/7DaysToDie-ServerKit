@@ -1,4 +1,6 @@
-﻿using IceCoffee.SimpleCRUD;
+﻿using CronExpressionDescriptor;
+using IceCoffee.SimpleCRUD;
+using SdtdServerKit.Constants;
 using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
 using System.ComponentModel.DataAnnotations;
@@ -13,18 +15,66 @@ namespace SdtdServerKit.WebApi.Controllers
     public class TaskScheduleController : ApiController
     {
         private readonly ITaskScheduleRepository _taskScheduleRepository;
-        private readonly ITaskScheduleCommandRepository _taskScheduleCommandRepository;
         private readonly ICommandListRepository _commandListRepository;
         private readonly Functions.TaskSchedule _taskSchedule;
 
-        public TaskScheduleController(ITaskScheduleRepository taskScheduleRepository, ITaskScheduleCommandRepository taskScheduleCommandRepository, ICommandListRepository commandListRepository, Functions.TaskSchedule taskSchedule)
+        public TaskScheduleController(ITaskScheduleRepository taskScheduleRepository, ICommandListRepository commandListRepository, Functions.TaskSchedule taskSchedule)
         {
             _taskScheduleRepository = taskScheduleRepository;
-            _taskScheduleCommandRepository = taskScheduleCommandRepository;
             _commandListRepository = commandListRepository;
             _taskSchedule = taskSchedule;
         }
 
+        /// <summary>
+        /// Get locale by language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        private static string GetLocale(Language language)
+        {
+            switch (language)
+            {
+                case Language.English:
+                    return "en";
+                case Language.German:
+                    return "de";
+                case Language.Spanish:
+                    return "es";
+                case Language.French:
+                    return "fr";
+                case Language.Italian:
+                    return "it";
+                case Language.Japanese:
+                    return "ja";
+                case Language.Koreana:
+                    return "ko";
+                case Language.Polish:
+                    return "pl";
+                case Language.Brazilian:
+                    return "pt-BR";
+                case Language.Russian:
+                    return "ru";
+                case Language.Turkish:
+                    return "tr";
+                case Language.Schinese:
+                    return "zh-hans";
+                case Language.Tchinese:
+                    return "zh-hant";
+                default:
+                    return "en";
+            }
+        }
+
+        private static string GetExpressionDescription(string cronExpression, Language language)
+        {
+            return ExpressionDescriptor.GetDescription(cronExpression, new Options()
+            {
+                ThrowExceptionOnParseError = false,
+                DayOfWeekStartIndexZero = true,
+                Use24HourTimeFormat = true,
+                Locale = GetLocale(language)
+            });
+        }
 
         /// <summary>
         /// Get all task schedules.
@@ -32,7 +82,7 @@ namespace SdtdServerKit.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<TaskScheduleModel>> GetAll()
+        public async Task<IEnumerable<TaskScheduleModel>> GetAll([FromUri] Language language)
         {
             var result = new List<TaskScheduleModel>();
             var entites = await _taskScheduleRepository.GetAllAsync();
@@ -47,10 +97,12 @@ namespace SdtdServerKit.WebApi.Controllers
                     IsEnabled = item.IsEnabled,
                     LastRunAt = item.LastRunAt,
                     Description = item.Description,
+                    ExpressionDescription = GetExpressionDescription(item.CronExpression, language)
                 });
             }
             return result;
         }
+        
         /// <summary>
         /// Creates a new task schedule.
         /// </summary>
@@ -139,7 +191,10 @@ namespace SdtdServerKit.WebApi.Controllers
             _taskSchedule.RemoveTaskSchedule(id);
 
             int count = await _taskScheduleRepository.DeleteByIdAsync(id);
-
+            if(count == 0)
+            {
+                return NotFound();
+            }
             return Ok(count);
         }
 
@@ -158,7 +213,10 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             int count = await _taskScheduleRepository.DeleteByIdsAsync(ids, true);
-
+            if (count == 0)
+            {
+                return NotFound();
+            }
             return Ok(count);
         }
 

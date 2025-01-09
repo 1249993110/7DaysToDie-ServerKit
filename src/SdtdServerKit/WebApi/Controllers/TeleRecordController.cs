@@ -1,12 +1,11 @@
-﻿using IceCoffee.SimpleCRUD.Dtos;
-using SdtdServerKit.Data.Entities;
+﻿using SdtdServerKit.Data.Entities;
 using SdtdServerKit.Data.IRepositories;
 using System.ComponentModel.DataAnnotations;
 
 namespace SdtdServerKit.WebApi.Controllers
 {
     /// <summary>
-    /// 传送记录
+    /// Tele Record
     /// </summary>
     [Authorize]
     [RoutePrefix("api/TeleRecord")]
@@ -15,53 +14,47 @@ namespace SdtdServerKit.WebApi.Controllers
         private readonly ITeleRecordRepository _repository;
 
         /// <summary>
-        /// 构造方法
+        /// Initializes a new instance of the <see cref="TeleRecordController"/> class.
         /// </summary>
-        /// <param name="teleRecordRepository"></param>
+        /// <param name="teleRecordRepository">The repository for records.</param>
         public TeleRecordController(ITeleRecordRepository teleRecordRepository)
         {
             _repository = teleRecordRepository;
         }
 
         /// <summary>
-        /// 分页获取记录
+        /// Gets all records.
         /// </summary>
-        /// <param name="padeNumber"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
+        /// <returns>A collection of records.</returns>
         [HttpGet]
         [Route("")]
-        public async Task<PagedDto<T_TeleRecord>> Get(int padeNumber, int pageSize)
+        public async Task<IEnumerable<T_TeleRecord>> Get()
         {
-            var data = await _repository.GetPagedListAsync(padeNumber, pageSize);
+            var data = await _repository.GetAllAsync();
             return data;
         }
 
         /// <summary>
-        /// 通过Id删除记录
+        /// Deletes a record by its identifier.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">The identifier of the record to delete.</param>
+        /// <returns>The number of records deleted.</returns>
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IHttpActionResult> Delete(int id)
         {
             int count = await _repository.DeleteByIdAsync(id);
-            if (count == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok();
+            return Ok(count);
         }
 
         /// <summary>
-        /// 批量删除记录
+        /// Deletes multiple records by their identifiers.
         /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
+        /// <param name="ids">The identifiers of the records to delete.</param>
+        /// <returns>The number of records deleted..</returns>
         [HttpDelete]
         [Route("")]
-        public async Task<IHttpActionResult> Delete([MinLength(1)] int[] ids)
+        public async Task<IHttpActionResult> Delete([FromUri, Required, MinLength(1)] int[] ids)
         {
             int count = await _repository.DeleteByIdsAsync(ids, true);
             return Ok(count);

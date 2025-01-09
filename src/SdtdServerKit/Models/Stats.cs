@@ -107,27 +107,27 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// Server Name
         /// </summary>
-        public string ServerName { get; set; } = null!;
+        public required string ServerName { get; set; }
 
         /// <summary>
         /// 地区
         /// </summary>
-        public string Region { get; set; } = null!;
+        public required string Region { get; set; }
 
         /// <summary>
         /// 语言
         /// </summary>
-        public string Language { get; set; } = null!;
+        public required string Language { get; set; }
 
         /// <summary>
         /// Server Version
         /// </summary>
-        public string ServerVersion { get; set; } = null!;
+        public required string ServerVersion { get; set; }
 
         /// <summary>
         /// Server IP
         /// </summary>
-        public string ServerIp { get; set; } = null!;
+        public required string ServerIp { get; set; }
 
         /// <summary>
         /// ServerPort
@@ -137,17 +137,17 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// Game Mode
         /// </summary>
-        public string GameMode { get; set; } = null!;
+        public required string GameMode { get; set; }
 
         /// <summary>
         /// Game World
         /// </summary>
-        public string GameWorld { get; set; } = null!;
+        public required string GameWorld { get; set; }
 
         /// <summary>
         /// Game Name
         /// </summary>
-        public string GameName { get; set; } = null!;
+        public required string GameName { get; set; }
 
         /// <summary>
         /// Game Difficulty

@@ -14,7 +14,7 @@ namespace SdtdServerKit.Data.Entities
 
         public DateTime CreatedAt { get; set; }
 
-        public string Command { get; set; } = null!;
+        public required string Command { get; set; }
 
         public bool InMainThread { get; set; }
 

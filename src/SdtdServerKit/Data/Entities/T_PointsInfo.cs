@@ -12,7 +12,7 @@ namespace SdtdServerKit.Data.Entities
         /// Id
         /// </summary>
         [PrimaryKey]
-        public string Id { get; set; } = null!;
+        public required string Id { get; set; }
 
         /// <summary>
         /// 创建日期

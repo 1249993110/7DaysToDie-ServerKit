@@ -55,16 +55,16 @@ namespace SdtdServerKit.Functions
         }
 
         /// <summary>
-        /// 功能名称
+        /// Function name
         /// </summary>
         public string Name => _functionName;
 
         /// <summary>
-        /// 格式化命令
+        /// Format command
         /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="player"></param>
-        /// <returns></returns>
+        /// <param name="cmd">Command</param>
+        /// <param name="player">Player</param>
+        /// <returns>Formatted command</returns>
         protected virtual string FormatCmd(string cmd, IPlayerBase player)
         {
             return StringTemplate.Render(cmd, new VariablesBase()
@@ -76,11 +76,11 @@ namespace SdtdServerKit.Functions
         }
 
         /// <summary>
-        /// 捕获玩家聊天消息时调用，返回true表示该消息由当前函数处理
+        /// Called when capturing player chat messages, returns true if the message is handled by the current function
         /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="managedPlayer"></param>
-        /// <returns></returns>
+        /// <param name="cmd">Command</param>
+        /// <param name="managedPlayer">Managed player</param>
+        /// <returns>True if the message is handled by the current function</returns>
         protected virtual Task<bool> OnChatCmd(string cmd, ManagedPlayer managedPlayer)
         {
             return Task.FromResult(false);
@@ -103,7 +103,7 @@ namespace SdtdServerKit.Functions
         }
 
         ///// <summary>
-        ///// Enabled function, 无论服务器上是否有玩家, 返回值将设置到 _isRunning
+        ///// Enabled function, regardless of whether there are players on the server, the return value will be set to _isRunning
         ///// </summary>
         //protected virtual bool OnEnableFunctionNonePlayer()
         //{
@@ -113,7 +113,7 @@ namespace SdtdServerKit.Functions
         /// <summary>
         /// If the settings are changed, update the settings and call the protected OnSettingsChanged method
         /// </summary>
-        /// <param name="settings"></param>
+        /// <param name="settings">Settings</param>
         private void OnSettingsChanged(ISettings settings)
         {
             if (settings is TSettings changedSettings)
@@ -135,17 +135,16 @@ namespace SdtdServerKit.Functions
         }
 
         /// <summary>
-        /// 配置改变时调用, 功能初始化时将自动调用一次
+        /// Called when the configuration changes, will be automatically called once during function initialization
         /// </summary>
         protected virtual void OnSettingsChanged()
         {
         }
 
         /// <summary>
-        /// 发送全局消息
+        /// Send global message
         /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
+        /// <param name="message">Message</param>
         protected void SendGlobalMessage(string message)
         {
             Utilities.Utils.SendGlobalMessage(new GlobalMessage()
@@ -156,11 +155,10 @@ namespace SdtdServerKit.Functions
         }
 
         /// <summary>
-        /// 发送私聊消息
+        /// Send private message
         /// </summary>
-        /// <param name="playerIdOrName"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
+        /// <param name="playerIdOrName">Player ID or name</param>
+        /// <param name="message">Message</param>
         protected void SendMessageToPlayer(string playerIdOrName, string message)
         {
             Utilities.Utils.SendPrivateMessage(new PrivateMessage()

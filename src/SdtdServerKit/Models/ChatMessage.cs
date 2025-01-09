@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets or sets the sender's name.
         /// </summary>
-        public string SenderName { get; set; } = null!;
+        public required string SenderName { get; set; }
 
         /// <summary>
         /// Gets or sets the chat type.
@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets the message.
         /// </summary>
-        public string Message { get; set; } = null!;
+        public required string Message { get; set; }
 
         /// <summary>
         /// Gets or sets the creation time.

@@ -2,8 +2,14 @@
 
 namespace SdtdServerKit.Data.Entities
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class T_ChatRecord
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [PrimaryKey, IgnoreUpdate, IgnoreInsert]
         public int Id { get; set; }
 
@@ -13,10 +19,10 @@ namespace SdtdServerKit.Data.Entities
         public int EntityId { get; set; }
         public string? PlayerId { get; set; }
 
-        public string SenderName { get; set; }
+        public required string SenderName { get; set; }
 
         public ChatType ChatType { get; set; }
 
-        public string Message { get; set; }
+        public required string Message { get; set; }
     }
 }

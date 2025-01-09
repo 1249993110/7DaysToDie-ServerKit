@@ -9,13 +9,13 @@
         /// Access Token
         /// </summary>
         [JsonProperty("access_token")]
-        public string AccessToken { get; set; } = null!;
+        public required string AccessToken { get; set; }
 
         /// <summary>
         /// Token Type
         /// </summary>
         [JsonProperty("token_type")]
-        public string TokenType { get; set; } = null!;
+        public required string TokenType { get; set; }
 
         /// <summary>
         /// Expires In

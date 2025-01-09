@@ -5,36 +5,43 @@ using SdtdServerKit.Data.Entities;
 namespace SdtdServerKit.Data.IRepositories
 {
     /// <summary>
-    /// 命令清单仓储
+    /// Command list repository
     /// </summary>
     public interface ICommandListRepository : IRepository<T_CommandList>
     {
         /// <summary>
-        /// 根据商品Id获取命令清单
+        /// Get command list by goods Id
         /// </summary>
-        /// <param name="goodsId"></param>
-        /// <returns></returns>
+        /// <param name="goodsId">The goods Id</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the command list.</returns>
         Task<IEnumerable<T_CommandList>> GetListByGoodsIdAsync(int goodsId);
 
         /// <summary>
-        /// 根据VIP礼包Id获取命令清单
+        /// Get command list by VIP gift Id
         /// </summary>
-        /// <param name="vipGiftId"></param>
-        /// <returns></returns>
+        /// <param name="vipGiftId">The VIP gift Id</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the command list.</returns>
         Task<IEnumerable<T_CommandList>> GetListByVipGiftIdAsync(string vipGiftId);
 
         /// <summary>
-        /// 根据任务调度Id获取命令清单
+        /// Get command list by task schedule Id
         /// </summary>
-        /// <param name="taskScheduleId"></param>
-        /// <returns></returns>
+        /// <param name="taskScheduleId">The task schedule Id</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the command list.</returns>
         Task<IEnumerable<T_CommandList>> GetListByTaskScheduleIdAsync(int taskScheduleId);
 
         /// <summary>
-        /// 分页获取命令清单
+        /// Get paged command list
         /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <param name="dto">The pagination query DTO</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the paged command list.</returns>
         Task<PagedDto<T_CommandList>> GetPagedListAsync(PaginationQueryDto dto);
+
+        /// <summary>
+        /// Get command list by CdKey Id
+        /// </summary>
+        /// <param name="cdKeyId">The CdKey Id</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the command list.</returns>
+        Task<IEnumerable<T_CommandList>> GetListByCdKeyIdAsync(int cdKeyId);
     }
 }

@@ -22,12 +22,12 @@ namespace SdtdServerKit.Data.Entities
         /// <summary>
         /// Gets or sets the name of the task schedule.
         /// </summary>
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the cron expression that defines the schedule.
         /// </summary>
-        public string CronExpression { get; set; } = null!;
+        public required string CronExpression { get; set; }
 
         /// <summary>
         /// Gets or sets the command to be executed.

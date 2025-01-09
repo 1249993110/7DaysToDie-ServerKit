@@ -15,7 +15,7 @@ namespace SdtdServerKit.Models
         /// <summary>
         /// Player Id
         /// </summary>
-        public string Id { get; set; } = null!;
+        public required string Id { get; set; }
 
         /// <summary>
         /// Custom Name

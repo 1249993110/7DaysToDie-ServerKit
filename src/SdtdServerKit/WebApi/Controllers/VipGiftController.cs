@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SdtdServerKit.WebApi.Controllers
 {
     /// <summary>
-    /// 礼品
+    /// Gift
     /// </summary>
     [Authorize]
     [RoutePrefix("api/VipGift")]
@@ -17,11 +17,11 @@ namespace SdtdServerKit.WebApi.Controllers
         private readonly ICommandListRepository _commandListRepository;
 
         /// <summary>
-        /// 构造方法
+        /// Constructor
         /// </summary>
-        /// <param name="vipGiftRepository"></param>
-        /// <param name="itemListRepository"></param>
-        /// <param name="commandListRepository"></param>
+        /// <param name="vipGiftRepository">VIP gift repository</param>
+        /// <param name="itemListRepository">Item list repository</param>
+        /// <param name="commandListRepository">Command list repository</param>
         public VipGiftController(IVipGiftRepository vipGiftRepository, IItemListRepository itemListRepository, ICommandListRepository commandListRepository)
         {
             _vipGiftRepository = vipGiftRepository;
@@ -30,9 +30,10 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 通过Id获取记录
+        /// Get record by Id
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Record Id</param>
+        /// <returns>HTTP action result</returns>
         [HttpGet]
         [Route("{id}")]
         [ResponseType(typeof(T_VipGift))]
@@ -48,9 +49,9 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取所有记录
+        /// Get all records
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of VIP gifts</returns>
         [HttpGet]
         [Route("")]
         public async Task<IEnumerable<T_VipGift>> Get()
@@ -59,9 +60,10 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 新增记录
+        /// Add new record
         /// </summary>
-        /// <returns></returns>
+        /// <param name="model">VIP gift model</param>
+        /// <returns>HTTP action result</returns>
         [HttpPost]
         [Route("")]
         public async Task<IHttpActionResult> Post([FromBody] VipGift model)
@@ -80,9 +82,11 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 通过Id更新记录
+        /// Update record by Id
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Record Id</param>
+        /// <param name="model">VIP gift model</param>
+        /// <returns>HTTP action result</returns>
         [HttpPut]
         [Route("{id}")]
         public async Task<IHttpActionResult> Put(string id, [FromBody] VipGift model)
@@ -97,15 +101,16 @@ namespace SdtdServerKit.WebApi.Controllers
             entity.ClaimState = model.ClaimState;
             entity.TotalClaimCount = model.TotalClaimCount;
             entity.Description = model.Description;
-           
+
             await _vipGiftRepository.UpdateAsync(entity);
             return Ok();
         }
 
         /// <summary>
-        /// 通过Id删除记录
+        /// Delete record by Id
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Record Id</param>
+        /// <returns>HTTP action result</returns>
         [HttpDelete]
         [Route("{id}")]
         public async Task<IHttpActionResult> Delete(string id)
@@ -120,12 +125,12 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 批量删除记录
+        /// Batch delete records
         /// </summary>
-        /// <param name="ids"></param>
-        /// <param name="deleteAll"></param>
-        /// <param name="resetAll"></param>
-        /// <returns></returns>
+        /// <param name="ids">Array of record Ids</param>
+        /// <param name="deleteAll">Flag to delete all records</param>
+        /// <param name="resetAll">Flag to reset all records</param>
+        /// <returns>HTTP action result</returns>
         [HttpDelete]
         [Route("")]
         public async Task<IHttpActionResult> Delete([FromUri] string[]? ids, [FromUri] bool deleteAll = false, [FromUri] bool resetAll = false)
@@ -134,7 +139,7 @@ namespace SdtdServerKit.WebApi.Controllers
 
             if (deleteAll)
             {
-               count = await _vipGiftRepository.DeleteAllAsync(true);
+                count = await _vipGiftRepository.DeleteAllAsync(true);
             }
             else if (resetAll)
             {
@@ -149,10 +154,10 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取礼品关联的物品清单
+        /// Get item list associated with the gift
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Gift Id</param>
+        /// <returns>List of items</returns>
         [HttpGet]
         [Route("{id}/Items")]
         public async Task<IEnumerable<T_ItemList>> GetItems(string id)
@@ -162,11 +167,11 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 修改礼品关联的物品
+        /// Update items associated with the gift
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="itemIds"></param>
-        /// <returns></returns>
+        /// <param name="id">Gift Id</param>
+        /// <param name="itemIds">Array of item Ids</param>
+        /// <returns>HTTP action result</returns>
         [HttpPut]
         [Route("{id}/Items")]
         public async Task<IHttpActionResult> PutItems(string id, [FromBody, Required] int[] itemIds)
@@ -188,19 +193,19 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
-            var userTagRepository = unitOfWork.GetRepository<IVipGiftItemRepository>();
-            await userTagRepository.DeleteByVipGiftIdAsync(id);
-            await userTagRepository.InsertAsync(entities);
+            var vipGiftItemRepository = unitOfWork.GetRepository<IVipGiftItemRepository>();
+            await vipGiftItemRepository.DeleteByVipGiftIdAsync(id);
+            await vipGiftItemRepository.InsertAsync(entities);
             unitOfWork.Commit();
 
             return Ok();
         }
 
         /// <summary>
-        /// 获取礼品关联的命令Id
+        /// Get command list associated with the gift
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Gift Id</param>
+        /// <returns>List of commands</returns>
         [HttpGet]
         [Route("{id}/Commands")]
         public async Task<IEnumerable<T_CommandList>> GetCommands(string id)
@@ -210,11 +215,11 @@ namespace SdtdServerKit.WebApi.Controllers
         }
 
         /// <summary>
-        /// 修改礼品关联的命令
+        /// Update commands associated with the gift
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="itemIds"></param>
-        /// <returns></returns>
+        /// <param name="id">Gift Id</param>
+        /// <param name="itemIds">Array of command Ids</param>
+        /// <returns>HTTP action result</returns>
         [HttpPut]
         [Route("{id}/Commands")]
         public async Task<IHttpActionResult> PutCommands(string id, [FromBody, Required] int[] itemIds)
@@ -236,9 +241,9 @@ namespace SdtdServerKit.WebApi.Controllers
             }
 
             using var unitOfWork = ModApi.ServiceContainer.Resolve<IUnitOfWorkFactory>().Create();
-            var repository = unitOfWork.GetRepository<IVipGiftCommandRepository>();
-            await repository.DeleteByVipGiftIdAsync(id);
-            await repository.InsertAsync(entities);
+            var vipGiftCommandRepository = unitOfWork.GetRepository<IVipGiftCommandRepository>();
+            await vipGiftCommandRepository.DeleteByVipGiftIdAsync(id);
+            await vipGiftCommandRepository.InsertAsync(entities);
             unitOfWork.Commit();
 
             return Ok();

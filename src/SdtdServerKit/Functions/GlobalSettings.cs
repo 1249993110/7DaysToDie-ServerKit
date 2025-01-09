@@ -2,9 +2,6 @@
 using Platform.Steam;
 using SdtdServerKit.HarmonyPatchers;
 using SdtdServerKit.Managers;
-using System.Reflection;
-using UnityEngine.Rendering;
-using static SaveDataPrefsFile;
 
 namespace SdtdServerKit.Functions
 {
@@ -13,8 +10,6 @@ namespace SdtdServerKit.Functions
     /// </summary>
     public class GlobalSettings : FunctionBase<FunctionSettings.GlobalSettings>
     {
-        private readonly SubTimer autoRestartTimer;
-
         private new FunctionSettings.GlobalSettings Settings => ConfigManager.GlobalSettings;
 
         /// <summary>
@@ -25,8 +20,6 @@ namespace SdtdServerKit.Functions
             ModEventHub.EntityKilled += OnEntityKilled;
             ModEventHub.PlayerSpawnedInWorld += OnPlayerSpawnedInWorld;
             ModEventHub.EntitySpawned += OnEntitySpawned;
-            autoRestartTimer = new SubTimer(AutoRestart, 5) { IsEnabled = true };
-            GlobalTimer.RegisterSubTimer(autoRestartTimer);
         }
 
         private void OnEntitySpawned(EntityInfo entityInfo)
@@ -106,29 +99,6 @@ namespace SdtdServerKit.Functions
                 && userIdentifierSteam.OwnerId.Equals(userIdentifierSteam) == false)
             {
                 Utilities.Utils.ExecuteConsoleCommand("kick " + clientInfo.entityId + " \"Family sharing account is not allowed to join the server!\"");
-            }
-        }
-
-        private async void AutoRestart()
-        {
-            DateTime now = DateTime.Now;
-
-            if (Settings.AutoRestart.IsEnabled
-                && now.Hour == Settings.AutoRestart.RestartHour
-                && now.Minute == Settings.AutoRestart.RestartMinute)
-            {
-                autoRestartTimer.IsEnabled = false;
-
-                if (Settings.AutoRestart.Messages != null)
-                {
-                    foreach (var item in Settings.AutoRestart.Messages)
-                    {
-                        SendGlobalMessage(item);
-                        await Task.Delay(1000);
-                    }
-                }
-
-                Utilities.Utils.ExecuteConsoleCommand("ty-rs", true);
             }
         }
 

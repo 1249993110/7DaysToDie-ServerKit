@@ -8,7 +8,7 @@
         /// <summary>
         /// Command
         /// </summary>
-        public string Command { get; set; } = null!;
+        public required string Command { get; set; }
 
         /// <summary>
         /// Permission Level
