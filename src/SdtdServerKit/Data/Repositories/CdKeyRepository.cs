@@ -15,7 +15,7 @@ namespace SdtdServerKit.Data.Repositories
 
         public Task<int> UpdateRedeemCount(int id)
         {
-            string sql = "UPDATE CdKey SET RedeemCount = RedeemCount + 1 WHERE Id=@Id AND RedeemCount < MaxRedeemCount";
+            string sql = "UPDATE CdKey SET RedeemCount = RedeemCount + 1 WHERE Id=@Id AND (MaxRedeemCount <= 0 OR RedeemCount < MaxRedeemCount)";
             return base.ExecuteAsync(sql, param: new { Id = id }, true);
         }
     }

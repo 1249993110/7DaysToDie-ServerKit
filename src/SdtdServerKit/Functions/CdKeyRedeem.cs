@@ -49,7 +49,7 @@ namespace SdtdServerKit.Functions
                 }
 
                 var cdKeyRedeemRecord = await _cdKeyRedeemRecordRepository.GetByKeyAndPlayerIdAsync(cdKey.Key, playerId);
-                if(cdKeyRedeemRecord != null)
+                if (cdKeyRedeemRecord != null)
                 {
                     SendMessageToPlayer(playerId, Settings.HasAlreadyRedeemedTip);
                     return true;
