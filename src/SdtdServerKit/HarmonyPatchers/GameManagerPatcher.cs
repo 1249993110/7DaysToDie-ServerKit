@@ -74,6 +74,16 @@ namespace SdtdServerKit.HarmonyPatchers
                         NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, new List<BlockChangeInfo>() { info }, -1);
                         clientInfo.SendPackage(package);
 
+                        string? message = ConfigManager.GlobalSettings.RemoveSleepingBagFromPoiTip;
+                        if(string.IsNullOrEmpty(message) == false)
+                        {
+                            Utilities.Utils.SendPrivateMessage(new PrivateMessage()
+                            {
+                                Message = message!,
+                                TargetPlayerIdOrName = clientInfo.entityId.ToString(),
+                            });
+                        }
+
                         CustomLogger.Info("Land claim detected on: {0}, {1}", blockPosition.x, blockPosition.z);
                     }
                 }

@@ -21,19 +21,9 @@
         "ty-cpp {EntityId} -1"
       ]
     },
-    "AutoRestart": {
-      "IsEnabled": false,
-      "RestartHour": 4,
-      "RestartMinute": 0,
-      "Messages": [
-        "[00FF00]The server will reboot in 3 seconds...",
-        "[00FF00]The server will reboot in 2 seconds...",
-        "[00FF00]The server will reboot in 1 second...",
-        "[FF0000]Restarting..."
-      ]
-    },
     "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
+    "RemoveSleepingBagFromPoiTip": "You can't place land claim or sleeping bag in POI area.",
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null,
     "EnableAutoZombieCleanup": false,

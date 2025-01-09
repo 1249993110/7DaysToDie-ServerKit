@@ -101,6 +101,11 @@
         public bool RemoveSleepingBagFromPOI { get; set; }
 
         /// <summary>
+        /// Gets or sets the tip for removing sleeping bags from Points of Interest (POI).
+        /// </summary>
+        public string? RemoveSleepingBagFromPoiTip { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to enable player initial spawn point.
         /// </summary>
         public bool IsEnablePlayerInitialSpawnPoint { get; set; }
