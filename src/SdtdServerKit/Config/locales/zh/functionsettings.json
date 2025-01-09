@@ -21,24 +21,15 @@
         "ty-cpp {EntityId} -1"
       ]
     },
-    "AutoRestart": {
-      "IsEnabled": false,
-      "RestartHour": 4,
-      "RestartMinute": 0,
-      "Messages": [
-        "[00FF00]服务器将在 3 秒后重启...",
-        "[00FF00]服务器将在 2 秒后重启...",
-        "[00FF00]服务器将在 1 秒后重启...",
-        "[FF0000]正在重启..."
-      ]
-    },
     "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
+    "RemoveSleepingBagFromPoiTip": "你不能在POI区域放置土地征用块或睡袋。",
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null,
     "EnableAutoZombieCleanup": false,
     "AutoZombieCleanupThreshold": 128,
-    "EnableXmlsSecondaryOverwrite": false
+    "EnableXmlsSecondaryOverwrite": false,
+    "HideCommandInChat": false
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
@@ -137,6 +128,13 @@
     "HasClaimedTip": "[00FF00]您已经领取过礼包了~",
     "NonVipTip": "[00FF00]您还不是VIP哦~",
     "ClaimSuccessTip": "[00FF00]恭喜您成功领取了礼包: {GiftName}"
+  },
+  "CdKeyRedeemSettings": {
+    "IsEnabled": false,
+    "HasAlreadyRedeemedTip": "[00FF00]您已经兑换了此密钥。",
+    "HasReachedMaxRedemptionLimitTip": "[00FF00]已达到最大兑换数量",
+    "HasRedemptionCodeExpiredTip": "[00FF00]兑换码已过期。",
+    "RedeemSuccessTip": "[00FF00]祝贺您成功兑换了密钥。"
   },
   "ColoredChatSettings": {
     "IsEnabled": false,
