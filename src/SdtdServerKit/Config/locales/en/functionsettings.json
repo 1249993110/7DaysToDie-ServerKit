@@ -28,7 +28,8 @@
     "PlayerInitialPosition": null,
     "EnableAutoZombieCleanup": false,
     "AutoZombieCleanupThreshold": 128,
-    "EnableXmlsSecondaryOverwrite": false
+    "EnableXmlsSecondaryOverwrite": false,
+    "HideCommandInChat": false
   },
   "GameNoticeSettings": {
     "IsEnabled": false,

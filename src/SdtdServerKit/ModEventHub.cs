@@ -156,11 +156,6 @@ namespace SdtdServerKit
         /// <returns>True to pass the message on to the next mod or output to chat, false to prevent the message from being passed on or output to chat.</returns>
         public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderEntityId, string message, string mainName, List<int> recipientEntityIds)
         {
-            if (ChatMessage == null)
-            {
-                return true;
-            }
-
             string senderName;
             if (clientInfo == ModApi.CmdExecuteDelegate) 
             {
@@ -196,8 +191,14 @@ namespace SdtdServerKit
                 await PersistentManager.SaveChatMessage(chatMessage);
             });
 
-            ChatMessage.Invoke(chatMessage);
+            ChatMessage?.Invoke(chatMessage);
 
+            if(ConfigManager.GlobalSettings.HideCommandInChat 
+                && string.IsNullOrEmpty(ConfigManager.GlobalSettings.ChatCommandPrefix) == false 
+                && message.StartsWith(ConfigManager.GlobalSettings.ChatCommandPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
             return true;
         }
 

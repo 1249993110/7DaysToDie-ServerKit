@@ -129,5 +129,10 @@
         /// Gets or sets a value indicating whether to enable XMLs secondary overwrites.
         /// </summary>
         public bool EnableXmlsSecondaryOverwrite { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide the command in chat.
+        /// </summary>
+        public bool HideCommandInChat { get; set; }
     }
 }
