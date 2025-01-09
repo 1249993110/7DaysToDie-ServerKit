@@ -21,24 +21,15 @@
         "ty-cpp {EntityId} -1"
       ]
     },
-    "AutoRestart": {
-      "IsEnabled": false,
-      "RestartHour": 4,
-      "RestartMinute": 0,
-      "Messages": [
-        "[00FF00]Il server si riavvierà tra 3 secondi...",
-        "[00FF00]Il server si riavvierà tra 2 secondi...",
-        "[00FF00]Il server si riavvierà tra 1 secondo...",
-        "[FF0000]Riavvio..."
-      ]
-    },
     "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
+    "RemoveSleepingBagFromPoiTip": "You can't place land claim or sleeping bag in POI area.",
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null,
     "EnableAutoZombieCleanup": false,
     "AutoZombieCleanupThreshold": 128,
-    "EnableXmlsSecondaryOverwrite": false
+    "EnableXmlsSecondaryOverwrite": false,
+    "HideCommandInChat": false
   },
   "GameNoticeSettings": {
     "IsEnabled": false,
@@ -137,6 +128,13 @@
     "HasClaimedTip": "[00FF00]Hai ricevuto il regalo package~",
     "NonVipTip": "[00FF00]Non sei ancora un VIP~",
     "ClaimSuccessTip": "[00FF00]Congratulazioni per aver ricevuto con successo il pacchetto regalo: {GiftName}"
+  },
+  "CdKeyRedeemSettings": {
+    "IsEnabled": false,
+    "HasAlreadyRedeemedTip": "[00FF00]You have already redeemed the CD key.",
+    "HasReachedMaxRedemptionLimitTip": "[00FF00]You have reached the maximum redemption limit.",
+    "HasRedemptionCodeExpiredTip": "[00FF00]The redemption code has expired.",
+    "RedeemSuccessTip": "[00FF00]Congratulations on successfully redeeming the CD key."
   },
   "ColoredChatSettings": {
     "IsEnabled": false,
