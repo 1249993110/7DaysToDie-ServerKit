@@ -23,7 +23,7 @@
     },
     "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
-    "RemoveSleepingBagFromPoiTip": "You can't place land claim or sleeping bag in POI area.",
+    "RemoveSleepingBagFromPoiTip": "你不能在POI区域放置土地征用块或睡袋。",
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null,
     "EnableAutoZombieCleanup": false,
@@ -131,10 +131,10 @@
   },
   "CdKeyRedeemSettings": {
     "IsEnabled": false,
-    "HasAlreadyRedeemedTip": "[00FF00]You have already redeemed the CD key.",
-    "HasReachedMaxRedemptionLimitTip": "[00FF00]You have reached the maximum redemption limit.",
-    "HasRedemptionCodeExpiredTip": "[00FF00]The redemption code has expired.",
-    "RedeemSuccessTip": "[00FF00]Congratulations on successfully redeeming the CD key."
+    "HasAlreadyRedeemedTip": "[00FF00]您已经兑换了此密钥。",
+    "HasReachedMaxRedemptionLimitTip": "[00FF00]已达到最大兑换数量",
+    "HasRedemptionCodeExpiredTip": "[00FF00]兑换码已过期。",
+    "RedeemSuccessTip": "[00FF00]祝贺您成功兑换了密钥。"
   },
   "ColoredChatSettings": {
     "IsEnabled": false,
