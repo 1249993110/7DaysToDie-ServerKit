@@ -132,7 +132,7 @@
   "CdKeyRedeemSettings": {
     "IsEnabled": false,
     "HasAlreadyRedeemedTip": "[00FF00]您已经兑换了此密钥。",
-    "HasReachedMaxRedemptionLimitTip": "[00FF00]已达到最大兑换数量",
+    "HasReachedMaxRedemptionLimitTip": "[00FF00]已达到最大兑换数量限制。",
     "HasRedemptionCodeExpiredTip": "[00FF00]兑换码已过期。",
     "RedeemSuccessTip": "[00FF00]祝贺您成功兑换了密钥。"
   },
