@@ -40,7 +40,7 @@ https://youtu.be/8VklfFHeJJ8?t=982
 - Get the latest version [here](https://github.com/1249993110/7DaysToDie-ServerKit/releases).
 
 ### 2. **Place the Release in Your Mods Folder**
-- Extract the downloaded .zip archive file to your `7 Days to Die Dedicated Server\Mods` folder.
+- Extract the downloaded .zip archive file to your `7 Days to Die Dedicated Server/Mods` folder.
 - Here are the server files it needs:
   - 0_TFP_Harmony
   - TFP_CommandExtensions

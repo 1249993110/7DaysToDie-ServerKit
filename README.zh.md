@@ -42,7 +42,7 @@ https://docs.qq.com/doc/DYlJlVmpaWmZKUHFt
 - 从 [此处](https://github.com/1249993110/7DaysToDie-ServerKit/releases) 获取最新版本。
 
 ### 2. **将版本放入您的 Mods 文件夹中**
-- 将下载的 .zip 存档文件解压到您的 `7 Days to Die Dedicated Server\Mods` 文件夹中。
+- 将下载的 .zip 存档文件解压到您的 `7 Days to Die Dedicated Server/Mods` 文件夹中。
 - 以下是所需的服务器文件：
 - 0_TFP_Harmony
 - TFP_CommandExtensions
