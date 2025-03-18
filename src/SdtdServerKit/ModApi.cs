@@ -291,7 +291,35 @@ namespace SdtdServerKit
         /// Get the map tile cache.
         /// </summary>
         /// <returns>The map tile cache.</returns>
-        internal static MapTileCache? MapTileCache { get; private set; }
+        internal static MapTileCache? MapTileCache 
+        {
+            get 
+            {
+                if(_mapTileCache != null)
+                {
+                    return _mapTileCache;
+                }
+
+                try
+                {
+                    string[] files = Directory.GetFiles(ModManager.ModsBasePath, "MapRendering.dll", SearchOption.AllDirectories);
+                    if(files.Length == 0)
+                    {
+                        CustomLogger.Warn("It is detected that TFP Mod is not installed, some functions may not be available.");
+                        return null;
+                    }
+
+                    _mapTileCache = (MapTileCache)MapRenderer.GetTileCache();
+                }
+                catch (Exception ex)
+                {
+                    CustomLogger.Error(ex, "Load map tile cache failed, Please do not delete the default mod, You can verify the integrity of the game to solve this problem.");
+                }
+
+                return null; 
+            } 
+        }
+        private static MapTileCache? _mapTileCache;
         private static void RegisterModEventHandlers()
         {
             try
@@ -322,15 +350,7 @@ namespace SdtdServerKit
         {
             WorldStaticDataHook.ReplaceXmls();
             GlobalTimer.RegisterSubTimer(new SubTimer(SkyChangeTrigger.Callback, 1) { IsEnabled = true });
-            try
-            {
-                MapTileCache = (MapTileCache)MapRenderer.GetTileCache();
-            }
-            catch (Exception ex)
-            {
-                CustomLogger.Error(ex, "Load map tile cache failed, Please do not delete the default mod, You can verify the integrity of the game to solve this problem.");
-            }
-
+            
             FunctionManager.Init();
 
             IsGameStartDone = true;
