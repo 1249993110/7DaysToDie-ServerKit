@@ -111,6 +111,11 @@
         public bool IsEnablePlayerInitialSpawnPoint { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public bool EnableFallingBlockProtection { get; set; }
+
+        /// <summary>
         /// Gets or sets the player's initial position.
         /// </summary>
         public string PlayerInitialPosition { get; set; }
