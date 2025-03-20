@@ -91,6 +91,19 @@ namespace SdtdServerKit.Functions
                     ModApi.Harmony.Unpatch(original, patch);
                 }
             }
+
+            {
+                var original = AccessTools.Method(typeof(World), nameof(World.AddFallingBlock));
+                var patch = AccessTools.Method(typeof(WorldPatcher), nameof(WorldPatcher.Before_AddFallingBlock));
+                if (Settings.EnableFallingBlockProtection)
+                {
+                    ModApi.Harmony.Patch(original, prefix: new HarmonyMethod(patch));
+                }
+                else
+                {
+                    ModApi.Harmony.Unpatch(original, patch);
+                }
+            }
         }
 
         private void BlockFamilySharingAccount(ClientInfo clientInfo)
