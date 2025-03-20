@@ -80,6 +80,14 @@ namespace SdtdServerKit.WebApi.Controllers
         #endregion
 
         #region HistoryPlayers
+        [HttpGet]
+        [Route("HistoryPlayerIds")]
+        public IEnumerable<PlayerBase> GettHistoryPlayerIds()
+        {
+            var persistentPlayerMap = GameManager.Instance.persistentPlayers.Players;
+            return persistentPlayerMap.Values.Select(i => new PlayerBase(i.PrimaryId.CombinedString, i.PlayerName.DisplayName, i.EntityId, i.NativeId.CombinedString));
+        }
+
         /// <summary>
         /// 分页获取历史玩家
         /// </summary>
