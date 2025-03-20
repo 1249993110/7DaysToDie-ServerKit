@@ -1,4 +1,5 @@
 @echo off
+chcp 65001
 setlocal enabledelayedexpansion
 
 echo Attempting to restart the server...
@@ -20,4 +21,4 @@ if %errorlevel% neq 0 (
 )
 
 echo Server restart operation completed！
-pause /b 0
+:exit
