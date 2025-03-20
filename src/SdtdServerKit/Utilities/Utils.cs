@@ -195,7 +195,7 @@
         /// <exception cref="Exception"></exception>
         public static string FormatCommandArgs(string? args)
         {
-            if (args == null)
+            if (args == null || args.Length == 0)
             {
                 return string.Empty;
             }
