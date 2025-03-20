@@ -1,12 +1,23 @@
 @echo off
-echo "try restart server"
-if %1.==. (goto error) ELSE (goto restart)
-:restart
-taskkill /f /pid %1 >nul
-timeout /t 3 /nobreak >nul
-start "" %2 >nul
-echo "restart complete"
-goto exit
-:error
-echo "Oops... something went wrong!"
-:exit
+setlocal enabledelayedexpansion
+
+echo Attempting to restart the server...
+tasklist /fi "PID eq %~1" | findstr "%~1" >nul
+if %errorlevel% equ 0 (
+    taskkill /f /pid %~1 >nul 2>&1
+    if !errorlevel! equ 0 (
+        echo Process %~1 terminated
+    ) else (
+        echo Err：Process termination failed（Insufficient permissions?）
+    )
+    timeout /t 2 /nobreak >nul
+)
+
+start "" /D "%~dp2" "%~nx2" >nul
+if %errorlevel% neq 0 (
+    echo Err：Failed to start server [%~2]
+    exit /b 1
+)
+
+echo Server restart operation completed！
+pause /b 0
