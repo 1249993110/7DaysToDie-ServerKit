@@ -23,7 +23,7 @@
     },
     "BlockFamilySharingAccount": false,
     "RemoveSleepingBagFromPOI": false,
-    "RemoveSleepingBagFromPoiTip": "You can't place land claim or sleeping bag in POI area.",
+    "RemoveSleepingBagFromPoiTip": "You can't place a land claim or sleeping bag in a POI area.",
     "IsEnablePlayerInitialSpawnPoint": false,
     "PlayerInitialPosition": null,
     "EnableAutoZombieCleanup": false,
@@ -131,10 +131,10 @@
   },
   "CdKeyRedeemSettings": {
     "IsEnabled": false,
-    "HasAlreadyRedeemedTip": "[00FF00]You have already redeemed the CD key.",
-    "HasReachedMaxRedemptionLimitTip": "[00FF00]You have reached the maximum redemption limit.",
-    "HasRedemptionCodeExpiredTip": "[00FF00]The redemption code has expired.",
-    "RedeemSuccessTip": "[00FF00]Congratulations on successfully redeeming the CD key."
+    "HasAlreadyRedeemedTip": "[00FF00] You have already redeemed the CD key.",
+    "HasReachedMaxRedemptionLimitTip": "[00FF00] You have reached the maximum redemption limit.",
+    "HasRedemptionCodeExpiredTip": "[00FF00] The redemption code has expired.",
+    "RedeemSuccessTip": "[00FF00] You have successfully redeemed the CD key."
   },
   "ColoredChatSettings": {
     "IsEnabled": false,
