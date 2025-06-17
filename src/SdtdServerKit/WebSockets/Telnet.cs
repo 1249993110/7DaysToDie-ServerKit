@@ -66,7 +66,7 @@ namespace SdtdServerKit.WebSockets
             stringBuilder.AppendLine("Game name:   " + GamePrefs.GetString(EnumGamePrefs.GameName));
             stringBuilder.AppendLine("Difficulty:  " + GamePrefs.GetInt(EnumGamePrefs.GameDifficulty).ToString());
             stringBuilder.AppendLine(string.Empty);
-            stringBuilder.AppendLine("Press 'help' to get a list of all commands. Press 'exit' to end session.");
+            stringBuilder.AppendLine("Press 'help' to get a list of all commands.");
             stringBuilder.AppendLine(string.Empty);
 
             string json = JsonConvert.SerializeObject(new WebSocketMessage<string>(ModEventType.Welcome, stringBuilder.ToString()), ModApi.JsonSerializerSettings);
