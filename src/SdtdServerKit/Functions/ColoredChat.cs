@@ -2,6 +2,7 @@
 using SdtdServerKit.FunctionSettings;
 using SdtdServerKit.Managers;
 using SdtdServerKit.Models;
+using static ModEvents;
 
 namespace SdtdServerKit.Functions
 {
@@ -36,8 +37,16 @@ namespace SdtdServerKit.Functions
             }
         }
 
-        private bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderEntityId, string message, string mainName, List<int> recipientEntityIds)
+        //private bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderEntityId, string message, string mainName, List<int> recipientEntityIds)
+        private EModEventResult OnChatMessage(ref SChatMessageData sChatMessageData)
         {
+            var clientInfo = sChatMessageData.ClientInfo;
+            string message = sChatMessageData.Message;
+            int senderEntityId = sChatMessageData.SenderEntityId;
+            string? mainName = sChatMessageData.MainName;
+            EChatType eChatType = sChatMessageData.ChatType;
+            var recipientEntityIds = sChatMessageData.RecipientEntityIds;
+
             if (LivePlayerManager.TryGetByEntityId(senderEntityId, out var managedPlayer) && managedPlayer != null)
             {
                 string playerName = managedPlayer.PlayerName;
@@ -64,20 +73,20 @@ namespace SdtdServerKit.Functions
                         if (LivePlayerManager.TryGetByEntityId(entityId, out var recipientPlayer))
                         {
                             recipientPlayer!.ClientInfo.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
-                                .Setup(eChatType, senderEntityId, message, null, EMessageSender.None));
+                                .Setup(eChatType, senderEntityId, message, null, EMessageSender.None, GeneratedTextManager.BbCodeSupportMode.Supported));
                         }
                     }
                 }
                 else
                 {
                     ConnectionManager.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
-                        .Setup(eChatType, senderEntityId, message, null, EMessageSender.None), true, -1, -1, -1, null, 192);
+                        .Setup(eChatType, senderEntityId, message, null, EMessageSender.None, GeneratedTextManager.BbCodeSupportMode.Supported), true, -1, -1, -1, null, 192);
                 }
 
-                return false;
+                return EModEventResult.StopHandlersAndVanilla;
             }
 
-            return true;
+            return EModEventResult.Continue;
         }
 
         private string GetDefaultColor(EChatType eChatType)

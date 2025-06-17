@@ -125,6 +125,10 @@
 			<Private>false</Private>
 			<HintPath>7dtd-binaries\UnityEngine.CoreModule.dll</HintPath>
 		</Reference>
+		<Reference Include="UnityEngine.AnimationModule">
+			<Private>false</Private>
+			<HintPath>7dtd-binaries\UnityEngine.AnimationModule.dll</HintPath>
+		</Reference>
 		<Reference Include="LogLibrary">
 			<Private>false</Private>
 			<HintPath>7dtd-binaries\LogLibrary.dll</HintPath>

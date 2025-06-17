@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Windows;
 using Webserver.WebAPI.APIs.WorldState;
+using static ModEvents;
 
 namespace SdtdServerKit
 {
@@ -105,7 +106,7 @@ namespace SdtdServerKit
         /// <summary>
         /// Runs once when the server is ready for interaction and GameManager.Instance.World is set.
         /// </summary>
-        public static void OnGameAwake()
+        public static void OnGameAwake(ref SGameAwakeData sGameAwakeData)
         {
             GameAwake?.Invoke();
         }
@@ -113,7 +114,7 @@ namespace SdtdServerKit
         /// <summary>
         /// Runs once when the server is ready for players to join.
         /// </summary>
-        public static void OnGameStartDone()
+        public static void OnGameStartDone(ref SGameStartDoneData sGameStartDoneData)
         {
             GameStartDone?.Invoke();
         }
@@ -130,7 +131,7 @@ namespace SdtdServerKit
         /// <summary>
         /// Runs once when the server is about to shut down.
         /// </summary>
-        public static void OnGameShutdown()
+        public static void OnGameShutdown(ref SGameShutdownData sGameShutdownData)
         {
             GameShutdown?.Invoke();
         }
@@ -154,8 +155,15 @@ namespace SdtdServerKit
         /// <param name="mainName">The main name.</param>
         /// <param name="recipientEntityIds">The recipient entity IDs.</param>
         /// <returns>True to pass the message on to the next mod or output to chat, false to prevent the message from being passed on or output to chat.</returns>
-        public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderEntityId, string message, string mainName, List<int> recipientEntityIds)
+        //public static bool OnChatMessage(ClientInfo? clientInfo, EChatType eChatType, int senderEntityId, string message, string mainName, List<int> recipientEntityIds)
+        public static EModEventResult OnChatMessage(ref SChatMessageData sChatMessageData)
         {
+            var clientInfo = sChatMessageData.ClientInfo;
+            string message = sChatMessageData.Message;
+            int senderEntityId = sChatMessageData.SenderEntityId;
+            string? mainName = sChatMessageData.MainName;
+            EChatType eChatType = sChatMessageData.ChatType;
+
             string senderName;
             if (clientInfo == ModApi.CmdExecuteDelegate) 
             {
@@ -197,9 +205,9 @@ namespace SdtdServerKit
                 && string.IsNullOrEmpty(ConfigManager.GlobalSettings.ChatCommandPrefix) == false 
                 && message.StartsWith(ConfigManager.GlobalSettings.ChatCommandPrefix, StringComparison.OrdinalIgnoreCase))
             {
-                return false;
+                return EModEventResult.StopHandlersAndVanilla;
             }
-            return true;
+            return EModEventResult.Continue;
         }
 
         /// <summary>
@@ -207,8 +215,11 @@ namespace SdtdServerKit
         /// </summary>
         /// <param name="victim">The killed entity.</param>
         /// <param name="killer">The entity that killed the entity.</param>
-        public static void OnEntityKilled(Entity victim, Entity killer)
+        //public static void OnEntityKilled(Entity victim, Entity killer)
+        public static void OnEntityKilled(ref SEntityKilledData sEntityKilledData)
         {
+            var victim = sEntityKilledData.KilledEntitiy;
+            var killer = sEntityKilledData.KillingEntity;
             if (EntityKilled == null)
             {
                 return;
@@ -263,8 +274,10 @@ namespace SdtdServerKit
         /// </summary>
         /// <param name="clientInfo">The client info.</param>
         /// <param name="shutdown">Indicates if the server is shutting down.</param>
-        public static void OnPlayerDisconnected(ClientInfo clientInfo, bool shutdown)
+        //public static void OnPlayerDisconnected(ClientInfo clientInfo, bool shutdown)
+        public static void OnPlayerDisconnected(ref SPlayerDisconnectedData sPlayerDisconnectedData)
         {
+            var clientInfo = sPlayerDisconnectedData.ClientInfo;
             if (LivePlayerManager.TryGetByEntityId(clientInfo.entityId, out var managedPlayer))
             {
                 LivePlayerManager.Remove(clientInfo);
@@ -284,15 +297,17 @@ namespace SdtdServerKit
         /// <param name="compatibilityVersion">The compatibility version.</param>
         /// <param name="stringBuilder">The string builder.</param>
         /// <returns>True to allow the player to log in, false otherwise.</returns>
-        public static bool OnPlayerLogin(ClientInfo clientInfo, string compatibilityVersion, StringBuilder stringBuilder)
+        //public static bool OnPlayerLogin(ClientInfo clientInfo, string compatibilityVersion, StringBuilder stringBuilder)
+        public static EModEventResult OnPlayerLogin(ref SPlayerLoginData sPlayerLoginData)
         {
+            var clientInfo = sPlayerLoginData.ClientInfo;
             var playerBase = new PlayerBase(
                 clientInfo.InternalId.CombinedString,
                 clientInfo.playerName,
                 clientInfo.entityId,
                 clientInfo.PlatformId.CombinedString);
             PlayerLogin?.Invoke(playerBase);
-            return true;
+            return EModEventResult.Continue;
         }
 
         /// <summary>
@@ -301,16 +316,18 @@ namespace SdtdServerKit
         /// <param name="clientInfo">The client info.</param>
         /// <param name="respawnType">The respawn type.</param>
         /// <param name="position">The position.</param>
-        public static void OnPlayerSpawnedInWorld(ClientInfo clientInfo, RespawnType respawnType, Vector3i position)
+        //public static void OnPlayerSpawnedInWorld(ClientInfo clientInfo, RespawnType respawnType, Vector3i position)
+        public static void OnPlayerSpawnedInWorld(ref SPlayerSpawnedInWorldData sPlayerSpawnedInWorldData)
         {
+            var clientInfo = sPlayerSpawnedInWorldData.ClientInfo;
             var spawnedPlayer = new SpawnedPlayer()
             {
                 EntityId = clientInfo.entityId,
                 PlayerId = clientInfo.InternalId.CombinedString,
                 PlayerName = clientInfo.playerName,
                 PlatformId = clientInfo.PlatformId.CombinedString,
-                RespawnType = (Models.RespawnType)respawnType,
-                Position = position.ToPosition(),
+                RespawnType = (Models.RespawnType)sPlayerSpawnedInWorldData.RespawnType,
+                Position = sPlayerSpawnedInWorldData.Position.ToPosition(),
             };
             PlayerSpawnedInWorld?.Invoke(spawnedPlayer);
         }
@@ -321,8 +338,10 @@ namespace SdtdServerKit
         /// <param name="clientInfo">The client info.</param>
         /// <param name="chunkViewDim">The chunk view dimension.</param>
         /// <param name="playerProfile">The player profile.</param>
-        public static void OnPlayerSpawning(ClientInfo clientInfo, int chunkViewDim, PlayerProfile playerProfile)
+        //public static void OnPlayerSpawning(ClientInfo clientInfo, int chunkViewDim, PlayerProfile playerProfile)
+        public static void OnPlayerSpawning(ref SPlayerSpawningData sPlayerSpawningData)
         {
+            var clientInfo = sPlayerSpawningData.ClientInfo;
             var managedPlayer = LivePlayerManager.Add(clientInfo);
             PlayerSpawning?.Invoke(managedPlayer);
         }
@@ -333,8 +352,10 @@ namespace SdtdServerKit
         /// </summary>
         /// <param name="clientInfo">The client info.</param>
         /// <param name="pdf">The player data file.</param>
-        public static void OnSavePlayerData(ClientInfo clientInfo, PlayerDataFile pdf)
+        //public static void OnSavePlayerData(ClientInfo clientInfo, PlayerDataFile pdf)
+        public static void OnSavePlayerData(ref SSavePlayerDataData sSavePlayerDataData)
         {
+            var clientInfo = sSavePlayerDataData.ClientInfo;
             if (LivePlayerManager.TryGetByEntityId(clientInfo.entityId, out var managedPlayer))
             {
                 SavePlayerData?.Invoke(managedPlayer!);
