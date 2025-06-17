@@ -227,7 +227,7 @@ namespace SdtdServerKit
                         EntityId = diedPlayer.entityId,
                         EntityName = diedPlayer.EntityName,
                         Position = diedPlayer.position.ToPosition(),
-                        EntityType = Models.EntityType.OfflinePlayer
+                        EntityType = Models.EntityType.OnlinePlayer
                     };
                 }
                 else if (victim is EntityAlive diedEntity && victim.IsClientControlled() == false)
