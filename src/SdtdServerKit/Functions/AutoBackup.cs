@@ -1,6 +1,11 @@
-﻿using SdtdServerKit.FunctionSettings;
-using SdtdServerKit.Managers;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Threading;
+using SdtdServerKit.FunctionSettings;
+using SdtdServerKit.Managers;
 
 namespace SdtdServerKit.Functions
 {
@@ -50,6 +55,7 @@ namespace SdtdServerKit.Functions
             _timer.Interval = Settings.Interval;
             _timer.IsEnabled = Settings.IsEnabled;
         }
+
         private void OnPlayerDisconnected(ManagedPlayer player)
         {
             _lastServerStateChange = DateTime.Now;
@@ -61,9 +67,7 @@ namespace SdtdServerKit.Functions
             {
                 switch (spawnedPlayer.RespawnType)
                 {
-                    // New player spawning
                     case Models.RespawnType.EnterMultiplayer:
-                    // Old player spawning
                     case Models.RespawnType.JoinMultiplayer:
                         _lastServerStateChange = DateTime.Now;
                         break;
@@ -80,7 +84,11 @@ namespace SdtdServerKit.Functions
             try
             {
                 DateTime now = DateTime.Now;
-                if(Settings.SkipIfThereAreNoPlayers && LivePlayerManager.Count == 0 && (now - _lastServerStateChange).TotalSeconds > Settings.Interval)
+                if (
+                    Settings.SkipIfThereAreNoPlayers
+                    && LivePlayerManager.Count == 0
+                    && (now - _lastServerStateChange).TotalSeconds > Settings.Interval
+                )
                 {
                     CustomLogger.Info("AutoBackup: Skipped because there are no players.");
                     return;
@@ -96,59 +104,181 @@ namespace SdtdServerKit.Functions
 
         private void ExecuteInternal()
         {
+            string tempDir = null;
             try
             {
                 string backupSrcPath = GameIO.GetSaveGameDir();
                 string backupDestPath = Settings.ArchiveFolder;
-                if (Path.IsPathRooted(backupDestPath) == false)
+
+                if (!Path.IsPathRooted(backupDestPath))
                 {
-                    backupDestPath = Path.Combine(AppContext.BaseDirectory, Settings.ArchiveFolder);
+                    backupDestPath = Path.Combine(AppContext.BaseDirectory, backupDestPath);
                 }
-                
+
                 Directory.CreateDirectory(backupDestPath);
 
-                // 服务端版本、游戏世界、游戏名称、游戏时间
-                string serverVersion = global::Constants.cVersionInformation.LongString.Replace('_', ' ');
-                string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld).Replace('_', ' ');
-                string gameName = GamePrefs.GetString(EnumGamePrefs.GameName).Replace('_', ' ');
+                tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                Directory.CreateDirectory(tempDir);
 
-                var worldTime = GameManager.Instance.World.GetWorldTime();
-                int days = GameUtils.WorldTimeToDays(worldTime);
-                int hours = GameUtils.WorldTimeToHours(worldTime);
-                int minutes = GameUtils.WorldTimeToMinutes(worldTime);
+                CopyDirectoryWithRetry(backupSrcPath, tempDir, maxRetries: 3, retryDelayMs: 500);
 
-                string title = $"{serverVersion}_{gameWorld}_{gameName}_Day{days}_Hour{hours}";
-                string archiveFileName = Path.Combine(backupDestPath, $"{title}.zip");
-
+                string archiveFileName = GenerateArchiveFileName(backupDestPath);
                 if (File.Exists(archiveFileName))
                 {
                     CustomLogger.Info("AutoBackup: Backup already exists: {0}", archiveFileName);
                     return;
                 }
 
-                ZipFile.CreateFromDirectory(backupSrcPath, archiveFileName, System.IO.Compression.CompressionLevel.Optimal, true);
+                ZipFile.CreateFromDirectory(
+                    sourceDirectoryName: tempDir,
+                    destinationArchiveFileName: archiveFileName,
+                    compressionLevel: CompressionLevel.Optimal,
+                    includeBaseDirectory: false
+                );
+
                 CustomLogger.Info("AutoBackup: Backup created: {0}", archiveFileName);
 
-                if (Settings.RetainedFileCountLimit > 0)
-                {
-                    string[] files = Directory.GetFiles(backupDestPath, "*.zip");
-                    int count = files.Length - Settings.RetainedFileCountLimit;
-                    if (count > 0)
-                    {
-                        // 根据文件的创建日期对文件进行排序
-                        var oldestFiles = files.Select(i => new FileInfo(i)).OrderBy(f => f.CreationTime).Take(count);
-                        foreach (var oldestFile in oldestFiles)
-                        {
-                            CustomLogger.Info("AutoBackup: Deleting file: {0}, CreatedAt: {1}", oldestFile.Name, oldestFile.CreationTime);
-                            // 删除最旧的文件
-                            oldestFile.Delete();
-                        }
-                    }
-                }
+                ApplyRetentionPolicy(backupDestPath);
             }
             catch (Exception ex)
             {
                 CustomLogger.Warn(ex, "Error in AutoBackup.ExecuteInternal");
+            }
+            finally
+            {
+                try
+                {
+                    if (tempDir != null && Directory.Exists(tempDir))
+                    {
+                        Directory.Delete(tempDir, recursive: true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CustomLogger.Warn(ex, "Error cleaning temp directory");
+                }
+            }
+        }
+
+        // 服务端版本、游戏世界、游戏名称、游戏时间
+        private string GenerateArchiveFileName(string backupDestPath)
+        {
+            string serverVersion = global::Constants.cVersionInformation.LongString.Replace(
+                '_',
+                ' '
+            );
+            string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld).Replace('_', ' ');
+            string gameName = GamePrefs.GetString(EnumGamePrefs.GameName).Replace('_', ' ');
+
+            var worldTime = GameManager.Instance.World.GetWorldTime();
+            int days = GameUtils.WorldTimeToDays(worldTime);
+            int hours = GameUtils.WorldTimeToHours(worldTime);
+
+            string title = $"{serverVersion}_{gameWorld}_{gameName}_Day{days}_Hour{hours}";
+            return Path.Combine(backupDestPath, $"{title}.zip");
+        }
+
+        private void CopyDirectoryWithRetry(
+            string sourceDir,
+            string targetDir,
+            int maxRetries,
+            int retryDelayMs
+        )
+        {
+            foreach (
+                string dirPath in Directory.GetDirectories(
+                    sourceDir,
+                    "*",
+                    SearchOption.AllDirectories
+                )
+            )
+            {
+                string relativePath = GetRelativePath(dirPath, sourceDir);
+                string newDir = Path.Combine(targetDir, relativePath);
+                Directory.CreateDirectory(newDir);
+            }
+
+            foreach (
+                string filePath in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories)
+            )
+            {
+                string relativePath = GetRelativePath(filePath, sourceDir);
+                string destPath = Path.Combine(targetDir, relativePath);
+
+                int retryCount = 0;
+                while (retryCount < maxRetries)
+                {
+                    try
+                    {
+                        using (
+                            FileStream sourceStream = new FileStream(
+                                filePath,
+                                FileMode.Open,
+                                FileAccess.Read,
+                                FileShare.ReadWrite
+                            )
+                        )
+                        {
+                            using (FileStream destStream = File.Create(destPath))
+                            {
+                                sourceStream.CopyTo(destStream);
+                            }
+                        }
+                        break;
+                    }
+                    catch (IOException ex) when (retryCount < maxRetries - 1)
+                    {
+                        CustomLogger.Warn(
+                            $"Failed to copy {filePath}, retry {retryCount + 1}/{maxRetries}: {ex.Message}"
+                        );
+                        Thread.Sleep(retryDelayMs);
+                        retryCount++;
+                    }
+                }
+
+                if (retryCount == maxRetries)
+                {
+                    throw new IOException($"Failed to copy {filePath} after {maxRetries} attempts");
+                }
+            }
+        }
+
+        private string GetRelativePath(string fullPath, string basePath)
+        {
+            if (!basePath.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                basePath += Path.DirectorySeparatorChar;
+            }
+            return fullPath.Replace(basePath, "");
+        }
+
+        private void ApplyRetentionPolicy(string backupDestPath)
+        {
+            if (Settings.RetainedFileCountLimit <= 0)
+                return;
+            // 根据文件的创建日期对文件进行排序
+            var files = Directory
+                .GetFiles(backupDestPath, "*.zip")
+                .Select(f => new FileInfo(f))
+                .OrderBy(f => f.CreationTime)
+                .ToList();
+
+            int removeCount = files.Count - Settings.RetainedFileCountLimit;
+            if (removeCount > 0)
+            {
+                foreach (var file in files.Take(removeCount))
+                {
+                    try
+                    {
+                        // 删除最旧的文件
+                        file.Delete();
+                        CustomLogger.Info("AutoBackup: Deleted old backup: {0}", file.Name);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomLogger.Warn(ex, $"Failed to delete old backup: {file.Name}");
+                    }
+                }
             }
         }
 
@@ -158,12 +288,11 @@ namespace SdtdServerKit.Functions
         public void ManualBackup()
         {
             ExecuteInternal();
-            if(Settings.ResetIntervalAfterManualBackup)
+            if (Settings.ResetIntervalAfterManualBackup)
             {
                 _timer.IsEnabled = false;
                 _timer.IsEnabled = Settings.IsEnabled;
             }
         }
-
     }
 }
