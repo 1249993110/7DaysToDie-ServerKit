@@ -26,7 +26,7 @@
                 {
                     Health = stats.Health.Value,
                     Stamina = stats.Stamina.Value,
-                    CoreTemp = stats.CoreTemp.Value,
+                    //CoreTemp = stats.CoreTemp.Value,
                     Food = stats.Food.Value,
                     Water = stats.Water.Value
                 };
@@ -62,7 +62,7 @@
             DistanceWalked = playerDataFile.distanceWalked;
             TotalItemsCrafted = playerDataFile.totalItemsCrafted;
             LongestLife = playerDataFile.longestLife;
-            CurrentLife = playerDataFile.ecd.health;
+            CurrentLife = playerDataFile.currentLife;
             TotalTimePlayed = playerDataFile.totalTimePlayed;
             RentedVMPosition = playerDataFile.rentedVMPosition.ToPosition();
             RentalEndTime = playerDataFile.rentalEndTime;
