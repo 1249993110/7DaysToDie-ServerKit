@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using Noemax.GZip;
 using SdtdServerKit.Managers;
-using static LightingAround;
 
 namespace SdtdServerKit.HarmonyPatchers
 {
@@ -115,20 +114,22 @@ namespace SdtdServerKit.HarmonyPatchers
 
             List<BlockChangeInfo>? returned = null;
 
-            foreach (var info in _blocksToChange.ToList())
+            foreach (var info in _blocksToChange.ToList()) // Clone the list to avoid modifying it while iterating
             {
                 if (ConfigManager.GlobalSettings.EnableTraderAreaProtection)
                 {
                     if (world.IsWithinTraderArea(info.pos))
                     {
-                        if (info.blockValue.damage != 0 || info.blockValue.Equals(world.GetBlock(info.pos)) == false)
+                        var tag = info.blockValue.Block.BlockTag;
+                        bool isDoorOrWindow = tag == BlockTags.Door || tag == BlockTags.ClosetDoor || tag == BlockTags.Window;
+                        if (isDoorOrWindow && info.blockValue.Equals(world.GetBlock(info.pos)))
                         {
-                            message = ConfigManager.GlobalSettings.TraderAreaProtectionTip;
-                            goto B;
+                            continue;
                         }
                         else
                         {
-                            continue;
+                            message = ConfigManager.GlobalSettings.TraderAreaProtectionTip;
+                            goto B;
                         }
                     }
                 }
@@ -177,34 +178,41 @@ namespace SdtdServerKit.HarmonyPatchers
 
         public static void After_Explosion_AttackBlocks(Explosion __instance)
         {
-            List<BlockChangeInfo>? returned = null;
-            string? message = null;
-            PersistentPlayerData playerDataFromEntityID = GameManager.Instance.persistentPlayers.GetPlayerDataFromEntityID(__instance.entityId);
-            foreach (var pos in __instance.ChangedBlockPositions.Keys.ToList())
+            try
             {
-                if (GameManager.Instance.World.CanPlaceBlockAt(pos, playerDataFromEntityID, true) == false)
+                List<BlockChangeInfo>? returned = null;
+                string? message = null;
+                PersistentPlayerData playerDataFromEntityID = GameManager.Instance.persistentPlayers.GetPlayerDataFromEntityID(__instance.entityId);
+                foreach (var pos in __instance.ChangedBlockPositions.Keys.ToList())
                 {
-                    returned ??= new List<BlockChangeInfo>();
-                    returned.Add(new BlockChangeInfo(__instance.clrIdx, pos, GameManager.Instance.World.GetBlock(pos)));
+                    if (GameManager.Instance.World.CanPlaceBlockAt(pos, playerDataFromEntityID, true) == false)
+                    {
+                        returned ??= new List<BlockChangeInfo>();
+                        returned.Add(new BlockChangeInfo(__instance.clrIdx, pos, GameManager.Instance.World.GetBlock(pos)));
 
-                    __instance.ChangedBlockPositions.Remove(pos);
-                    message = ConfigManager.GlobalSettings.LandClaimProtectionTip;
+                        __instance.ChangedBlockPositions.Remove(pos);
+                        message = ConfigManager.GlobalSettings.LandClaimProtectionTip;
+                    }
+                }
+
+                if (returned != null && returned.Count > 0)
+                {
+                    NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, returned, -1);
+                    ConnectionManager.Instance.Clients.ForEntityId(__instance.entityId)?.SendPackage(package);
+                }
+
+                if (string.IsNullOrEmpty(message) == false)
+                {
+                    Utilities.Utils.SendPrivateMessage(new PrivateMessage()
+                    {
+                        Message = message,
+                        TargetPlayerIdOrName = __instance.entityId.ToString(),
+                    });
                 }
             }
-
-            if (returned != null && returned.Count > 0) 
+            catch (Exception ex)
             {
-                NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, returned, -1);
-                ConnectionManager.Instance.Clients.ForEntityId(__instance.entityId).SendPackage(package);
-            }
-
-            if (string.IsNullOrEmpty(message) == false)
-            {
-                Utilities.Utils.SendPrivateMessage(new PrivateMessage()
-                {
-                    Message = message!,
-                    TargetPlayerIdOrName = __instance.entityId.ToString(),
-                });
+                CustomLogger.Warn(ex, "Error in After_Explosion_AttackBlocks");
             }
         }
 

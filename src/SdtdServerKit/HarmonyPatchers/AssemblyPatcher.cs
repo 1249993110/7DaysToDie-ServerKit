@@ -26,10 +26,10 @@ namespace SdtdServerKit.HarmonyPatchers
 
                 if (__instance.IsDynamic)
                 {
-                    return true;
+                    goto Return;
                 }
 
-                if (Path.GetDirectoryName(__instance.Location) == Path.GetDirectoryName(executingAssembly.Location))
+                if (File.Exists(__instance.Location) && Path.GetDirectoryName(__instance.Location) == Path.GetDirectoryName(executingAssembly.Location))
                 {
                     __result = Array.Empty<Type>();
                     return false;
@@ -39,6 +39,7 @@ namespace SdtdServerKit.HarmonyPatchers
                 //__result = (Type[])internalGetTypes.Invoke(__instance, new object[] { false });
                 // return true;
 
+            Return:
                 __result = _originalGetTypes.Invoke(__instance, false);
 
                 return false;
@@ -47,6 +48,10 @@ namespace SdtdServerKit.HarmonyPatchers
             {
                 __result = ex.Types.Where(t => t != null).ToArray();
                 return false;
+            }
+            catch (Exception)
+            {
+                return true;
             }
         }
     }
