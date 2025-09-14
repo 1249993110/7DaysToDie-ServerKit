@@ -1,4 +1,5 @@
-﻿using System.Web.Http.Controllers;
+﻿using System.Reflection;
+using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 
 namespace SdtdServerKit.WebApi
@@ -18,6 +19,7 @@ namespace SdtdServerKit.WebApi
                 t.IsClass &&
                 t.IsVisible &&
                 !t.IsAbstract &&
+                t.Assembly == Assembly.GetExecutingAssembly() &&
                 typeof(IHttpController).IsAssignableFrom(t);
             }
             catch

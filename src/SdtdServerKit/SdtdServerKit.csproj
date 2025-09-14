@@ -42,15 +42,20 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
 		<PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.2.2" />
-		<PackageReference Include="Microsoft.Owin.StaticFiles" Version="4.2.2" />
+		<PackageReference Include="Microsoft.Owin.StaticFiles" Version="4.2.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="NSwag.Annotations" Version="14.2.0" />
-		<PackageReference Include="NSwag.AspNet.Owin" Version="14.2.0" />
+		<PackageReference Include="NSwag.Annotations" Version="14.5.0" />
+		<PackageReference Include="NSwag.AspNet.Owin" Version="14.5.0" />
 		<PackageReference Include="SkiaSharp" Version="3.116.1" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.116.1" />
 		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" GeneratePathProperty="true" />
 		<PackageReference Include="System.Collections.Immutable" Version="9.0.3" />
+		<!--<PackageReference Include="System.Runtime.Caching" Version="9.0.8" />-->
 		<PackageReference Include="System.Text.Encodings.Web" Version="9.0.3" />
+		<PackageReference Include="PolySharp" Version="1.15.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<!--<ItemGroup>

@@ -32,7 +32,7 @@ namespace SdtdServerKit.WebApi.Controllers
                 {
                     return NotFound();
                 }
-
+                
                 using PooledBinaryReader pooledBinaryReader = MemoryPools.poolBinaryReader.AllocSync(false);
                 pooledBinaryReader.SetBaseStream(playerDataFile.progressionData);
                 
