@@ -1,9 +1,6 @@
 ﻿using HarmonyLib;
 using Noemax.GZip;
-using SdtdServerKit.Data.IRepositories;
 using SdtdServerKit.Managers;
-using SdtdServerKit.Models;
-using System.Runtime.Remoting.Messaging;
 
 namespace SdtdServerKit.HarmonyPatchers
 {
@@ -90,6 +87,133 @@ namespace SdtdServerKit.HarmonyPatchers
             }
 
             return true;
+        }
+
+        public static bool Before_ChangeBlocks_LandClaimProtection(GameManager __instance, PlatformUserIdentifierAbs persistentPlayerId, List<BlockChangeInfo> _blocksToChange)
+        {
+            if (persistentPlayerId == null)
+            {
+                return true;
+            }
+
+            var clientInfo = ConnectionManager.Instance.Clients.ForUserId(persistentPlayerId);
+
+            if (clientInfo == null)
+            {
+                return true;
+            }
+
+            var playerData = GameManager.Instance.GetPersistentPlayerList().GetPlayerData(persistentPlayerId);
+            if (playerData == null)
+            {
+                return true;
+            }
+
+            string? message = null;
+            World world = __instance.World;
+
+            List<BlockChangeInfo>? returned = null;
+
+            foreach (var info in _blocksToChange.ToList()) // Clone the list to avoid modifying it while iterating
+            {
+                if (ConfigManager.GlobalSettings.EnableTraderAreaProtection)
+                {
+                    if (world.IsWithinTraderArea(info.pos))
+                    {
+                        var tag = info.blockValue.Block.BlockTag;
+                        bool isDoorOrWindow = tag == BlockTags.Door || tag == BlockTags.ClosetDoor || tag == BlockTags.Window;
+                        if (isDoorOrWindow && info.blockValue.Equals(world.GetBlock(info.pos)))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            message = ConfigManager.GlobalSettings.TraderAreaProtectionTip;
+                            goto B;
+                        }
+                    }
+                }
+
+                if (ConfigManager.GlobalSettings.EnableLandClaimProtection)
+                {
+                    if (GameManager.Instance.World.CanPlaceBlockAt(info.pos, playerData, true) == false)
+                    {
+                        message = ConfigManager.GlobalSettings.LandClaimProtectionTip;
+                        goto B;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                B:
+                // returned ??= new List<BlockChangeInfo>();
+                // info.blockValue = world.GetBlock(info.pos);
+                // returned.Add(info);
+
+                returned ??= new List<BlockChangeInfo>();
+                returned.Add(new BlockChangeInfo(info.clrIdx, info.pos, world.GetBlock(info.pos)));
+
+                _blocksToChange.Remove(info);
+            }
+
+            if(returned != null && returned.Count > 0)
+            {
+                NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, returned, -1);
+                clientInfo.SendPackage(package);
+            }
+            
+            if (string.IsNullOrEmpty(message) == false)
+            {
+                Utilities.Utils.SendPrivateMessage(new PrivateMessage()
+                {
+                    Message = message!,
+                    TargetPlayerIdOrName = clientInfo.entityId.ToString(),
+                });
+            }
+
+            return true;
+        }
+
+        public static void After_Explosion_AttackBlocks(Explosion __instance)
+        {
+            try
+            {
+                List<BlockChangeInfo>? returned = null;
+                string? message = null;
+                PersistentPlayerData playerDataFromEntityID = GameManager.Instance.persistentPlayers.GetPlayerDataFromEntityID(__instance.entityId);
+                foreach (var pos in __instance.ChangedBlockPositions.Keys.ToList())
+                {
+                    if (GameManager.Instance.World.CanPlaceBlockAt(pos, playerDataFromEntityID, true) == false)
+                    {
+                        returned ??= new List<BlockChangeInfo>();
+                        returned.Add(new BlockChangeInfo(__instance.clrIdx, pos, GameManager.Instance.World.GetBlock(pos)));
+
+                        __instance.ChangedBlockPositions.Remove(pos);
+                        message = ConfigManager.GlobalSettings.LandClaimProtectionTip;
+                    }
+                }
+
+                if (returned != null && returned.Count > 0)
+                {
+                    NetPackageSetBlock package = NetPackageManager.GetPackage<NetPackageSetBlock>().Setup(null, returned, -1);
+                    ConnectionManager.Instance.Clients.ForEntityId(__instance.entityId)?.SendPackage(package);
+                }
+
+                if (string.IsNullOrEmpty(message) == false)
+                {
+                    Utilities.Utils.SendPrivateMessage(new PrivateMessage()
+                    {
+                        Message = message,
+                        TargetPlayerIdOrName = __instance.entityId.ToString(),
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomLogger.Warn(ex, "Error in After_Explosion_AttackBlocks");
+            }
         }
 
         //public static bool Before_ChatMessageServer(ClientInfo _cInfo, EChatType _chatType, int _senderEntityId, ref string _msg, List<int> _recipientEntityIds, ref EMessageSender _msgSender)

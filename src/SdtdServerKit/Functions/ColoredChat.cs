@@ -73,14 +73,14 @@ namespace SdtdServerKit.Functions
                         if (LivePlayerManager.TryGetByEntityId(entityId, out var recipientPlayer))
                         {
                             recipientPlayer!.ClientInfo.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
-                                .Setup(eChatType, senderEntityId, message, null, EMessageSender.None, GeneratedTextManager.BbCodeSupportMode.Supported));
+                                .Setup(eChatType, -1, message, null, EMessageSender.None, GeneratedTextManager.BbCodeSupportMode.Supported));
                         }
                     }
                 }
                 else
                 {
                     ConnectionManager.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageChat>()
-                        .Setup(eChatType, senderEntityId, message, null, EMessageSender.None, GeneratedTextManager.BbCodeSupportMode.Supported), true, -1, -1, -1, null, 192);
+                        .Setup(eChatType, -1, message, null, EMessageSender.None, GeneratedTextManager.BbCodeSupportMode.Supported), true, -1, -1, -1, null, 192);
                 }
 
                 return EModEventResult.StopHandlersAndVanilla;

@@ -65,6 +65,33 @@ namespace SdtdServerKit.Functions
             }
 
             {
+                var original = AccessTools.Method(typeof(GameManager), nameof(GameManager.ChangeBlocks));
+                var patch = AccessTools.Method(typeof(GameManagerPatcher), nameof(GameManagerPatcher.Before_ChangeBlocks_LandClaimProtection));
+
+                if (Settings.EnableLandClaimProtection || Settings.EnableTraderAreaProtection)
+                {
+                    ModApi.Harmony.Patch(original, prefix: new HarmonyMethod(patch));
+                }
+                else
+                {
+                    ModApi.Harmony.Unpatch(original, patch);
+                }                
+            }
+
+            {
+                var original = AccessTools.Method(typeof(Explosion), nameof(Explosion.AttackBlocks));
+                var patch = AccessTools.Method(typeof(GameManagerPatcher), nameof(GameManagerPatcher.After_Explosion_AttackBlocks));
+                if (Settings.EnableLandClaimProtection)
+                {
+                    ModApi.Harmony.Patch(original, postfix: new HarmonyMethod(patch));
+                }
+                else
+                {
+                    ModApi.Harmony.Unpatch(original, patch);
+                }
+            }
+
+            {
                 var original = AccessTools.Method(typeof(GameManager), nameof(GameManager.RequestToSpawnPlayer));
                 var patch = AccessTools.Method(typeof(GameManagerPatcher), nameof(GameManagerPatcher.Before_RequestToSpawnPlayer));
 

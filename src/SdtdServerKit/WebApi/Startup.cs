@@ -182,43 +182,64 @@ namespace SdtdServerKit.WebApi
                 OperationId = "OAuth_Token",
                 Consumes = new List<string>() { "application/x-www-form-urlencoded" },
                 Produces = new List<string>() { "application/json" },
-                Tags = new List<string>() { "Auth" },
-                Description = "Get the access token used for webapp."
+                Tags = new List<string>() { "Authentication" },
+                Summary = "User login with form data",
+                Description = "Get the access token used for webapp.",
+                RequestBody = new OpenApiRequestBody()
+                {
+                    Description = "User login with form data",
+                    IsRequired = true,
+                }
             };
 
-            tokenOpr.Parameters.Add(new OpenApiParameter()
+            tokenOpr.RequestBody.Content["application/x-www-form-urlencoded"] = new OpenApiMediaType()
             {
-                Name = "grant_type",
-                Description = "",
-                IsRequired = true,
-                Kind = OpenApiParameterKind.FormData,
-                Type = JsonObjectType.String,
-                Default = "password"
-            });
-            tokenOpr.Parameters.Add(new OpenApiParameter()
-            {
-                Name = "username",
-                Description = "",
-                IsRequired = false,
-                Kind = OpenApiParameterKind.FormData,
-                Type = JsonObjectType.String
-            });
-            tokenOpr.Parameters.Add(new OpenApiParameter()
-            {
-                Name = "password",
-                Description = "",
-                IsRequired = false,
-                Kind = OpenApiParameterKind.FormData,
-                Type = JsonObjectType.String
-            });
-            tokenOpr.Parameters.Add(new OpenApiParameter()
-            {
-                Name = "refresh_token",
-                Description = "",
-                IsRequired = false,
-                Kind = OpenApiParameterKind.FormData,
-                Type = JsonObjectType.String
-            });
+                Schema = new JsonSchema()
+                {
+                    Type = JsonObjectType.Object,
+                    Properties =
+                    {
+                        ["grant_type"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = true, Default = "password" },
+                        ["username"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = false },
+                        ["password"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = false },
+                        ["refresh_token"] = new JsonSchemaProperty { Type = JsonObjectType.String, IsRequired = false }
+                    }
+                }
+            };
+
+            //tokenOpr.Parameters.Add(new OpenApiParameter()
+            //{
+            //    Name = "grant_type",
+            //    Description = "",
+            //    IsRequired = true,
+            //    Kind = OpenApiParameterKind.FormData,
+            //    Type = JsonObjectType.String,
+            //    Default = "password"
+            //});
+            //tokenOpr.Parameters.Add(new OpenApiParameter()
+            //{
+            //    Name = "username",
+            //    Description = "",
+            //    IsRequired = false,
+            //    Kind = OpenApiParameterKind.FormData,
+            //    Type = JsonObjectType.String
+            //});
+            //tokenOpr.Parameters.Add(new OpenApiParameter()
+            //{
+            //    Name = "password",
+            //    Description = "",
+            //    IsRequired = false,
+            //    Kind = OpenApiParameterKind.FormData,
+            //    Type = JsonObjectType.String
+            //});
+            //tokenOpr.Parameters.Add(new OpenApiParameter()
+            //{
+            //    Name = "refresh_token",
+            //    Description = "",
+            //    IsRequired = false,
+            //    Kind = OpenApiParameterKind.FormData,
+            //    Type = JsonObjectType.String
+            //});
 
             var resp200 = new OpenApiResponse()
             {

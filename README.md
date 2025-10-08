@@ -33,6 +33,7 @@ Dedicated Server only. Required game version: V1.0+
 
 ## **Video Tutorial**
 https://youtu.be/8VklfFHeJJ8?t=982
+
 https://youtu.be/N8IRmQHz2Uk?si=-Opo_JIF7VrTNnVE
 
 ## **Installation Guide**

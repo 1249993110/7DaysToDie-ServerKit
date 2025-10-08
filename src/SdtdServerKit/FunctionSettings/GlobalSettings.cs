@@ -100,6 +100,11 @@
         /// </summary>
         public bool RemoveSleepingBagFromPOI { get; set; }
 
+        public bool EnableLandClaimProtection { get; set; }
+        public string? LandClaimProtectionTip { get; set; }
+        public bool EnableTraderAreaProtection { get; set; }
+        public string? TraderAreaProtectionTip { get; set; }
+
         /// <summary>
         /// Gets or sets the tip for removing sleeping bags from Points of Interest (POI).
         /// </summary>
