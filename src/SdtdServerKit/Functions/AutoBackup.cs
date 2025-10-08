@@ -117,7 +117,8 @@ namespace SdtdServerKit.Functions
 
                 Directory.CreateDirectory(backupDestPath);
 
-                tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                string sourceFolderName = Path.GetFileName(backupSrcPath);
+                tempDir = Path.Combine(Path.GetTempPath(), sourceFolderName);
                 Directory.CreateDirectory(tempDir);
 
                 CopyDirectoryWithRetry(backupSrcPath, tempDir, maxRetries: 3, retryDelayMs: 500);
@@ -125,15 +126,22 @@ namespace SdtdServerKit.Functions
                 string archiveFileName = GenerateArchiveFileName(backupDestPath);
                 if (File.Exists(archiveFileName))
                 {
-                    CustomLogger.Info("AutoBackup: Backup already exists: {0}", archiveFileName);
-                    return;
+                    //如果文件已存在，追加GUID生成唯一文件名
+                    archiveFileName = Path.Combine(
+                        backupDestPath, 
+                        $"{Path.GetFileNameWithoutExtension(archiveFileName)}_{Guid.NewGuid():N}.zip"
+                    );
+                    CustomLogger.Info("AutoBackup: File exists, using new name: {0}", archiveFileName);
+                    //如果文件已存在，直接跳过此次备份
+                    //CustomLogger.Info("AutoBackup: Backup file already exists, skipping this backup: {0}", archiveFileName);
+                    //return; 
                 }
 
                 ZipFile.CreateFromDirectory(
                     sourceDirectoryName: tempDir,
                     destinationArchiveFileName: archiveFileName,
                     compressionLevel: CompressionLevel.Optimal,
-                    includeBaseDirectory: false
+                    includeBaseDirectory: true
                 );
 
                 CustomLogger.Info("AutoBackup: Backup created: {0}", archiveFileName);
@@ -163,10 +171,7 @@ namespace SdtdServerKit.Functions
         // 服务端版本、游戏世界、游戏名称、游戏时间
         private string GenerateArchiveFileName(string backupDestPath)
         {
-            string serverVersion = global::Constants.cVersionInformation.LongString.Replace(
-                '_',
-                ' '
-            );
+            string serverVersion = global::Constants.cVersionInformation.LongString.Replace('_', ' ');
             string gameWorld = GamePrefs.GetString(EnumGamePrefs.GameWorld).Replace('_', ' ');
             string gameName = GamePrefs.GetString(EnumGamePrefs.GameName).Replace('_', ' ');
 
@@ -174,7 +179,9 @@ namespace SdtdServerKit.Functions
             int days = GameUtils.WorldTimeToDays(worldTime);
             int hours = GameUtils.WorldTimeToHours(worldTime);
 
-            string title = $"{serverVersion}_{gameWorld}_{gameName}_Day{days}_Hour{hours}";
+            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmm");
+            string guid = Guid.NewGuid().ToString("N").Substring(0, 4);
+            string title = $"{serverVersion}_{gameWorld}_{gameName}_Day{days}_Hour{hours}_{timestamp}_{guid}";
             return Path.Combine(backupDestPath, $"{title}.zip");
         }
 
@@ -185,22 +192,14 @@ namespace SdtdServerKit.Functions
             int retryDelayMs
         )
         {
-            foreach (
-                string dirPath in Directory.GetDirectories(
-                    sourceDir,
-                    "*",
-                    SearchOption.AllDirectories
-                )
-            )
+            foreach (string dirPath in Directory.GetDirectories(sourceDir, "*", SearchOption.AllDirectories))
             {
                 string relativePath = GetRelativePath(dirPath, sourceDir);
                 string newDir = Path.Combine(targetDir, relativePath);
                 Directory.CreateDirectory(newDir);
             }
 
-            foreach (
-                string filePath in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories)
-            )
+            foreach (string filePath in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
             {
                 string relativePath = GetRelativePath(filePath, sourceDir);
                 string destPath = Path.Combine(targetDir, relativePath);
@@ -210,14 +209,7 @@ namespace SdtdServerKit.Functions
                 {
                     try
                     {
-                        using (
-                            FileStream sourceStream = new FileStream(
-                                filePath,
-                                FileMode.Open,
-                                FileAccess.Read,
-                                FileShare.ReadWrite
-                            )
-                        )
+                        using (FileStream sourceStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         {
                             using (FileStream destStream = File.Create(destPath))
                             {
@@ -228,9 +220,7 @@ namespace SdtdServerKit.Functions
                     }
                     catch (IOException ex) when (retryCount < maxRetries - 1)
                     {
-                        CustomLogger.Warn(
-                            $"Failed to copy {filePath}, retry {retryCount + 1}/{maxRetries}: {ex.Message}"
-                        );
+                        CustomLogger.Warn($"Failed to copy {filePath}, retry {retryCount + 1}/{maxRetries}: {ex.Message}");
                         Thread.Sleep(retryDelayMs);
                         retryCount++;
                     }
